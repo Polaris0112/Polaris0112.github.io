@@ -9,7 +9,7 @@
 <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" >
-    <title>LVM创建，扩容等常用操作 · Jayden&#39;s Blog</title>
+    <title>LVM创建/扩容等常用操作 · Jayden&#39;s Blog</title>
     <style type="text/css">
     @font-face {
         font-family: 'Oswald-Regular';
@@ -266,7 +266,7 @@
                 <a href="/" >Jayden&#39;s Website.</a>
             </div>
             <div class="post-title">
-                <a href="#" class="post-name">LVM创建，扩容等常用操作</a>
+                <a href="#" class="post-name">LVM创建/扩容等常用操作</a>
             </div>
     </div>
     
@@ -287,7 +287,7 @@
         <h1 class="intro-title">
             <!-- 主页  -->
             
-            LVM创建，扩容等常用操作
+            LVM创建/扩容等常用操作
             <!-- 404 -->
             
         </h1>
@@ -394,12 +394,23 @@
 <h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><p>为了系统启动是自动加载文件系统，需要在 /etc/fstab 添加</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/dev/vg_test/lv_test   /opt/<span class="built_in">test</span> ext3 defaults 1 2</span><br></pre></td></tr></table></figure>
 <p>有时可能因为逻辑卷为打开而无法启动系统</p>
+<p>以下是系统启动LVM的过程图：</p>
 <p><img src="/images/lvm-run.png" alt="lvm-run"></p>
+<h2 id="自动化脚本例子"><a href="#自动化脚本例子" class="headerlink" title="自动化脚本例子"></a>自动化脚本例子</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">!/bin/bash</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> Usage: Automatic expand lv with LVM managed disk</span></span><br><span class="line"><span class="meta">#</span><span class="bash">  Setp 1: Add Hard Disk or Storage to Computing unit</span></span><br><span class="line"><span class="meta">#</span><span class="bash">   Setp 2: Execute this script with root privilege</span></span><br><span class="line"><span class="meta">#</span><span class="bash">   Setp 3: Mind info of this script execution result</span></span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="meta">#</span><span class="bash"> Open the refrigerator door, get the shell script execution environment ready</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> Put the elephant into the refrigerator, how the shell scripts works</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> Close the refrigerator door, check out the result of execution</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> Simetimes, we have to pull new elephant or elephant dung out here, <span class="built_in">unset</span> variables of shell script</span></span><br><span class="line"> </span><br><span class="line">function check_execution_result()&#123;</span><br><span class="line">        if [[ ! -z $RETVAL ]]; then</span><br><span class="line">                unset RETVAL</span><br><span class="line">        fi</span><br><span class="line">        RETVAL=$?</span><br><span class="line">        if [[ $RETVAL -ne 0 ]]; then</span><br><span class="line">                echo execution failed! </span><br><span class="line">                exit $RETVAL</span><br><span class="line">        else</span><br><span class="line">                echo execution successfully! </span><br><span class="line">        fi</span><br><span class="line">        unset RETVAL</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="meta">#</span><span class="bash"> lsblk --scsi</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> lsblk --all</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> NAME            MAJ:MIN RM  SIZE RO TYPE MOUNTPOINT</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> fd0               2:0    1    4K  0 disk </span></span><br><span class="line"><span class="meta">#</span><span class="bash"> sda               8:0    0   40G  0 disk </span></span><br><span class="line"><span class="meta">#</span><span class="bash"> ├─sda1            8:1    0  500M  0 part /boot</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> └─sda2            8:2    0 39.5G  0 part </span></span><br><span class="line"><span class="meta">#</span><span class="bash">   ├─centos-swap 253:0    0  3.9G  0 lvm  [SWAP]</span></span><br><span class="line"><span class="meta">#</span><span class="bash">   └─centos-root 253:1    0 35.6G  0 lvm  /</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> sdb               8:16   0   16G  0 disk </span></span><br><span class="line"><span class="meta">#</span><span class="bash"> sr0              11:0    1  6.6G  0 rom  </span></span><br><span class="line"> </span><br><span class="line"><span class="meta">#</span><span class="bash"> Show present scsi disk online</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> Q: Why use <span class="string">"xargs"</span> here?</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> A: Convert the text from multi-line single-column into single-line multi-column, <span class="keyword">for</span> sed operation</span></span><br><span class="line">ONLINE_SCSI_DISK_PRESENT=$(lsblk --all | grep disk | grep -v fd | awk '&#123;print $1&#125;' | xargs)</span><br><span class="line"><span class="meta">#</span><span class="bash"> TODO</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> For execution this script beyond twice</span></span><br><span class="line">ONLINE_SCSI_DISK_PRESENT=sda</span><br><span class="line"><span class="meta">#</span><span class="bash"> Find new scsi disk online</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> TODO figure it out why there is host0? </span></span><br><span class="line">echo "- - -" &gt;/sys/class/scsi_host/host0/scan</span><br><span class="line">echo "- - -" &gt;/sys/class/scsi_host/host1/scan</span><br><span class="line">echo "- - -" &gt;/sys/class/scsi_host/host2/scan</span><br><span class="line"><span class="meta">#</span><span class="bash"> Show new added scsi disk online</span></span><br><span class="line">ONLINE_SCSI_DISK_NEWADD=$(lsblk --all | grep disk | grep -v fd | awk '&#123;print $1&#125;' | xargs echo | sed "s/$ONLINE_SCSI_DISK_PRESENT//g")</span><br><span class="line"><span class="meta">#</span><span class="bash"> Construct disk file with full path</span></span><br><span class="line">echo New Added SCSI Disk: $ONLINE_SCSI_DISK_NEWADD</span><br><span class="line"><span class="meta">#</span><span class="bash"> Get VG Name</span></span><br><span class="line">VG_Name=$(vgdisplay | grep 'VG Name' | awk '&#123;print $NF&#125;')</span><br><span class="line">VG_PATH_TO_EXTEND=$(lvdisplay | grep 'LV Path' | awk '&#123;print $NF&#125;' | grep root)</span><br><span class="line">for BLOCK in $ONLINE_SCSI_DISK_NEWADD; do</span><br><span class="line">    ONLINE_SCSI_DISK_NEWADD_FILENAME="/dev/"$BLOCK</span><br><span class="line">    # end-of-file contents and eof mark must start row1</span><br><span class="line">    fdisk $ONLINE_SCSI_DISK_NEWADD_FILENAME &gt;/dev/null 2&gt;&amp;1&lt;&lt;eof</span><br><span class="line">n</span><br><span class="line">p</span><br><span class="line">1</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line">t</span><br><span class="line">8e</span><br><span class="line">w</span><br><span class="line">eof</span><br><span class="line">    check_execution_result</span><br><span class="line">    LVM_OPERATION_DISK_FILENAME=$ONLINE_SCSI_DISK_NEWADD_FILENAME"1"</span><br><span class="line">    pvcreate $LVM_OPERATION_DISK_FILENAME &gt;/dev/null 2&gt;&amp;1</span><br><span class="line">    check_execution_result</span><br><span class="line">    vgextend $VG_Name $LVM_OPERATION_DISK_FILENAME &gt;/dev/null 2&gt;&amp;1</span><br><span class="line">    check_execution_result</span><br><span class="line">    lvresize -l +100%FREE $VG_PATH_TO_EXTEND &gt;/dev/null 2&gt;&amp;1</span><br><span class="line">    check_execution_result</span><br><span class="line"> </span><br><span class="line"><span class="meta">#</span><span class="bash"> resize2fs - ext2/ext3/ext4 file system resizer</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> xfs_growfs, xfs_info - expand an XFS filesystem</span></span><br><span class="line"> </span><br><span class="line"><span class="meta">#</span><span class="bash">[root@hlc7172009 ~]<span class="comment"># resize2fs /dev/mapper/centos-root</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash">resize2fs 1.42.9 (28-Dec-2013)</span></span><br><span class="line"><span class="meta">#</span><span class="bash">resize2fs: Bad magic number <span class="keyword">in</span> super-block <span class="keyword">while</span> trying to open /dev/mapper/centos-root</span></span><br><span class="line"><span class="meta">#</span><span class="bash">Couldn<span class="string">'t find valid filesystem superblock.</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash">[root@hlc7172009 ~]<span class="comment">#</span></span></span><br><span class="line"> </span><br><span class="line"><span class="meta">#</span><span class="bash">[root@hlc7172009 ~]<span class="comment"># xfs_growfs $VG_PATH_TO_EXTEND</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash">meta-data=/dev/mapper/centos-root isize=256    agcount=4, agsize=2334208 blks</span></span><br><span class="line"><span class="meta">#</span><span class="bash">         =                       sectsz=512   attr=2, projid32bit=1</span></span><br><span class="line"><span class="meta">#</span><span class="bash">         =                       crc=0</span></span><br><span class="line"><span class="meta">#</span><span class="bash">data     =                       bsize=4096   blocks=9336832, imaxpct=25</span></span><br><span class="line"><span class="meta">#</span><span class="bash">         =                       sunit=0      swidth=0 blks</span></span><br><span class="line"><span class="meta">#</span><span class="bash">naming   =version 2              bsize=4096   ascii-ci=0 ftype=0</span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="built_in">log</span>      =internal               bsize=4096   blocks=4559, version=2</span></span><br><span class="line"><span class="meta">#</span><span class="bash">         =                       sectsz=512   sunit=0 blks, lazy-count=1</span></span><br><span class="line"><span class="meta">#</span><span class="bash">realtime =none                   extsz=4096   blocks=0, rtextents=0</span></span><br><span class="line"><span class="meta">#</span><span class="bash">data blocks changed from 9336832 to 13530112</span></span><br><span class="line"><span class="meta">#</span><span class="bash">[root@hlc7172009 ~]<span class="comment">#</span></span></span><br><span class="line"> </span><br><span class="line">    # Check xfs_info if is installed </span><br><span class="line">    which xfs_info &gt;/dev/null 2&gt;&amp;1</span><br><span class="line">    if [[ $? -ne 0 ]]; then</span><br><span class="line">        yum install xfsprogs -y &gt;/dev/null 2&gt;&amp;1</span><br><span class="line">    fi</span><br><span class="line">    # end Check xfs_info if is installed</span><br><span class="line"> </span><br><span class="line">    # Check VG_PATH_TO_EXTEND if is xfs filesystem</span><br><span class="line">    xfs_info $VG_PATH_TO_EXTEND &gt;/dev/null 2&gt;&amp;1</span><br><span class="line">    if [[ $? -ne 0 ]]; then</span><br><span class="line">        # is not xfs</span><br><span class="line">        VG_PATH_TO_EXTEND_IS_NOT_XFS=0</span><br><span class="line">    else </span><br><span class="line">        # is xfs</span><br><span class="line">        VG_PATH_TO_EXTEND_IS_NOT_XFS=1</span><br><span class="line">    fi</span><br><span class="line">    # end Check VG_PATH_TO_EXTEND if is xfs filesystem</span><br><span class="line"> </span><br><span class="line">    # TODO CentOS7 default filesystem is xfs, so we can check it out by OS if is CentOS7</span><br><span class="line"> </span><br><span class="line">    if [[ $VG_PATH_TO_EXTEND_IS_NOT_XFS ]]; then</span><br><span class="line">        # is xfs</span><br><span class="line">        xfs_growfs $VG_PATH_TO_EXTEND &gt;/dev/null 2&gt;&amp;1</span><br><span class="line">    else</span><br><span class="line">        # is not xfs</span><br><span class="line">        resize2fs $VG_PATH_TO_EXTEND &gt;/dev/null 2&gt;&amp;1</span><br><span class="line">    fi</span><br><span class="line">    check_execution_result</span><br><span class="line">    df -h</span><br><span class="line">    lsblk --all</span><br><span class="line">done</span><br></pre></td></tr></table></figure>
+<h3 id="效果图"><a href="#效果图" class="headerlink" title="效果图"></a>效果图</h3><p>添加磁盘前：</p>
+<p><img src="/images/lvm-before.jpg" alt="lvm-before"></p>
+<p>添加磁盘后运行脚本后：</p>
+<p><img src="/images/lvm-after.jpg" alt="lvm-after"></p>
 
     </article>
     <!-- 前后页  -->
     <ul class="post-paginator">
         <li class="next">
+            
+                <div class="nextSlogan">Next Post</div>
+                <a href= "/2018/02/23/nginx/" title= Nginx正反向代理/负载均衡 >
+                    <div class="nextTitle">Nginx正反向代理/负载均衡</div>
+                </a>
             
         </li>
         <li class="previous">
@@ -496,7 +507,7 @@
         <div class="toc-catalog">
             <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
         </div>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#相关概念"><span class="toc-number">1.</span> <span class="toc-text">相关概念</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#运行环境"><span class="toc-number">2.</span> <span class="toc-text">运行环境</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#对新增加的硬盘进行分区、格式化"><span class="toc-number">3.</span> <span class="toc-text">对新增加的硬盘进行分区、格式化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#添加新LVM到已有的LVM组，实现扩容"><span class="toc-number">4.</span> <span class="toc-text">添加新LVM到已有的LVM组，实现扩容</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#LVM常用命令"><span class="toc-number">5.</span> <span class="toc-text">LVM常用命令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#其他"><span class="toc-number">6.</span> <span class="toc-text">其他</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#相关概念"><span class="toc-number">1.</span> <span class="toc-text">相关概念</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#运行环境"><span class="toc-number">2.</span> <span class="toc-text">运行环境</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#对新增加的硬盘进行分区、格式化"><span class="toc-number">3.</span> <span class="toc-text">对新增加的硬盘进行分区、格式化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#添加新LVM到已有的LVM组，实现扩容"><span class="toc-number">4.</span> <span class="toc-text">添加新LVM到已有的LVM组，实现扩容</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#LVM常用命令"><span class="toc-number">5.</span> <span class="toc-text">LVM常用命令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#其他"><span class="toc-number">6.</span> <span class="toc-text">其他</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#自动化脚本例子"><span class="toc-number">7.</span> <span class="toc-text">自动化脚本例子</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#效果图"><span class="toc-number">7.1.</span> <span class="toc-text">效果图</span></a></li></ol></li></ol>
     </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>
@@ -536,33 +547,35 @@
     
     
     
-    <div class="total-archive"> Total : 3 </div>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="total-archive"> Total : 4 </div>
     
     <div class="post-archive">
     
     
     
     
-    <div class="archive-year"> Invalid date </div>
+    <div class="archive-year"> 2018 </div>
     <ul class="year-list">
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2018/02/23/lvm/" >LVM创建，扩容等常用操作</a>
+            <span class="archive-post-date">02/23</span><a class="archive-post-title" href= "/2018/02/23/nginx/" >Nginx正反向代理/负载均衡</a>
         </li>
     
     
-    
-    
-    
-        </ul>
-    
-    <div class="archive-year"> Invalid date </div>
-    <ul class="year-list">
-    
-    
         <li class="archive-post-item">
-            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2018/02/12/hello-world/" >Hello World</a>
+            <span class="archive-post-date">02/23</span><a class="archive-post-title" href= "/2018/02/23/lvm/" >LVM创建/扩容等常用操作</a>
         </li>
     
     
@@ -579,18 +592,38 @@
             <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2018/02/23/certbot/" >certbot安装/部分问题解决方案</a>
         </li>
     
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> Invalid date </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2018/02/12/hello-world/" >Hello World</a>
+        </li>
+    
     </div>
   </div>
         <div class="sidebar-panel-tags">
     <div class="sidebar-tags-name">
     
+        <span class="sidebar-tag-name" data-tags="certbot"><span class="iconfont-archer">&#xe606;</span>certbot</span>
+    
+        <span class="sidebar-tag-name" data-tags="https"><span class="iconfont-archer">&#xe606;</span>https</span>
+    
         <span class="sidebar-tag-name" data-tags="centos"><span class="iconfont-archer">&#xe606;</span>centos</span>
     
         <span class="sidebar-tag-name" data-tags="lvm"><span class="iconfont-archer">&#xe606;</span>lvm</span>
     
-        <span class="sidebar-tag-name" data-tags="certbot"><span class="iconfont-archer">&#xe606;</span>certbot</span>
+        <span class="sidebar-tag-name" data-tags="nginx"><span class="iconfont-archer">&#xe606;</span>nginx</span>
     
-        <span class="sidebar-tag-name" data-tags="https"><span class="iconfont-archer">&#xe606;</span>https</span>
+        <span class="sidebar-tag-name" data-tags="proxy"><span class="iconfont-archer">&#xe606;</span>proxy</span>
+    
+        <span class="sidebar-tag-name" data-tags="load-balance"><span class="iconfont-archer">&#xe606;</span>load-balance</span>
     
     </div>
     <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
@@ -625,9 +658,11 @@ jsonContent:
         <div class="sidebar-panel-categories">
     <div class="sidebar-categories-name">
     
+        <span class="sidebar-category-name" data-categories="certbot使用"><span class="iconfont-archer">&#xe60a;</span>certbot使用</span>
+    
         <span class="sidebar-category-name" data-categories="LVM使用"><span class="iconfont-archer">&#xe60a;</span>LVM使用</span>
     
-        <span class="sidebar-category-name" data-categories="certbot使用"><span class="iconfont-archer">&#xe60a;</span>certbot使用</span>
+        <span class="sidebar-category-name" data-categories="Nginx正反向代理-负载均衡"><span class="iconfont-archer">&#xe60a;</span>Nginx正反向代理-负载均衡</span>
     
     </div>
     <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
