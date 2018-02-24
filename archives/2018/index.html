@@ -291,6 +291,73 @@
     
     
         <article class="index-post">
+            <a class="abstract-title" href = "/2018/02/24/mongodb-replset/" >
+                
+                    <span>MongoDB复制集部署</span>
+            </a>
+            <div class="abstract-content">
+                本帖子记录的是MongoDB复制集部署全过程,有关MongoDB简介、安装以及配置文件参数说明,请看回上一个帖子MongoDB单实例部署
+以下就直接介绍复制集以及部署过程
+MongoDB复制集简介   Mongodb复制集由一组Mongod实例（进程）组成，包含一个Primary节点和多个Secondary节点，Mongodb Driver（客户端）的所有数据都写入Primary，Secondary从Primary同步写入的数据，以保持复制集内所有成员存储相同的数据集，提供数据的高可用。更多关于副本集的介绍请见官网。
+   下图（图片源于Mongodb官方文档）是一个典型的Mongdb复...
+            </div>
+            <div class="abstract-post-meta">
+                <!-- date  -->
+                <div class="abstract-date">
+                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/02/24</span>
+                </div>
+                <!-- tags  -->
+                
+                <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = NoSql>NoSql</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = MongoDB>MongoDB</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = ReplSet>ReplSet</a>
+    
+</div>
+                
+            </div>
+        </article>
+    
+    
+    
+        <article class="index-post">
+            <a class="abstract-title" href = "/2018/02/24/mongodb-shard/" >
+                
+                    <span>MongoDB Sharding集群部署</span>
+            </a>
+            <div class="abstract-content">
+                本帖子记录的是MongoDB分片+副本集集群部署
+MongoDB Sharding简介  分片（sharding）是MongoDB用来将大型集合分割到不同服务器（或者说一个集群）上所采用的方法。尽管分片起源于关系型数据库分区，但MongoDB分片完全又是另一回事。和MySQL分区方案相比，MongoDB的最大区别在于它几乎能自动完成所有事情，只要告诉MongoDB要分配数据，它就能自动维护数据在不同服务器之间的均衡。 
+分片的目的  高数据量和吞吐量的数据库应用会对单机的性能造成较大压力,大的查询量会将单机的CPU耗尽,大的数据量对单机的存储压力较大,最终会耗尽系统的内存而将压力转移到磁...
+            </div>
+            <div class="abstract-post-meta">
+                <!-- date  -->
+                <div class="abstract-date">
+                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/02/24</span>
+                </div>
+                <!-- tags  -->
+                
+                <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = NoSql>NoSql</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = MongoDB>MongoDB</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = Sharding>Sharding</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = replSet>replSet</a>
+    
+</div>
+                
+            </div>
+        </article>
+    
+    
+    
+        <article class="index-post">
             <a class="abstract-title" href = "/2018/02/24/mongodb-single/" >
                 
                     <span>MongoDB单实例部署</span>
@@ -592,7 +659,35 @@ LVM是逻辑盘卷管理（Logical Volume Manager）的简称，它是Linux环�
     
     
     
-    <div class="total-archive"> Total : 5 </div>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="total-archive"> Total : 7 </div>
     
     <div class="post-archive">
     
@@ -605,6 +700,16 @@ LVM是逻辑盘卷管理（Logical Volume Manager）的简称，它是Linux环�
     
         <li class="archive-post-item">
             <span class="archive-post-date">02/24</span><a class="archive-post-title" href= "/2018/02/24/mongodb-single/" >MongoDB单实例部署</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/24</span><a class="archive-post-title" href= "/2018/02/24/mongodb-shard/" >MongoDB Sharding集群部署</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/24</span><a class="archive-post-title" href= "/2018/02/24/mongodb-replset/" >MongoDB复制集部署</a>
         </li>
     
     
@@ -645,6 +750,12 @@ LVM是逻辑盘卷管理（Logical Volume Manager）的简称，它是Linux环�
         <span class="sidebar-tag-name" data-tags="NoSql"><span class="iconfont-archer">&#xe606;</span>NoSql</span>
     
         <span class="sidebar-tag-name" data-tags="MongoDB"><span class="iconfont-archer">&#xe606;</span>MongoDB</span>
+    
+        <span class="sidebar-tag-name" data-tags="ReplSet"><span class="iconfont-archer">&#xe606;</span>ReplSet</span>
+    
+        <span class="sidebar-tag-name" data-tags="Sharding"><span class="iconfont-archer">&#xe606;</span>Sharding</span>
+    
+        <span class="sidebar-tag-name" data-tags="replSet"><span class="iconfont-archer">&#xe606;</span>replSet</span>
     
         <span class="sidebar-tag-name" data-tags="nginx"><span class="iconfont-archer">&#xe606;</span>nginx</span>
     
@@ -690,6 +801,10 @@ jsonContent:
         <span class="sidebar-category-name" data-categories="HAProxy使用"><span class="iconfont-archer">&#xe60a;</span>HAProxy使用</span>
     
         <span class="sidebar-category-name" data-categories="LVM使用"><span class="iconfont-archer">&#xe60a;</span>LVM使用</span>
+    
+        <span class="sidebar-category-name" data-categories="MongoDB复制集部署"><span class="iconfont-archer">&#xe60a;</span>MongoDB复制集部署</span>
+    
+        <span class="sidebar-category-name" data-categories="MongoDB分片集群部署"><span class="iconfont-archer">&#xe60a;</span>MongoDB分片集群部署</span>
     
         <span class="sidebar-category-name" data-categories="MongoDB单实例部署"><span class="iconfont-archer">&#xe60a;</span>MongoDB单实例部署</span>
     
