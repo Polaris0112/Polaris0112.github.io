@@ -2,16 +2,16 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://yoursite.com/2018/02/24/mongodb-shard/</loc>
+    <loc>http://yoursite.com/2018/02/24/mongodb-replset/</loc>
     
-    <lastmod>2018-02-24T16:03:57.083Z</lastmod>
+    <lastmod>2018-02-24T16:39:08.020Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://yoursite.com/2018/02/24/mongodb-replset/</loc>
+    <loc>http://yoursite.com/2018/02/24/mongodb-shard/</loc>
     
-    <lastmod>2018-02-24T08:53:39.029Z</lastmod>
+    <lastmod>2018-02-24T16:03:57.083Z</lastmod>
     
   </url>
   

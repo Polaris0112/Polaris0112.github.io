@@ -345,18 +345,15 @@
 <h2 id="MongoDB复制集简介"><a href="#MongoDB复制集简介" class="headerlink" title="MongoDB复制集简介"></a>MongoDB复制集简介</h2><p>   Mongodb复制集由一组Mongod实例（进程）组成，包含一个Primary节点和多个Secondary节点，Mongodb Driver（客户端）的所有数据都写入Primary，Secondary从Primary同步写入的数据，以保持复制集内所有成员存储相同的数据集，提供数据的高可用。更多关于副本集的介绍请见<a href="https://docs.mongodb.com/manual/replication/" target="_blank" rel="noopener">官网</a>。</p>
 <p>   下图（图片源于Mongodb官方文档）是一个典型的Mongdb复制集，包含一个Primary节点和2个Secondary节点。</p>
 <p><img src="/images/mongodb-replication.png" alt="mongodb-replication"></p>
-<h2 id="复制集-副本集-处理数据过程"><a href="#复制集-副本集-处理数据过程" class="headerlink" title="复制集(副本集)处理数据过程"></a>复制集(副本集)处理数据过程</h2><pre><code>副本集中数据同步过程：Primary节点写入数据，Secondary通过读取Primary的oplog得到复制信息，开始复制数据并且将复制信息写入到自己的oplog。如果某个操作失败，则备份节点停止从当前数据源复制数据。如果某个备份节点由于某些原因挂掉了，当重新启动后，就会自动从oplog的最后一个操作开始同步，同步完成后，将信息写入自己的oplog，由于复制操作是先复制数据，复制完成后再写入oplog，有可能相同的操作会同步两份，不过MongoDB在设计之初就考虑到这个问题，将oplog的同一个操作执行多次，与执行一次的效果是一样的。简单的说就是：
-
-当Primary节点完成数据操作后，Secondary会做出一系列的动作保证数据的同步：
-</code></pre><p>1：检查自己local库的oplog.rs集合找出最近的时间戳。<br>2：检查Primary节点local库oplog.rs集合，找出大于此时间戳的记录。<br>3：将找到的记录插入到自己的oplog.rs集合中，并执行这些操作。</p>
-<pre><code>副本集的同步和主从同步一样，都是异步同步的过程，不同的是副本集有个自动故障转移的功能。其原理是：slave端从primary端获取日志，然后在自己身上完全顺序的执行日志所记录的各种操作（该日志是不记录查询操作的），这个日志就是local数据 库中的oplog.rs表，默认在64位机器上这个表是比较大的，占磁盘大小的5%，oplog.rs的大小可以在启动参数中设 定：--oplogSize 1000,单位是M。
-
-同期原理是，写操作发生在主库，从库同步主库的OpLog日志。
-</code></pre><p><img src="/images/mongodb-replication-run.png" alt="mongodb-replication-run"></p>
-<pre><code>集群中没有特定的主库，主库是选举产生，如果主库down了，会再选举出一台主库。
-</code></pre><p><img src="/images/mongodb-replication-fail.png" alt="mongodb-replication-fail"></p>
-<pre><code>注意：在副本集的环境中，要是所有的Secondary都宕机了，只剩下Primary。最后Primary会变成Secondary，不能提供服务。
-</code></pre><h2 id="安装部署"><a href="#安装部署" class="headerlink" title="安装部署"></a>安装部署</h2><p>Mongodb的安装和配置文件的说明不再重复，详细请看帖子<a href="https://polaris0112.github.io/2018/02/24/mongodb-single/" target="_blank" rel="noopener">《MongoDB单实例部署》</a></p>
+<h2 id="复制集-副本集-处理数据过程"><a href="#复制集-副本集-处理数据过程" class="headerlink" title="复制集(副本集)处理数据过程"></a>复制集(副本集)处理数据过程</h2><p>副本集中数据同步过程：Primary节点写入数据，Secondary通过读取Primary的oplog得到复制信息，开始复制数据并且将复制信息写入到自己的oplog。如果某个操作失败，则备份节点停止从当前数据源复制数据。如果某个备份节点由于某些原因挂掉了，当重新启动后，就会自动从oplog的最后一个操作开始同步，同步完成后，将信息写入自己的oplog，由于复制操作是先复制数据，复制完成后再写入oplog，有可能相同的操作会同步两份，不过MongoDB在设计之初就考虑到这个问题，将oplog的同一个操作执行多次，与执行一次的效果是一样的。简单的说就是：</p>
+<p>当Primary节点完成数据操作后，Secondary会做出一系列的动作保证数据的同步：<br>1：检查自己local库的oplog.rs集合找出最近的时间戳。<br>2：检查Primary节点local库oplog.rs集合，找出大于此时间戳的记录。<br>3：将找到的记录插入到自己的oplog.rs集合中，并执行这些操作。</p>
+<p>副本集的同步和主从同步一样，都是异步同步的过程，不同的是副本集有个自动故障转移的功能。其原理是：slave端从primary端获取日志，然后在自己身上完全顺序的执行日志所记录的各种操作（该日志是不记录查询操作的），这个日志就是local数据 库中的oplog.rs表，默认在64位机器上这个表是比较大的，占磁盘大小的5%，oplog.rs的大小可以在启动参数中设 定：–oplogSize 1000,单位是M。</p>
+<p>同期原理是，写操作发生在主库，从库同步主库的OpLog日志。</p>
+<p><img src="/images/mongodb-replication-run.png" alt="mongodb-replication-run"></p>
+<p>集群中没有特定的主库，主库是选举产生，如果主库down了，会再选举出一台主库。</p>
+<p><img src="/images/mongodb-replication-fail.png" alt="mongodb-replication-fail"></p>
+<p>注意：在副本集的环境中，要是所有的Secondary都宕机了，只剩下Primary。最后Primary会变成Secondary，不能提供服务。</p>
+<h2 id="安装部署"><a href="#安装部署" class="headerlink" title="安装部署"></a>安装部署</h2><p>Mongodb的安装和配置文件的说明不再重复，详细请看帖子<a href="https://polaris0112.github.io/2018/02/24/mongodb-single/" target="_blank" rel="noopener">《MongoDB单实例部署》</a></p>
 <p>官方推荐最小的复制集是3节点集群，一主两从或者一主一从一仲裁(其中仲裁节点，即当参与选举的节点无法选出主节点时仲裁节点充当仲裁的作用，仲裁节点不存储数据。)</p>
 <p>由于两从的配置除了ip设置不一样之外其他都一样的，所以这里例子示范的是一主一从一仲裁的搭建过程。</p>
 <p>准备3台服务器：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">192.168.0.100    <span class="comment">#主节点</span></span><br><span class="line">192.168.0.101    <span class="comment">#从节点</span></span><br><span class="line">192.168.0.102    <span class="comment">#仲裁节点</span></span><br></pre></td></tr></table></figure></p>
