@@ -2,9 +2,16 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://yoursite.com/2018/02/24/haproxy/</loc>
+    <loc>http://yoursite.com/2018/02/24/mongodb-single/</loc>
     
-    <lastmod>2018-02-24T04:11:07.460Z</lastmod>
+    <lastmod>2018-02-24T07:45:18.434Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2018/02/23/haproxy/</loc>
+    
+    <lastmod>2018-02-24T04:16:19.414Z</lastmod>
     
   </url>
   
