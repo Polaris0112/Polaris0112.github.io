@@ -291,7 +291,67 @@
     
     
         <article class="index-post">
-            <a class="abstract-title" href = "/2018/02/23/nginx/" >
+            <a class="abstract-title" href = "/2018/02/24/haproxy/" >
+                
+                    <span>HAProxy日常使用说明</span>
+            </a>
+            <div class="abstract-content">
+                本帖子记录的是HAProxy安装和配置说明
+简介HAProxy提供高可用性、负载均衡以及基于TCP和HTTP应用的代理，支持虚拟主机，它是免费、快速并且可靠的一种解决方案。
+HAProxy特别适用于那些负载特大的web站点，这些站点通常又需要会话保持或七层处理。
+HAProxy运行在当前的硬件上，完全可以支持数以万计的并发连接。并且它的运行模式使得它可以很简单安全的整合进您当前的架构中， 同时可以保护你的web服务器不被暴露到网络上。
+HAProxy实现了一种事件驱动, 单一进程模型，此模型支持非常大的并发连接数。多进程或多线程模型受内存限制 、系统调度器限制以及无处不在的锁限制，很少能...
+            </div>
+            <div class="abstract-post-meta">
+                <!-- date  -->
+                <div class="abstract-date">
+                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/02/24</span>
+                </div>
+                <!-- tags  -->
+                
+                <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = haproxy>haproxy</a>
+    
+</div>
+                
+            </div>
+        </article>
+    
+    
+    
+        <article class="index-post">
+            <a class="abstract-title" href = "/2018/02/22/certbot/" >
+                
+                    <span>certbot安装/部分问题解决方案</span>
+            </a>
+            <div class="abstract-content">
+                本帖子记录的是Nginx + Certbot的安装过程以及在阿里云CentOS7上部署Certbot遇到的问题以及解决方法
+Using Nginx in CentOS/RHEL 7安装Certbot安装包已经包含在EPEL(Extra Packages for Enterprise Linux)源中，所以如果安装Certbot需要先安装EPEL源。
+12345## 在CentOS/RHEL 7中使用$ yum -y install yum-utils$ yum-config-manager --enable rhui-REGION-rhel-server-extras rhui-REGI...
+            </div>
+            <div class="abstract-post-meta">
+                <!-- date  -->
+                <div class="abstract-date">
+                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/02/22</span>
+                </div>
+                <!-- tags  -->
+                
+                <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = certbot>certbot</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = https>https</a>
+    
+</div>
+                
+            </div>
+        </article>
+    
+    
+    
+        <article class="index-post">
+            <a class="abstract-title" href = "/2018/02/21/nginx/" >
                 
                     <span>Nginx正反向代理/负载均衡</span>
             </a>
@@ -307,7 +367,7 @@
             <div class="abstract-post-meta">
                 <!-- date  -->
                 <div class="abstract-date">
-                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/02/23</span>
+                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/02/21</span>
                 </div>
                 <!-- tags  -->
                 
@@ -327,7 +387,7 @@
     
     
         <article class="index-post">
-            <a class="abstract-title" href = "/2018/02/23/lvm/" >
+            <a class="abstract-title" href = "/2018/02/20/lvm/" >
                 
                     <span>LVM创建/扩容/常用操作</span>
             </a>
@@ -341,7 +401,7 @@ LVM是逻辑盘卷管理（Logical Volume Manager）的简称，它是Linux环�
             <div class="abstract-post-meta">
                 <!-- date  -->
                 <div class="abstract-date">
-                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/02/23</span>
+                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/02/20</span>
                 </div>
                 <!-- tags  -->
                 
@@ -350,36 +410,6 @@ LVM是逻辑盘卷管理（Logical Volume Manager）的简称，它是Linux环�
         <a class="post-tag" href="javascript:void(0);" data-tags = centos>centos</a>
     
         <a class="post-tag" href="javascript:void(0);" data-tags = lvm>lvm</a>
-    
-</div>
-                
-            </div>
-        </article>
-    
-    
-    
-        <article class="index-post">
-            <a class="abstract-title" href = "/2018/02/23/certbot/" >
-                
-                    <span>certbot安装/部分问题解决方案</span>
-            </a>
-            <div class="abstract-content">
-                本帖子记录的是Nginx + Certbot的安装过程以及在阿里云CentOS7上部署Certbot遇到的问题以及解决方法
-Using Nginx in CentOS/RHEL 7安装Certbot安装包已经包含在EPEL(Extra Packages for Enterprise Linux)源中，所以如果安装Certbot需要先安装EPEL源。
-12345## 在CentOS/RHEL 7中使用$ yum -y install yum-utils$ yum-config-manager --enable rhui-REGION-rhel-server-extras rhui-REGI...
-            </div>
-            <div class="abstract-post-meta">
-                <!-- date  -->
-                <div class="abstract-date">
-                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/02/23</span>
-                </div>
-                <!-- tags  -->
-                
-                <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = certbot>certbot</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = https>https</a>
     
 </div>
                 
@@ -493,7 +523,18 @@ Using Nginx in CentOS/RHEL 7安装Certbot安装包已经包含在EPEL(Extra Pack
     
     
     
-    <div class="total-archive"> Total : 3 </div>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="total-archive"> Total : 4 </div>
     
     <div class="post-archive">
     
@@ -505,26 +546,22 @@ Using Nginx in CentOS/RHEL 7安装Certbot安装包已经包含在EPEL(Extra Pack
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">02/23</span><a class="archive-post-title" href= "/2018/02/23/lvm/" >LVM创建/扩容/常用操作</a>
+            <span class="archive-post-date">02/24</span><a class="archive-post-title" href= "/2018/02/24/haproxy/" >HAProxy日常使用说明</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">02/23</span><a class="archive-post-title" href= "/2018/02/23/nginx/" >Nginx正反向代理/负载均衡</a>
+            <span class="archive-post-date">02/22</span><a class="archive-post-title" href= "/2018/02/22/certbot/" >certbot安装/部分问题解决方案</a>
         </li>
     
     
-    
-    
-    
-        </ul>
-    
-    <div class="archive-year"> Invalid date </div>
-    <ul class="year-list">
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/21</span><a class="archive-post-title" href= "/2018/02/21/nginx/" >Nginx正反向代理/负载均衡</a>
+        </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2018/02/23/certbot/" >certbot安装/部分问题解决方案</a>
+            <span class="archive-post-date">02/20</span><a class="archive-post-title" href= "/2018/02/20/lvm/" >LVM创建/扩容/常用操作</a>
         </li>
     
     </div>
@@ -532,19 +569,21 @@ Using Nginx in CentOS/RHEL 7安装Certbot安装包已经包含在EPEL(Extra Pack
         <div class="sidebar-panel-tags">
     <div class="sidebar-tags-name">
     
-        <span class="sidebar-tag-name" data-tags="certbot"><span class="iconfont-archer">&#xe606;</span>certbot</span>
-    
-        <span class="sidebar-tag-name" data-tags="https"><span class="iconfont-archer">&#xe606;</span>https</span>
-    
         <span class="sidebar-tag-name" data-tags="centos"><span class="iconfont-archer">&#xe606;</span>centos</span>
     
         <span class="sidebar-tag-name" data-tags="lvm"><span class="iconfont-archer">&#xe606;</span>lvm</span>
+    
+        <span class="sidebar-tag-name" data-tags="certbot"><span class="iconfont-archer">&#xe606;</span>certbot</span>
+    
+        <span class="sidebar-tag-name" data-tags="https"><span class="iconfont-archer">&#xe606;</span>https</span>
     
         <span class="sidebar-tag-name" data-tags="nginx"><span class="iconfont-archer">&#xe606;</span>nginx</span>
     
         <span class="sidebar-tag-name" data-tags="proxy"><span class="iconfont-archer">&#xe606;</span>proxy</span>
     
         <span class="sidebar-tag-name" data-tags="load-balance"><span class="iconfont-archer">&#xe606;</span>load-balance</span>
+    
+        <span class="sidebar-tag-name" data-tags="haproxy"><span class="iconfont-archer">&#xe606;</span>haproxy</span>
     
     </div>
     <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
@@ -579,11 +618,13 @@ jsonContent:
         <div class="sidebar-panel-categories">
     <div class="sidebar-categories-name">
     
-        <span class="sidebar-category-name" data-categories="certbot使用"><span class="iconfont-archer">&#xe60a;</span>certbot使用</span>
-    
         <span class="sidebar-category-name" data-categories="LVM使用"><span class="iconfont-archer">&#xe60a;</span>LVM使用</span>
     
+        <span class="sidebar-category-name" data-categories="certbot使用"><span class="iconfont-archer">&#xe60a;</span>certbot使用</span>
+    
         <span class="sidebar-category-name" data-categories="Nginx正反向代理-负载均衡"><span class="iconfont-archer">&#xe60a;</span>Nginx正反向代理-负载均衡</span>
+    
+        <span class="sidebar-category-name" data-categories="HAProxy使用"><span class="iconfont-archer">&#xe60a;</span>HAProxy使用</span>
     
     </div>
     <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
