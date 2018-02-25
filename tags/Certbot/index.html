@@ -252,10 +252,8 @@
 </head>
 
     
-        <body class="home-body">
     
-    
-<header class="header index-header">
+<header class="header">
 
     <div class="read-progress"></div>
     <div class="header-sidebar-menu">&#xe775;</div>
@@ -267,29 +265,18 @@
         <div class="site-intro">
     
     <!-- 主页  -->
-    
-    
-    <!-- 文章页  -->
             
-    <div class="site-intro-img" style="background-image: url(/intro/index-bg.jpg)"></div>
+    <div class="site-intro-img" style="background-image: url(/)"></div>
     <div class="site-intro-placeholder"></div>
     <div class="site-intro-meta">
         <!-- 标题  -->
         <h1 class="intro-title">
             <!-- 主页  -->
             
-            Jayden's Website.
-            <!-- 文章页  -->
-            
         </h1>
         <!-- 副标题 -->
         <p class="intro-subtitle">
             <!-- 主页副标题  -->
-            
-            
-                It's better to burn out than to fade away
-            
-            <!-- 文章页  -->
             
         </p>
         <!-- 文章页meta -->
@@ -300,154 +287,6 @@
 
         <div class="container container-unloaded">
             <main class="main index-page">
-    
-    
-    
-        <article class="index-post">
-            <a class="abstract-title" href = "/2018/02/24/mongodb-replset/" >
-                
-                    <span>MongoDB复制集部署</span>
-            </a>
-            <div class="abstract-content">
-                本帖子记录的是MongoDB复制集部署全过程,有关MongoDB简介、安装以及配置文件参数说明,请看回上一个帖子MongoDB单实例部署
-以下就直接介绍复制集以及部署过程
-MongoDB复制集简介   Mongodb复制集由一组Mongod实例（进程）组成，包含一个Primary节点和多个Secondary节点，Mongodb Driver（客户端）的所有数据都写入Primary，Secondary从Primary同步写入的数据，以保持复制集内所有成员存储相同的数据集，提供数据的高可用。更多关于副本集的介绍请见官网。
-   下图（图片源于Mongodb官方文档）是一个典型的Mongdb复...
-            </div>
-            <div class="abstract-post-meta">
-                <!-- date  -->
-                <div class="abstract-date">
-                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/02/24</span>
-                </div>
-                <!-- tags  -->
-                
-                <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = NoSql>NoSql</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = MongoDB>MongoDB</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = ReplSet>ReplSet</a>
-    
-</div>
-                
-            </div>
-        </article>
-    
-    
-    
-        <article class="index-post">
-            <a class="abstract-title" href = "/2018/02/24/mongodb-shard/" >
-                
-                    <span>MongoDB Sharding集群部署</span>
-            </a>
-            <div class="abstract-content">
-                本帖子记录的是MongoDB分片+副本集集群部署
-MongoDB Sharding简介  分片（sharding）是MongoDB用来将大型集合分割到不同服务器（或者说一个集群）上所采用的方法。尽管分片起源于关系型数据库分区，但MongoDB分片完全又是另一回事。和MySQL分区方案相比，MongoDB的最大区别在于它几乎能自动完成所有事情，只要告诉MongoDB要分配数据，它就能自动维护数据在不同服务器之间的均衡。 
-分片的目的  高数据量和吞吐量的数据库应用会对单机的性能造成较大压力,大的查询量会将单机的CPU耗尽,大的数据量对单机的存储压力较大,最终会耗尽系统的内存而将压力转移到磁...
-            </div>
-            <div class="abstract-post-meta">
-                <!-- date  -->
-                <div class="abstract-date">
-                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/02/24</span>
-                </div>
-                <!-- tags  -->
-                
-                <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = NoSql>NoSql</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = MongoDB>MongoDB</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = Sharding>Sharding</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = replSet>replSet</a>
-    
-</div>
-                
-            </div>
-        </article>
-    
-    
-    
-        <article class="index-post">
-            <a class="abstract-title" href = "/2018/02/24/mongodb-single/" >
-                
-                    <span>MongoDB单实例部署</span>
-            </a>
-            <div class="abstract-content">
-                本帖子记录的是MongoDB单实例部署全过程
-MongoDB简介MongoDB是用C++语言编写的非关系型数据库。特点是高性能、易部署、易使用，存储数据十分方便，主要特性有： 
-
-面向集合存储，易于存储对象类型的数据 
-
-模式自由 
-
-支持动态查询 
-
-支持完全索引，包含内部对象 
-
-支持复制和故障恢复 
-
-使用高效的二进制数据存储，包括大型对象 
-
-文件存储格式为BSON(一种JSON的扩展)
-
-
-官网下载地址
-官方文档
-安装
-系统：CentOS 7/RHEL 7
-
-yum安装方式123456789101112131415## 以3.4.x为例## 创建yum源文件$ vim /etc...
-            </div>
-            <div class="abstract-post-meta">
-                <!-- date  -->
-                <div class="abstract-date">
-                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/02/24</span>
-                </div>
-                <!-- tags  -->
-                
-                <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = NoSql>NoSql</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = MongoDB>MongoDB</a>
-    
-</div>
-                
-            </div>
-        </article>
-    
-    
-    
-        <article class="index-post">
-            <a class="abstract-title" href = "/2018/02/23/haproxy/" >
-                
-                    <span>HAProxy日常使用说明</span>
-            </a>
-            <div class="abstract-content">
-                本帖子记录的是HAProxy安装和配置说明
-简介HAProxy提供高可用性、负载均衡以及基于TCP和HTTP应用的代理，支持虚拟主机，它是免费、快速并且可靠的一种解决方案。
-HAProxy特别适用于那些负载特大的web站点，这些站点通常又需要会话保持或七层处理。
-HAProxy运行在当前的硬件上，完全可以支持数以万计的并发连接。并且它的运行模式使得它可以很简单安全的整合进您当前的架构中， 同时可以保护你的web服务器不被暴露到网络上。
-HAProxy实现了一种事件驱动, 单一进程模型，此模型支持非常大的并发连接数。多进程或多线程模型受内存限制 、系统调度器限制以及无处不在的锁限制，很少能...
-            </div>
-            <div class="abstract-post-meta">
-                <!-- date  -->
-                <div class="abstract-date">
-                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/02/23</span>
-                </div>
-                <!-- tags  -->
-                
-                <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = haproxy>haproxy</a>
-    
-</div>
-                
-            </div>
-        </article>
     
     
     
@@ -479,233 +318,10 @@ Using Nginx in CentOS/RHEL 7安装Certbot安装包已经包含在EPEL(Extra Pack
             </div>
         </article>
     
-    
-    
-        <article class="index-post">
-            <a class="abstract-title" href = "/2018/02/21/nginx/" >
-                
-                    <span>Nginx正反向代理/负载均衡</span>
-            </a>
-            <div class="abstract-content">
-                本帖子记录的是Nginx配置正向代理、反向代理和负载均衡相关参数。
-相关概念
-正向代理是一个位于客户端和目标服务器之间的代理服务器(中间服务器)。为了从原始服务器取得内容，客户端向代理服务器发送一个请求，并且指定目标服务器，之后代理向目标服务器转交并且将获得的内容返回给客户端。正向代理的情况下客户端必须要进行一些特别的设置才能使用。
-
-
-
-反向代理正好相反。对于客户端来说，反向代理就好像目标服务器。并且客户端不需要进行任何设置。客户端向反向代理发送请求，接着反向代理判断请求走向何处，并将请求转交给客户端，使得这些内容就好似他自己一样，一次客户端并不会感知到反向代理后面的服务，也因此不需要...
-            </div>
-            <div class="abstract-post-meta">
-                <!-- date  -->
-                <div class="abstract-date">
-                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/02/21</span>
-                </div>
-                <!-- tags  -->
-                
-                <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = nginx>nginx</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = proxy>proxy</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = load-balance>load-balance</a>
-    
-</div>
-                
-            </div>
-        </article>
-    
-    
-    
-        <article class="index-post">
-            <a class="abstract-title" href = "/2018/02/20/lvm/" >
-                
-                    <span>LVM创建/扩容/常用操作</span>
-            </a>
-            <div class="abstract-content">
-                本帖子记录的是LVM初始化和扩容等操作
-相关概念
-LVM是逻辑盘卷管理（Logical Volume Manager）的简称，它是Linux环境下对磁盘分区进行管理的一种机制，LVM是建立在硬盘和分区之上的一个逻辑层，来提高磁盘分区管理的灵活性。LVM是在磁盘分区和文件系统之间添加的一个逻辑层，来为文件系统屏蔽下层磁盘分区布局，提供一个抽象的盘卷，在盘卷上建立文件系统。物理卷（physical volume）物理卷就是指硬盘分区或从逻辑上与磁盘分区具有同样功能的设备（如RAID），是LVM的基本存储逻辑块，但和基本的物理存储介质（如分区、磁盘等）比较，却包含有与LVM相关的管理参数。
-
-...
-            </div>
-            <div class="abstract-post-meta">
-                <!-- date  -->
-                <div class="abstract-date">
-                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/02/20</span>
-                </div>
-                <!-- tags  -->
-                
-                <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = centos>centos</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = lvm>lvm</a>
-    
-</div>
-                
-            </div>
-        </article>
-    
-    
-    
-        <article class="index-post">
-            <a class="abstract-title" href = "/2018/02/12/hexo/" >
-                
-                    <span>Hexo+Github搭建博客</span>
-            </a>
-            <div class="abstract-content">
-                本帖子记录的是使用Hexo配合Github，利用github提供的域名来搭建自己的私人博客
-安装Node.js下载用wget命令下载最新版(或指定版本)的Node.js
-1$ wget https://nodejs.org/dist/v9.3.0/node-v9.3.0-linux-x64.tar.xz
-最新版本请查看下载地址
-解压文件12$ xz -d node-v9.3.0-linux-x64.tar.xz  //解压为tar文件$ tar -xvf node-v9.3.0-linux-x64.tar
-或
-1$ tar -xvJf node-v9.3.0-linux-x64.tar....
-            </div>
-            <div class="abstract-post-meta">
-                <!-- date  -->
-                <div class="abstract-date">
-                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/02/12</span>
-                </div>
-                <!-- tags  -->
-                
-                <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = github>github</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = hexo>hexo</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = blog>blog</a>
-    
-</div>
-                
-            </div>
-        </article>
-    
-    
-    
-        <article class="index-post">
-            <a class="abstract-title" href = "/2018/01/20/shadowsocks/" >
-                
-                    <span>小灰机-4.0.8下载</span>
-            </a>
-            <div class="abstract-content">
-                本帖子记录的是小灰机-4.0.8下载地址
-地址https://pan.baidu.com/s/1i7pKp8L
-密码pwd7
-
-            </div>
-            <div class="abstract-post-meta">
-                <!-- date  -->
-                <div class="abstract-date">
-                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/01/20</span>
-                </div>
-                <!-- tags  -->
-                
-                <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = $$>$$</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = GFW>GFW</a>
-    
-</div>
-                
-            </div>
-        </article>
-    
     <!-- paginator  -->
     
 </main>
             <!-- profile -->
-            
-            <div class="profile">
-    <img class="profile-avatar" src= /avatar/my_avatar.jpg >
-    <div class="profile-name">Jayden</div>
-    
-    <div class="profile-signature">
-        Actions speak louder than words.
-    </div>
-    
-    
-    <div class="profile-social">
-        
-    
-        
-            
-                <a href="mailto:jjc27017@gmail.com" class="iconfont-archer email" title=email ></a>
-            
-        
-    
-        
-            
-                <a href="//github.com/Polaris0112" class="iconfont-archer github" target="_blank" title="github"></a>
-            
-        
-    
-        
-            
-                <a href="//weibo.com/__Tk__" class="iconfont-archer weibo" target="_blank" title="weibo"></a>
-            
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-            
-                <a href="//www.linkedin.com/in/嘉健-陈-3a0a20157/" class="iconfont-archer linkedin" target="_blank" title="linkedin"></a>
-            
-        
-    
-        
-    
-        
-    
-
-    </div>
-    
-    
-        <div class="friends">
-            <div>FRIENDS</div>
-            
-                <span>
-                    <a href= //www.google.com target="_black">Google</a>
-                </span>
-            
-                <span>
-                    <a href= //duckduckgo.com target="_black">DuckDuckGo</a>
-                </span>
-            
-                <span>
-                    <a href= //www.github.com target="_black">Github</a>
-                </span>
-            
-                <span>
-                    <a href= //www.baidu.com target="_black">Baidu</a>
-                </span>
-            
-                <span>
-                    <a href= //tool.chinaz.com target="_black">ChinaZ</a>
-                </span>
-            
-        </div>
-    
-    
-        <div class="about-me">
-            <a href = "/about" >ABOUT ME</a>
-        </div>
-    
-</div>
             
         </div>
         <footer class="footer footer-unloaded">
