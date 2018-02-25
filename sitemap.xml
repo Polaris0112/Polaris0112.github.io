@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://yoursite.com/2018/01/20/shadowsocks/</loc>
+    
+    <lastmod>2018-02-25T02:45:02.611Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://yoursite.com/2018/02/24/mongodb-replset/</loc>
     
     <lastmod>2018-02-24T16:39:08.020Z</lastmod>
