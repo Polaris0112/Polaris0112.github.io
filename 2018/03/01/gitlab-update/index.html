@@ -9,7 +9,7 @@
 <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" >
-    <title>小灰机-4.0.8下载 · Jayden&#39;s Blog</title>
+    <title>Gitlab踩坑升级过程 · Jayden&#39;s Blog</title>
     <style type="text/css">
     @font-face {
         font-family: 'Oswald-Regular';
@@ -265,7 +265,7 @@
                 <a href="/" >Jayden&#39;s Website.</a>
             </div>
             <div class="post-title">
-                <a href="#" class="post-name">小灰机-4.0.8下载</a>
+                <a href="#" class="post-name">Gitlab踩坑升级过程</a>
             </div>
     </div>
     
@@ -286,7 +286,7 @@
         <h1 class="intro-title">
             <!-- 主页  -->
             
-            小灰机-4.0.8下载
+            Gitlab踩坑升级过程
             <!-- 404 -->
             
         </h1>
@@ -304,15 +304,17 @@
             
                 <div class= post-intro-tags >
     
-        <a class="post-tag" href="javascript:void(0);" data-tags = $$>$$</a>
+        <a class="post-tag" href="javascript:void(0);" data-tags = Gitlab>Gitlab</a>
     
-        <a class="post-tag" href="javascript:void(0);" data-tags = GFW>GFW</a>
+        <a class="post-tag" href="javascript:void(0);" data-tags = Update>Update</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = Migration>Migration</a>
     
 </div>
             
             <div class="post-intro-meta">
                 <span class="post-intro-calander iconfont-archer">&#xe676;</span>
-                <span class="post-intro-time">2018/01/20</span>
+                <span class="post-intro-time">2018/03/01</span>
                 
                 <span id="busuanzi_container_page_pv" class="busuanzi-pv">
                     <span class="iconfont-archer">&#xe602;</span>
@@ -341,22 +343,123 @@
         <div class="container container-unloaded">
             <main class="main post-page">
     <article class="article-entry">
-        <p>本帖子记录的是小灰机-4.0.8下载地址</p>
-<h2 id="地址"><a href="#地址" class="headerlink" title="地址"></a>地址</h2><p><a href="https://pan.baidu.com/s/1i7pKp8L" target="_blank" rel="noopener">https://pan.baidu.com/s/1i7pKp8L</a></p>
-<h2 id="密码"><a href="#密码" class="headerlink" title="密码"></a>密码</h2><p><strong>pwd7</strong></p>
+        <p>本帖子记录的是Gitlab跨大版本更新，数据迁移备份过程记录</p>
+<h2 id="背景简述"><a href="#背景简述" class="headerlink" title="背景简述"></a>背景简述</h2><p>由于各个项目迭代次数较多，Gitlab的服务器硬件相对较低，而且也出现过遇到当前Gitlab版本Bug的情况，所以最近就打算一次性把Gitlab迁移到配置较好的企业服务器并升级到最新版本。</p>
+<p>目前原来版本是gitlab-ce-8.8.0.ce.0，现在最新的版本是gitlab-ce-10.5.2.ce.0，这次过程就是从8.8.0升级到10.5.2。</p>
+<h2 id="Gitlab部署"><a href="#Gitlab部署" class="headerlink" title="Gitlab部署"></a>Gitlab部署</h2><ul>
+<li>系统以CentOS7为例</li>
+</ul>
+<p>下载RPM包地址：<a href="https://mirrors.tuna.tsinghua.edu.cn/gitlab-ce/yum/el7/" target="_blank" rel="noopener">Gitlab-CE清华大学镜像站</a></p>
+<h2 id="先安装依赖"><a href="#先安装依赖" class="headerlink" title="先安装依赖"></a>先安装依赖</h2><p>参考<a href="https://about.gitlab.com/downloads/#centos7" target="_blank" rel="noopener">官方说明</a>中的Install and configure the necessary dependencies一节。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ yum install curl policycoreutils openssh-server openssh-clients</span><br><span class="line">$ systemctl <span class="built_in">enable</span> sshd</span><br><span class="line">$ systemctl start sshd</span><br><span class="line">$ yum install postfix</span><br><span class="line">$ systemctl <span class="built_in">enable</span> postfix</span><br><span class="line">$ systemctl start postfix</span><br><span class="line">$ firewall-cmd --permanent --add-service=http</span><br><span class="line">$ systemctl reload firewalld</span><br></pre></td></tr></table></figure>
+<h2 id="下载与原来版本一致的RPM包"><a href="#下载与原来版本一致的RPM包" class="headerlink" title="下载与原来版本一致的RPM包"></a>下载与原来版本一致的RPM包</h2><p>这里我先记录如何进行数据迁移，<strong>数据迁移必须使用版本一致的gitlab</strong>，跨版本的数据恢复可能会报错。</p>
+<h3 id="先下载gitlab-ce-8-8-0-ce-0"><a href="#先下载gitlab-ce-8-8-0-ce-0" class="headerlink" title="先下载gitlab-ce-8.8.0.ce.0"></a>先下载gitlab-ce-8.8.0.ce.0</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## 下载</span></span><br><span class="line">$ wget https://mirrors.tuna.tsinghua.edu.cn/gitlab-ce/yum/el7/gitlab-ce-8.8.0-ce.0.el7.x86_64.rpm</span><br><span class="line"></span><br><span class="line"><span class="comment">## 安装</span></span><br><span class="line">$ rpm -i gitlab-ce-8.8.0-ce.0.el7.x86_64.rpm</span><br></pre></td></tr></table></figure>
+<h2 id="修改配置文件-etc-gitlab-gitlab-rb"><a href="#修改配置文件-etc-gitlab-gitlab-rb" class="headerlink" title="修改配置文件(/etc/gitlab/gitlab.rb)"></a>修改配置文件(/etc/gitlab/gitlab.rb)</h2><p>修改配置项：</p>
+<ul>
+<li><p>域名：external_url ‘<a href="http://gitlab.rd.exmaple.com" target="_blank" rel="noopener">http://gitlab.rd.exmaple.com</a>‘</p>
+</li>
+<li><p>时区：gitlab_rails[‘time_zone’] = ‘Asia/Shanghai’</p>
+</li>
+<li><p>通知发送的邮箱: gitlab_rails[‘gitlab_email_from’] = ‘gitlab-notifications@example.com’</p>
+</li>
+<li><p>修改SMTP服务器配置：gitlab_rails[‘smtp*’]</p>
+</li>
+<li><p>仓库路径：git_data_dir “/home/gitlab/git-data”</p>
+<ul>
+<li>注意，不支持符号链接</li>
+</ul>
+</li>
+</ul>
+<p>参见：<a href="https://github.com/Polaris0112/Ops-Tools/blob/master/gitlab/gitlab.rb" target="_blank" rel="noopener">配置文件</a></p>
+<p><strong>另外留意配置文件的权限问题</strong></p>
+<p>正确的是：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 正确的是</span></span><br><span class="line"><span class="comment"># -rw-------. 1 root root 20227 Feb 28 16:59 gitlab.rb</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 修改权限命令</span></span><br><span class="line">$ chmod 600 /etc/gitlab/gitlab.rb</span><br></pre></td></tr></table></figure>
+<h2 id="编译部署"><a href="#编译部署" class="headerlink" title="编译部署"></a>编译部署</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 编译</span></span><br><span class="line">$ gitlab-ctl reconfigure</span><br><span class="line"></span><br><span class="line"><span class="comment"># 重启服务</span></span><br><span class="line">$ gitlab-ctl restart</span><br></pre></td></tr></table></figure>
+<h2 id="备份"><a href="#备份" class="headerlink" title="备份"></a>备份</h2><h3 id="配置文件中相关的选项"><a href="#配置文件中相关的选项" class="headerlink" title="配置文件中相关的选项"></a>配置文件中相关的选项</h3><ul>
+<li><p>备份目录：<code>gitlab_rails[&#39;backup_path&#39;] = &quot;/home/gitlab/backups&quot;</code></p>
+</li>
+<li><p>备份文件保存时长: <code>gitlab_rails[&#39;backup_keep_time&#39;] = 604800</code></p>
+</li>
+</ul>
+<h3 id="手动命令操作备份"><a href="#手动命令操作备份" class="headerlink" title="手动命令操作备份"></a>手动命令操作备份</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ gitlab-rake gitlab:backup:create</span><br></pre></td></tr></table></figure>
+<h2 id="恢复"><a href="#恢复" class="headerlink" title="恢复"></a>恢复</h2><p><strong>大致来说：</strong></p>
+<ul>
+<li><p>需保证gitlab版本和备份时一致</p>
+</li>
+<li><p>需要启动服务，但停掉前台和队列，以防止用户操作干扰</p>
+</li>
+<li><p>从备份机或者原本服务器上提取备份压缩包，传输至新服务器</p>
+</li>
+<li><p>把备份文件放到/var/opt/gitlab/backups/路径下</p>
+</li>
+<li><p>跑恢复脚本gitlab-rake gitlab:backup:restore，指定时间戳参数BACKUP</p>
+</li>
+<li><p>把服务都启动</p>
+</li>
+<li><p>检查确认</p>
+</li>
+</ul>
+<h3 id="操作步骤"><a href="#操作步骤" class="headerlink" title="操作步骤"></a>操作步骤</h3><p>详细说明可参考官方文档中的<a href="https://gitlab.com/gitlab-org/gitlab-ce/blob/master/doc/raketasks/backup_restore.md#restore-a-previously-created-backup" target="_blank" rel="noopener">Backup restore - Restore a previously created backup</a>一节。下面是原文，源代码部署部分省略掉了：</p>
+<p>停前台服务：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ gitlab-ctl stop unicorn</span><br><span class="line">$ gitlab-ctl stop sidekiq</span><br><span class="line">$ gitlab-ctl stop nginx</span><br></pre></td></tr></table></figure>
+<p>恢复对应时间戳备份的数据(<strong>注意：以下命令的压缩文件、服务器IP、时间戳均需要替换指定的环境中具体的值</strong>)：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 从旧服务器找到备份文件并scp到新服务器</span></span><br><span class="line">$ scp 1519857115_gitlab_backup.tar 192.168.0.85:./</span><br><span class="line"></span><br><span class="line"><span class="comment"># 到新服务器把压缩文件移动到指定路径下并修改所属用户</span></span><br><span class="line">$ mv 1519857115_gitlab_backup.tar /var/opt/gitlab/backups/</span><br><span class="line">$ chown -R git:git /var/opt/gitlab/backups</span><br><span class="line"></span><br><span class="line"><span class="comment"># 恢复备份</span></span><br><span class="line">$ gitlab-rake gitlab:backup:restore BACKUP=1519857115</span><br><span class="line"></span><br><span class="line"><span class="comment">## 恢复过程中需要交互两次，均输入yes继续即可。</span></span><br></pre></td></tr></table></figure>
+<p>启动服务、检查：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ gitlab-ctl restart</span><br><span class="line">$ gitlab-rake gitlab:check SANITIZE=<span class="literal">true</span></span><br></pre></td></tr></table></figure>
+<h2 id="远程备份"><a href="#远程备份" class="headerlink" title="远程备份"></a>远程备份</h2><p>远程备份</p>
+<ul>
+<li><p>开源的auto-gitlab-backup项目可以完成一般备份和/etc/gitlab/*备份，以及同步到远端的工作。</p>
+</li>
+<li><p>用crontab触发每日定时执行备份</p>
+</li>
+<li><p>参见: <a href="https://github.com/Polaris0112/Ops-Tools/blob/master/gitlab/auto-gitlab-backup.conf" target="_blank" rel="noopener">配置文件</a></p>
+</li>
+</ul>
+<h2 id="更新Gitlab"><a href="#更新Gitlab" class="headerlink" title="更新Gitlab"></a>更新Gitlab</h2><h3 id="先关闭前端服务，防止用户人为操作"><a href="#先关闭前端服务，防止用户人为操作" class="headerlink" title="先关闭前端服务，防止用户人为操作"></a>先关闭前端服务，防止用户人为操作</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ gitlab-ctl stop unicorn</span><br><span class="line">$ gitlab-ctl stop sidekiq</span><br><span class="line">$ gitlab-ctl stop nginx</span><br></pre></td></tr></table></figure>
+<p>执行完毕后，原本gitlab网页应该就不能访问，用户也不能拉取或者提交代码。</p>
+<h3 id="下载新版Gitlab并更新"><a href="#下载新版Gitlab并更新" class="headerlink" title="下载新版Gitlab并更新"></a>下载新版Gitlab并更新</h3><p>这里要注意的是，跨版本更新不能跨两个大版本，即8.8.0不能直接升级到10.5.2，升级后会因为PostgreSQL数据库会启动失败导致页面出现502，部分服务不能启动。</p>
+<p>所以我们要一级一级升，目前确认的是可以先从8.8.0升级到9.5.9然后再升级到10.5.2<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 如果怕担心升级失败的话，可以先升级一个小版本进行测试</span></span><br><span class="line"><span class="comment"># $ wget https://mirrors.tuna.tsinghua.edu.cn/gitlab-ce/yum/el7/gitlab-ce-8.8.1-ce.0.el7.x86_64.rpm</span></span><br><span class="line"><span class="comment"># $ rpm -Uvh gitlab-ce-8.8.1-ce.0.el7.x86_64.rpm</span></span><br><span class="line"><span class="comment"># 等待一段时间</span></span><br><span class="line"><span class="comment"># 执行完成后，重新配置gitlab</span></span><br><span class="line"><span class="comment"># $ gitlab-ctl reconfigure</span></span><br><span class="line"><span class="comment"># 完成后重启gitlab</span></span><br><span class="line"><span class="comment"># $ gitlab-ctl restart</span></span><br><span class="line"><span class="comment"># 启动完需要等服务启动一分钟左右后，才登陆网页查看</span></span><br><span class="line"></span><br><span class="line"><span class="comment">## 直接升级到9.5.9</span></span><br><span class="line">$ wget https://mirrors.tuna.tsinghua.edu.cn/gitlab-ce/yum/el7/gitlab-ce-9.5.9-ce.0.el7.x86_64.rpm</span><br><span class="line">$ rpm- Uvh gitlab-ce-9.5.9-ce.0.el7.x86_64.rpm</span><br><span class="line"><span class="comment"># 等待一段时间</span></span><br><span class="line"><span class="comment"># 执行完成后，重新配置gitlab</span></span><br><span class="line">$ gitlab-ctl reconfigure</span><br><span class="line"><span class="comment"># 完成后重启gitlab</span></span><br><span class="line">$ gitlab-ctl restart</span><br><span class="line"><span class="comment">## 然后查看页面有没有更新成功</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">## 若成功，则重复第一步</span></span><br><span class="line">$ gitlab-ctl stop unicorn</span><br><span class="line">$ gitlab-ctl stop sidekiq</span><br><span class="line">$ gitlab-ctl stop nginx</span><br><span class="line"></span><br><span class="line">$ wget https://mirrors.tuna.tsinghua.edu.cn/gitlab-ce/yum/el7/gitlab-ce-10.5.2-ce.0.el7.x86_64.rpm</span><br><span class="line">$ rpm -Uvh gitlab-ce-10.5.2-ce.0.el7.x86_64.rpm</span><br><span class="line">$ gitlab-ctl reconfigure</span><br><span class="line">$ gitlab-ctl restart</span><br></pre></td></tr></table></figure></p>
+<p>所有执行完成后，等待服务启动一分钟以后就可以开启网页查看gitlab是否更新成功。</p>
+<h2 id="踩过的坑"><a href="#踩过的坑" class="headerlink" title="踩过的坑"></a>踩过的坑</h2><h3 id="编译GitLab出现ruby-block-supervise-redis-sleep-action-run并卡住"><a href="#编译GitLab出现ruby-block-supervise-redis-sleep-action-run并卡住" class="headerlink" title="编译GitLab出现ruby_block[supervise_redis_sleep] action run并卡住"></a>编译GitLab出现ruby_block[supervise_redis_sleep] action run并卡住</h3><p>解决方案：</p>
+<ul>
+<li><p>按住CTRL+C强制结束</p>
+</li>
+<li><p>运行<code>systemctl restart gitlab-runsvdir</code></p>
+</li>
+<li><p>再次执行<code>gitlab-ctl reconfigure</code></p>
+</li>
+</ul>
+<p><a href="https://gitlab.com/gitlab-org/omnibus-gitlab/issues/160" target="_blank" rel="noopener">解决方案来源</a></p>
+<h2 id="完整卸载gitlab"><a href="#完整卸载gitlab" class="headerlink" title="完整卸载gitlab"></a>完整卸载gitlab</h2><ul>
+<li>停止gitlab</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ gitlab-ctl stop</span><br></pre></td></tr></table></figure>
+<ul>
+<li>卸载gitlab</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ rpm -e gitlab-ce</span><br></pre></td></tr></table></figure>
+<ul>
+<li>查看gitlab进程</li>
+</ul>
+<p>kill掉所有的gitlab进程</p>
+<p>确认所有gitlab进程已经被删除</p>
+<ul>
+<li>删除gitlab文件</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ find / -name gitlab|xargs rm -rf    <span class="comment"># 删除所有包含gitlab的文件及目录</span></span><br></pre></td></tr></table></figure>
 
     </article>
     <!-- 前后页  -->
     <ul class="post-paginator">
         <li class="next">
             
-                <div class="nextSlogan">Next Post</div>
-                <a href= "/2018/02/12/hexo/" title= Hexo+Github搭建博客 >
-                    <div class="nextTitle">Hexo+Github搭建博客</div>
-                </a>
-            
         </li>
         <li class="previous">
+            
+                <div class="prevSlogan">Previous Post</div>
+                <a href= "/2018/02/25/zabbix-yum-installation/" title= Zabbix YUM方式部署 >
+                    <div class="prevTitle">Zabbix YUM方式部署</div>
+                </a>
             
         </li>
     </ul>
@@ -479,7 +582,7 @@
         <div class="toc-catalog">
             <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
         </div>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#地址"><span class="toc-number">1.</span> <span class="toc-text">地址</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#密码"><span class="toc-number">2.</span> <span class="toc-text">密码</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#背景简述"><span class="toc-number">1.</span> <span class="toc-text">背景简述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Gitlab部署"><span class="toc-number">2.</span> <span class="toc-text">Gitlab部署</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#先安装依赖"><span class="toc-number">3.</span> <span class="toc-text">先安装依赖</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#下载与原来版本一致的RPM包"><span class="toc-number">4.</span> <span class="toc-text">下载与原来版本一致的RPM包</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#先下载gitlab-ce-8-8-0-ce-0"><span class="toc-number">4.1.</span> <span class="toc-text">先下载gitlab-ce-8.8.0.ce.0</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#修改配置文件-etc-gitlab-gitlab-rb"><span class="toc-number">5.</span> <span class="toc-text">修改配置文件(/etc/gitlab/gitlab.rb)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#编译部署"><span class="toc-number">6.</span> <span class="toc-text">编译部署</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#备份"><span class="toc-number">7.</span> <span class="toc-text">备份</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#配置文件中相关的选项"><span class="toc-number">7.1.</span> <span class="toc-text">配置文件中相关的选项</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#手动命令操作备份"><span class="toc-number">7.2.</span> <span class="toc-text">手动命令操作备份</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#恢复"><span class="toc-number">8.</span> <span class="toc-text">恢复</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#操作步骤"><span class="toc-number">8.1.</span> <span class="toc-text">操作步骤</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#远程备份"><span class="toc-number">9.</span> <span class="toc-text">远程备份</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#更新Gitlab"><span class="toc-number">10.</span> <span class="toc-text">更新Gitlab</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#先关闭前端服务，防止用户人为操作"><span class="toc-number">10.1.</span> <span class="toc-text">先关闭前端服务，防止用户人为操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#下载新版Gitlab并更新"><span class="toc-number">10.2.</span> <span class="toc-text">下载新版Gitlab并更新</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#踩过的坑"><span class="toc-number">11.</span> <span class="toc-text">踩过的坑</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#编译GitLab出现ruby-block-supervise-redis-sleep-action-run并卡住"><span class="toc-number">11.1.</span> <span class="toc-text">编译GitLab出现ruby_block[supervise_redis_sleep] action run并卡住</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#完整卸载gitlab"><span class="toc-number">12.</span> <span class="toc-text">完整卸载gitlab</span></a></li></ol>
     </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>

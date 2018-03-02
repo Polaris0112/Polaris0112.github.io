@@ -306,7 +306,7 @@
     
         <a class="post-tag" href="javascript:void(0);" data-tags = Certbot>Certbot</a>
     
-        <a class="post-tag" href="javascript:void(0);" data-tags = Https>Https</a>
+        <a class="post-tag" href="javascript:void(0);" data-tags = https>https</a>
     
 </div>
             
@@ -342,7 +342,7 @@
             <main class="main post-page">
     <article class="article-entry">
         <p>本帖子记录的是Nginx + Certbot的安装过程以及在阿里云CentOS7上部署Certbot遇到的问题以及解决方法</p>
-<h2 id="Using-Nginx-in-CentOS-RHEL-7"><a href="#Using-Nginx-in-CentOS-RHEL-7" class="headerlink" title="Using Nginx in CentOS/RHEL 7"></a>Using Nginx in CentOS/RHEL 7</h2><h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><p>Certbot安装包已经包含在EPEL(Extra Packages for Enterprise Linux)源中，所以如果安装Certbot需要先安装<a href="https://fedoraproject.org/wiki/EPEL#How_can_I_use_these_extra_packages.3F" target="_blank" rel="noopener">EPEL源</a>。</p>
+<h2 id="Using-CentOS-7-RHEL-7"><a href="#Using-CentOS-7-RHEL-7" class="headerlink" title="Using CentOS 7/RHEL 7"></a>Using CentOS 7/RHEL 7</h2><h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><p>Certbot安装包已经包含在EPEL(Extra Packages for Enterprise Linux)源中，所以如果安装Certbot需要先安装<a href="https://fedoraproject.org/wiki/EPEL#How_can_I_use_these_extra_packages.3F" target="_blank" rel="noopener">EPEL源</a>。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## 在CentOS/RHEL 7中使用</span></span><br><span class="line"></span><br><span class="line">$ yum -y install yum-utils</span><br><span class="line">$ yum-config-manager --<span class="built_in">enable</span> rhui-REGION-rhel-server-extras rhui-REGION-rhel-server-optional</span><br><span class="line">$ yum install certbot-nginx</span><br></pre></td></tr></table></figure>
 <h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3><p>由于Certbot已经有nginx插件，所以安装证书只需要运行以下命令</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo certbot --nginx</span><br></pre></td></tr></table></figure>
@@ -357,32 +357,32 @@
 <p>官方crontab例子参考(命令会在正午和午夜进行)</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">0 0,12 * * * python -c <span class="string">'import random; import time; time.sleep(random.random() * 3600)'</span> &amp;&amp; certbot renew</span><br></pre></td></tr></table></figure>
 <h2 id="其他安装方法"><a href="#其他安装方法" class="headerlink" title="其他安装方法"></a>其他安装方法</h2><h3 id="使用certbot-auto脚本安装Certbot"><a href="#使用certbot-auto脚本安装Certbot" class="headerlink" title="使用certbot-auto脚本安装Certbot"></a>使用certbot-auto脚本安装Certbot</h3><p>certbot-auto脚本会安装Certbot，并且能够自己解决RPM包和Python包依赖问题，同样非常方便。同时certbot-auto是对certbot的封装，即certbot-auto提供certbot的所有功能。在使用此方法安装Certbot后，运行certbot-auto命令获取证书。</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 1) 获取certbot-auto脚本</span></span></span><br><span class="line"><span class="meta">$</span><span class="bash"> wget https://dl.eff.org/certbot-auto</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 2) 使certbot-auto脚本可执行</span></span></span><br><span class="line"><span class="meta">$</span><span class="bash"> sudo chmod a+x ./certbot-auto</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 3) 运行certbot-auto，安装Certbot</span></span></span><br><span class="line"><span class="meta">$</span><span class="bash"> ./certbot-auto</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 4) 获取Lets Encrypt证书，certbot-auto是对脚本certbot的封装，并且已经更新到了最新版本，所以使用此脚本获取证书</span></span></span><br><span class="line"><span class="meta">$</span><span class="bash"> ./certbot-auto</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## 1) 获取certbot-auto脚本</span></span><br><span class="line">$ wget https://dl.eff.org/certbot-auto</span><br><span class="line"></span><br><span class="line"><span class="comment">## 2) 使certbot-auto脚本可执行</span></span><br><span class="line">$ sudo chmod a+x ./certbot-auto</span><br><span class="line"></span><br><span class="line"><span class="comment">## 3) 运行certbot-auto，安装Certbot</span></span><br><span class="line">$ ./certbot-auto</span><br><span class="line"></span><br><span class="line"><span class="comment">## 4) 获取Lets Encrypt证书，certbot-auto是对脚本certbot的封装，并且已经更新到了最新版本，所以使用此脚本获取证书</span></span><br><span class="line">$ ./certbot-auto</span><br></pre></td></tr></table></figure>
 <h3 id="使用pip安装Certbot"><a href="#使用pip安装Certbot" class="headerlink" title="使用pip安装Certbot"></a>使用pip安装Certbot</h3><p>此种方法比较简单，最好先创建一个Python虚拟环境，然后再安装Certbot</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"> 1) 安装虚拟环境软件包(针对于Python2.7)</span><br><span class="line">$ sudo yum install python-virtualenv</span><br><span class="line"></span><br><span class="line"> 2) 创建虚拟环境</span><br><span class="line">$ sudo virtualenv /usr/<span class="built_in">local</span>/python-certbot</span><br><span class="line"></span><br><span class="line"> 3) 激活虚拟环境</span><br><span class="line">$ <span class="built_in">source</span> /usr/<span class="built_in">local</span>/python-certbot/bin/activate</span><br><span class="line"></span><br><span class="line"> 4) 首先更新pip</span><br><span class="line">$ pip install --upgrade pip</span><br><span class="line"></span><br><span class="line"> 5) 安装Certbot</span><br><span class="line">$ pip install certbot</span><br><span class="line"></span><br><span class="line"> 6) 安装Certbot Apache插件</span><br><span class="line">$ pip install certbot-apache</span><br><span class="line"></span><br><span class="line">或者安装Certbot Nginx插件：</span><br><span class="line">$ pip install certbot-nginx</span><br><span class="line"></span><br><span class="line"> 7) 在安装Certbot Apache插件时，如提示如下错误：</span><br><span class="line">OSError: ctypes.util.find_library() did not manage to locate a library called <span class="string">'augeas'</span></span><br><span class="line"></span><br><span class="line">那是因为缺少augeas库文件，安装augeas库文件：</span><br><span class="line">$ sudo yum install augeas-libs</span><br><span class="line"></span><br><span class="line">然后就能成功安装Certbot Apache插件。</span><br><span class="line"></span><br><span class="line"> 8) 获取Lets Encrypt证书，同时配置Apache服务器</span><br><span class="line">$ sudo certbot --apache</span><br><span class="line"></span><br><span class="line">或者，同时配置Nginx服务器</span><br><span class="line">$ sudo certbot --nginx</span><br></pre></td></tr></table></figure>
-<h2 id="在阿里云CentOS7上部署Certbot遇到的坑以及解决方法"><a href="#在阿里云CentOS7上部署Certbot遇到的坑以及解决方法" class="headerlink" title="在阿里云CentOS7上部署Certbot遇到的坑以及解决方法"></a>在阿里云CentOS7上部署Certbot遇到的坑以及解决方法</h2><p><strong>报错1</strong>：ImportError: No module named ‘requests.packages.urllib3’ (感觉是阿里云的centos7镜像本身python包的问题，因为直接import requests都会报错)</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">1) 安装虚拟环境软件包(针对于Python2.7)</span><br><span class="line">$ sudo yum install python-virtualenv</span><br><span class="line"></span><br><span class="line">2) 创建虚拟环境</span><br><span class="line">$ sudo virtualenv /usr/<span class="built_in">local</span>/python-certbot</span><br><span class="line"></span><br><span class="line">3) 激活虚拟环境</span><br><span class="line">$ <span class="built_in">source</span> /usr/<span class="built_in">local</span>/python-certbot/bin/activate</span><br><span class="line"></span><br><span class="line">4) 首先更新pip</span><br><span class="line">$ pip install --upgrade pip</span><br><span class="line"></span><br><span class="line">5) 安装Certbot</span><br><span class="line">$ pip install certbot</span><br><span class="line"></span><br><span class="line">6) 安装Certbot Apache插件</span><br><span class="line">$ pip install certbot-apache</span><br><span class="line"></span><br><span class="line">或者安装Certbot Nginx插件：</span><br><span class="line">$ pip install certbot-nginx</span><br><span class="line"></span><br><span class="line">7) 在安装Certbot Apache插件时，如提示如下错误：</span><br><span class="line">OSError: ctypes.util.find_library() did not manage to locate a library called <span class="string">'augeas'</span></span><br><span class="line"></span><br><span class="line">那是因为缺少augeas库文件，安装augeas库文件：</span><br><span class="line">$ sudo yum install augeas-libs</span><br><span class="line"></span><br><span class="line">然后就能成功安装Certbot Apache插件。</span><br><span class="line"></span><br><span class="line">8) 获取Lets Encrypt证书，同时配置Apache服务器</span><br><span class="line">$ sudo certbot --apache</span><br><span class="line"></span><br><span class="line">或者，同时配置Nginx服务器</span><br><span class="line">$ sudo certbot --nginx</span><br></pre></td></tr></table></figure>
+<h2 id="在阿里云CentOS7上部署Certbot遇到的坑以及解决方法"><a href="#在阿里云CentOS7上部署Certbot遇到的坑以及解决方法" class="headerlink" title="在阿里云CentOS7上部署Certbot遇到的坑以及解决方法"></a>在阿里云CentOS7上部署Certbot遇到的坑以及解决方法</h2><p><strong>报错1：</strong>ImportError: No module named ‘requests.packages.urllib3’ (感觉是阿里云的centos7镜像本身python包的问题，因为直接import requests都会报错)</p>
 <p>解决方法：更改/usr/lib/python2.7/site-packages/requests/exceptions.py模块导入部分</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#把/usr/lib/python2.7/site-packages/requests/exceptions.py 传入包的部分</span></span><br><span class="line">from .packages.urllib3.exceptions import HTTPError as BaseHTTPError</span><br><span class="line"><span class="comment">#改为</span></span><br><span class="line">from urllib3.exceptions import HTTPError as BaseHTTPError</span><br></pre></td></tr></table></figure>
-<p><strong>报错2</strong>：ImportError: cannot import name UnrewindableBodyError</p>
+<p><strong>报错2：</strong>ImportError: cannot import name UnrewindableBodyError</p>
 <p>解决方法： 重新安装对应版本的urllib3</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#报错</span></span><br><span class="line">pkg_resources.DistributionNotFound: The <span class="string">'urllib3&lt;1.22,&gt;=1.21.1'</span> distribution was not found and is required by requests</span><br><span class="line"></span><br><span class="line"><span class="comment">#解决方法：</span></span><br><span class="line">$ pip install urllib3==1.21.1</span><br></pre></td></tr></table></figure>
-<p><strong>报错3</strong>：pkg_resources.ContextualVersionConflict: (idna 2.6 (/usr/lib/python2.7/site-packages), Requirement.parse(‘idna<2.6,>=2.5’), set([‘requests’]))</2.6,></p>
+<p><strong>报错3：</strong>pkg_resources.ContextualVersionConflict: (idna 2.6 (/usr/lib/python2.7/site-packages), Requirement.parse(‘idna<2.6,>=2.5’), set([‘requests’]))</2.6,></p>
 <p>解决方法：先检查pip freeze|grep pyOpenSSL版本(需要2.5~2.6之间)，理论上都要根据报错的版本进行安装，不符合则安装</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ pip install idna==2.5</span><br></pre></td></tr></table></figure>
-<p><strong>报错4</strong>：ImportError: ‘pyOpenSSL’ module missing required functionality. Try upgrading to v0.14 or newer.</p>
+<p><strong>报错4：</strong>ImportError: ‘pyOpenSSL’ module missing required functionality. Try upgrading to v0.14 or newer.</p>
 <p>解决方法：这个是yum下的openssl版本过低</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ wget ftp://mirror.switch.ch/pool/4/mirror/centos/7.4.1708/cloud/x86_64/openstack-ocata/common/pyOpenSSL-0.15.1-1.el7.noarch.rpm</span><br><span class="line">$ rpm -Uvh pyOpenSSL-0.15.1-1.el7.noarch.rpm</span><br><span class="line"><span class="comment">#rpm -qa|grep pyOpenSSL</span></span><br><span class="line"><span class="comment">#pyOpenSSL-0.15.1-1.el7.noarch</span></span><br></pre></td></tr></table></figure>
-<p><strong>报错5</strong>：AttributeError: ‘module’ object has no attribute ‘SSL_ST_INIT’</p>
+<p><strong>报错5：</strong>AttributeError: ‘module’ object has no attribute ‘SSL_ST_INIT’</p>
 <p>解决方法：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ pip install pyOpenSSL==16.2.0</span><br></pre></td></tr></table></figure>
 <h2 id="迁移https证书过程备注："><a href="#迁移https证书过程备注：" class="headerlink" title="迁移https证书过程备注："></a>迁移https证书过程备注：</h2><ul>
-<li><p>复制<code>/etc/letsencrypt/archive</code>对应两个域名的文件夹到新机器上</p>
+<li><p>复制/etc/letsencrypt/archive对应两个域名的文件夹到新机器上</p>
 </li>
-<li><p>复制<code>/etc/letsencrypt/live</code>对应两个域名的文件夹到新机器上</p>
+<li><p>复制/etc/letsencrypt/live对应两个域名的文件夹到新机器上</p>
 </li>
-<li><p>在新机器上的<code>/etc/letsencrypt/renewal/</code>目录下拷贝测试conf作为旧域名的新配置文件，[renewalparams]以下的参数不变，修改其余路径相关对应域名即可</p>
+<li><p>在新机器上的/etc/letsencrypt/renewal/目录下拷贝测试conf作为旧域名的新配置文件，[renewalparams]以下的参数不变，修改其余路径相关对应域名即可</p>
 </li>
-<li><p>添加<code>nginx/conf.d/</code>对应下的配置文件，注意配置<code>ssl_certificate</code>和<code>ssl_certificate_key</code></p>
+<li><p>添加nginx/conf.d/对应下的配置文件，注意配置ssl_certificate和ssl_certificate_key</p>
 </li>
 </ul>
 <h2 id="nginx配置"><a href="#nginx配置" class="headerlink" title="nginx配置"></a>nginx配置</h2><p>以下是Certbot自动生成的nginx配置文件，把http访问的域名都会转到https</p>
@@ -527,7 +527,7 @@
         <div class="toc-catalog">
             <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
         </div>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Using-Nginx-in-CentOS-RHEL-7"><span class="toc-number">1.</span> <span class="toc-text">Using Nginx in CentOS/RHEL 7</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#安装"><span class="toc-number">1.1.</span> <span class="toc-text">安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用"><span class="toc-number">1.2.</span> <span class="toc-text">使用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#更新证书"><span class="toc-number">1.3.</span> <span class="toc-text">更新证书</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#其他安装方法"><span class="toc-number">2.</span> <span class="toc-text">其他安装方法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#使用certbot-auto脚本安装Certbot"><span class="toc-number">2.1.</span> <span class="toc-text">使用certbot-auto脚本安装Certbot</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用pip安装Certbot"><span class="toc-number">2.2.</span> <span class="toc-text">使用pip安装Certbot</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#在阿里云CentOS7上部署Certbot遇到的坑以及解决方法"><span class="toc-number">3.</span> <span class="toc-text">在阿里云CentOS7上部署Certbot遇到的坑以及解决方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#迁移https证书过程备注："><span class="toc-number">4.</span> <span class="toc-text">迁移https证书过程备注：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#nginx配置"><span class="toc-number">5.</span> <span class="toc-text">nginx配置</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Using-CentOS-7-RHEL-7"><span class="toc-number">1.</span> <span class="toc-text">Using CentOS 7/RHEL 7</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#安装"><span class="toc-number">1.1.</span> <span class="toc-text">安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用"><span class="toc-number">1.2.</span> <span class="toc-text">使用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#更新证书"><span class="toc-number">1.3.</span> <span class="toc-text">更新证书</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#其他安装方法"><span class="toc-number">2.</span> <span class="toc-text">其他安装方法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#使用certbot-auto脚本安装Certbot"><span class="toc-number">2.1.</span> <span class="toc-text">使用certbot-auto脚本安装Certbot</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用pip安装Certbot"><span class="toc-number">2.2.</span> <span class="toc-text">使用pip安装Certbot</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#在阿里云CentOS7上部署Certbot遇到的坑以及解决方法"><span class="toc-number">3.</span> <span class="toc-text">在阿里云CentOS7上部署Certbot遇到的坑以及解决方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#迁移https证书过程备注："><span class="toc-number">4.</span> <span class="toc-text">迁移https证书过程备注：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#nginx配置"><span class="toc-number">5.</span> <span class="toc-text">nginx配置</span></a></li></ol>
     </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>
@@ -659,7 +659,22 @@
     
     
     
-    <div class="total-archive"> Total : 11 </div>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="total-archive"> Total : 12 </div>
     
     <div class="post-archive">
     
@@ -668,6 +683,11 @@
     
     <div class="archive-year"> 2018 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/01</span><a class="archive-post-title" href= "/2018/03/01/gitlab-update/" >Gitlab踩坑升级过程</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -731,7 +751,13 @@
     
         <span class="sidebar-tag-name" data-tags="Certbot"><span class="iconfont-archer">&#xe606;</span>Certbot</span>
     
-        <span class="sidebar-tag-name" data-tags="Https"><span class="iconfont-archer">&#xe606;</span>Https</span>
+        <span class="sidebar-tag-name" data-tags="https"><span class="iconfont-archer">&#xe606;</span>https</span>
+    
+        <span class="sidebar-tag-name" data-tags="Gitlab"><span class="iconfont-archer">&#xe606;</span>Gitlab</span>
+    
+        <span class="sidebar-tag-name" data-tags="Update"><span class="iconfont-archer">&#xe606;</span>Update</span>
+    
+        <span class="sidebar-tag-name" data-tags="Migration"><span class="iconfont-archer">&#xe606;</span>Migration</span>
     
         <span class="sidebar-tag-name" data-tags="haproxy"><span class="iconfont-archer">&#xe606;</span>haproxy</span>
     
@@ -741,25 +767,19 @@
     
         <span class="sidebar-tag-name" data-tags="blog"><span class="iconfont-archer">&#xe606;</span>blog</span>
     
+        <span class="sidebar-tag-name" data-tags="centos"><span class="iconfont-archer">&#xe606;</span>centos</span>
+    
+        <span class="sidebar-tag-name" data-tags="lvm"><span class="iconfont-archer">&#xe606;</span>lvm</span>
+    
         <span class="sidebar-tag-name" data-tags="NoSql"><span class="iconfont-archer">&#xe606;</span>NoSql</span>
     
         <span class="sidebar-tag-name" data-tags="MongoDB"><span class="iconfont-archer">&#xe606;</span>MongoDB</span>
     
         <span class="sidebar-tag-name" data-tags="ReplSet"><span class="iconfont-archer">&#xe606;</span>ReplSet</span>
     
-        <span class="sidebar-tag-name" data-tags="centos"><span class="iconfont-archer">&#xe606;</span>centos</span>
-    
-        <span class="sidebar-tag-name" data-tags="lvm"><span class="iconfont-archer">&#xe606;</span>lvm</span>
-    
         <span class="sidebar-tag-name" data-tags="Sharding"><span class="iconfont-archer">&#xe606;</span>Sharding</span>
     
         <span class="sidebar-tag-name" data-tags="replSet"><span class="iconfont-archer">&#xe606;</span>replSet</span>
-    
-        <span class="sidebar-tag-name" data-tags="Zabbix"><span class="iconfont-archer">&#xe606;</span>Zabbix</span>
-    
-        <span class="sidebar-tag-name" data-tags="Source"><span class="iconfont-archer">&#xe606;</span>Source</span>
-    
-        <span class="sidebar-tag-name" data-tags="Installation"><span class="iconfont-archer">&#xe606;</span>Installation</span>
     
         <span class="sidebar-tag-name" data-tags="nginx"><span class="iconfont-archer">&#xe606;</span>nginx</span>
     
@@ -770,6 +790,12 @@
         <span class="sidebar-tag-name" data-tags="$$"><span class="iconfont-archer">&#xe606;</span>$$</span>
     
         <span class="sidebar-tag-name" data-tags="GFW"><span class="iconfont-archer">&#xe606;</span>GFW</span>
+    
+        <span class="sidebar-tag-name" data-tags="Zabbix"><span class="iconfont-archer">&#xe606;</span>Zabbix</span>
+    
+        <span class="sidebar-tag-name" data-tags="Source"><span class="iconfont-archer">&#xe606;</span>Source</span>
+    
+        <span class="sidebar-tag-name" data-tags="Installation"><span class="iconfont-archer">&#xe606;</span>Installation</span>
     
         <span class="sidebar-tag-name" data-tags="Yum"><span class="iconfont-archer">&#xe606;</span>Yum</span>
     
@@ -806,25 +832,27 @@ jsonContent:
         <div class="sidebar-panel-categories">
     <div class="sidebar-categories-name">
     
-        <span class="sidebar-category-name" data-categories="Certbot使用"><span class="iconfont-archer">&#xe60a;</span>Certbot使用</span>
+        <span class="sidebar-category-name" data-categories="Certbot安装-部分问题解决方案"><span class="iconfont-archer">&#xe60a;</span>Certbot安装-部分问题解决方案</span>
+    
+        <span class="sidebar-category-name" data-categories="Gitlab升级"><span class="iconfont-archer">&#xe60a;</span>Gitlab升级</span>
     
         <span class="sidebar-category-name" data-categories="HAProxy使用"><span class="iconfont-archer">&#xe60a;</span>HAProxy使用</span>
     
         <span class="sidebar-category-name" data-categories="Hexo-Github搭建博客"><span class="iconfont-archer">&#xe60a;</span>Hexo-Github搭建博客</span>
     
-        <span class="sidebar-category-name" data-categories="MongoDB复制集部署"><span class="iconfont-archer">&#xe60a;</span>MongoDB复制集部署</span>
-    
         <span class="sidebar-category-name" data-categories="LVM使用"><span class="iconfont-archer">&#xe60a;</span>LVM使用</span>
     
-        <span class="sidebar-category-name" data-categories="MongoDB分片集群部署"><span class="iconfont-archer">&#xe60a;</span>MongoDB分片集群部署</span>
+        <span class="sidebar-category-name" data-categories="MongoDB复制集部署"><span class="iconfont-archer">&#xe60a;</span>MongoDB复制集部署</span>
     
-        <span class="sidebar-category-name" data-categories="Zabbix-编译安装"><span class="iconfont-archer">&#xe60a;</span>Zabbix-编译安装</span>
+        <span class="sidebar-category-name" data-categories="MongoDB分片集群部署"><span class="iconfont-archer">&#xe60a;</span>MongoDB分片集群部署</span>
     
         <span class="sidebar-category-name" data-categories="MongoDB单实例部署"><span class="iconfont-archer">&#xe60a;</span>MongoDB单实例部署</span>
     
         <span class="sidebar-category-name" data-categories="Nginx正反向代理-负载均衡"><span class="iconfont-archer">&#xe60a;</span>Nginx正反向代理-负载均衡</span>
     
         <span class="sidebar-category-name" data-categories="4-0-8"><span class="iconfont-archer">&#xe60a;</span>4-0-8</span>
+    
+        <span class="sidebar-category-name" data-categories="Zabbix-编译安装"><span class="iconfont-archer">&#xe60a;</span>Zabbix-编译安装</span>
     
         <span class="sidebar-category-name" data-categories="Zabbix-YUM安装"><span class="iconfont-archer">&#xe60a;</span>Zabbix-YUM安装</span>
     
