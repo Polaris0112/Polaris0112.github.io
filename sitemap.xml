@@ -2,6 +2,20 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://yoursite.com/2018/02/25/zabbix-yum-installation/</loc>
+    
+    <lastmod>2018-03-05T08:08:56.921Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2018/02/25/zabbix-source-installation/</loc>
+    
+    <lastmod>2018-03-05T06:44:06.341Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://yoursite.com/2018/02/22/certbot/</loc>
     
     <lastmod>2018-03-02T10:21:25.747Z</lastmod>
@@ -12,20 +26,6 @@
     <loc>http://yoursite.com/2018/03/01/gitlab-update/</loc>
     
     <lastmod>2018-03-02T10:10:28.347Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/2018/02/25/zabbix-source-installation/</loc>
-    
-    <lastmod>2018-02-28T08:27:49.467Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/2018/02/25/zabbix-yum-installation/</loc>
-    
-    <lastmod>2018-02-28T06:43:39.786Z</lastmod>
     
   </url>
   
