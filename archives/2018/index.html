@@ -327,6 +327,38 @@ Gitlab部署
     
     
         <article class="index-post">
+            <a class="abstract-title" href = "/2018/02/27/nfs-installation/" >
+                
+                    <span>NFS安装部署</span>
+            </a>
+            <div class="abstract-content">
+                本帖子记录的是在CentOS7系统中安装NFS网络文件存储系统
+环境准备
+CentOS7
+
+1.关闭系统防火墙和selinux1234567891011121314151617181920212223242526272829303132$ systemctl status firewalldfirewalld.service - firewalld - dynamic firewall daemon   Loaded: loaded (/usr/lib/systemd/system/firewalld.service; disabled; vendor preset: enabled) ...
+            </div>
+            <div class="abstract-post-meta">
+                <!-- date  -->
+                <div class="abstract-date">
+                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/02/27</span>
+                </div>
+                <!-- tags  -->
+                
+                <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = NFS>NFS</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = CentOS>CentOS</a>
+    
+</div>
+                
+            </div>
+        </article>
+    
+    
+    
+        <article class="index-post">
             <a class="abstract-title" href = "/2018/02/26/zabbix-optimization/" >
                 
                     <span>Zabbix性能优化</span>
@@ -461,39 +493,6 @@ Zabbix支持主动轮询和被动捕获。Zabbix所有的报告、统计信息�
     
     
         <article class="index-post">
-            <a class="abstract-title" href = "/2018/02/24/mongodb-replset/" >
-                
-                    <span>MongoDB复制集部署</span>
-            </a>
-            <div class="abstract-content">
-                本帖子记录的是MongoDB复制集部署全过程,有关MongoDB简介、安装以及配置文件参数说明,请看回上一个帖子MongoDB单实例部署
-以下就直接介绍复制集以及部署过程
-MongoDB复制集简介   Mongodb复制集由一组Mongod实例（进程）组成，包含一个Primary节点和多个Secondary节点，Mongodb Driver（客户端）的所有数据都写入Primary，Secondary从Primary同步写入的数据，以保持复制集内所有成员存储相同的数据集，提供数据的高可用。更多关于副本集的介绍请见官网。
-   下图（图片源于Mongodb官方文档）是一个典型的Mongdb复...
-            </div>
-            <div class="abstract-post-meta">
-                <!-- date  -->
-                <div class="abstract-date">
-                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/02/24</span>
-                </div>
-                <!-- tags  -->
-                
-                <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = NoSql>NoSql</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = MongoDB>MongoDB</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = ReplSet>ReplSet</a>
-    
-</div>
-                
-            </div>
-        </article>
-    
-    
-    
-        <article class="index-post">
             <a class="abstract-title" href = "/2018/02/24/mongodb-shard/" >
                 
                     <span>MongoDB Sharding集群部署</span>
@@ -579,6 +578,39 @@ yum安装方式123456789101112131415## 以3.4.x为例## 创建yum源文件$ vim 
     
     
         <article class="index-post">
+            <a class="abstract-title" href = "/2018/02/24/mongodb-replset/" >
+                
+                    <span>MongoDB复制集部署</span>
+            </a>
+            <div class="abstract-content">
+                本帖子记录的是MongoDB复制集部署全过程,有关MongoDB简介、安装以及配置文件参数说明,请看回上一个帖子MongoDB单实例部署
+以下就直接介绍复制集以及部署过程
+MongoDB复制集简介   Mongodb复制集由一组Mongod实例（进程）组成，包含一个Primary节点和多个Secondary节点，Mongodb Driver（客户端）的所有数据都写入Primary，Secondary从Primary同步写入的数据，以保持复制集内所有成员存储相同的数据集，提供数据的高可用。更多关于副本集的介绍请见官网。
+   下图（图片源于Mongodb官方文档）是一个典型的Mongdb复...
+            </div>
+            <div class="abstract-post-meta">
+                <!-- date  -->
+                <div class="abstract-date">
+                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/02/24</span>
+                </div>
+                <!-- tags  -->
+                
+                <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = NoSql>NoSql</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = MongoDB>MongoDB</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = ReplSet>ReplSet</a>
+    
+</div>
+                
+            </div>
+        </article>
+    
+    
+    
+        <article class="index-post">
             <a class="abstract-title" href = "/2018/02/23/haproxy/" >
                 
                     <span>HAProxy日常使用说明</span>
@@ -600,36 +632,6 @@ HAProxy实现了一种事件驱动, 单一进程模型，此模型支持非常�
                 <div class= abstract-tags >
     
         <a class="post-tag" href="javascript:void(0);" data-tags = haproxy>haproxy</a>
-    
-</div>
-                
-            </div>
-        </article>
-    
-    
-    
-        <article class="index-post">
-            <a class="abstract-title" href = "/2018/02/22/certbot/" >
-                
-                    <span>Certbot安装/部分问题解决方案</span>
-            </a>
-            <div class="abstract-content">
-                本帖子记录的是Nginx + Certbot的安装过程以及在阿里云CentOS7上部署Certbot遇到的问题以及解决方法
-Using CentOS 7/RHEL 7安装Certbot安装包已经包含在EPEL(Extra Packages for Enterprise Linux)源中，所以如果安装Certbot需要先安装EPEL源。
-12345## 在CentOS/RHEL 7中使用$ yum -y install yum-utils$ yum-config-manager --enable rhui-REGION-rhel-server-extras rhui-REGION-rhel...
-            </div>
-            <div class="abstract-post-meta">
-                <!-- date  -->
-                <div class="abstract-date">
-                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/02/22</span>
-                </div>
-                <!-- tags  -->
-                
-                <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = Certbot>Certbot</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = https>https</a>
     
 </div>
                 
@@ -912,7 +914,24 @@ Using CentOS 7/RHEL 7安装Certbot安装包已经包含在EPEL(Extra Packages fo
     
     
     
-    <div class="total-archive"> Total : 14 </div>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="total-archive"> Total : 15 </div>
     
     <div class="post-archive">
     
@@ -925,6 +944,11 @@ Using CentOS 7/RHEL 7安装Certbot安装包已经包含在EPEL(Extra Packages fo
     
         <li class="archive-post-item">
             <span class="archive-post-date">03/01</span><a class="archive-post-title" href= "/2018/03/01/gitlab-update/" >Gitlab踩坑升级过程</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/27</span><a class="archive-post-title" href= "/2018/02/27/nfs-installation/" >NFS安装部署</a>
         </li>
     
     
@@ -1035,6 +1059,10 @@ Using CentOS 7/RHEL 7安装Certbot安装包已经包含在EPEL(Extra Packages fo
     
         <span class="sidebar-tag-name" data-tags="InnoDB"><span class="iconfont-archer">&#xe606;</span>InnoDB</span>
     
+        <span class="sidebar-tag-name" data-tags="NFS"><span class="iconfont-archer">&#xe606;</span>NFS</span>
+    
+        <span class="sidebar-tag-name" data-tags="CentOS"><span class="iconfont-archer">&#xe606;</span>CentOS</span>
+    
         <span class="sidebar-tag-name" data-tags="nginx"><span class="iconfont-archer">&#xe606;</span>nginx</span>
     
         <span class="sidebar-tag-name" data-tags="proxy"><span class="iconfont-archer">&#xe606;</span>proxy</span>
@@ -1105,6 +1133,8 @@ jsonContent:
         <span class="sidebar-category-name" data-categories="MongoDB单实例部署"><span class="iconfont-archer">&#xe60a;</span>MongoDB单实例部署</span>
     
         <span class="sidebar-category-name" data-categories="MySQL存储引擎中的MyISAM和InnoDB区别详解"><span class="iconfont-archer">&#xe60a;</span>MySQL存储引擎中的MyISAM和InnoDB区别详解</span>
+    
+        <span class="sidebar-category-name" data-categories="NFS安装部署"><span class="iconfont-archer">&#xe60a;</span>NFS安装部署</span>
     
         <span class="sidebar-category-name" data-categories="Nginx正反向代理-负载均衡"><span class="iconfont-archer">&#xe60a;</span>Nginx正反向代理-负载均衡</span>
     

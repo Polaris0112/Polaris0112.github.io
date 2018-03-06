@@ -9,7 +9,7 @@
 <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" >
-    <title>这是自我介绍的题目 · Jayden&#39;s Blog</title>
+    <title>NFS安装部署 · Jayden&#39;s Blog</title>
     <style type="text/css">
     @font-face {
         font-family: 'Oswald-Regular';
@@ -251,7 +251,7 @@
 </head>
 
     
-        <body class="about-body">
+        <body class="post-body">
     
     
 <header class="header">
@@ -259,6 +259,15 @@
     <div class="read-progress"></div>
     <div class="header-sidebar-menu">&#xe775;</div>
     <!-- post页的toggle banner  -->
+    
+    <div class="banner">
+            <div class="blog-title">
+                <a href="/" >Jayden&#39;s Website.</a>
+            </div>
+            <div class="post-title">
+                <a href="#" class="post-name">NFS安装部署</a>
+            </div>
+    </div>
     
     <a class="home-link" href=/>Jayden's Website.</a>
 </header>
@@ -268,35 +277,117 @@
     <!-- 主页  -->
     
     
+    <!-- 404页  -->
             
-    <div class="site-intro-img" style="background-image: url(/intro/about-bg.jpg)"></div>
+    <div class="site-intro-img" style="background-image: url(/intro/post-bg.jpg)"></div>
     <div class="site-intro-placeholder"></div>
     <div class="site-intro-meta">
         <!-- 标题  -->
         <h1 class="intro-title">
             <!-- 主页  -->
             
-            这是自我介绍的题目
+            NFS安装部署
+            <!-- 404 -->
             
         </h1>
         <!-- 副标题 -->
         <p class="intro-subtitle">
             <!-- 主页副标题  -->
             
+            
+            <!-- 404 -->
+            
         </p>
         <!-- 文章页meta -->
+        
+            <!-- 文章页标签  -->
+            
+                <div class= post-intro-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = NFS>NFS</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = CentOS>CentOS</a>
+    
+</div>
+            
+            <div class="post-intro-meta">
+                <span class="post-intro-calander iconfont-archer">&#xe676;</span>
+                <span class="post-intro-time">2018/02/27</span>
+                
+                <span id="busuanzi_container_page_pv" class="busuanzi-pv">
+                    <span class="iconfont-archer">&#xe602;</span>
+                    <span id="busuanzi_value_page_pv"></span>
+                </span>
+                
+                <span class="shareWrapper">
+                    <span class="iconfont-archer shareIcon">&#xe71d;</span>
+                    <span class="shareText">Share</span>
+                    <ul class="shareList">
+                        <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
+                            <div class="share-qrcode"></div>
+                        </li>
+                        <li class="iconfont-archer" data-type="weibo">&#xe619;</li>
+                        <li class="iconfont-archer" data-type="qzone">&#xe62e;</li>
+                        <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
+                        <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
+                    </ul>
+                </span>
+            </div>
         
     </div>
 </div>
         <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
 
         <div class="container container-unloaded">
-            <!-- 不可以删除，否则会调用post的layout  -->
-<main class="main about-page">
+            <main class="main post-page">
     <article class="article-entry">
-        <p>这是一段自我介绍</p>
+        <p>本帖子记录的是在CentOS7系统中安装NFS网络文件存储系统</p>
+<h2 id="环境准备"><a href="#环境准备" class="headerlink" title="环境准备"></a>环境准备</h2><ul>
+<li>CentOS7</li>
+</ul>
+<h3 id="1-关闭系统防火墙和selinux"><a href="#1-关闭系统防火墙和selinux" class="headerlink" title="1.关闭系统防火墙和selinux"></a>1.关闭系统防火墙和selinux</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">$ systemctl status firewalld</span><br><span class="line">firewalld.service - firewalld - dynamic firewall daemon</span><br><span class="line">   Loaded: loaded (/usr/lib/systemd/system/firewalld.service; disabled; vendor preset: enabled)</span><br><span class="line">   Active: active (running) since Sat 2017-06-03 09:38:00 CST; 8s ago</span><br><span class="line">     Docs: man:firewalld(1)</span><br><span class="line"> Main PID: 24067 (firewalld)</span><br><span class="line">   CGroup: /system.slice/firewalld.service</span><br><span class="line">           └─24067 /usr/bin/python -Es /usr/sbin/firewalld --nofork --nopid</span><br><span class="line"></span><br><span class="line">Jun 03 09:37:58 linuxidc systemd[1]: Starting firewalld - dynamic firewall daemon...</span><br><span class="line">Jun 03 09:38:00 linuxidc systemd[1]: Started firewalld - dynamic firewall daemon.</span><br><span class="line"></span><br><span class="line"><span class="comment">## 关闭防火墙</span></span><br><span class="line">$ systemctl stop firewalld</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">## 把selinux设为许可模式</span></span><br><span class="line">$ setenforce 0</span><br><span class="line"></span><br><span class="line"><span class="comment">## 要想禁用selinux,则需要编辑selinux的配置文件,把SELINUX设置成disabled,然后重启生效</span></span><br><span class="line">$ vi /etc/sysconfig/selinux</span><br><span class="line"><span class="comment"># This file controls the state of SELinux on the system.</span></span><br><span class="line"><span class="comment"># SELINUX= can take one of these three values:</span></span><br><span class="line"><span class="comment">#     enforcing - SELinux security policy is enforced.</span></span><br><span class="line"><span class="comment">#     permissive - SELinux prints warnings instead of enforcing.</span></span><br><span class="line"><span class="comment">#     disabled - No SELinux policy is loaded.</span></span><br><span class="line">SELINUX=disabled</span><br><span class="line"><span class="comment"># SELINUXTYPE= can take one of three two values:</span></span><br><span class="line"><span class="comment">#     targeted - Targeted processes are protected,</span></span><br><span class="line"><span class="comment">#     minimum - Modification of targeted policy. Only selected processes are protected. </span></span><br><span class="line"><span class="comment">#     mls - Multi Level Security protection.</span></span><br><span class="line">SELINUXTYPE=targeted</span><br></pre></td></tr></table></figure>
+<h3 id="2-安装所需的软件包"><a href="#2-安装所需的软件包" class="headerlink" title="2.安装所需的软件包"></a>2.安装所需的软件包</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ yum install -y rpc-bind nfs-utils</span><br></pre></td></tr></table></figure>
+<h3 id="3-服务端配置"><a href="#3-服务端配置" class="headerlink" title="3.服务端配置"></a>3.服务端配置</h3><p>NFS服务的主要配置文件为 /etc/exports.<br>/etc/exports文件内容格式：<br>    &lt;输出目录&gt; 客户端（选项:访问权限,用户映射,其他]<br>        输出目录是指NFS系统中所定义的共享给客户端使用的文件系统<br>        客户端是定义网络中可以访问这个NFS共享目录的IP地址或网段或域名等<br>            客户端常用的指定方式<br>                指定ip地址的主机：192.168.100.1<br>                指定一个子网：192.168.100.0/24 也可以写成:192.168.100.0/255.255.255.0<br>                指定域名的主机：david.bsmart.cn<br>                指定域中的所有主机：<em>.bsmart.cn<br>                所有主机：</em><br>        选项用来设置输出目录的访问权限、用户映射等。<br>            NFS主要有3类选项：<br>                设置输出目录只读：ro<br>                设置输出目录读写：rw<br>            用户映射选项<br>                all_squash：将远程访问的所有普通用户及所属组都映射为匿名用户或用户组（nfsnobody）；<br>                no_all_squash：与all_squash取反（默认设置）；<br>                root_squash：将root用户及所属组都映射为匿名用户或用户组（默认设置）；<br>                no_root_squash：与rootsquash取反；<br>                anonuid=xxx：将远程访问的所有用户都映射为匿名用户，并指定该用户为本地用户（UID=xxx）；<br>                anongid=xxx：将远程访问的所有用户组都映射为匿名用户组账户，并指定该匿名用户组账户为本地用户组账户（GID=xxx）；<br>            其它选项<br>                secure：限制客户端只能从小于1024的tcp/ip端口连接nfs服务器（默认设置）；<br>                insecure：允许客户端从大于1024的tcp/ip端口连接服务器；<br>                sync：将数据同步写入内存缓冲区与磁盘中，效率低，但可以保证数据的一致性；<br>                async：将数据先保存在内存缓冲区中，必要时才写入磁盘；<br>                wdelay：检查是否有相关的写操作，如果有则将这些写操作一起执行，这样可以提高效率（默认设置）；<br>                no_wdelay：若有写操作则立即执行，应与sync配合使用；<br>                subtree：若输��目录是一个子目录，则nfs服务器将检查其父目录的权限(默认设置)；<br>                no_subtree：即使输出目录是一个子目录，nfs服务器也不检查其父目录的权限，这样可以提高效率；<br>修改/etc/exports文件,定义NFS共享</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## 先创建本地目录并把共享目录的权限设定为所有用户都可读可写权限</span></span><br><span class="line">$ mkdir -p /data</span><br><span class="line">$ chmod 766 /data</span><br><span class="line"></span><br><span class="line"><span class="comment">## 修改NFS配置文件,定义共享</span></span><br><span class="line">$ vi /etc/exports</span><br><span class="line">/data *(rw,sync)</span><br><span class="line"></span><br><span class="line"><span class="comment">## 把RPCbind加入开机处启动选项中</span></span><br><span class="line">$ systemctl <span class="built_in">enable</span> rpcbind </span><br><span class="line"></span><br><span class="line"><span class="comment">## 启动RPCbind</span></span><br><span class="line">$ systemctl start rpcbind</span><br><span class="line"></span><br><span class="line"><span class="comment">## 把NFS加入到开机自启动选项中</span></span><br><span class="line">$ systemctl <span class="built_in">enable</span> nfs</span><br><span class="line"></span><br><span class="line"><span class="comment">## 开启NFS服务</span></span><br><span class="line">$ systemctl start nfs</span><br><span class="line"></span><br><span class="line"><span class="comment">## 查看本机共享的文件系统</span></span><br><span class="line">$ exportfs</span><br></pre></td></tr></table></figure>
+<h2 id="客户端配置（以下操作均在客户端上）"><a href="#客户端配置（以下操作均在客户端上）" class="headerlink" title="客户端配置（以下操作均在客户端上）"></a>客户端配置（以下操作均在客户端上）</h2><h3 id="1-客户端关闭防火墙和selinux-方法同上"><a href="#1-客户端关闭防火墙和selinux-方法同上" class="headerlink" title="1.客户端关闭防火墙和selinux,方法同上."></a>1.客户端关闭防火墙和selinux,方法同上.</h3><h3 id="2-客户端安装NFS软件包-并把NFS服务设为开机自启动-方法同上"><a href="#2-客户端安装NFS软件包-并把NFS服务设为开机自启动-方法同上" class="headerlink" title="2.客户端安装NFS软件包,并把NFS服务设为开机自启动,方法同上."></a>2.客户端安装NFS软件包,并把NFS服务设为开机自启动,方法同上.</h3><h3 id="3-挂载共享的NFS文件系统"><a href="#3-挂载共享的NFS文件系统" class="headerlink" title="3.挂载共享的NFS文件系统"></a>3.挂载共享的NFS文件系统</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## 把服务端(192.168.0.100)的共享目录挂载到本机的/share上</span></span><br><span class="line">$ mkdir -p /upload</span><br><span class="line">$ mount 192.168.0.100:/data /share</span><br><span class="line"></span><br><span class="line"><span class="comment">## 查看是否已经挂载成功</span></span><br><span class="line">$ mount | grep media</span><br><span class="line">192.168.0.100:/data on /share <span class="built_in">type</span> nfs4 (rw,relatime,vers=4.0,rsize=131072,wsize=131072,namlen=255,hard,prot</span><br><span class="line"></span><br><span class="line"><span class="comment">## 把共享目录写入系统挂载文件系统</span></span><br><span class="line">$ vi /etc/fstab</span><br><span class="line">192.168.16.29:/data        /share      nfs4    defaults    0 0</span><br></pre></td></tr></table></figure>
+<h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><h3 id="1-在服务端共享目录中新建一个10M大小的文件"><a href="#1-在服务端共享目录中新建一个10M大小的文件" class="headerlink" title="1.在服务端共享目录中新建一个10M大小的文件"></a>1.在服务端共享目录中新建一个10M大小的文件</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## 在NFS共享目录上新建一个10M大小的文件,提示成功</span></span><br><span class="line">$ <span class="built_in">cd</span> /data</span><br><span class="line">$ dd <span class="keyword">if</span>=/dev/zero of=/data/f1 bs=1M count=10</span><br><span class="line">$ ll -h</span><br><span class="line">total 10M</span><br><span class="line">-rw-r--r--. 1 root root 10M Mar  6 10:14 f1</span><br></pre></td></tr></table></figure>
+<h3 id="2-在客户端新建另一个文件f2-同时尝试删除另一个文件f1"><a href="#2-在客户端新建另一个文件f2-同时尝试删除另一个文件f1" class="headerlink" title="2.在客户端新建另一个文件f2,同时尝试删除另一个文件f1"></a>2.在客户端新建另一个文件f2,同时尝试删除另一个文件f1</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">cd</span> /share</span><br><span class="line">$ ls</span><br><span class="line">f1</span><br><span class="line"></span><br><span class="line"><span class="comment">## 在共享目录上新建一个文件f2,未报错</span></span><br><span class="line">$ touch f2</span><br><span class="line"><span class="comment">## 删除存在的文件f1,未报错</span></span><br><span class="line">$ rm -f f1</span><br></pre></td></tr></table></figure>
+<h3 id="3-在服务端查看共享目录中的文件"><a href="#3-在服务端查看共享目录中的文件" class="headerlink" title="3.在服务端查看共享目录中的文件"></a>3.在服务端查看共享目录中的文件</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ ls</span><br><span class="line">f2</span><br></pre></td></tr></table></figure>
+<p>部署完毕。</p>
 
     </article>
+    <!-- 前后页  -->
+    <ul class="post-paginator">
+        <li class="next">
+            
+                <div class="nextSlogan">Next Post</div>
+                <a href= "/2018/03/01/gitlab-update/" title= Gitlab踩坑升级过程 >
+                    <div class="nextTitle">Gitlab踩坑升级过程</div>
+                </a>
+            
+        </li>
+        <li class="previous">
+            
+                <div class="prevSlogan">Previous Post</div>
+                <a href= "/2018/02/26/zabbix-optimization/" title= Zabbix性能优化 >
+                    <div class="prevTitle">Zabbix性能优化</div>
+                </a>
+            
+        </li>
+    </ul>
+    <!-- 评论插件 -->
+    <!-- 来必力City版安装代码 -->
+
+<!-- City版安装代码已完成 -->
+    
+    
+    <!--PC版-->
+
+    <!--PC版-->
+
+
+    
+    <!-- 评论 -->
 </main>
             <!-- profile -->
             
@@ -398,6 +489,13 @@
 </footer>
     </div>
     <!-- toc -->
+    
+    <div class="toc-wrapper">
+        <div class="toc-catalog">
+            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+        </div>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#环境准备"><span class="toc-number">1.</span> <span class="toc-text">环境准备</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-关闭系统防火墙和selinux"><span class="toc-number">1.1.</span> <span class="toc-text">1.关闭系统防火墙和selinux</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-安装所需的软件包"><span class="toc-number">1.2.</span> <span class="toc-text">2.安装所需的软件包</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-服务端配置"><span class="toc-number">1.3.</span> <span class="toc-text">3.服务端配置</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#客户端配置（以下操作均在客户端上）"><span class="toc-number">2.</span> <span class="toc-text">客户端配置（以下操作均在客户端上）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-客户端关闭防火墙和selinux-方法同上"><span class="toc-number">2.1.</span> <span class="toc-text">1.客户端关闭防火墙和selinux,方法同上.</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-客户端安装NFS软件包-并把NFS服务设为开机自启动-方法同上"><span class="toc-number">2.2.</span> <span class="toc-text">2.客户端安装NFS软件包,并把NFS服务设为开机自启动,方法同上.</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-挂载共享的NFS文件系统"><span class="toc-number">2.3.</span> <span class="toc-text">3.挂载共享的NFS文件系统</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#测试"><span class="toc-number">3.</span> <span class="toc-text">测试</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-在服务端共享目录中新建一个10M大小的文件"><span class="toc-number">3.1.</span> <span class="toc-text">1.在服务端共享目录中新建一个10M大小的文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-在客户端新建另一个文件f2-同时尝试删除另一个文件f1"><span class="toc-number">3.2.</span> <span class="toc-text">2.在客户端新建另一个文件f2,同时尝试删除另一个文件f1</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-在服务端查看共享目录中的文件"><span class="toc-number">3.3.</span> <span class="toc-text">3.在服务端查看共享目录中的文件</span></a></li></ol></li></ol>
+    </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>
     <div class="sidebar sidebar-hide">
@@ -819,6 +917,8 @@ jsonContent:
     
     </div>
     <!-- async load share.js -->
+    
+        <script src="/scripts/share.js" async></script>    
     
     </body>
 </html>
