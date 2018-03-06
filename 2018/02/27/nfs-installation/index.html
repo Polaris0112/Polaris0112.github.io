@@ -352,31 +352,39 @@
 <li>&lt;输出目录&gt; 客户端（选项:访问权限,用户映射,其他]<ul>
 <li>输出目录是指NFS系统中所定义的共享给客户端使用的文件系统</li>
 <li>客户端是定义网络中可以访问这个NFS共享目录的IP地址或网段或域名等</li>
-<li>客户端常用的指定方式</li>
+<li>客户端常用的指定方式<ul>
 <li>指定ip地址的主机：192.168.100.1</li>
 <li>指定一个子网：192.168.100.0/24 也可以写成:192.168.100.0/255.255.255.0</li>
 <li>指定域名的主机：david.bsmart.cn</li>
 <li>指定域中的所有主机：*.bsmart.cn</li>
 <li>所有主机：*</li>
+</ul>
+</li>
+</ul>
+</li>
 <li>选项用来设置输出目录的访问权限、用户映射等。</li>
-<li>NFS主要有3类选项：</li>
+<li>NFS主要有3类选项：<ul>
 <li>设置输出目录只读：ro</li>
 <li>设置输出目录读写：rw</li>
-<li>用户映射选项</li>
+</ul>
+</li>
+<li>用户映射选项<ul>
 <li>all_squash：将远程访问的所有普通用户及所属组都映射为匿名用户或用户组（nfsnobody）；</li>
 <li>no_all_squash：与all_squash取反（默认设置）；</li>
 <li>root_squash：将root用户及所属组都映射为匿名用户或用户组（默认设置）；</li>
 <li>no_root_squash：与rootsquash取反；</li>
 <li>anonuid=xxx：将远程访问的所有用户都映射为匿名用户，并指定该用户为本地用户（UID=xxx）；</li>
 <li>anongid=xxx：将远程访问的所有用户组都映射为匿名用户组账户，并指定该匿名用户组账户为本地用户组账户（GID=xxx）；</li>
-<li>其它选项</li>
+</ul>
+</li>
+<li>其它选项<ul>
 <li>secure：限制客户端只能从小于1024的tcp/ip端口连接nfs服务器（默认设置）；</li>
 <li>insecure：允许客户端从大于1024的tcp/ip端口连接服务器；</li>
 <li>sync：将数据同步写入内存缓冲区与磁盘中，效率低，但可以保证数据的一致性；</li>
 <li>async：将数据先保存在内存缓冲区中，必要时才写入磁盘；</li>
 <li>wdelay：检查是否有相关的写操作，如果有则将这些写操作一起执行，这样可以提高效率（默认设置）；</li>
 <li>no_wdelay：若有写操作则立即执行，应与sync配合使用；</li>
-<li>subtree：若输��目录是一个子目录，则nfs服务器将检查其父目录的权限(默认设置)；</li>
+<li>subtree：若输出目录是一个子目录，则nfs服务器将检查其父目录的权限(默认设置)；</li>
 <li>no_subtree：即使输出目录是一个子目录，nfs服务器也不检查其父目录的权限，这样可以提高效率；<br>-修改/etc/exports文件,定义NFS共享</li>
 </ul>
 </li>
@@ -762,12 +770,12 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">02/24</span><a class="archive-post-title" href= "/2018/02/24/mongodb-replset/" >MongoDB复制集部署</a>
+            <span class="archive-post-date">02/24</span><a class="archive-post-title" href= "/2018/02/24/mongodb-shard/" >MongoDB Sharding集群部署</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">02/24</span><a class="archive-post-title" href= "/2018/02/24/mongodb-shard/" >MongoDB Sharding集群部署</a>
+            <span class="archive-post-date">02/24</span><a class="archive-post-title" href= "/2018/02/24/mongodb-replset/" >MongoDB复制集部署</a>
         </li>
     
     
@@ -831,11 +839,11 @@
     
         <span class="sidebar-tag-name" data-tags="MongoDB"><span class="iconfont-archer">&#xe606;</span>MongoDB</span>
     
-        <span class="sidebar-tag-name" data-tags="ReplSet"><span class="iconfont-archer">&#xe606;</span>ReplSet</span>
-    
         <span class="sidebar-tag-name" data-tags="Sharding"><span class="iconfont-archer">&#xe606;</span>Sharding</span>
     
         <span class="sidebar-tag-name" data-tags="replSet"><span class="iconfont-archer">&#xe606;</span>replSet</span>
+    
+        <span class="sidebar-tag-name" data-tags="ReplSet"><span class="iconfont-archer">&#xe606;</span>ReplSet</span>
     
         <span class="sidebar-tag-name" data-tags="MySQL"><span class="iconfont-archer">&#xe606;</span>MySQL</span>
     
@@ -910,9 +918,9 @@ jsonContent:
     
         <span class="sidebar-category-name" data-categories="LVM使用"><span class="iconfont-archer">&#xe60a;</span>LVM使用</span>
     
-        <span class="sidebar-category-name" data-categories="MongoDB复制集部署"><span class="iconfont-archer">&#xe60a;</span>MongoDB复制集部署</span>
-    
         <span class="sidebar-category-name" data-categories="MongoDB分片集群部署"><span class="iconfont-archer">&#xe60a;</span>MongoDB分片集群部署</span>
+    
+        <span class="sidebar-category-name" data-categories="MongoDB复制集部署"><span class="iconfont-archer">&#xe60a;</span>MongoDB复制集部署</span>
     
         <span class="sidebar-category-name" data-categories="MongoDB单实例部署"><span class="iconfont-archer">&#xe60a;</span>MongoDB单实例部署</span>
     
