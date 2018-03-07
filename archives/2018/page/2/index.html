@@ -290,6 +290,253 @@
     
     
         <article class="index-post">
+            <a class="abstract-title" href = "/2018/02/26/zabbix-optimization/" >
+                
+                    <span>Zabbix性能优化</span>
+            </a>
+            <div class="abstract-content">
+                本帖子记录的是从多个方面优化Zabbix性能，使其能监控大量服务器。
+背景由于计划日益增加的服务器数量，所以需要监控系统的性能可以跟上处理数量庞大的服务器数据。因此需要对Zabbix服务端进行性能优化。
+主要优化有几方面：
+一、从软件设置层面来看，Zabbix的C-S模式收集数据主要分为被动模式和主动模式，当选择被动模式的时候，是服务端根据主机列表来逐个请求数据，这样的话当客户端数量越来越大，那么服务端接受对应数据的间隔也会越来越长从而导致数据延迟。另一个模式是主动模式，在这个模式下，服务端设置好监控项之后，客户端（配置文件中设置好开启主动模式）就会请求服务端的监控列表，然后客户端会对应...
+            </div>
+            <div class="abstract-post-meta">
+                <!-- date  -->
+                <div class="abstract-date">
+                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/02/26</span>
+                </div>
+                <!-- tags  -->
+                
+                <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = Zabbix>Zabbix</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = Optimization>Optimization</a>
+    
+</div>
+                
+            </div>
+        </article>
+    
+    
+    
+        <article class="index-post">
+            <a class="abstract-title" href = "/2018/02/25/zabbix-yum-installation/" >
+                
+                    <span>Zabbix YUM方式部署</span>
+            </a>
+            <div class="abstract-content">
+                本帖子记录的是使用YUM方式安装Zabbix3.4.x
+Zabbix简介Zabbix 是由Alexei Vladishev创建，目前由Zabbix SIA在持续开发和支持。
+Zabbix 是一个企业级的分布式开源监控方案。
+Zabbix是一款能够监控各种网络参数以及服务器健康性和完整性的软件。Zabbix使用灵活的通知机制，允许用户为几乎任何事件配置基于邮件的告警。这样可以快速反馈服务器的问题。基于已存储的数据，Zabbix提供了出色的报告和数据可视化功能。这些功能使得Zabbix成为容量规划的理想方案。
+Zabbix支持主动轮询和被动捕获。Zabbix所有的报告、统计信息和配置参数都可...
+            </div>
+            <div class="abstract-post-meta">
+                <!-- date  -->
+                <div class="abstract-date">
+                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/02/25</span>
+                </div>
+                <!-- tags  -->
+                
+                <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = Zabbix>Zabbix</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = Installation>Installation</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = Yum>Yum</a>
+    
+</div>
+                
+            </div>
+        </article>
+    
+    
+    
+        <article class="index-post">
+            <a class="abstract-title" href = "/2018/02/25/zabbix-source-installation/" >
+                
+                    <span>Zabbix 编译安装部署</span>
+            </a>
+            <div class="abstract-content">
+                本帖子记录的是使用源码编译方式安装Zabbix3.4.x
+Zabbix简介Zabbix 是由Alexei Vladishev创建，目前由Zabbix SIA在持续开发和支持。
+Zabbix 是一个企业级的分布式开源监控方案。
+Zabbix是一款能够监控各种网络参数以及服务器健康性和完整性的软件。Zabbix使用灵活的通知机制，允许用户为几乎任何事件配置基于邮件的告警。这样可以快速反馈服务器的问题。基于已存储的数据，Zabbix提供了出色的报告和数据可视化功能。这些功能使得Zabbix成为容量规划的理想方案。
+Zabbix支持主动轮询和被动捕获。Zabbix所有的报告、统计信息和配置参数都...
+            </div>
+            <div class="abstract-post-meta">
+                <!-- date  -->
+                <div class="abstract-date">
+                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/02/25</span>
+                </div>
+                <!-- tags  -->
+                
+                <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = Zabbix>Zabbix</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = Source>Source</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = Installation>Installation</a>
+    
+</div>
+                
+            </div>
+        </article>
+    
+    
+    
+        <article class="index-post">
+            <a class="abstract-title" href = "/2018/02/24/mongodb-shard/" >
+                
+                    <span>MongoDB Sharding集群部署</span>
+            </a>
+            <div class="abstract-content">
+                本帖子记录的是MongoDB分片+副本集集群部署
+MongoDB Sharding简介  分片（sharding）是MongoDB用来将大型集合分割到不同服务器（或者说一个集群）上所采用的方法。尽管分片起源于关系型数据库分区，但MongoDB分片完全又是另一回事。和MySQL分区方案相比，MongoDB的最大区别在于它几乎能自动完成所有事情，只要告诉MongoDB要分配数据，它就能自动维护数据在不同服务器之间的均衡。 
+分片的目的  高数据量和吞吐量的数据库应用会对单机的性能造成较大压力,大的查询量会将单机的CPU耗尽,大的数据量对单机的存储压力较大,最终会耗尽系统的内存而将压力转移到磁...
+            </div>
+            <div class="abstract-post-meta">
+                <!-- date  -->
+                <div class="abstract-date">
+                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/02/24</span>
+                </div>
+                <!-- tags  -->
+                
+                <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = NoSql>NoSql</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = MongoDB>MongoDB</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = Sharding>Sharding</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = replSet>replSet</a>
+    
+</div>
+                
+            </div>
+        </article>
+    
+    
+    
+        <article class="index-post">
+            <a class="abstract-title" href = "/2018/02/24/mongodb-replset/" >
+                
+                    <span>MongoDB复制集部署</span>
+            </a>
+            <div class="abstract-content">
+                本帖子记录的是MongoDB复制集部署全过程,有关MongoDB简介、安装以及配置文件参数说明,请看回上一个帖子MongoDB单实例部署
+以下就直接介绍复制集以及部署过程
+MongoDB复制集简介   Mongodb复制集由一组Mongod实例（进程）组成，包含一个Primary节点和多个Secondary节点，Mongodb Driver（客户端）的所有数据都写入Primary，Secondary从Primary同步写入的数据，以保持复制集内所有成员存储相同的数据集，提供数据的高可用。更多关于副本集的介绍请见官网。
+   下图（图片源于Mongodb官方文档）是一个典型的Mongdb复...
+            </div>
+            <div class="abstract-post-meta">
+                <!-- date  -->
+                <div class="abstract-date">
+                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/02/24</span>
+                </div>
+                <!-- tags  -->
+                
+                <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = NoSql>NoSql</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = MongoDB>MongoDB</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = ReplSet>ReplSet</a>
+    
+</div>
+                
+            </div>
+        </article>
+    
+    
+    
+        <article class="index-post">
+            <a class="abstract-title" href = "/2018/02/24/mongodb-single/" >
+                
+                    <span>MongoDB单实例部署</span>
+            </a>
+            <div class="abstract-content">
+                本帖子记录的是MongoDB单实例部署全过程
+MongoDB简介MongoDB是用C++语言编写的非关系型数据库。特点是高性能、易部署、易使用，存储数据十分方便，主要特性有： 
+
+面向集合存储，易于存储对象类型的数据 
+
+模式自由 
+
+支持动态查询 
+
+支持完全索引，包含内部对象 
+
+支持复制和故障恢复 
+
+使用高效的二进制数据存储，包括大型对象 
+
+文件存储格式为BSON(一种JSON的扩展)
+
+
+官网下载地址
+官方文档
+安装
+系统：CentOS 7/RHEL 7
+
+yum安装方式123456789101112131415## 以3.4.x为例## 创建yum源文件$ vim /etc...
+            </div>
+            <div class="abstract-post-meta">
+                <!-- date  -->
+                <div class="abstract-date">
+                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/02/24</span>
+                </div>
+                <!-- tags  -->
+                
+                <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = NoSql>NoSql</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = MongoDB>MongoDB</a>
+    
+</div>
+                
+            </div>
+        </article>
+    
+    
+    
+        <article class="index-post">
+            <a class="abstract-title" href = "/2018/02/23/haproxy/" >
+                
+                    <span>HAProxy日常使用说明</span>
+            </a>
+            <div class="abstract-content">
+                本帖子记录的是HAProxy安装和配置说明
+简介HAProxy提供高可用性、负载均衡以及基于TCP和HTTP应用的代理，支持虚拟主机，它是免费、快速并且可靠的一种解决方案。
+HAProxy特别适用于那些负载特大的web站点，这些站点通常又需要会话保持或七层处理。
+HAProxy运行在当前的硬件上，完全可以支持数以万计的并发连接。并且它的运行模式使得它可以很简单安全的整合进您当前的架构中， 同时可以保护你的web服务器不被暴露到网络上。
+HAProxy实现了一种事件驱动, 单一进程模型，此模型支持非常大的并发连接数。多进程或多线程模型受内存限制 、系统调度器限制以及无处不在的锁限制，很少能...
+            </div>
+            <div class="abstract-post-meta">
+                <!-- date  -->
+                <div class="abstract-date">
+                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/02/23</span>
+                </div>
+                <!-- tags  -->
+                
+                <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = haproxy>haproxy</a>
+    
+</div>
+                
+            </div>
+        </article>
+    
+    
+    
+        <article class="index-post">
             <a class="abstract-title" href = "/2018/02/22/certbot/" >
                 
                     <span>Certbot安装/部分问题解决方案</span>
@@ -385,77 +632,10 @@ LVM是逻辑盘卷管理（Logical Volume Manager）的简称，它是Linux环�
             </div>
         </article>
     
-    
-    
-        <article class="index-post">
-            <a class="abstract-title" href = "/2018/02/12/hexo/" >
-                
-                    <span>Hexo+Github搭建博客</span>
-            </a>
-            <div class="abstract-content">
-                本帖子记录的是使用Hexo配合Github，利用github提供的域名来搭建自己的私人博客
-安装Node.js下载用wget命令下载最新版(或指定版本)的Node.js
-1$ wget https://nodejs.org/dist/v9.3.0/node-v9.3.0-linux-x64.tar.xz
-最新版本请查看下载地址
-解压文件12$ xz -d node-v9.3.0-linux-x64.tar.xz  //解压为tar文件$ tar -xvf node-v9.3.0-linux-x64.tar
-或
-1$ tar -xvJf node-v9.3.0-linux-x64.tar....
-            </div>
-            <div class="abstract-post-meta">
-                <!-- date  -->
-                <div class="abstract-date">
-                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/02/12</span>
-                </div>
-                <!-- tags  -->
-                
-                <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = github>github</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = hexo>hexo</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = blog>blog</a>
-    
-</div>
-                
-            </div>
-        </article>
-    
-    
-    
-        <article class="index-post">
-            <a class="abstract-title" href = "/2018/01/20/shadowsocks/" >
-                
-                    <span>小灰机-4.0.8下载</span>
-            </a>
-            <div class="abstract-content">
-                本帖子记录的是小灰机-4.0.8下载地址
-地址https://pan.baidu.com/s/1i7pKp8L
-密码pwd7
-
-            </div>
-            <div class="abstract-post-meta">
-                <!-- date  -->
-                <div class="abstract-date">
-                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/01/20</span>
-                </div>
-                <!-- tags  -->
-                
-                <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = $$>$$</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = GFW>GFW</a>
-    
-</div>
-                
-            </div>
-        </article>
-    
     <!-- paginator  -->
     
     <nav class="page-nav">
-        <a class="extend prev" rel="prev" href="/archives/2018/">&#60; PREV</a><a class="page-number" href="/archives/2018/">1</a><span class="page-number current">2</span>
+        <a class="extend prev" rel="prev" href="/archives/2018/">&#60; PREV</a><a class="page-number" href="/archives/2018/">1</a><span class="page-number current">2</span><a class="page-number" href="/archives/2018/page/3/">3</a><a class="extend next" rel="next" href="/archives/2018/page/3/">NEXT &#62;</a>
     </nav>
     
 </main>
@@ -745,7 +925,114 @@ LVM是逻辑盘卷管理（Logical Volume Manager）的简称，它是Linux环�
     
     
     
-    <div class="total-archive"> Total : 15 </div>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="total-archive"> Total : 22 </div>
     
     <div class="post-archive">
     
@@ -757,7 +1044,42 @@ LVM是逻辑盘卷管理（Logical Volume Manager）的简称，它是Linux环�
     
     
         <li class="archive-post-item">
+            <span class="archive-post-date">03/03</span><a class="archive-post-title" href= "/2018/03/03/blockchain-selection/" >比特币如何达成共识 - 最长链的选择</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/03</span><a class="archive-post-title" href= "/2018/03/03/blockchain-merkle/" >比特币区块结构 Merkle 树及简单支付验证分析</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/03</span><a class="archive-post-title" href= "/2018/03/03/blockchain-mining/" >比特币如何挖矿（挖矿原理）-工作量证明</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/02</span><a class="archive-post-title" href= "/2018/03/02/blockchain-python/" >用Python从0开始创建一个区块链</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/02</span><a class="archive-post-title" href= "/2018/03/02/blockchain-accounting/" >区块链记账原理</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
             <span class="archive-post-date">03/01</span><a class="archive-post-title" href= "/2018/03/01/gitlab-update/" >Gitlab踩坑升级过程</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/28</span><a class="archive-post-title" href= "/2018/02/28/zombie-process-and-orphaned-process/" >浅析僵尸进程与孤儿进程</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/28</span><a class="archive-post-title" href= "/2018/02/28/zabbix-fonts/" >Zabbix汉化字体修改</a>
         </li>
     
     
@@ -787,17 +1109,17 @@ LVM是逻辑盘卷管理（Logical Volume Manager）的简称，它是Linux环�
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">02/24</span><a class="archive-post-title" href= "/2018/02/24/mongodb-single/" >MongoDB单实例部署</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
             <span class="archive-post-date">02/24</span><a class="archive-post-title" href= "/2018/02/24/mongodb-shard/" >MongoDB Sharding集群部署</a>
         </li>
     
     
         <li class="archive-post-item">
             <span class="archive-post-date">02/24</span><a class="archive-post-title" href= "/2018/02/24/mongodb-replset/" >MongoDB复制集部署</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/24</span><a class="archive-post-title" href= "/2018/02/24/mongodb-single/" >MongoDB单实例部署</a>
         </li>
     
     
@@ -835,6 +1157,8 @@ LVM是逻辑盘卷管理（Logical Volume Manager）的简称，它是Linux环�
         <div class="sidebar-panel-tags">
     <div class="sidebar-tags-name">
     
+        <span class="sidebar-tag-name" data-tags="Blockchain"><span class="iconfont-archer">&#xe606;</span>Blockchain</span>
+    
         <span class="sidebar-tag-name" data-tags="Certbot"><span class="iconfont-archer">&#xe606;</span>Certbot</span>
     
         <span class="sidebar-tag-name" data-tags="https"><span class="iconfont-archer">&#xe606;</span>https</span>
@@ -844,6 +1168,10 @@ LVM是逻辑盘卷管理（Logical Volume Manager）的简称，它是Linux环�
         <span class="sidebar-tag-name" data-tags="Update"><span class="iconfont-archer">&#xe606;</span>Update</span>
     
         <span class="sidebar-tag-name" data-tags="Migration"><span class="iconfont-archer">&#xe606;</span>Migration</span>
+    
+        <span class="sidebar-tag-name" data-tags="Python"><span class="iconfont-archer">&#xe606;</span>Python</span>
+    
+        <span class="sidebar-tag-name" data-tags="Flask"><span class="iconfont-archer">&#xe606;</span>Flask</span>
     
         <span class="sidebar-tag-name" data-tags="haproxy"><span class="iconfont-archer">&#xe606;</span>haproxy</span>
     
@@ -861,11 +1189,11 @@ LVM是逻辑盘卷管理（Logical Volume Manager）的简称，它是Linux环�
     
         <span class="sidebar-tag-name" data-tags="MongoDB"><span class="iconfont-archer">&#xe606;</span>MongoDB</span>
     
+        <span class="sidebar-tag-name" data-tags="ReplSet"><span class="iconfont-archer">&#xe606;</span>ReplSet</span>
+    
         <span class="sidebar-tag-name" data-tags="Sharding"><span class="iconfont-archer">&#xe606;</span>Sharding</span>
     
         <span class="sidebar-tag-name" data-tags="replSet"><span class="iconfont-archer">&#xe606;</span>replSet</span>
-    
-        <span class="sidebar-tag-name" data-tags="ReplSet"><span class="iconfont-archer">&#xe606;</span>ReplSet</span>
     
         <span class="sidebar-tag-name" data-tags="MySQL"><span class="iconfont-archer">&#xe606;</span>MySQL</span>
     
@@ -889,6 +1217,8 @@ LVM是逻辑盘卷管理（Logical Volume Manager）的简称，它是Linux环�
     
         <span class="sidebar-tag-name" data-tags="Zabbix"><span class="iconfont-archer">&#xe606;</span>Zabbix</span>
     
+        <span class="sidebar-tag-name" data-tags="Font"><span class="iconfont-archer">&#xe606;</span>Font</span>
+    
         <span class="sidebar-tag-name" data-tags="Optimization"><span class="iconfont-archer">&#xe606;</span>Optimization</span>
     
         <span class="sidebar-tag-name" data-tags="Source"><span class="iconfont-archer">&#xe606;</span>Source</span>
@@ -896,6 +1226,10 @@ LVM是逻辑盘卷管理（Logical Volume Manager）的简称，它是Linux环�
         <span class="sidebar-tag-name" data-tags="Installation"><span class="iconfont-archer">&#xe606;</span>Installation</span>
     
         <span class="sidebar-tag-name" data-tags="Yum"><span class="iconfont-archer">&#xe606;</span>Yum</span>
+    
+        <span class="sidebar-tag-name" data-tags="Zombie Process"><span class="iconfont-archer">&#xe606;</span>Zombie Process</span>
+    
+        <span class="sidebar-tag-name" data-tags="Orphaned Process"><span class="iconfont-archer">&#xe606;</span>Orphaned Process</span>
     
     </div>
     <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
@@ -930,9 +1264,19 @@ jsonContent:
         <div class="sidebar-panel-categories">
     <div class="sidebar-categories-name">
     
+        <span class="sidebar-category-name" data-categories="区块链记账原理"><span class="iconfont-archer">&#xe60a;</span>区块链记账原理</span>
+    
+        <span class="sidebar-category-name" data-categories="比特币区块结构-Merkle-树及简单支付验证分析"><span class="iconfont-archer">&#xe60a;</span>比特币区块结构-Merkle-树及简单支付验证分析</span>
+    
+        <span class="sidebar-category-name" data-categories="比特币如何挖矿（挖矿原理）-工作量证明"><span class="iconfont-archer">&#xe60a;</span>比特币如何挖矿（挖矿原理）-工作量证明</span>
+    
         <span class="sidebar-category-name" data-categories="Certbot安装-部分问题解决方案"><span class="iconfont-archer">&#xe60a;</span>Certbot安装-部分问题解决方案</span>
     
+        <span class="sidebar-category-name" data-categories="比特币如何达成共识-最长链的选择"><span class="iconfont-archer">&#xe60a;</span>比特币如何达成共识-最长链的选择</span>
+    
         <span class="sidebar-category-name" data-categories="Gitlab升级"><span class="iconfont-archer">&#xe60a;</span>Gitlab升级</span>
+    
+        <span class="sidebar-category-name" data-categories="用Python从0开始创建一个区块链"><span class="iconfont-archer">&#xe60a;</span>用Python从0开始创建一个区块链</span>
     
         <span class="sidebar-category-name" data-categories="HAProxy使用"><span class="iconfont-archer">&#xe60a;</span>HAProxy使用</span>
     
@@ -940,9 +1284,9 @@ jsonContent:
     
         <span class="sidebar-category-name" data-categories="LVM使用"><span class="iconfont-archer">&#xe60a;</span>LVM使用</span>
     
-        <span class="sidebar-category-name" data-categories="MongoDB分片集群部署"><span class="iconfont-archer">&#xe60a;</span>MongoDB分片集群部署</span>
-    
         <span class="sidebar-category-name" data-categories="MongoDB复制集部署"><span class="iconfont-archer">&#xe60a;</span>MongoDB复制集部署</span>
+    
+        <span class="sidebar-category-name" data-categories="MongoDB分片集群部署"><span class="iconfont-archer">&#xe60a;</span>MongoDB分片集群部署</span>
     
         <span class="sidebar-category-name" data-categories="MongoDB单实例部署"><span class="iconfont-archer">&#xe60a;</span>MongoDB单实例部署</span>
     
@@ -954,11 +1298,15 @@ jsonContent:
     
         <span class="sidebar-category-name" data-categories="4-0-8"><span class="iconfont-archer">&#xe60a;</span>4-0-8</span>
     
+        <span class="sidebar-category-name" data-categories="Zabbix汉化字体修改"><span class="iconfont-archer">&#xe60a;</span>Zabbix汉化字体修改</span>
+    
         <span class="sidebar-category-name" data-categories="Zabbix性能优化"><span class="iconfont-archer">&#xe60a;</span>Zabbix性能优化</span>
     
         <span class="sidebar-category-name" data-categories="Zabbix-编译安装"><span class="iconfont-archer">&#xe60a;</span>Zabbix-编译安装</span>
     
         <span class="sidebar-category-name" data-categories="Zabbix-YUM安装"><span class="iconfont-archer">&#xe60a;</span>Zabbix-YUM安装</span>
+    
+        <span class="sidebar-category-name" data-categories="浅析僵尸进程与孤儿进程"><span class="iconfont-archer">&#xe60a;</span>浅析僵尸进程与孤儿进程</span>
     
     </div>
     <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
