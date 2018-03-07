@@ -362,48 +362,34 @@
 <h2 id="对新增加的硬盘进行分区、格式化"><a href="#对新增加的硬盘进行分区、格式化" class="headerlink" title="对新增加的硬盘进行分区、格式化"></a>对新增加的硬盘进行分区、格式化</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## 在CentOS/RHEL 7中使用</span></span><br><span class="line"></span><br><span class="line">$ fdisk /dev/sda　　　 </span><br><span class="line"><span class="comment">## 继续输入命令： </span></span><br><span class="line"><span class="comment">## p　　　　　　　查看已分区数量</span></span><br><span class="line"><span class="comment">## n　　　　　　　新增加一个分区 </span></span><br><span class="line"><span class="comment">## p　　　　　　　分区类型我们选择为主分区 </span></span><br><span class="line"><span class="comment">##　　　　　　分区号按照默认选择（已经存在的会顺着按下一个分区号生成）</span></span><br><span class="line"><span class="comment">## 回车　　　　　　默认（起始扇区） </span></span><br><span class="line"><span class="comment">## 回车　　　　　　默认（结束扇区） </span></span><br><span class="line"><span class="comment">## t　　　　　　　修改分区类型 </span></span><br><span class="line"><span class="comment">##　　　　　　选分区3 </span></span><br><span class="line"><span class="comment">## 8e　　　　　　修改为LVM（8e就是LVM） </span></span><br><span class="line"><span class="comment">## w　　　　　　写分区表 </span></span><br><span class="line"><span class="comment">## q　　　　　　完成，退出fdisk命令 </span></span><br><span class="line"><span class="comment">##　　系统提示重启。</span></span><br><span class="line"></span><br><span class="line"><span class="comment">## 开机后，格式化，等待一会儿： </span></span><br><span class="line">$ mkfs.ext3 /dev/sda3</span><br></pre></td></tr></table></figure>
 <h2 id="添加新LVM到已有的LVM组，实现扩容"><a href="#添加新LVM到已有的LVM组，实现扩容" class="headerlink" title="添加新LVM到已有的LVM组，实现扩容"></a>添加新LVM到已有的LVM组，实现扩容</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">$ pvcreate /dev/sda3　　　                              <span class="comment">#创建pv</span></span><br><span class="line"></span><br><span class="line">$ pvdisplay                                             <span class="comment">#查看创建好的pv信息</span></span><br><span class="line"></span><br><span class="line">$ vgdisplay                                             <span class="comment">#查看vg信息，记录需要扩容的vg名称</span></span><br><span class="line"></span><br><span class="line">$ vgcreate vg_test /dev/sdb3                            <span class="comment">#没有则创建</span></span><br><span class="line"></span><br><span class="line">$ vgextend vg_test /dev/sda3                            <span class="comment">#将初始化过的分区加入到虚拟卷组vg_test</span></span><br><span class="line"></span><br><span class="line">$ lvextend -l +20G /dev/mapper/vg_test-root             <span class="comment">#扩展已有卷的容量</span></span><br><span class="line"></span><br><span class="line">$ lvextend -l +100%FREE /dev/mapper/vg_test-root        <span class="comment">#把所有空余的空间全部加入到卷组</span></span><br><span class="line"></span><br><span class="line">$ lvcreate -L 15G -n lv_test vg_test                    <span class="comment">#若初始化，则创建LV</span></span><br><span class="line"></span><br><span class="line"><span class="comment">## CentOS7使用以下命令,进行文件系统的真正扩容</span></span><br><span class="line">$ xfs_growfs /dev/mapper/vg_test-root</span><br><span class="line"></span><br><span class="line"><span class="comment">## CentOS6使用以下命令,进行文件系统的真正扩容</span></span><br><span class="line">$ resize2fs /dev/mapper/vg_test-root</span><br><span class="line"></span><br><span class="line"><span class="comment">## 查看新的磁盘空间</span></span><br><span class="line">$ df -h</span><br></pre></td></tr></table></figure>
 <h2 id="LVM常用命令"><a href="#LVM常用命令" class="headerlink" title="LVM常用命令"></a>LVM常用命令</h2><ul>
-<li>lvremove : 移除逻辑卷</li>
+<li>lvremove : 移除逻辑卷<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ lvremove /dev/vgname/lvname</span><br></pre></td></tr></table></figure>
+</li>
 </ul>
-<blockquote>
-<p>lvremove /dev/vgname/lvname     </p>
-</blockquote>
 <p>如果该lv已经mount了，lvremove不能使用，必须unmount后才可以使用。</p>
 <ul>
-<li>lvcreate ：创建逻辑卷</li>
+<li>lvcreate ：创建逻辑卷<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ lvcreate --name vol_01  -L  10G vgname</span><br></pre></td></tr></table></figure>
+</li>
 </ul>
-<blockquote>
-<p>lvcreate –name vol_01  -L  10G vgname</p>
-</blockquote>
 <p>-L ：指定逻辑卷大小，单位可以是”kKmMgGtT”</p>
 <ul>
 <li>lvextend -L +10G  /dev/vgname/lvname</li>
 </ul>
 <p>给lvname添加10G的容量</p>
-<p>另外一种写法：</p>
-<blockquote>
-<p>lvcreate –size 40GB –name vol vgname</p>
-</blockquote>
+<p>另外一种写法：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ lvcreate --size 40GB --name vol vgname</span><br></pre></td></tr></table></figure></p>
 <ul>
-<li>vgcreate：创建卷组vg</li>
+<li><p>vgcreate：创建卷组vg</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ vgcreate vg-test /dev/sdb1 /dev/sdb2</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>vgremove：强制删除vg，及时vg下有lv，也会被删除</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ vgremove vgname -f</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>vgreduce ：移除物理卷</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ my_volume_group /dev/hda1</span><br><span class="line"></span><br><span class="line">$ vgreduce --removemissing  vgname</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>vgextend ：扩容物理卷</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ vgextend vgname   /dev/sdb1(物理卷位置)</span><br></pre></td></tr></table></figure>
+</li>
 </ul>
-<p>vgcreate vg-test /dev/sdb1 /dev/sdb2</p>
-<ul>
-<li>vgremove：强制删除vg，及时vg下有lv，也会被删除</li>
-</ul>
-<p>vgremove vgname -f </p>
-<ul>
-<li>vgreduce ：移除物理卷</li>
-</ul>
-<blockquote>
-<p>my_volume_group /dev/hda1</p>
-</blockquote>
-<p>  vgreduce –removemissing  vgname </p>
-<ul>
-<li>vgextend ：扩容物理卷</li>
-</ul>
-<blockquote>
-<p>vgextend vgname   /dev/sdb1(物理卷位置)</p>
-</blockquote>
 <h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><p>为了系统启动是自动加载文件系统，需要在 /etc/fstab 添加</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/dev/vg_test/lv_test   /opt/<span class="built_in">test</span> ext3 defaults 1 2</span><br></pre></td></tr></table></figure>
 <p>有时可能因为逻辑卷为打开而无法启动系统</p>
@@ -863,7 +849,7 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">03/03</span><a class="archive-post-title" href= "/2018/03/03/blockchain-merkle/" >比特币区块结构 Merkle 树及简单支付验证分析</a>
+            <span class="archive-post-date">03/03</span><a class="archive-post-title" href= "/2018/03/03/blockchain-pow/" >比特币如何挖矿（挖矿原理）-工作量证明</a>
         </li>
     
     
@@ -873,7 +859,7 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">03/03</span><a class="archive-post-title" href= "/2018/03/03/blockchain-pow/" >比特币如何挖矿（挖矿原理）-工作量证明</a>
+            <span class="archive-post-date">03/03</span><a class="archive-post-title" href= "/2018/03/03/blockchain-merkle/" >比特币区块结构 Merkle 树及简单支付验证分析</a>
         </li>
     
     
@@ -1085,9 +1071,9 @@ jsonContent:
     
         <span class="sidebar-category-name" data-categories="区块链记账原理"><span class="iconfont-archer">&#xe60a;</span>区块链记账原理</span>
     
-        <span class="sidebar-category-name" data-categories="比特币区块结构-Merkle-树及简单支付验证分析"><span class="iconfont-archer">&#xe60a;</span>比特币区块结构-Merkle-树及简单支付验证分析</span>
-    
         <span class="sidebar-category-name" data-categories="比特币如何挖矿（挖矿原理）-工作量证明"><span class="iconfont-archer">&#xe60a;</span>比特币如何挖矿（挖矿原理）-工作量证明</span>
+    
+        <span class="sidebar-category-name" data-categories="比特币区块结构-Merkle-树及简单支付验证分析"><span class="iconfont-archer">&#xe60a;</span>比特币区块结构-Merkle-树及简单支付验证分析</span>
     
         <span class="sidebar-category-name" data-categories="用Python从0开始创建一个区块链"><span class="iconfont-archer">&#xe60a;</span>用Python从0开始创建一个区块链</span>
     
