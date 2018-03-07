@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://yoursite.com/2018/02/20/lvm/</loc>
+    
+    <lastmod>2018-03-07T08:45:02.266Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://yoursite.com/2018/03/03/blockchain-selection/</loc>
     
     <lastmod>2018-03-07T08:36:25.056Z</lastmod>
@@ -33,13 +40,6 @@
     <loc>http://yoursite.com/2018/03/02/blockchain-python/</loc>
     
     <lastmod>2018-03-07T08:29:11.421Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/2018/02/20/lvm/</loc>
-    
-    <lastmod>2018-03-07T07:37:42.978Z</lastmod>
     
   </url>
   
