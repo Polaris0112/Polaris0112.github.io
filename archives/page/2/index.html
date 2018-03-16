@@ -290,6 +290,80 @@
     
     
         <article class="index-post">
+            <a class="abstract-title" href = "/2018/03/01/gitlab-update/" >
+                
+                    <span>Gitlab踩坑升级过程</span>
+            </a>
+            <div class="abstract-content">
+                本帖子记录的是Gitlab跨大版本更新，数据迁移备份过程记录
+背景简述由于各个项目迭代次数较多，Gitlab的服务器硬件相对较低，而且也出现过遇到当前Gitlab版本Bug的情况，所以最近就打算一次性把Gitlab迁移到配置较好的企业服务器并升级到最新版本。
+目前原来版本是gitlab-ce-8.8.0.ce.0，现在最新的版本是gitlab-ce-10.5.2.ce.0，这次过程就是从8.8.0升级到10.5.2。
+Gitlab部署
+系统以CentOS7为例
+
+下载RPM包地址：Gitlab-CE清华大学镜像站
+先安装依赖参考官方说明中的Install and configure th...
+            </div>
+            <div class="abstract-post-meta">
+                <!-- date  -->
+                <div class="abstract-date">
+                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/03/01</span>
+                </div>
+                <!-- tags  -->
+                
+                <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = Gitlab>Gitlab</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = Update>Update</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = Migration>Migration</a>
+    
+</div>
+                
+            </div>
+        </article>
+    
+    
+    
+        <article class="index-post">
+            <a class="abstract-title" href = "/2018/02/28/zabbix-fonts/" >
+                
+                    <span>Zabbix汉化字体修改</span>
+            </a>
+            <div class="abstract-content">
+                本帖子记录的是Zabbix3.4安装后，设置为中文环境，但是查看”图形”监控的时候图形下方的图例中文也会出现乱码（方块），所以需要修改字体文件来显示正常中文。
+原因Zabbix的图形显示用的字体是dejavu，不支持中文。
+解决方法Zabbix3.2.x以及之前的解决方法这个版本之前的都是放在Web服务的文件夹中，比如
+
+nginx：使用这个Web服务的路径在(yum安装)/usr/share/nginx/html/目录下，(编译安装)自定义目录路径下。
+
+apache：使用这个Web服务的路径在(默认路径)/var/www/html/目录下。
+
+
+这两个Web服务的文件下一般都会有一个...
+            </div>
+            <div class="abstract-post-meta">
+                <!-- date  -->
+                <div class="abstract-date">
+                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/02/28</span>
+                </div>
+                <!-- tags  -->
+                
+                <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = Zabbix>Zabbix</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = Font>Font</a>
+    
+</div>
+                
+            </div>
+        </article>
+    
+    
+    
+        <article class="index-post">
             <a class="abstract-title" href = "/2018/02/28/zombie-process-and-orphaned-process/" >
                 
                     <span>浅析僵尸进程与孤儿进程</span>
@@ -487,40 +561,6 @@ Zabbix支持主动轮询和被动捕获。Zabbix所有的报告、统计信息�
     
     
         <article class="index-post">
-            <a class="abstract-title" href = "/2018/02/24/mongodb-shard/" >
-                
-                    <span>MongoDB Sharding集群部署</span>
-            </a>
-            <div class="abstract-content">
-                本帖子记录的是MongoDB分片+副本集集群部署
-MongoDB Sharding简介  分片（sharding）是MongoDB用来将大型集合分割到不同服务器（或者说一个集群）上所采用的方法。尽管分片起源于关系型数据库分区，但MongoDB分片完全又是另一回事。和MySQL分区方案相比，MongoDB的最大区别在于它几乎能自动完成所有事情，只要告诉MongoDB要分配数据，它就能自动维护数据在不同服务器之间的均衡。 
-分片的目的  高数据量和吞吐量的数据库应用会对单机的性能造成较大压力,大的查询量会将单机的CPU耗尽,大的数据量对单机的存储压力较大,最终会耗尽系统的内存而将压力转移到磁...
-            </div>
-            <div class="abstract-post-meta">
-                <!-- date  -->
-                <div class="abstract-date">
-                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/02/24</span>
-                </div>
-                <!-- tags  -->
-                
-                <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = NoSql>NoSql</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = MongoDB>MongoDB</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = Sharding>Sharding</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = replSet>replSet</a>
-    
-</div>
-                
-            </div>
-        </article>
-    
-    
-    
-        <article class="index-post">
             <a class="abstract-title" href = "/2018/02/24/mongodb-single/" >
                 
                     <span>MongoDB单实例部署</span>
@@ -572,15 +612,14 @@ yum安装方式123456789101112131415## 以3.4.x为例## 创建yum源文件$ vim 
     
     
         <article class="index-post">
-            <a class="abstract-title" href = "/2018/02/24/mongodb-replset/" >
+            <a class="abstract-title" href = "/2018/02/24/mongodb-shard/" >
                 
-                    <span>MongoDB复制集部署</span>
+                    <span>MongoDB Sharding集群部署</span>
             </a>
             <div class="abstract-content">
-                本帖子记录的是MongoDB复制集部署全过程,有关MongoDB简介、安装以及配置文件参数说明,请看回上一个帖子MongoDB单实例部署
-以下就直接介绍复制集以及部署过程
-MongoDB复制集简介   Mongodb复制集由一组Mongod实例（进程）组成，包含一个Primary节点和多个Secondary节点，Mongodb Driver（客户端）的所有数据都写入Primary，Secondary从Primary同步写入的数据，以保持复制集内所有成员存储相同的数据集，提供数据的高可用。更多关于副本集的介绍请见官网。
-   下图（图片源于Mongodb官方文档）是一个典型的Mongdb复...
+                本帖子记录的是MongoDB分片+副本集集群部署
+MongoDB Sharding简介  分片（sharding）是MongoDB用来将大型集合分割到不同服务器（或者说一个集群）上所采用的方法。尽管分片起源于关系型数据库分区，但MongoDB分片完全又是另一回事。和MySQL分区方案相比，MongoDB的最大区别在于它几乎能自动完成所有事情，只要告诉MongoDB要分配数据，它就能自动维护数据在不同服务器之间的均衡。 
+分片的目的  高数据量和吞吐量的数据库应用会对单机的性能造成较大压力,大的查询量会将单机的CPU耗尽,大的数据量对单机的存储压力较大,最终会耗尽系统的内存而将压力转移到磁...
             </div>
             <div class="abstract-post-meta">
                 <!-- date  -->
@@ -595,37 +634,9 @@ MongoDB复制集简介   Mongodb复制集由一组Mongod实例（进程）组成
     
         <a class="post-tag" href="javascript:void(0);" data-tags = MongoDB>MongoDB</a>
     
-        <a class="post-tag" href="javascript:void(0);" data-tags = ReplSet>ReplSet</a>
+        <a class="post-tag" href="javascript:void(0);" data-tags = Sharding>Sharding</a>
     
-</div>
-                
-            </div>
-        </article>
-    
-    
-    
-        <article class="index-post">
-            <a class="abstract-title" href = "/2018/02/23/haproxy/" >
-                
-                    <span>HAProxy日常使用说明</span>
-            </a>
-            <div class="abstract-content">
-                本帖子记录的是HAProxy安装和配置说明
-简介HAProxy提供高可用性、负载均衡以及基于TCP和HTTP应用的代理，支持虚拟主机，它是免费、快速并且可靠的一种解决方案。
-HAProxy特别适用于那些负载特大的web站点，这些站点通常又需要会话保持或七层处理。
-HAProxy运行在当前的硬件上，完全可以支持数以万计的并发连接。并且它的运行模式使得它可以很简单安全的整合进您当前的架构中， 同时可以保护你的web服务器不被暴露到网络上。
-HAProxy实现了一种事件驱动, 单一进程模型，此模型支持非常大的并发连接数。多进程或多线程模型受内存限制 、系统调度器限制以及无处不在的锁限制，很少能...
-            </div>
-            <div class="abstract-post-meta">
-                <!-- date  -->
-                <div class="abstract-date">
-                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/02/23</span>
-                </div>
-                <!-- tags  -->
-                
-                <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = haproxy>haproxy</a>
+        <a class="post-tag" href="javascript:void(0);" data-tags = replSet>replSet</a>
     
 </div>
                 
@@ -1095,7 +1106,33 @@ HAProxy实现了一种事件驱动, 单一进程模型，此模型支持非常�
     
     
     
-    <div class="total-archive"> Total : 25 </div>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="total-archive"> Total : 27 </div>
     
     <div class="post-archive">
     
@@ -1104,6 +1141,16 @@ HAProxy实现了一种事件驱动, 单一进程模型，此模型支持非常�
     
     <div class="archive-year"> 2018 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/10</span><a class="archive-post-title" href= "/2018/03/10/openstack-packstack-installation/" >通过packstack快速安装openstack</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/10</span><a class="archive-post-title" href= "/2018/03/10/openstack-devstack-installation/" >通过devstack安装部署OpenStack</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -1122,7 +1169,7 @@ HAProxy实现了一种事件驱动, 单一进程模型，此模型支持非常�
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">03/03</span><a class="archive-post-title" href= "/2018/03/03/blockchain-merkle/" >比特币区块结构 Merkle 树及简单支付验证分析</a>
+            <span class="archive-post-date">03/03</span><a class="archive-post-title" href= "/2018/03/03/blockchain-pow/" >比特币如何挖矿（挖矿原理）-工作量证明</a>
         </li>
     
     
@@ -1132,17 +1179,17 @@ HAProxy实现了一种事件驱动, 单一进程模型，此模型支持非常�
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">03/03</span><a class="archive-post-title" href= "/2018/03/03/blockchain-pow/" >比特币如何挖矿（挖矿原理）-工作量证明</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">03/02</span><a class="archive-post-title" href= "/2018/03/02/blockchain-python/" >用Python从0开始创建一个区块链</a>
+            <span class="archive-post-date">03/03</span><a class="archive-post-title" href= "/2018/03/03/blockchain-merkle/" >比特币区块结构 Merkle 树及简单支付验证分析</a>
         </li>
     
     
         <li class="archive-post-item">
             <span class="archive-post-date">03/02</span><a class="archive-post-title" href= "/2018/03/02/blockchain-accounting/" >区块链记账原理</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/02</span><a class="archive-post-title" href= "/2018/03/02/blockchain-python/" >用Python从0开始创建一个区块链</a>
         </li>
     
     
@@ -1289,11 +1336,15 @@ HAProxy实现了一种事件驱动, 单一进程模型，此模型支持非常�
     
         <span class="sidebar-tag-name" data-tags="load-balance"><span class="iconfont-archer">&#xe606;</span>load-balance</span>
     
-        <span class="sidebar-tag-name" data-tags="open-falcon"><span class="iconfont-archer">&#xe606;</span>open-falcon</span>
-    
         <span class="sidebar-tag-name" data-tags="OpenStack"><span class="iconfont-archer">&#xe606;</span>OpenStack</span>
     
+        <span class="sidebar-tag-name" data-tags="DevStack"><span class="iconfont-archer">&#xe606;</span>DevStack</span>
+    
+        <span class="sidebar-tag-name" data-tags="open-falcon"><span class="iconfont-archer">&#xe606;</span>open-falcon</span>
+    
         <span class="sidebar-tag-name" data-tags="Installation"><span class="iconfont-archer">&#xe606;</span>Installation</span>
+    
+        <span class="sidebar-tag-name" data-tags="PackStack"><span class="iconfont-archer">&#xe606;</span>PackStack</span>
     
         <span class="sidebar-tag-name" data-tags="$$"><span class="iconfont-archer">&#xe606;</span>$$</span>
     
@@ -1380,9 +1431,13 @@ jsonContent:
     
         <span class="sidebar-category-name" data-categories="Nginx正反向代理-负载均衡"><span class="iconfont-archer">&#xe60a;</span>Nginx正反向代理-负载均衡</span>
     
+        <span class="sidebar-category-name" data-categories="通过devstack安装部署OpenStack"><span class="iconfont-archer">&#xe60a;</span>通过devstack安装部署OpenStack</span>
+    
         <span class="sidebar-category-name" data-categories="open-falcon安装部署教程"><span class="iconfont-archer">&#xe60a;</span>open-falcon安装部署教程</span>
     
         <span class="sidebar-category-name" data-categories="OpenStack安装部署教程"><span class="iconfont-archer">&#xe60a;</span>OpenStack安装部署教程</span>
+    
+        <span class="sidebar-category-name" data-categories="通过packstack快速安装openstack"><span class="iconfont-archer">&#xe60a;</span>通过packstack快速安装openstack</span>
     
         <span class="sidebar-category-name" data-categories="4-0-8"><span class="iconfont-archer">&#xe60a;</span>4-0-8</span>
     

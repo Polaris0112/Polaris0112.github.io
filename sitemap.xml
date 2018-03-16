@@ -2,9 +2,23 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://yoursite.com/2018/03/10/openstack-devstack-installation/</loc>
+    
+    <lastmod>2018-03-16T08:35:12.071Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2018/03/10/openstack-packstack-installation/</loc>
+    
+    <lastmod>2018-03-16T08:27:50.260Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://yoursite.com/2018/03/09/openstack-install-introduction/</loc>
     
-    <lastmod>2018-03-16T08:07:39.858Z</lastmod>
+    <lastmod>2018-03-16T08:08:30.753Z</lastmod>
     
   </url>
   
