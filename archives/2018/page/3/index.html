@@ -290,6 +290,104 @@
     
     
         <article class="index-post">
+            <a class="abstract-title" href = "/2018/02/22/certbot/" >
+                
+                    <span>Certbot安装/部分问题解决方案</span>
+            </a>
+            <div class="abstract-content">
+                本帖子记录的是Nginx + Certbot的安装过程以及在阿里云CentOS7上部署Certbot遇到的问题以及解决方法
+Using CentOS 7/RHEL 7安装Certbot安装包已经包含在EPEL(Extra Packages for Enterprise Linux)源中，所以如果安装Certbot需要先安装EPEL源。
+12345## 在CentOS/RHEL 7中使用$ yum -y install yum-utils$ yum-config-manager --enable rhui-REGION-rhel-server-extras rhui-REGION-rhel...
+            </div>
+            <div class="abstract-post-meta">
+                <!-- date  -->
+                <div class="abstract-date">
+                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/02/22</span>
+                </div>
+                <!-- tags  -->
+                
+                <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = Certbot>Certbot</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = https>https</a>
+    
+</div>
+                
+            </div>
+        </article>
+    
+    
+    
+        <article class="index-post">
+            <a class="abstract-title" href = "/2018/02/21/nginx/" >
+                
+                    <span>Nginx正反向代理/负载均衡</span>
+            </a>
+            <div class="abstract-content">
+                本帖子记录的是Nginx配置正向代理、反向代理和负载均衡相关参数。
+相关概念
+正向代理是一个位于客户端和目标服务器之间的代理服务器(中间服务器)。为了从原始服务器取得内容，客户端向代理服务器发送一个请求，并且指定目标服务器，之后代理向目标服务器转交并且将获得的内容返回给客户端。正向代理的情况下客户端必须要进行一些特别的设置才能使用。
+
+
+
+反向代理正好相反。对于客户端来说，反向代理就好像目标服务器。并且客户端不需要进行任何设置。客户端向反向代理发送请求，接着反向代理判断请求走向何处，并将请求转交给客户端，使得这些内容就好似他自己一样，一次客户端并不会感知到反向代理后面的服务，也因此不需要...
+            </div>
+            <div class="abstract-post-meta">
+                <!-- date  -->
+                <div class="abstract-date">
+                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/02/21</span>
+                </div>
+                <!-- tags  -->
+                
+                <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = nginx>nginx</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = proxy>proxy</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = load-balance>load-balance</a>
+    
+</div>
+                
+            </div>
+        </article>
+    
+    
+    
+        <article class="index-post">
+            <a class="abstract-title" href = "/2018/02/20/lvm/" >
+                
+                    <span>LVM创建/扩容/常用操作</span>
+            </a>
+            <div class="abstract-content">
+                本帖子记录的是LVM初始化和扩容等操作
+相关概念
+LVM是逻辑盘卷管理（Logical Volume Manager）的简称，它是Linux环境下对磁盘分区进行管理的一种机制，LVM是建立在硬盘和分区之上的一个逻辑层，来提高磁盘分区管理的灵活性。LVM是在磁盘分区和文件系统之间添加的一个逻辑层，来为文件系统屏蔽下层磁盘分区布局，提供一个抽象的盘卷，在盘卷上建立文件系统。物理卷（physical volume）物理卷就是指硬盘分区或从逻辑上与磁盘分区具有同样功能的设备（如RAID），是LVM的基本存储逻辑块，但和基本的物理存储介质（如分区、磁盘等）比较，却包含有与LVM相关的管理参数。
+
+...
+            </div>
+            <div class="abstract-post-meta">
+                <!-- date  -->
+                <div class="abstract-date">
+                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/02/20</span>
+                </div>
+                <!-- tags  -->
+                
+                <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = centos>centos</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = lvm>lvm</a>
+    
+</div>
+                
+            </div>
+        </article>
+    
+    
+    
+        <article class="index-post">
             <a class="abstract-title" href = "/2018/02/12/hexo/" >
                 
                     <span>Hexo+Github搭建博客</span>
@@ -756,7 +854,68 @@
     
     
     
-    <div class="total-archive"> Total : 22 </div>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="total-archive"> Total : 25 </div>
     
     <div class="post-archive">
     
@@ -768,7 +927,22 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">03/03</span><a class="archive-post-title" href= "/2018/03/03/blockchain-pow/" >比特币如何挖矿（挖矿原理）-工作量证明</a>
+            <span class="archive-post-date">03/09</span><a class="archive-post-title" href= "/2018/03/09/open-falcon-install/" >open-falcon安装部署教程</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/09</span><a class="archive-post-title" href= "/2018/03/09/openstack-install-introduction/" >OpenStack安装部署</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/08</span><a class="archive-post-title" href= "/2018/03/08/supervisor/" >supervisor 安装、配置、常用命令</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/03</span><a class="archive-post-title" href= "/2018/03/03/blockchain-merkle/" >比特币区块结构 Merkle 树及简单支付验证分析</a>
         </li>
     
     
@@ -778,7 +952,7 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">03/03</span><a class="archive-post-title" href= "/2018/03/03/blockchain-merkle/" >比特币区块结构 Merkle 树及简单支付验证分析</a>
+            <span class="archive-post-date">03/03</span><a class="archive-post-title" href= "/2018/03/03/blockchain-pow/" >比特币如何挖矿（挖矿原理）-工作量证明</a>
         </li>
     
     
@@ -813,12 +987,12 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">02/26</span><a class="archive-post-title" href= "/2018/02/26/myisam-innodb/" >MyISAM和InnoDB区别详解</a>
+            <span class="archive-post-date">02/26</span><a class="archive-post-title" href= "/2018/02/26/zabbix-optimization/" >Zabbix性能优化</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">02/26</span><a class="archive-post-title" href= "/2018/02/26/zabbix-optimization/" >Zabbix性能优化</a>
+            <span class="archive-post-date">02/26</span><a class="archive-post-title" href= "/2018/02/26/myisam-innodb/" >MyISAM和InnoDB区别详解</a>
         </li>
     
     
@@ -833,7 +1007,7 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">02/24</span><a class="archive-post-title" href= "/2018/02/24/mongodb-shard/" >MongoDB Sharding集群部署</a>
+            <span class="archive-post-date">02/24</span><a class="archive-post-title" href= "/2018/02/24/mongodb-single/" >MongoDB单实例部署</a>
         </li>
     
     
@@ -843,7 +1017,7 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">02/24</span><a class="archive-post-title" href= "/2018/02/24/mongodb-single/" >MongoDB单实例部署</a>
+            <span class="archive-post-date">02/24</span><a class="archive-post-title" href= "/2018/02/24/mongodb-shard/" >MongoDB Sharding集群部署</a>
         </li>
     
     
@@ -935,9 +1109,17 @@
     
         <span class="sidebar-tag-name" data-tags="load-balance"><span class="iconfont-archer">&#xe606;</span>load-balance</span>
     
+        <span class="sidebar-tag-name" data-tags="open-falcon"><span class="iconfont-archer">&#xe606;</span>open-falcon</span>
+    
+        <span class="sidebar-tag-name" data-tags="OpenStack"><span class="iconfont-archer">&#xe606;</span>OpenStack</span>
+    
+        <span class="sidebar-tag-name" data-tags="Installation"><span class="iconfont-archer">&#xe606;</span>Installation</span>
+    
         <span class="sidebar-tag-name" data-tags="$$"><span class="iconfont-archer">&#xe606;</span>$$</span>
     
         <span class="sidebar-tag-name" data-tags="GFW"><span class="iconfont-archer">&#xe606;</span>GFW</span>
+    
+        <span class="sidebar-tag-name" data-tags="supervisor"><span class="iconfont-archer">&#xe606;</span>supervisor</span>
     
         <span class="sidebar-tag-name" data-tags="Zabbix"><span class="iconfont-archer">&#xe606;</span>Zabbix</span>
     
@@ -946,8 +1128,6 @@
         <span class="sidebar-tag-name" data-tags="Optimization"><span class="iconfont-archer">&#xe606;</span>Optimization</span>
     
         <span class="sidebar-tag-name" data-tags="Source"><span class="iconfont-archer">&#xe606;</span>Source</span>
-    
-        <span class="sidebar-tag-name" data-tags="Installation"><span class="iconfont-archer">&#xe606;</span>Installation</span>
     
         <span class="sidebar-tag-name" data-tags="Yum"><span class="iconfont-archer">&#xe606;</span>Yum</span>
     
@@ -990,9 +1170,9 @@ jsonContent:
     
         <span class="sidebar-category-name" data-categories="区块链记账原理"><span class="iconfont-archer">&#xe60a;</span>区块链记账原理</span>
     
-        <span class="sidebar-category-name" data-categories="比特币如何挖矿（挖矿原理）-工作量证明"><span class="iconfont-archer">&#xe60a;</span>比特币如何挖矿（挖矿原理）-工作量证明</span>
-    
         <span class="sidebar-category-name" data-categories="比特币区块结构-Merkle-树及简单支付验证分析"><span class="iconfont-archer">&#xe60a;</span>比特币区块结构-Merkle-树及简单支付验证分析</span>
+    
+        <span class="sidebar-category-name" data-categories="比特币如何挖矿（挖矿原理）-工作量证明"><span class="iconfont-archer">&#xe60a;</span>比特币如何挖矿（挖矿原理）-工作量证明</span>
     
         <span class="sidebar-category-name" data-categories="用Python从0开始创建一个区块链"><span class="iconfont-archer">&#xe60a;</span>用Python从0开始创建一个区块链</span>
     
@@ -1020,7 +1200,13 @@ jsonContent:
     
         <span class="sidebar-category-name" data-categories="Nginx正反向代理-负载均衡"><span class="iconfont-archer">&#xe60a;</span>Nginx正反向代理-负载均衡</span>
     
+        <span class="sidebar-category-name" data-categories="open-falcon安装部署教程"><span class="iconfont-archer">&#xe60a;</span>open-falcon安装部署教程</span>
+    
+        <span class="sidebar-category-name" data-categories="OpenStack安装部署教程"><span class="iconfont-archer">&#xe60a;</span>OpenStack安装部署教程</span>
+    
         <span class="sidebar-category-name" data-categories="4-0-8"><span class="iconfont-archer">&#xe60a;</span>4-0-8</span>
+    
+        <span class="sidebar-category-name" data-categories="supervisor-安装、配置、常用命令"><span class="iconfont-archer">&#xe60a;</span>supervisor-安装、配置、常用命令</span>
     
         <span class="sidebar-category-name" data-categories="Zabbix汉化字体修改"><span class="iconfont-archer">&#xe60a;</span>Zabbix汉化字体修改</span>
     

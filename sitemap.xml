@@ -2,6 +2,27 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://yoursite.com/2018/03/09/openstack-install-introduction/</loc>
+    
+    <lastmod>2018-03-16T08:07:39.858Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2018/03/09/open-falcon-install/</loc>
+    
+    <lastmod>2018-03-16T06:46:26.716Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2018/03/08/supervisor/</loc>
+    
+    <lastmod>2018-03-15T08:55:15.972Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://yoursite.com/2018/02/20/lvm/</loc>
     
     <lastmod>2018-03-07T08:48:17.072Z</lastmod>

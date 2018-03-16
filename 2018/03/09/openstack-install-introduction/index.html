@@ -1,0 +1,1320 @@
+<!DOCTYPE html>
+<html>
+    <!-- title -->
+
+
+
+
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" >
+    <title>OpenStack安装部署 · Jayden&#39;s Blog</title>
+    <style type="text/css">
+    @font-face {
+        font-family: 'Oswald-Regular';
+        src: url("/font/Oswald-Regular.ttf");
+    }
+
+    body {
+        margin: 0;
+    }
+
+    header,
+    footer,
+    .back-top,
+    .sidebar,
+    .container,
+    .site-intro-meta,
+    .toc-wrapper {
+        display: none;
+    }
+
+    .site-intro {
+        position: relative;
+        z-index: 3;
+        width: 100%;
+        height: 50vh;
+        overflow: hidden;
+        box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.7);
+    }
+
+    .site-intro-placeholder {
+        position: absolute;
+        z-index: -2;
+        top: 0;
+        left: 0;
+        width: calc(100% + 300px);
+        height: 100%;
+        background: repeating-linear-gradient(-45deg, #444 0, #444 80px, #333 80px, #333 160px);
+        background-position: center center;
+        transform: translate3d(-226px, 0, 0);
+        animation: gradient-move 2.5s ease-out 0s 1;
+    }
+
+    @keyframes gradient-move {
+        0% {
+            transform: translate3d(-226px, 0, 0);
+        }
+        100% {
+            transform: translate3d(0, 0, 0);
+        }
+    }
+
+</style>
+
+    <link rel="preload" href= /css/style.css?v=20180228 as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="stylesheet" type="text/css" href= /css/mobile.css?v=20180228 media="(max-width: 980px)"/>
+    <link rel="icon" href= /assets/favicon.ico>
+    <script>
+  // load webfont-loader async, and add callback function
+  function async(u, c) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+  
+  // get user agent
+  var browser = {
+    versions: function () {
+      var u = window.navigator.userAgent;
+      return {
+        userAgent: u,
+        trident: u.indexOf('Trident') > -1, //IE内核
+        presto: u.indexOf('Presto') > -1, //opera内核
+        webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+        gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+        mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+        ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+        android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+        iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
+        iPad: u.indexOf('iPad') > -1, //是否为iPad
+        webApp: u.indexOf('Safari') == -1, //是否为web应用程序，没有头部与底部
+        weixin: u.indexOf('MicroMessenger') == -1, //是否为微信浏览器
+        uc: u.indexOf('UCBrowser') > -1 //是否为android下的UC浏览器
+      };
+    }()
+  }
+  console.log("userAgent:" + browser.versions.userAgent);
+
+  // callback
+  function fontLoaded() {
+    console.log('font loaded');
+    if (document.getElementsByClassName('site-intro-meta')) {
+      document.getElementsByClassName('intro-title')[0].classList.add('intro-fade-in');
+      document.getElementsByClassName('intro-subtitle')[0].classList.add('intro-fade-in');
+      var postIntroTags = document.getElementsByClassName('post-intro-tags')[0],
+        postIntroMeat = document.getElementsByClassName('post-intro-meta')[0];
+      if (postIntroTags) {
+        postIntroTags.classList.add('post-fade-in');
+      }
+      if (postIntroMeat) {
+        postIntroMeat.classList.add('post-fade-in');
+      }
+    }
+  }
+
+  // UC不支持跨域，所以直接显示
+  function asyncCb(){
+    if (browser.versions.uc) {
+      console.log("UCBrowser");
+      fontLoaded();
+    } else {
+      WebFont.load({
+        custom: {
+          families: ['Oswald-Regular']
+        },
+        loading: function () {  //所有字体开始加载
+          // console.log('loading');
+        },
+        active: function () {  //所有字体已渲染
+          fontLoaded();
+        },
+        inactive: function () { //字体预加载失败，无效字体或浏览器不支持加载
+          console.log('inactive: timeout');
+          fontLoaded();
+        },
+        timeout: 5000 // Set the timeout to two seconds
+      });
+    }
+  }
+
+  async("https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js", asyncCb)
+</script>
+    <script>
+        (function (w) {
+            "use strict";
+            // rel=preload support test
+            if (!w.loadCSS) {
+                w.loadCSS = function () { };
+            }
+            // define on the loadCSS obj
+            var rp = loadCSS.relpreload = {};
+            // rel=preload feature support test
+            // runs once and returns a function for compat purposes
+            rp.support = (function () {
+                var ret;
+                try {
+                    ret = w.document.createElement("link").relList.supports("preload");
+                } catch (e) {
+                    ret = false;
+                }
+                return function () {
+                    return ret;
+                };
+            })();
+
+            // if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+            // then change that media back to its intended value on load
+            rp.bindMediaToggle = function (link) {
+                // remember existing media attr for ultimate state, or default to 'all'
+                var finalMedia = link.media || "all";
+
+                function enableStylesheet() {
+                    link.media = finalMedia;
+                }
+
+                // bind load handlers to enable media
+                if (link.addEventListener) {
+                    link.addEventListener("load", enableStylesheet);
+                } else if (link.attachEvent) {
+                    link.attachEvent("onload", enableStylesheet);
+                }
+
+                // Set rel and non-applicable media type to start an async request
+                // note: timeout allows this to happen async to let rendering continue in IE
+                setTimeout(function () {
+                    link.rel = "stylesheet";
+                    link.media = "only x";
+                });
+                // also enable media after 3 seconds,
+                // which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+                setTimeout(enableStylesheet, 3000);
+            };
+
+            // loop through link elements in DOM
+            rp.poly = function () {
+                // double check this to prevent external calls from running
+                if (rp.support()) {
+                    return;
+                }
+                var links = w.document.getElementsByTagName("link");
+                for (var i = 0; i < links.length; i++) {
+                    var link = links[i];
+                    // qualify links to those with rel=preload and as=style attrs
+                    if (link.rel === "preload" && link.getAttribute("as") === "style" && !link.getAttribute("data-loadcss")) {
+                        // prevent rerunning on link
+                        link.setAttribute("data-loadcss", true);
+                        // bind listeners to toggle media back
+                        rp.bindMediaToggle(link);
+                    }
+                }
+            };
+
+            // if unsupported, run the polyfill
+            if (!rp.support()) {
+                // run once at least
+                rp.poly();
+
+                // rerun poly on an interval until onload
+                var run = w.setInterval(rp.poly, 500);
+                if (w.addEventListener) {
+                    w.addEventListener("load", function () {
+                        rp.poly();
+                        w.clearInterval(run);
+                    });
+                } else if (w.attachEvent) {
+                    w.attachEvent("onload", function () {
+                        rp.poly();
+                        w.clearInterval(run);
+                    });
+                }
+            }
+            // commonjs
+            if (typeof exports !== "undefined") {
+                exports.loadCSS = loadCSS;
+            }
+            else {
+                w.loadCSS = loadCSS;
+            }
+        }(typeof global !== "undefined" ? global : this));
+    </script>
+    <script src="//cdn.staticfile.org/jquery/3.2.1/jquery.min.js" defer></script>
+    <script src="/scripts/main.js" defer></script>
+    <!-- 百度统计  -->
+    
+    <!-- 谷歌统计  -->
+    
+</head>
+
+    
+        <body class="post-body">
+    
+    
+<header class="header">
+
+    <div class="read-progress"></div>
+    <div class="header-sidebar-menu">&#xe775;</div>
+    <!-- post页的toggle banner  -->
+    
+    <div class="banner">
+            <div class="blog-title">
+                <a href="/" >Jayden&#39;s Website.</a>
+            </div>
+            <div class="post-title">
+                <a href="#" class="post-name">OpenStack安装部署</a>
+            </div>
+    </div>
+    
+    <a class="home-link" href=/>Jayden's Website.</a>
+</header>
+    <div class="wrapper">
+        <div class="site-intro">
+    
+    <!-- 主页  -->
+    
+    
+    <!-- 404页  -->
+            
+    <div class="site-intro-img" style="background-image: url(/intro/post-bg.jpg)"></div>
+    <div class="site-intro-placeholder"></div>
+    <div class="site-intro-meta">
+        <!-- 标题  -->
+        <h1 class="intro-title">
+            <!-- 主页  -->
+            
+            OpenStack安装部署
+            <!-- 404 -->
+            
+        </h1>
+        <!-- 副标题 -->
+        <p class="intro-subtitle">
+            <!-- 主页副标题  -->
+            
+            
+            <!-- 404 -->
+            
+        </p>
+        <!-- 文章页meta -->
+        
+            <!-- 文章页标签  -->
+            
+                <div class= post-intro-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = OpenStack>OpenStack</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = Installation>Installation</a>
+    
+</div>
+            
+            <div class="post-intro-meta">
+                <span class="post-intro-calander iconfont-archer">&#xe676;</span>
+                <span class="post-intro-time">2018/03/09</span>
+                
+                <span id="busuanzi_container_page_pv" class="busuanzi-pv">
+                    <span class="iconfont-archer">&#xe602;</span>
+                    <span id="busuanzi_value_page_pv"></span>
+                </span>
+                
+                <span class="shareWrapper">
+                    <span class="iconfont-archer shareIcon">&#xe71d;</span>
+                    <span class="shareText">Share</span>
+                    <ul class="shareList">
+                        <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
+                            <div class="share-qrcode"></div>
+                        </li>
+                        <li class="iconfont-archer" data-type="weibo">&#xe619;</li>
+                        <li class="iconfont-archer" data-type="qzone">&#xe62e;</li>
+                        <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
+                        <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
+                    </ul>
+                </span>
+            </div>
+        
+    </div>
+</div>
+        <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
+
+        <div class="container container-unloaded">
+            <main class="main post-page">
+    <article class="article-entry">
+        <p>本帖子记录的是openstack安装部署私有云详细图文教程</p>
+<p>本文主要分享的是云计算、openstack的使用、私有云平台建设、云服务器云硬盘的构建和使用。从基本概念入手到私有云建设，信息量非常大。对于openstack的安装部署都是从官方文档中一步步的介绍，内容非常详细。</p>
+<h2 id="云计算基本概念"><a href="#云计算基本概念" class="headerlink" title="云计算基本概念"></a>云计算基本概念</h2><p>云计算（cloud computing）是基于互联网的相关服务的增加、使用和交付模式，通常涉及通过互联网来提供动态易扩展且经常是虚拟化的资源。云是网络、互联网的一种比喻说法。过去在图中往往用云来表示电信网，后来也用来表示互联网和底层基础设施的抽象。因此，云计算甚至可以让你体验每秒10万亿次的运算能力，拥有这么强大的计算能力可以模拟核爆炸、预测气候变化和市场发展趋势。用户通过电脑、笔记本、手机等方式接入数据中心，按自己的需求进行运算。</p>
+<h3 id="云计算分类"><a href="#云计算分类" class="headerlink" title="云计算分类"></a>云计算分类</h3><p>简单来说，就是把应用程序和数据都放在由大量服务器组成的云中，用户需要什么只要购买相应服务并使用即可。</p>
+<p>云计算分为私有云、公有云、混合云。</p>
+<p>云计算的服务分类：基础设施即服务、平台即服务、软件即服务。</p>
+<ul>
+<li><p>超大规模。“云”具有相当的规模，Google云计算已经拥有100多万台服务器，亚马逊、IBM、微软和Yahoo等公司的“云”均拥有几十万台服务器。“云”能赋予用户前所未有的计算能力。</p>
+</li>
+<li><p>虚拟化。云计算支持用户在任意位置使用各种终端获取服务。所请求的资源来自“云”,而不是固定的有形的实体。应用在“云”中某处运行，但实际上用户无需了解应用运行的具体位置，只需要一台笔记本或一个PDA,就可以通过网络服务来获取各种能力超强的服务。</p>
+</li>
+<li><p>高可靠性。“云”使用了数据多副本容错、计算节点同构可互换等措施来保障服务的高可靠性，使用云计算比使用本地计算机更加可靠。</p>
+</li>
+<li><p>通用性。云计算不针对特定的应用，在“云”的支撑下可以构造出于变万化的应用，同一片“云”可以同时支撑不同的应用运行。</p>
+</li>
+<li><p>高可伸缩性。“云”的规模可以动态伸缩，满足应用和用户规模增长的需要。</p>
+</li>
+<li><p>按需服务。“云”是一个庞大的资源池，用户按需购买，像自来水、电和煤气那样计费。</p>
+</li>
+<li><p>极其廉价。“云”的特殊容错措施使得可以采用极其廉价的节点来构成云;“云”的自动化管理使数据中心管理成本大幅降低;“云”的公用性和通用性使资源的利用率大幅提升;“云”设施可以建在电力资源丰富的地区，从而大幅降低能源成本。</p>
+</li>
+</ul>
+<h3 id="OpenStack基本概念"><a href="#OpenStack基本概念" class="headerlink" title="OpenStack基本概念"></a>OpenStack基本概念</h3><p>OpenStack是一个开源的云计算管理平台项目，由几个主要的组件组合起来完成具体工作。OpenStack支持几乎所有类型的云环境，项目目标是提供实施简单、可大规模扩展、丰富、标准统一的云计算管理平台。OpenStack通过各种互补的服务提供了基础设施即服务（IaaS）的解决方案，每个服务提供API以进行集成。</p>
+<p>常见组件：</p>
+<ul>
+<li>Dashboard(web项目)</li>
+<li>Keystone(权限管理)</li>
+<li>Nova(管理虚拟机)</li>
+<li>Nova-network(管理网络流量和ip)</li>
+<li>Glance(镜像管理项目)</li>
+<li>Cinder(磁盘管理)</li>
+<li>Swift(网盘，对象)</li>
+</ul>
+<p>基础的系统图<br><img src="/images/openstack-1.png" alt="openstack-1"></p>
+<h2 id="Openstack安装部署"><a href="#Openstack安装部署" class="headerlink" title="Openstack安装部署"></a>Openstack安装部署</h2><p>下面来说一说openstack的安装部署。首先说明openstack的整体安装非常复杂，文末提供官方安装文档下载，我就是根据这个英文的官方文档来安装部署的。以下内容是参照官方文档“openstack-install-guide-yum-icehouse.pdf”来的。</p>
+<p>首先需要准备3台linux的机器。我这里选用的是centos6.6的64位的系统。配置IP地址，关闭防火墙，修改主机名。</p>
+<ul>
+<li><p>Controller Node: 1 processor, 2 GB memory, and 5 GB storage</p>
+</li>
+<li><p>Compute01: 1 processor, 512 MB memory, and 5 GB storage</p>
+</li>
+<li><p>Compute02 Node: 1 processor, 2 GB memory, and 10 GB storage</p>
+</li>
+</ul>
+<p>我这里controller的ip地址是:192.168.44.147</p>
+<p>computer01：192.168.44.148</p>
+<p>computer02：192.168.44.149</p>
+<p>基本环境配置</p>
+<p>以下内容是在controller机器上配置的。</p>
+<h3 id="数据库安装"><a href="#数据库安装" class="headerlink" title="数据库安装"></a>数据库安装</h3><p>因为需要一个数据库，所以这里选用了mysql数据库。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ yum install mysql mysql-server MySQL-python</span><br></pre></td></tr></table></figure>
+<p>编辑<code>/etc/my.cnf</code>文件，在里面添加如下内容，主要意思就是设置编码为utf-8。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">default-storage-engine = innodb</span><br><span class="line">innodb_file_per_table</span><br><span class="line">collation-server = utf8_general_ci</span><br><span class="line">init-connect = <span class="string">'SET NAMES utf8'</span></span><br><span class="line">character-set-server = utf8</span><br></pre></td></tr></table></figure></p>
+<p>然后启动服务，开机启动。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ service mysqld start</span><br><span class="line">$ chkconfig mysqld on</span><br><span class="line">$ mysql_install_db</span><br><span class="line">$ mysql_secure_installation</span><br></pre></td></tr></table></figure></p>
+<p>赋权，使其可以远程登录。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql &gt; GRANT ALL PRIVILEGES ON *.* TO <span class="string">'root'</span>@<span class="string">'%'</span> IDENTIFIED BY <span class="string">'password'</span>;</span><br></pre></td></tr></table></figure></p>
+<h2 id="OpenStack基本包安装"><a href="#OpenStack基本包安装" class="headerlink" title="OpenStack基本包安装"></a>OpenStack基本包安装</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ yum install yum-plugin-priorities</span><br><span class="line">$ yum install http://repos.fedorapeople.org/repos/openstack/openstackicehouse/rdo-release-icehouse-3.noarch.rpm</span><br><span class="line">$ yum install http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm</span><br><span class="line">$ yum install openstack-utils</span><br><span class="line">$ yum install openstack-selinux</span><br></pre></td></tr></table></figure>
+<h3 id="安装消息队列"><a href="#安装消息队列" class="headerlink" title="安装消息队列"></a>安装消息队列</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ yum install qpid-cpp-server</span><br></pre></td></tr></table></figure>
+<p>启动服务<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ service qpidd start</span><br><span class="line">$ chkconfig qpidd on</span><br></pre></td></tr></table></figure></p>
+<h3 id="权限认证服务-keystone"><a href="#权限认证服务-keystone" class="headerlink" title="权限认证服务(keystone)"></a>权限认证服务(keystone)</h3><p>安装权限认证服务：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ yum install openstack-keystone python-keystoneclient -y</span><br></pre></td></tr></table></figure>
+<p>创建用户，写入到配置文件中：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ openstack-config --<span class="built_in">set</span> /etc/keystone/keystone.conf database connection mysql://keystone:KEYSTONE_DBPASS@controller/keystone</span><br></pre></td></tr></table></figure>
+<p>创建keystone数据库表：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ mysql -u root -p</span><br><span class="line">mysql&gt; CREATE DATABASE keystone;</span><br><span class="line">mysql&gt; GRANT ALL PRIVILEGES ON keystone.* TO <span class="string">'keystone'</span>@<span class="string">'localhost'</span> \</span><br><span class="line">IDENTIFIED BY <span class="string">'KEYSTONE_DBPASS'</span>;</span><br><span class="line">mysql&gt; GRANT ALL PRIVILEGES ON keystone.* TO <span class="string">'keystone'</span>@<span class="string">'%'</span> \</span><br><span class="line">IDENTIFIED BY <span class="string">'KEYSTONE_DBPASS'</span>;</span><br><span class="line">mysql&gt; <span class="built_in">exit</span></span><br></pre></td></tr></table></figure>
+<p>自动生成表：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ su -s /bin/sh -c <span class="string">"keystone-manage db_sync"</span> keystone</span><br></pre></td></tr></table></figure>
+<p>设置用户环境变量：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ ADMIN_TOKEN=$(openssl rand -hex 10)</span><br><span class="line">$ <span class="built_in">echo</span> <span class="variable">$ADMIN_TOKEN</span></span><br><span class="line">$ openstack-config --<span class="built_in">set</span> /etc/keystone/keystone.conf DEFAULT \</span><br><span class="line">$ admin_token <span class="variable">$ADMIN_TOKEN</span></span><br><span class="line"></span><br><span class="line">$ keystone-manage pki_setup --keystone-user keystone --keystone-group keystone</span><br><span class="line">$ chown -R keystone:keystone /etc/keystone/ssl</span><br><span class="line">$ chmod -R o-rwx /etc/keystone/ssl</span><br></pre></td></tr></table></figure>
+<p>启动keystone服务：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ service openstack-keystone start</span><br><span class="line">$ chkconfig openstack-keystone on</span><br></pre></td></tr></table></figure>
+<p>将admin_token设置到环境变量中去。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">export</span> OS_SERVICE_TOKEN=<span class="variable">$ADMIN_TOKEN</span></span><br><span class="line">$ <span class="built_in">export</span> OS_SERVICE_ENDPOINT=http://controller:35357/v2.0</span><br></pre></td></tr></table></figure>
+<p>创建管理员用户，默认的用户名为admin,密码为ADMIN_PASS,你可以自定义修改：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">[root@controller keystone]<span class="comment"># keystone user-create --name=admin --pass=ADMIN_PASS --email=ADMIN_EMAIL</span></span><br><span class="line">+----------+----------------------------------+</span><br><span class="line">| Property | Value |</span><br><span class="line">+----------+----------------------------------+</span><br><span class="line">| email | ADMIN_EMAIL|</span><br><span class="line">| enabled | True |</span><br><span class="line">|id| 332f5ecb18c64bf687b154facd629fb6 |</span><br><span class="line">| name | admin |</span><br><span class="line">| username | admin |</span><br><span class="line">+----------+----------------------------------+</span><br><span class="line">[root@controller keystone]<span class="comment"># keystone role-create --name=admin</span></span><br><span class="line">+----------+----------------------------------+</span><br><span class="line">| Property | Value |</span><br><span class="line">+----------+----------------------------------+</span><br><span class="line">|id| ab5da2c50d7443efb0514e84c2b4adb7 |</span><br><span class="line">| name | admin |</span><br><span class="line">+----------+----------------------------------+</span><br><span class="line">[root@controller keystone]<span class="comment"># keystone tenant-create --name=admin --description="Admin Tenant"</span></span><br><span class="line">+-------------+----------------------------------+</span><br><span class="line">| Property | Value |</span><br><span class="line">+-------------+----------------------------------+</span><br><span class="line">| description | Admin Tenant |</span><br><span class="line">| enabled | True |</span><br><span class="line">| id | b89723a38b154eeea6416a83b293b0ad |</span><br><span class="line">| name| admin |</span><br><span class="line">+-------------+----------------------------------+</span><br><span class="line">[root@controller keystone]<span class="comment"># keystone user-role-add --user=admin --tenant=admin --role=admin</span></span><br><span class="line">[root@controller keystone]<span class="comment"># keystone user-role-add --user=admin --role=_member_ --tenant=admin</span></span><br><span class="line">[root@controller keystone]<span class="comment">#</span></span><br></pre></td></tr></table></figure></p>
+<p>创建一个权限认证服务，因为我这里的主机名是controller，所以下面有 <a href="http://controller:35357/v2.0" target="_blank" rel="noopener">http://controller:35357/v2.0</a> 这些信息，可以自定义修改：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">[root@controller keystone]<span class="comment"># keystone service-create --name=keystone --type=identity \</span></span><br><span class="line">&gt; --description=<span class="string">"OpenStack Identity"</span></span><br><span class="line">+-------------+----------------------------------+</span><br><span class="line">| Property | Value |</span><br><span class="line">+-------------+----------------------------------+</span><br><span class="line">| description |OpenStack Identity|</span><br><span class="line">| enabled | True |</span><br><span class="line">| id | 4bfd5f39b86c45edb92d5c0488987dd8 |</span><br><span class="line">| name| keystone |</span><br><span class="line">| <span class="built_in">type</span>| identity |</span><br><span class="line">+-------------+----------------------------------+</span><br><span class="line">[root@controller keystone]<span class="comment"># keystone endpoint-create \</span></span><br><span class="line">&gt; --service-id=$(keystone service-list | awk <span class="string">'/ identity / &#123;print $2&#125;'</span>) \</span><br><span class="line">&gt; --publicurl=http://controller:5000/v2.0 \</span><br><span class="line">&gt; --internalurl=http://controller:5000/v2.0 \</span><br><span class="line">&gt; --adminurl=http://controller:35357/v2.0</span><br><span class="line">+-------------+----------------------------------+</span><br><span class="line">| Property | Value |</span><br><span class="line">+-------------+----------------------------------+</span><br><span class="line">| adminurl | http://controller:35357/v2.0 |</span><br><span class="line">| id | 0350b72901a141498fe48304b13a1b98 |</span><br><span class="line">| internalurl | http://controller:5000/v2.0|</span><br><span class="line">| publicurl | http://controller:5000/v2.0|</span><br><span class="line">|region |regionOne |</span><br><span class="line">| service_id | 4bfd5f39b86c45edb92d5c0488987dd8 |</span><br><span class="line">+-------------+----------------------------------+</span><br><span class="line">[root@controller keystone]<span class="comment"># keystone user-create --name=demo --pass=DEMO_PASS --email=DEMO_EMAIL</span></span><br><span class="line">+----------+----------------------------------+</span><br><span class="line">| Property | Value |</span><br><span class="line">+----------+----------------------------------+</span><br><span class="line">| email |DEMO_EMAIL|</span><br><span class="line">| enabled | True |</span><br><span class="line">|id| b44a9a1462d74f4e928b3b339289a2ae |</span><br><span class="line">| name | demo |</span><br><span class="line">| username | demo |</span><br><span class="line">+----------+----------------------------------+</span><br><span class="line">[root@controller keystone]<span class="comment"># keystone tenant-create --name=demo --description="Demo Tenant"</span></span><br><span class="line">+-------------+----------------------------------+</span><br><span class="line">| Property | Value |</span><br><span class="line">+-------------+----------------------------------+</span><br><span class="line">| description | Demo Tenant|</span><br><span class="line">| enabled | True |</span><br><span class="line">| id | 7bd79509ee184a2098ca0644679b60a8 |</span><br><span class="line">| name| demo |</span><br><span class="line">+-------------+----------------------------------+</span><br><span class="line">[root@controller keystone]<span class="comment"># keystone user-role-add --user=demo --role=_member_ --tenant=demo</span></span><br><span class="line">[root@controller keystone]<span class="comment">#</span></span><br></pre></td></tr></table></figure></p>
+<p>为了方便我们取到token，我们可以vi admin-openrc.sh,然后添加如下内容：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">export</span> OS_USERNAME=admin</span><br><span class="line">$ <span class="built_in">export</span> OS_PASSWORD=ADMIN_PASS</span><br><span class="line">$ <span class="built_in">export</span> OS_TENANT_NAME=admin</span><br><span class="line">$ <span class="built_in">export</span> OS_AUTH_URL=http://controller:35357/v2.0</span><br></pre></td></tr></table></figure>
+<p>在每次关机重启之后都要重新执行下面的命令，让环境变量起作用。否则会报”Expecting an auth URL via either –os-auth-url or env[OS_AUTH_URL]”的错误：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">source</span> admin-openrc.sh</span><br></pre></td></tr></table></figure>
+<p>我们可以使用下面的命令查看keystone目前的用户有哪些：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ keystone user-list</span><br></pre></td></tr></table></figure>
+<h3 id="配置镜像服务-glance"><a href="#配置镜像服务-glance" class="headerlink" title="配置镜像服务(glance)"></a>配置镜像服务(glance)</h3><p>在controller服务器中安装服务:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ yum install openstack-glance python-glanceclient</span><br><span class="line">$ openstack-config --<span class="built_in">set</span> /etc/glance/glance-api.conf database connection mysql://glance:GLANCE_DBPASS@controller/glance</span><br><span class="line">$ openstack-config --<span class="built_in">set</span> /etc/glance/glance-registry.conf database connection mysql://glance:GLANCE_DBPASS@controller/glance</span><br></pre></td></tr></table></figure>
+<p>在mysql数据库中创建glance数据库：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ mysql -u root -p</span><br><span class="line">mysql&gt; CREATE DATABASE glance;</span><br><span class="line">mysql&gt; GRANT ALL PRIVILEGES ON glance.* TO <span class="string">'glance'</span>@<span class="string">'localhost'</span> IDENTIFIED BY <span class="string">'GLANCE_DBPASS'</span>;</span><br><span class="line">mysql&gt; GRANT ALL PRIVILEGES ON glance.* TO <span class="string">'glance'</span>@<span class="string">'%'</span> IDENTIFIED BY <span class="string">'GLANCE_DBPASS'</span>;</span><br><span class="line">mysql&gt; flush privileges;</span><br></pre></td></tr></table></figure>
+<p>自动生成表：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ su -s /bin/sh -c <span class="string">"glance-manage db_sync"</span> glance</span><br></pre></td></tr></table></figure>
+<p>在keystone上创建用户：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ keystone user-create --name=glance --pass=GLANCE_PASS --email=glance@example.com</span><br><span class="line">$ keystone user-role-add --user=glance --tenant=service --role=admin</span><br></pre></td></tr></table></figure>
+<p>配置授权服务：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">$ openstack-config --<span class="built_in">set</span> /etc/glance/glance-api.conf keystone_authtoken auth_uri http://controller:5000</span><br><span class="line">$ openstack-config --<span class="built_in">set</span> /etc/glance/glance-api.conf keystone_authtoken auth_host controller</span><br><span class="line">$ openstack-config --<span class="built_in">set</span> /etc/glance/glance-api.conf keystone_authtoken auth_port 35357</span><br><span class="line">$ openstack-config --<span class="built_in">set</span> /etc/glance/glance-api.conf keystone_authtoken auth_protocol http</span><br><span class="line">$ openstack-config --<span class="built_in">set</span> /etc/glance/glance-api.conf keystone_authtoken admin_tenant_name service</span><br><span class="line">$ openstack-config --<span class="built_in">set</span> /etc/glance/glance-api.conf keystone_authtoken admin_user glance</span><br><span class="line">$ openstack-config --<span class="built_in">set</span> /etc/glance/glance-api.conf keystone_authtoken admin_password GLANCE_PASS</span><br><span class="line">$ openstack-config --<span class="built_in">set</span> /etc/glance/glance-api.conf paste_deploy flavor keystone</span><br><span class="line">$ openstack-config --<span class="built_in">set</span> /etc/glance/glance-registry.conf keystone_authtoken auth_uri http://controller:5000</span><br><span class="line">$ openstack-config --<span class="built_in">set</span> /etc/glance/glance-registry.conf keystone_authtoken auth_host controller</span><br><span class="line">$ openstack-config --<span class="built_in">set</span> /etc/glance/glance-registry.conf keystone_authtoken auth_port 35357</span><br><span class="line">$ openstack-config --<span class="built_in">set</span> /etc/glance/glance-registry.conf keystone_authtoken auth_protocol http</span><br><span class="line">$ openstack-config --<span class="built_in">set</span> /etc/glance/glance-registry.conf keystone_authtoken admin_tenant_name service</span><br><span class="line">$ openstack-config --<span class="built_in">set</span> /etc/glance/glance-registry.conf keystone_authtoken admin_user glance</span><br><span class="line">$ openstack-config --<span class="built_in">set</span> /etc/glance/glance-registry.conf keystone_authtoken admin_password GLANCE_PASS</span><br><span class="line">$ openstack-config --<span class="built_in">set</span> /etc/glance/glance-registry.conf paste_deploy flavor keystone</span><br></pre></td></tr></table></figure></p>
+<p>启动服务：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ service openstack-glance-api start</span><br><span class="line">$ service openstack-glance-registry start</span><br><span class="line">$ chkconfig openstack-glance-api on</span><br><span class="line">$ chkconfig openstack-glance-registry on</span><br></pre></td></tr></table></figure>
+<p>创建服务：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">$ keystone service-create --name=glance --<span class="built_in">type</span>=image --description=<span class="string">"OpenStack Image Service"</span></span><br><span class="line">$ keystone endpoint-create --service-id=$(keystone service-list | awk <span class="string">'/ image / &#123;print $2&#125;'</span>) --publicurl=http://controller:9292 --internalurl=http://controller:9292 --adminurl=http://controller:9292</span><br><span class="line"></span><br><span class="line">$ keystone service-create --name=glance --<span class="built_in">type</span>=image --description=<span class="string">"OpenStack Image Service"</span></span><br><span class="line">/usr/lib64/python2.6/site-packages/Crypto/Util/number.py:57: PowmInsecureWarning: Not using mpz_powm_sec. You should rebuild using libgmp &gt;= 5 to avoid timing attack vulnerability.</span><br><span class="line"> _warn(<span class="string">"Not using mpz_powm_sec. You should rebuild using libgmp &gt;= 5 to avoid timing attack vulnerability."</span>, PowmInsecureWarning)</span><br><span class="line">+-------------+----------------------------------+</span><br><span class="line">| Property | Value |</span><br><span class="line">+-------------+----------------------------------+</span><br><span class="line">| description | OpenStack Image Service |</span><br><span class="line">| enabled | True |</span><br><span class="line">| id | a45f77cfc12c42d19a45a6ea12cdfc51 |</span><br><span class="line">| name| glance |</span><br><span class="line">| <span class="built_in">type</span>| image |</span><br><span class="line">+-------------+----------------------------------+</span><br><span class="line">[root@controller ~]<span class="comment"># keystone endpoint-create \</span></span><br><span class="line">&gt; --service-id=$(keystone service-list | awk <span class="string">'/ image / &#123;print $2&#125;'</span>) \</span><br><span class="line">&gt; --publicurl=http://controller:9292 \</span><br><span class="line">&gt; --internalurl=http://controller:9292 \</span><br><span class="line">&gt; --adminurl=http://controller:9292</span><br><span class="line"></span><br><span class="line">+-------------+----------------------------------+</span><br><span class="line">| Property | Value |</span><br><span class="line">+-------------+----------------------------------+</span><br><span class="line">| adminurl | http://controller:9292 |</span><br><span class="line">| id | 75deb2d2f85e4b7b88fe18bf5fca1a87 |</span><br><span class="line">| internalurl | http://controller:9292 |</span><br><span class="line">| publicurl | http://controller:9292 |</span><br><span class="line">|region |regionOne |</span><br><span class="line">| service_id | a45f77cfc12c42d19a45a6ea12cdfc51 |</span><br><span class="line">+-------------+----------------------------------+</span><br></pre></td></tr></table></figure>
+<p>创建镜像，先将下载好的cirros-0.3.2-x86_64-disk.img放置在/root目录下，然后执行下面的命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ glance image-create --name <span class="string">"cirros-0.3.2-x86_64"</span> --disk-format qcow2 --container-format bare --is-public True --progress &lt; cirros-0.3.2-x86_64-disk.img</span><br></pre></td></tr></table></figure>
+<p>查看镜像列表：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ glance image-list</span><br></pre></td></tr></table></figure>
+<p><img src="/images/openstack-image-list.jpg" alt="openstack-image-list"></p>
+<p>在前面我们已经对kvm虚拟化有所了解，所以我们现在知道qcow2就是一个镜像文件。</p>
+<h3 id="服务器管理（Nova"><a href="#服务器管理（Nova" class="headerlink" title="服务器管理（Nova)"></a>服务器管理（Nova)</h3><p>对于虚拟机管理我们需要从controller和computer01进行配置。</p>
+<p>先来看controller的配置：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">$ yum install openstack-nova-api openstack-nova-cert openstack-nova-conductor openstack-nova-console openstack-nova-novncproxy openstack-nova-scheduler python-novaclient</span><br><span class="line">$ mysql -u root -p</span><br><span class="line">mysql&gt; CREATE DATABASE nova;</span><br><span class="line">mysql&gt; GRANT ALL PRIVILEGES ON nova.* TO <span class="string">'nova'</span>@<span class="string">'localhost'</span> \</span><br><span class="line">IDENTIFIED BY <span class="string">'NOVA_DBPASS'</span>;</span><br><span class="line">mysql&gt; GRANT ALL PRIVILEGES ON nova.* TO <span class="string">'nova'</span>@<span class="string">'%'</span> \</span><br><span class="line">IDENTIFIED BY <span class="string">'NOVA_DBPASS'</span>;</span><br><span class="line"></span><br><span class="line">$ openstack-config --<span class="built_in">set</span> /etc/nova/nova.conf database connection mysql://nova:NOVA_DBPASS@controller/nova</span><br><span class="line">$ openstack-config --<span class="built_in">set</span> /etc/nova/nova.conf DEFAULT rpc_backend qpid</span><br><span class="line">$ openstack-config --<span class="built_in">set</span> /etc/nova/nova.conf DEFAULT qpid_hostname controller</span><br><span class="line">$ openstack-config --<span class="built_in">set</span> /etc/nova/nova.conf DEFAULT my_ip 192.168.44.147</span><br><span class="line">$ openstack-config --<span class="built_in">set</span> /etc/nova/nova.conf DEFAULT vncserver_listen 192.168.216.210</span><br><span class="line">$ openstack-config --<span class="built_in">set</span> /etc/nova/nova.conf DEFAULT vncserver_proxyclient_address 192.168.44.147</span><br><span class="line">$ openstack-config --<span class="built_in">set</span> /etc/nova/nova.conf DEFAULT auth_strategy keystone</span><br><span class="line">$ openstack-config --<span class="built_in">set</span> /etc/nova/nova.conf keystone_authtoken auth_uri http://controller:5000</span><br><span class="line">$ openstack-config --<span class="built_in">set</span> /etc/nova/nova.conf keystone_authtoken auth_host controller</span><br><span class="line">$ openstack-config --<span class="built_in">set</span> /etc/nova/nova.conf keystone_authtoken auth_protocol http</span><br><span class="line">$ openstack-config --<span class="built_in">set</span> /etc/nova/nova.conf keystone_authtoken auth_port 35357</span><br><span class="line">$ openstack-config --<span class="built_in">set</span> /etc/nova/nova.conf keystone_authtoken admin_user nova</span><br><span class="line">$ openstack-config --<span class="built_in">set</span> /etc/nova/nova.conf keystone_authtoken admin_tenant_name service</span><br><span class="line">$ openstack-config --<span class="built_in">set</span> /etc/nova/nova.conf keystone_authtoken admin_password NOVA_PASS</span><br><span class="line">$ keystone user-create --name=nova --pass=NOVA_PASS --email=nova@example.com</span><br><span class="line">$ keystone user-role-add --user=nova --tenant=service --role=admin</span><br><span class="line">$ keystone service-create --name=nova --<span class="built_in">type</span>=compute --description=<span class="string">"OpenStack Compute"</span></span><br><span class="line">$ keystone endpoint-create --service-id=$(keystone service-list | awk <span class="string">'/ compute / &#123;print $2&#125;'</span>) --publicurl=http://controller:8774/v2/%\(tenant_id\)s --internalurl=http://controller:8774/v2/%\(tenant_id\)s --adminurl=http://controller:8774/v2/%\(tenant_id\)s</span><br></pre></td></tr></table></figure>
+<p>然后是computer01的配置：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">$ yum install openstack-nova-compute</span><br><span class="line">$ openstack-config --<span class="built_in">set</span> /etc/nova/nova.conf database connection mysql://nova:NOVA_DBPASS@controller/nova</span><br><span class="line">$ openstack-config --<span class="built_in">set</span> /etc/nova/nova.conf DEFAULT auth_strategy keystone</span><br><span class="line">$ openstack-config --<span class="built_in">set</span> /etc/nova/nova.conf keystone_authtoken auth_uri http://controller:5000</span><br><span class="line">$ openstack-config --<span class="built_in">set</span> /etc/nova/nova.conf keystone_authtoken auth_host controller</span><br><span class="line">$ openstack-config --<span class="built_in">set</span> /etc/nova/nova.conf keystone_authtoken auth_protocol http</span><br><span class="line">$ openstack-config --<span class="built_in">set</span> /etc/nova/nova.conf keystone_authtoken auth_port 35357</span><br><span class="line">$ openstack-config --<span class="built_in">set</span> /etc/nova/nova.conf keystone_authtoken admin_user nova</span><br><span class="line">$ openstack-config --<span class="built_in">set</span> /etc/nova/nova.conf keystone_authtoken admin_tenant_name service</span><br><span class="line">$ openstack-config --<span class="built_in">set</span> /etc/nova/nova.conf keystone_authtoken admin_password NOVA_PASS</span><br><span class="line">$ openstack-config --<span class="built_in">set</span> /etc/nova/nova.conf DEFAULT rpc_backend qpid</span><br><span class="line">$ openstack-config --<span class="built_in">set</span> /etc/nova/nova.conf DEFAULT qpid_hostname controller</span><br><span class="line">$ openstack-config --<span class="built_in">set</span> /etc/nova/nova.conf DEFAULT my_ip 192.168.44.148</span><br><span class="line">$ openstack-config --<span class="built_in">set</span> /etc/nova/nova.conf DEFAULT vnc_enabled True</span><br><span class="line">$ openstack-config --<span class="built_in">set</span> /etc/nova/nova.conf DEFAULT vncserver_listen 0.0.0.0</span><br><span class="line">$ openstack-config --<span class="built_in">set</span> /etc/nova/nova.conf DEFAULT vncserver_proxyclient_address 192.168.44.148</span><br><span class="line">$ openstack-config --<span class="built_in">set</span> /etc/nova/nova.conf DEFAULT novncproxy_base_url http://controller:6080/vnc_auto.html</span><br><span class="line">$ openstack-config --<span class="built_in">set</span> /etc/nova/nova.conf DEFAULT glance_host controller</span><br><span class="line">$ openstack-config --<span class="built_in">set</span> /etc/nova/nova.conf libvirt virt_type kvm</span><br></pre></td></tr></table></figure>
+<p>启动服务：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ service libvirtd start</span><br><span class="line">$ service messagebus start</span><br><span class="line">$ service openstack-nova-compute start</span><br><span class="line">$ chkconfig libvirtd on</span><br><span class="line">$ chkconfig messagebus on</span><br><span class="line">$ chkconfig openstack-nova-compute on</span><br></pre></td></tr></table></figure>
+<h3 id="网络服务配置"><a href="#网络服务配置" class="headerlink" title="网络服务配置"></a>网络服务配置</h3><p>在controller端：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ openstack-config --<span class="built_in">set</span> /etc/nova/nova.conf DEFAULT network_api_class nova.network.api.API</span><br><span class="line">$ openstack-config --<span class="built_in">set</span> /etc/nova/nova.conf DEFAULT security_group_api nova</span><br></pre></td></tr></table></figure>
+<p>在computer01端：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">$ yum install openstack-nova-network openstack-nova-api</span><br><span class="line">$ openstack-config --<span class="built_in">set</span> /etc/nova/nova.conf DEFAULT network_api_class nova.network.api.API</span><br><span class="line">$ openstack-config --<span class="built_in">set</span> /etc/nova/nova.conf DEFAULT security_group_api nova</span><br><span class="line">$ openstack-config --<span class="built_in">set</span> /etc/nova/nova.conf DEFAULT network_manager nova.network.manager.FlatDHCPManager</span><br><span class="line">$ openstack-config --<span class="built_in">set</span> /etc/nova/nova.conf DEFAULT firewall_driver nova.virt.libvirt.firewall.IptablesFirewallDriver</span><br><span class="line">$ openstack-config --<span class="built_in">set</span> /etc/nova/nova.conf DEFAULT network_size 254</span><br><span class="line">$ openstack-config --<span class="built_in">set</span> /etc/nova/nova.conf DEFAULT allow_same_net_traffic False</span><br><span class="line">$ openstack-config --<span class="built_in">set</span> /etc/nova/nova.conf DEFAULT multi_host True</span><br><span class="line">$ openstack-config --<span class="built_in">set</span> /etc/nova/nova.conf DEFAULT send_arp_for_ha True</span><br><span class="line">$ openstack-config --<span class="built_in">set</span> /etc/nova/nova.conf DEFAULT share_dhcp_address True</span><br><span class="line">$ openstack-config --<span class="built_in">set</span> /etc/nova/nova.conf DEFAULT force_dhcp_release True</span><br><span class="line">$ openstack-config --<span class="built_in">set</span> /etc/nova/nova.conf DEFAULT flat_network_bridge br100</span><br><span class="line">$ openstack-config --<span class="built_in">set</span> /etc/nova/nova.conf DEFAULT flat_interface eth1</span><br><span class="line">$ openstack-config --<span class="built_in">set</span> /etc/nova/nova.conf DEFAULT public_interface eth0</span><br><span class="line">$ nova network-create demo-net --bridge br100 --multi-host T --fixed-range-v4 88.8.8.16/28</span><br></pre></td></tr></table></figure>
+<p>然后使用nova net-list来查看：<br><img src="/images/openstack-nova-net-list.png" alt="openstack-nova-net-list"></p>
+<h2 id="创建虚拟机"><a href="#创建虚拟机" class="headerlink" title="创建虚拟机"></a>创建虚拟机</h2><h3 id="配置ssh密码登录："><a href="#配置ssh密码登录：" class="headerlink" title="配置ssh密码登录："></a>配置ssh密码登录：</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ssh-keygen</span><br></pre></td></tr></table></figure>
+<h3 id="增加公钥到openstack环境中："><a href="#增加公钥到openstack环境中：" class="headerlink" title="增加公钥到openstack环境中："></a>增加公钥到openstack环境中：</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ nova keypair-add --pub-key ~/.ssh/id_rsa.pub demo-key</span><br></pre></td></tr></table></figure>
+<h3 id="验证是否配置成功："><a href="#验证是否配置成功：" class="headerlink" title="验证是否配置成功："></a>验证是否配置成功：</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ nova keypair-list</span><br><span class="line">$ nova flavor-list</span><br></pre></td></tr></table></figure>
+<h3 id="创建实例："><a href="#创建实例：" class="headerlink" title="创建实例："></a>创建实例：</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ nova boot --flavor m1.tiny --image cirros-0.3.2-x86_64 --nic netid=DEMO_NET_ID --security-group default --key-name demo-key demo-instance1</span><br></pre></td></tr></table></figure>
+<p>说明：</p>
+<p>DEMO_NET_ID：指的是nova net-list的ID。</p>
+<p>demo-instance1指的是虚拟机的名字。</p>
+<p>例如我的成功执行如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ nova boot --flavor m1.tiny --image cirros-0.3.2-x86_64 --nic net-id=55fc305f-570f-4d4f-89d0-ce303e589f20 --security-group default --key-name demo-key tfjt</span><br></pre></td></tr></table></figure>
+<h3 id="使用nova-list进行查看："><a href="#使用nova-list进行查看：" class="headerlink" title="使用nova list进行查看："></a>使用nova list进行查看：</h3><p><img src="/images/openstack-nova-list.png" alt="openstack-nova-list"><br>从这里我们看到我这上面有一个ip地址192.168.44.17.这个地址就是浮动IP。</p>
+<h3 id="配置浮动IP"><a href="#配置浮动IP" class="headerlink" title="配置浮动IP"></a>配置浮动IP</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## 浮动ip</span></span><br><span class="line">$ nova-manage floating create --ip_range=192.168.44.16/28</span><br><span class="line"></span><br><span class="line"><span class="comment">## 查看可用地址</span></span><br><span class="line">$ nova-manage floating list</span><br><span class="line">$ nova floating-ip-create</span><br><span class="line"></span><br><span class="line"><span class="comment">## 给创建的虚拟机绑定浮动ip，这个7bc0086…就是我之前创建的虚拟机的ID。后面接上IP地址即可。</span></span><br><span class="line">$ nova add-floating-ip 7bc00086-1870-4367-9f05-666d5067ccff 192.168.44.17</span><br><span class="line"></span><br><span class="line"><span class="comment">## 监听</span></span><br><span class="line">$ cpdump -n -i eth0 icmp</span><br></pre></td></tr></table></figure>
+<p>在controller上：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ nova secgroup-add-rule default icmp -1 -1 0.0.0.0/0</span><br><span class="line">$ nova secgroup-add-rule default tcp 22 22 0.0.0.0/0</span><br></pre></td></tr></table></figure>
+<h3 id="使用下面的命令可以输出一个url地址："><a href="#使用下面的命令可以输出一个url地址：" class="headerlink" title="使用下面的命令可以输出一个url地址："></a>使用下面的命令可以输出一个url地址：</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ nova get-vnc-console tfjt novnc</span><br></pre></td></tr></table></figure>
+<h3 id="我们可以在浏览器中进行访问。"><a href="#我们可以在浏览器中进行访问。" class="headerlink" title="我们可以在浏览器中进行访问。"></a>我们可以在浏览器中进行访问。</h3><p><img src="/images/openstack-vnc.png" alt="openstack-vnc"><br>到这里为止，我们的云服务器就算完成了。可以在浏览器上访问我们的云服务器，怎么样是不是很激动。</p>
+<h2 id="界面服务（dashboard）"><a href="#界面服务（dashboard）" class="headerlink" title="界面服务（dashboard）"></a>界面服务（dashboard）</h2><p>上面我们可以看到很多操作是在终端进行的，那么肯定是有界面版的，所以我们在computer02中进行配置。</p>
+<h3 id="安装服务"><a href="#安装服务" class="headerlink" title="安装服务"></a>安装服务</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ yum install memcached python-memcached mod_wsgi openstack-dashboard</span><br></pre></td></tr></table></figure>
+<h3 id="文件配置"><a href="#文件配置" class="headerlink" title="文件配置"></a>文件配置</h3><p>在controller中</p>
+<p>配置/etc/openstack-dashboard/local_settings。修改为如下内容。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">ALLOWED_HOSTS = [<span class="string">'*'</span>]  </span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">CACHES = &#123;  </span><br><span class="line"><span class="string">'default'</span>: &#123;  </span><br><span class="line"><span class="string">'BACKEND'</span> : <span class="string">'django.core.cache.backends.memcached.MemcachedCache'</span>,  </span><br><span class="line"><span class="string">'LOCATION'</span> : <span class="string">'127.0.0.1:11211'</span>  </span><br><span class="line">&#125;  </span><br><span class="line">&#125;  </span><br><span class="line">  </span><br><span class="line">OPENSTACK_HOST = <span class="string">"controller"</span></span><br></pre></td></tr></table></figure>
+<h3 id="连接"><a href="#连接" class="headerlink" title="连接"></a>连接</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ setsebool -P httpd_can_network_connect on</span><br><span class="line">$ service httpd start</span><br><span class="line">$ service memcached start</span><br><span class="line">$ chkconfig httpd on</span><br><span class="line">$ chkconfig memcached on</span><br></pre></td></tr></table></figure>
+<h3 id="浏览器中访问"><a href="#浏览器中访问" class="headerlink" title="浏览器中访问"></a>浏览器中访问</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ http://192.168.44.147/dashboard/project/</span><br></pre></td></tr></table></figure>
+<p><img src="/images/openstack-dashboard-1.png" alt="openstack-dashboard-1"></p>
+<p>用户名就是我们之前配置的admin,密码是ADMIN_PASS</p>
+<p>在这个界面版里面的各种操作我这里就不细说了，可以自己去体验。<br><img src="/images/openstack-dashboard-2.png" alt="openstack-dashboard-2"></p>
+<p>在这里可以看到我们的云服务器实例。<br><img src="/images/openstack-dashboard-3.png" alt="openstack-dashboard-3"></p>
+<h2 id="云硬盘服务（cinder"><a href="#云硬盘服务（cinder" class="headerlink" title="云硬盘服务（cinder)"></a>云硬盘服务（cinder)</h2><p>了解过阿里云或者腾讯云的就知道，里面都有一个云硬盘服务，可以给我们的机器增加磁盘。</p>
+<p>在controller端：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ yum stall openstack-cinde</span><br><span class="line">$ openstack-config --<span class="built_in">set</span> /etc/cinder/cinder.conf database connection mysql://cinder:CINDER_DBPASS@controller/cinder</span><br><span class="line">mysql&gt; CREATE DATABASE cinder;</span><br><span class="line">mysql&gt; GRANT ALL PRIVILEGES ON cinder.* TO <span class="string">'cinder'</span>@<span class="string">'localhost'</span> IDENTIFIED BY <span class="string">'CINDER_DBPASS'</span>;</span><br><span class="line">mysql&gt; GRANT ALL PRIVILEGES ON cinder.* TO <span class="string">'cinder'</span>@<span class="string">'%'</span> IDENTIFIED BY <span class="string">'CINDER_DBPASS'</span>;</span><br></pre></td></tr></table></figure>
+<p>创建数据库表：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ su -s /bin/sh -c <span class="string">"cinder-manage db sync"</span> cinder</span><br></pre></td></tr></table></figure></p>
+<p>创建用户并赋予角色：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ keystone user-create --name=cinder --pass=CINDER_PASS--email=cinder@example.com</span><br><span class="line">$ keystone user-role-add --user=cinder --tenant=service --role=admin</span><br></pre></td></tr></table></figure></p>
+<p>权限控制配置：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ openstack-config --<span class="built_in">set</span> /etc/cinder/cinder.conf DEFAULT auth_strategy keystone</span><br><span class="line">$ openstack-config --<span class="built_in">set</span> /etc/cinder/cinder.conf keystone_authtoken auth_uri http://controller:5000</span><br><span class="line">$ openstack-config --<span class="built_in">set</span> /etc/cinder/cinder.conf keystone_authtoken auth_host controller</span><br><span class="line">$ openstack-config --<span class="built_in">set</span> /etc/cinder/cinder.conf keystone_authtoken auth_protocol http</span><br><span class="line">$ openstack-config --<span class="built_in">set</span> /etc/cinder/cinder.conf keystone_authtoken auth_port 35357</span><br><span class="line">$ openstack-config --<span class="built_in">set</span> /etc/cinder/cinder.conf keystone_authtoken admin_user cinder</span><br><span class="line">$ openstack-config --<span class="built_in">set</span> /etc/cinder/cinder.conf keystone_authtoken admin_tenant_name service</span><br><span class="line">$ openstack-config --<span class="built_in">set</span> /etc/cinder/cinder.conf keystone_authtoken admin_password CINDER_PASS</span><br></pre></td></tr></table></figure></p>
+<p>消息队列配置：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">$ openstack-config --<span class="built_in">set</span> /etc/cinder/cinder.conf DEFAULT rpc_backend qpid</span><br><span class="line">$ openstack-config --<span class="built_in">set</span> /etc/cinder/cinder.conf DEFAULT qpid_hostname controller</span><br><span class="line"></span><br><span class="line">$ keystone service-create --name=cinder --<span class="built_in">type</span>=volume --description=<span class="string">"OpenStack Block Storage"</span></span><br><span class="line">$ keystone endpoint-create --service-id=$(keystone service-list | awk <span class="string">'/ volume / &#123;print $2&#125;'</span>) --publicurl=http://controller:8776/v1/%\(tenant_id\)s --internalurl=http://controller:8776/v1/%\(tenant_id\)s --adminurl=http://controller:8776/v1/%\(tenant_id\)s</span><br><span class="line"></span><br><span class="line">$ keystone service-create --name=cinderv2 --<span class="built_in">type</span>=volumev2 --description=<span class="string">"OpenStack Block Storage v2"</span></span><br><span class="line">$ keystone endpoint-create --service-id=$(keystone service-list | awk <span class="string">'/ volumev2 / &#123;print $2&#125;'</span>) --publicurl=http://controller:8776/v2/%\(tenant_id\)s --internalurl=http://controller:8776/v2/%\(tenant_id\)s --adminurl=http://controller:8776/v2/%\(tenant_id\)s</span><br><span class="line"></span><br><span class="line">$ service openstack-cinder-api start</span><br><span class="line">$ service openstack-cinder-scheduler start</span><br><span class="line">$ chkconfig openstack-cinder-api on</span><br><span class="line">$ chkconfig openstack-cinder-scheduler on</span><br><span class="line"></span><br><span class="line">$ cinder service-list</span><br><span class="line">$ openstack-config --<span class="built_in">set</span> /etc/cinder/cinder.conf DEFAULT qpid_hostname controller</span><br><span class="line"></span><br><span class="line">$ cinder --debug list</span><br><span class="line">$ keystone user-create --name=cinder --pass=CINDER_PASS --email=cinder@example.com</span><br><span class="line"></span><br><span class="line">$ openstack-config --<span class="built_in">set</span> /etc/cinder/cinder.conf DEFAULT my_ip 192.168.44.147</span><br></pre></td></tr></table></figure></p>
+<p>在node端（computer02)</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">$ pvcreate /dev/sdb</span><br><span class="line">$ vgcreate cinder-volumes /dev/sdb</span><br><span class="line">$ yum install openstack-cinder scsi-target-utils</span><br><span class="line"></span><br><span class="line">$ openstack-config --<span class="built_in">set</span> /etc/cinder/cinder.conf DEFAULT auth_strategy keystone</span><br><span class="line">$ openstack-config --<span class="built_in">set</span> /etc/cinder/cinder.conf keystone_authtoken auth_uri http://controller:5000</span><br><span class="line">$ openstack-config --<span class="built_in">set</span> /etc/cinder/cinder.conf keystone_authtoken auth_host controller</span><br><span class="line">$ openstack-config --<span class="built_in">set</span> /etc/cinder/cinder.conf keystone_authtoken auth_protocol http</span><br><span class="line">$ openstack-config --<span class="built_in">set</span> /etc/cinder/cinder.conf keystone_authtoken auth_port 35357</span><br><span class="line">$ openstack-config --<span class="built_in">set</span> /etc/cinder/cinder.conf keystone_authtoken admin_user cinder</span><br><span class="line">$ openstack-config --<span class="built_in">set</span> /etc/cinder/cinder.conf keystone_authtoken admin_tenant_name service</span><br><span class="line">$ openstack-config --<span class="built_in">set</span> /etc/cinder/cinder.conf keystone_authtoken admin_password CINDER_PASS</span><br><span class="line">$ openstack-config --<span class="built_in">set</span> /etc/cinder/cinder.conf DEFAULT rpc_backend qpid</span><br><span class="line">$ openstack-config --<span class="built_in">set</span> /etc/cinder/cinder.conf DEFAULT qpid_hostname controller</span><br><span class="line">$ openstack-config --<span class="built_in">set</span> /etc/cinder/cinder.conf database connection mysql://cinder:CINDER_DBPASS@controller/cinde</span><br><span class="line">$ openstack-config --<span class="built_in">set</span> /etc/cinder/cinder.conf DEFAULT my_ip MANAGEMENT_INTERFACE_IP_ADDRESS</span><br><span class="line">$ openstack-config --<span class="built_in">set</span> /etc/cinder/cinder.conf DEFAULT glance_host controller</span><br><span class="line">$ openstack-config --<span class="built_in">set</span> /etc/cinder/cinder.conf DEFAULT iscsi_helper tgtadm</span><br></pre></td></tr></table></figure>
+<p>配置文件中：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ vi /etc/tgt/targets.conf</span><br><span class="line">include /etc/cinder/volumes/*</span><br></pre></td></tr></table></figure>
+<p>启动服务：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ service openstack-cinder-volume start</span><br><span class="line">$ service tgtd start</span><br><span class="line">$ chkconfig openstack-cinder-volume on</span><br><span class="line">$ chkconfig tgtd on</span><br></pre></td></tr></table></figure></p>
+<p>创建磁盘：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ cinder create --display-name myVolume 1</span><br></pre></td></tr></table></figure></p>
+<p>查看磁盘列表：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ cinder list</span><br></pre></td></tr></table></figure></p>
+<p>然后再界面端查看云硬盘的配置并进行挂载：<br><img src="/images/openstack-dashboard-4.png" alt="openstack-dashboard-4"></p>
+<p>在云服务器上挂载磁盘：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">$ mkfs.ext3 /dev/vdb1</span><br><span class="line"></span><br><span class="line">$ mkdir /mnt/<span class="built_in">test</span></span><br><span class="line">$ mount /dev/vdb1 /mnt/<span class="built_in">test</span></span><br><span class="line">$ mount</span><br><span class="line"></span><br><span class="line">$ fdisk /dev/vdb</span><br><span class="line">Device contains neither a valid DOS partition table, nor Sun, SGI or OSF disklabel</span><br><span class="line">Building a new DOS disklabel with disk identifier 0x64817ea3.</span><br><span class="line">Changes will remain <span class="keyword">in</span> memory only, until you decide to write them.</span><br><span class="line">After that, of course, the previous content won‘t be recoverable.</span><br><span class="line"></span><br><span class="line">Warning: invalid flag 0x0000 of partition table 4 will be corrected by w(rite)</span><br><span class="line"></span><br><span class="line">Command (m <span class="keyword">for</span> <span class="built_in">help</span>): n</span><br><span class="line">Partition <span class="built_in">type</span>:</span><br><span class="line"> p primary (0 primary, 0 extended, 4 free)</span><br><span class="line"> e extended</span><br><span class="line">Select (default p): p</span><br><span class="line">Partition number (1-4, default 1): 1</span><br><span class="line">First sector (2048-2097151, default 2048): +1G</span><br><span class="line">Value out of range.</span><br><span class="line">First sector (2048-2097151, default 2048): +512M</span><br><span class="line">Last sector, +sectors or +size&#123;K,M,G&#125; (1048576-2097151, default 2097151): </span><br><span class="line">Using default value 2097151</span><br><span class="line"></span><br><span class="line">Command (m <span class="keyword">for</span> <span class="built_in">help</span>): p</span><br><span class="line"></span><br><span class="line">Disk /dev/vdb: 1073 MB, 1073741824 bytes</span><br><span class="line">16 heads, 63 sectors/track, 2080 cylinders, total 2097152 sectors</span><br><span class="line">Units = sectors of 1 * 512 = 512 bytes</span><br><span class="line">Sector size (logical/physical): 512 bytes / 512 bytes</span><br><span class="line">I/O size (minimum/optimal): 512 bytes / 512 bytes</span><br><span class="line">Disk identifier: 0x64817ea3</span><br><span class="line"></span><br><span class="line"> Device Boot Start End Blocks Id System</span><br><span class="line">/dev/vdb1 1048576 2097151 524288 83 Linux</span><br><span class="line"></span><br><span class="line">Command (m <span class="keyword">for</span> <span class="built_in">help</span>): w</span><br><span class="line">The partition table has been altered!</span><br><span class="line"></span><br><span class="line">Calling ioctl() to re-read partition table.</span><br><span class="line">Syncing disks.</span><br><span class="line">$ df -h</span><br></pre></td></tr></table></figure></p>
+<p><img src="/images/openstack-dashboard-5.png" alt="openstack-dashboard-5"></p>
+<p>总结：整个操作流程非常复杂，我也是花了几天才慢慢搭建好的，这其实也就是个基础，给的其实是一个思路，后面需要怎样的扩展可以根据自己的业务需要进行不同的设置。对于不明白的地方可以查阅官方文档。</p>
+
+    </article>
+    <!-- 前后页  -->
+    <ul class="post-paginator">
+        <li class="next">
+            
+        </li>
+        <li class="previous">
+            
+                <div class="prevSlogan">Previous Post</div>
+                <a href= "/2018/03/09/open-falcon-install/" title= open-falcon安装部署教程 >
+                    <div class="prevTitle">open-falcon安装部署教程</div>
+                </a>
+            
+        </li>
+    </ul>
+    <!-- 评论插件 -->
+    <!-- 来必力City版安装代码 -->
+
+<!-- City版安装代码已完成 -->
+    
+    
+    <!--PC版-->
+
+    <!--PC版-->
+
+
+    
+    <!-- 评论 -->
+</main>
+            <!-- profile -->
+            
+        </div>
+        <footer class="footer footer-unloaded">
+    <!-- social  -->
+    
+    <div class="social">
+        
+    
+        
+            
+                <a href="mailto:jjc27017@gmail.com" class="iconfont-archer email" title=email ></a>
+            
+        
+    
+        
+            
+                <a href="//github.com/Polaris0112" class="iconfont-archer github" target="_blank" title=github></a>
+            
+        
+    
+        
+            
+                <span class="iconfont-archer wechat" title=wechat>
+                  
+                  <img class="profile-qr" src="/assets/wechat_qr.png" />
+                </span>
+            
+        
+    
+        
+            
+                <span class="iconfont-archer qq" title=qq>
+                  
+                  <img class="profile-qr" src="/assets/qq_qr.jpg" />
+                </span>
+            
+        
+    
+        
+            
+                <a href="//weibo.com/__Tk__" class="iconfont-archer weibo" target="_blank" title=weibo></a>
+            
+        
+    
+        
+            
+                <a href="//www.zhihu.com/people/chen-jia-jian-62" class="iconfont-archer zhihu" target="_blank" title=zhihu></a>
+            
+        
+    
+        
+            
+                <a href="//www.douban.com/people/170240662/" class="iconfont-archer douban" target="_blank" title=douban></a>
+            
+        
+    
+        
+            
+                <a href="//www.facebook.com/jiajian.chen.79" class="iconfont-archer facebook" target="_blank" title=facebook></a>
+            
+        
+    
+        
+            
+                <a href="//twitter.com/Jayden_0112" class="iconfont-archer twitter" target="_blank" title=twitter></a>
+            
+        
+    
+        
+    
+        
+    
+        
+            
+                <a href="//www.linkedin.com/in/嘉健-陈-3a0a20157/" class="iconfont-archer linkedin" target="_blank" title=linkedin></a>
+            
+        
+    
+        
+    
+        
+    
+
+    </div>
+    
+    <!-- powered by Hexo  -->
+    <div class="copyright">
+        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank">Archer</a></span>
+    </div>
+    <!-- 不蒜子  -->
+    
+    <div class="busuanzi-container">
+        <span id="busuanzi_container_site_pv">PV: <span id="busuanzi_value_site_pv"></span>
+        </span>
+    </div>
+    
+</footer>
+    </div>
+    <!-- toc -->
+    
+    <div class="toc-wrapper">
+        <div class="toc-catalog">
+            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+        </div>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#云计算基本概念"><span class="toc-number">1.</span> <span class="toc-text">云计算基本概念</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#云计算分类"><span class="toc-number">1.1.</span> <span class="toc-text">云计算分类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#OpenStack基本概念"><span class="toc-number">1.2.</span> <span class="toc-text">OpenStack基本概念</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Openstack安装部署"><span class="toc-number">2.</span> <span class="toc-text">Openstack安装部署</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#数据库安装"><span class="toc-number">2.1.</span> <span class="toc-text">数据库安装</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#OpenStack基本包安装"><span class="toc-number">3.</span> <span class="toc-text">OpenStack基本包安装</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#安装消息队列"><span class="toc-number">3.1.</span> <span class="toc-text">安装消息队列</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#权限认证服务-keystone"><span class="toc-number">3.2.</span> <span class="toc-text">权限认证服务(keystone)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#配置镜像服务-glance"><span class="toc-number">3.3.</span> <span class="toc-text">配置镜像服务(glance)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#服务器管理（Nova"><span class="toc-number">3.4.</span> <span class="toc-text">服务器管理（Nova)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#网络服务配置"><span class="toc-number">3.5.</span> <span class="toc-text">网络服务配置</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#创建虚拟机"><span class="toc-number">4.</span> <span class="toc-text">创建虚拟机</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#配置ssh密码登录："><span class="toc-number">4.1.</span> <span class="toc-text">配置ssh密码登录：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#增加公钥到openstack环境中："><span class="toc-number">4.2.</span> <span class="toc-text">增加公钥到openstack环境中：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#验证是否配置成功："><span class="toc-number">4.3.</span> <span class="toc-text">验证是否配置成功：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#创建实例："><span class="toc-number">4.4.</span> <span class="toc-text">创建实例：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用nova-list进行查看："><span class="toc-number">4.5.</span> <span class="toc-text">使用nova list进行查看：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#配置浮动IP"><span class="toc-number">4.6.</span> <span class="toc-text">配置浮动IP</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用下面的命令可以输出一个url地址："><span class="toc-number">4.7.</span> <span class="toc-text">使用下面的命令可以输出一个url地址：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#我们可以在浏览器中进行访问。"><span class="toc-number">4.8.</span> <span class="toc-text">我们可以在浏览器中进行访问。</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#界面服务（dashboard）"><span class="toc-number">5.</span> <span class="toc-text">界面服务（dashboard）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#安装服务"><span class="toc-number">5.1.</span> <span class="toc-text">安装服务</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#文件配置"><span class="toc-number">5.2.</span> <span class="toc-text">文件配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#连接"><span class="toc-number">5.3.</span> <span class="toc-text">连接</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#浏览器中访问"><span class="toc-number">5.4.</span> <span class="toc-text">浏览器中访问</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#云硬盘服务（cinder"><span class="toc-number">6.</span> <span class="toc-text">云硬盘服务（cinder)</span></a></li></ol>
+    </div>
+    
+    <div class="back-top iconfont-archer">&#xe639;</div>
+    <div class="sidebar sidebar-hide">
+    <ul class="sidebar-tabs sidebar-tabs-active-0">
+        <li class="sidebar-tab-archives"><span class="iconfont-archer">&#xe67d;</span><span class="tab-name">Archive</span></li>
+        <li class="sidebar-tab-tags"><span class="iconfont-archer">&#xe61b;</span><span class="tab-name">Tag</span></li>
+        <li class="sidebar-tab-categories"><span class="iconfont-archer">&#xe666;</span><span class="tab-name">Cate</span></li>
+    </ul>
+    <div class="sidebar-content sidebar-content-show-archive">
+          <div class="sidebar-panel-archives">
+    <!-- 在ejs中将archive按照时间排序 -->
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="total-archive"> Total : 25 </div>
+    
+    <div class="post-archive">
+    
+    
+    
+    
+    <div class="archive-year"> 2018 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/09</span><a class="archive-post-title" href= "/2018/03/09/open-falcon-install/" >open-falcon安装部署教程</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/09</span><a class="archive-post-title" href= "/2018/03/09/openstack-install-introduction/" >OpenStack安装部署</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/08</span><a class="archive-post-title" href= "/2018/03/08/supervisor/" >supervisor 安装、配置、常用命令</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/03</span><a class="archive-post-title" href= "/2018/03/03/blockchain-merkle/" >比特币区块结构 Merkle 树及简单支付验证分析</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/03</span><a class="archive-post-title" href= "/2018/03/03/blockchain-selection/" >比特币如何达成共识 - 最长链的选择</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/03</span><a class="archive-post-title" href= "/2018/03/03/blockchain-pow/" >比特币如何挖矿（挖矿原理）-工作量证明</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/02</span><a class="archive-post-title" href= "/2018/03/02/blockchain-python/" >用Python从0开始创建一个区块链</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/02</span><a class="archive-post-title" href= "/2018/03/02/blockchain-accounting/" >区块链记账原理</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/01</span><a class="archive-post-title" href= "/2018/03/01/gitlab-update/" >Gitlab踩坑升级过程</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/28</span><a class="archive-post-title" href= "/2018/02/28/zombie-process-and-orphaned-process/" >浅析僵尸进程与孤儿进程</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/28</span><a class="archive-post-title" href= "/2018/02/28/zabbix-fonts/" >Zabbix汉化字体修改</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/27</span><a class="archive-post-title" href= "/2018/02/27/nfs-installation/" >NFS安装部署</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/26</span><a class="archive-post-title" href= "/2018/02/26/zabbix-optimization/" >Zabbix性能优化</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/26</span><a class="archive-post-title" href= "/2018/02/26/myisam-innodb/" >MyISAM和InnoDB区别详解</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/25</span><a class="archive-post-title" href= "/2018/02/25/zabbix-source-installation/" >Zabbix 编译安装部署</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/25</span><a class="archive-post-title" href= "/2018/02/25/zabbix-yum-installation/" >Zabbix YUM方式部署</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/24</span><a class="archive-post-title" href= "/2018/02/24/mongodb-single/" >MongoDB单实例部署</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/24</span><a class="archive-post-title" href= "/2018/02/24/mongodb-replset/" >MongoDB复制集部署</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/24</span><a class="archive-post-title" href= "/2018/02/24/mongodb-shard/" >MongoDB Sharding集群部署</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/23</span><a class="archive-post-title" href= "/2018/02/23/haproxy/" >HAProxy日常使用说明</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/22</span><a class="archive-post-title" href= "/2018/02/22/certbot/" >Certbot安装/部分问题解决方案</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/21</span><a class="archive-post-title" href= "/2018/02/21/nginx/" >Nginx正反向代理/负载均衡</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/20</span><a class="archive-post-title" href= "/2018/02/20/lvm/" >LVM创建/扩容/常用操作</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/12</span><a class="archive-post-title" href= "/2018/02/12/hexo/" >Hexo+Github搭建博客</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/20</span><a class="archive-post-title" href= "/2018/01/20/shadowsocks/" >小灰机-4.0.8下载</a>
+        </li>
+    
+    </div>
+  </div>
+        <div class="sidebar-panel-tags">
+    <div class="sidebar-tags-name">
+    
+        <span class="sidebar-tag-name" data-tags="Blockchain"><span class="iconfont-archer">&#xe606;</span>Blockchain</span>
+    
+        <span class="sidebar-tag-name" data-tags="Python"><span class="iconfont-archer">&#xe606;</span>Python</span>
+    
+        <span class="sidebar-tag-name" data-tags="Flask"><span class="iconfont-archer">&#xe606;</span>Flask</span>
+    
+        <span class="sidebar-tag-name" data-tags="Certbot"><span class="iconfont-archer">&#xe606;</span>Certbot</span>
+    
+        <span class="sidebar-tag-name" data-tags="https"><span class="iconfont-archer">&#xe606;</span>https</span>
+    
+        <span class="sidebar-tag-name" data-tags="Gitlab"><span class="iconfont-archer">&#xe606;</span>Gitlab</span>
+    
+        <span class="sidebar-tag-name" data-tags="Update"><span class="iconfont-archer">&#xe606;</span>Update</span>
+    
+        <span class="sidebar-tag-name" data-tags="Migration"><span class="iconfont-archer">&#xe606;</span>Migration</span>
+    
+        <span class="sidebar-tag-name" data-tags="haproxy"><span class="iconfont-archer">&#xe606;</span>haproxy</span>
+    
+        <span class="sidebar-tag-name" data-tags="github"><span class="iconfont-archer">&#xe606;</span>github</span>
+    
+        <span class="sidebar-tag-name" data-tags="hexo"><span class="iconfont-archer">&#xe606;</span>hexo</span>
+    
+        <span class="sidebar-tag-name" data-tags="blog"><span class="iconfont-archer">&#xe606;</span>blog</span>
+    
+        <span class="sidebar-tag-name" data-tags="centos"><span class="iconfont-archer">&#xe606;</span>centos</span>
+    
+        <span class="sidebar-tag-name" data-tags="lvm"><span class="iconfont-archer">&#xe606;</span>lvm</span>
+    
+        <span class="sidebar-tag-name" data-tags="NoSql"><span class="iconfont-archer">&#xe606;</span>NoSql</span>
+    
+        <span class="sidebar-tag-name" data-tags="MongoDB"><span class="iconfont-archer">&#xe606;</span>MongoDB</span>
+    
+        <span class="sidebar-tag-name" data-tags="ReplSet"><span class="iconfont-archer">&#xe606;</span>ReplSet</span>
+    
+        <span class="sidebar-tag-name" data-tags="Sharding"><span class="iconfont-archer">&#xe606;</span>Sharding</span>
+    
+        <span class="sidebar-tag-name" data-tags="replSet"><span class="iconfont-archer">&#xe606;</span>replSet</span>
+    
+        <span class="sidebar-tag-name" data-tags="MySQL"><span class="iconfont-archer">&#xe606;</span>MySQL</span>
+    
+        <span class="sidebar-tag-name" data-tags="MyISAM"><span class="iconfont-archer">&#xe606;</span>MyISAM</span>
+    
+        <span class="sidebar-tag-name" data-tags="InnoDB"><span class="iconfont-archer">&#xe606;</span>InnoDB</span>
+    
+        <span class="sidebar-tag-name" data-tags="NFS"><span class="iconfont-archer">&#xe606;</span>NFS</span>
+    
+        <span class="sidebar-tag-name" data-tags="CentOS"><span class="iconfont-archer">&#xe606;</span>CentOS</span>
+    
+        <span class="sidebar-tag-name" data-tags="nginx"><span class="iconfont-archer">&#xe606;</span>nginx</span>
+    
+        <span class="sidebar-tag-name" data-tags="proxy"><span class="iconfont-archer">&#xe606;</span>proxy</span>
+    
+        <span class="sidebar-tag-name" data-tags="load-balance"><span class="iconfont-archer">&#xe606;</span>load-balance</span>
+    
+        <span class="sidebar-tag-name" data-tags="open-falcon"><span class="iconfont-archer">&#xe606;</span>open-falcon</span>
+    
+        <span class="sidebar-tag-name" data-tags="OpenStack"><span class="iconfont-archer">&#xe606;</span>OpenStack</span>
+    
+        <span class="sidebar-tag-name" data-tags="Installation"><span class="iconfont-archer">&#xe606;</span>Installation</span>
+    
+        <span class="sidebar-tag-name" data-tags="$$"><span class="iconfont-archer">&#xe606;</span>$$</span>
+    
+        <span class="sidebar-tag-name" data-tags="GFW"><span class="iconfont-archer">&#xe606;</span>GFW</span>
+    
+        <span class="sidebar-tag-name" data-tags="supervisor"><span class="iconfont-archer">&#xe606;</span>supervisor</span>
+    
+        <span class="sidebar-tag-name" data-tags="Zabbix"><span class="iconfont-archer">&#xe606;</span>Zabbix</span>
+    
+        <span class="sidebar-tag-name" data-tags="Font"><span class="iconfont-archer">&#xe606;</span>Font</span>
+    
+        <span class="sidebar-tag-name" data-tags="Optimization"><span class="iconfont-archer">&#xe606;</span>Optimization</span>
+    
+        <span class="sidebar-tag-name" data-tags="Source"><span class="iconfont-archer">&#xe606;</span>Source</span>
+    
+        <span class="sidebar-tag-name" data-tags="Yum"><span class="iconfont-archer">&#xe606;</span>Yum</span>
+    
+        <span class="sidebar-tag-name" data-tags="Zombie Process"><span class="iconfont-archer">&#xe606;</span>Zombie Process</span>
+    
+        <span class="sidebar-tag-name" data-tags="Orphaned Process"><span class="iconfont-archer">&#xe606;</span>Orphaned Process</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
+    <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
+    缺失模块。<br/>
+    1、请确保node版本大于6.2<br/>
+    2、在博客根目录（注意不是archer根目录）执行以下命令：<br/>
+    <span style="color: #f75357; font-size: 1rem; line-height: 2rem;">npm i hexo-generator-json-content --save</span><br/>
+    3、在根目录_config.yml里添加配置：
+    <pre style="color: #787878; font-size: 0.6rem;">
+jsonContent:
+  meta: false
+  pages: false
+  posts:
+    title: true
+    date: true
+    path: true
+    text: false
+    raw: false
+    content: false
+    slug: false
+    updated: false
+    comments: false
+    link: false
+    permalink: false
+    excerpt: false
+    categories: true
+    tags: true</pre>
+    </div> 
+    <div class="sidebar-tags-list"></div>
+</div>
+        <div class="sidebar-panel-categories">
+    <div class="sidebar-categories-name">
+    
+        <span class="sidebar-category-name" data-categories="区块链记账原理"><span class="iconfont-archer">&#xe60a;</span>区块链记账原理</span>
+    
+        <span class="sidebar-category-name" data-categories="比特币区块结构-Merkle-树及简单支付验证分析"><span class="iconfont-archer">&#xe60a;</span>比特币区块结构-Merkle-树及简单支付验证分析</span>
+    
+        <span class="sidebar-category-name" data-categories="比特币如何挖矿（挖矿原理）-工作量证明"><span class="iconfont-archer">&#xe60a;</span>比特币如何挖矿（挖矿原理）-工作量证明</span>
+    
+        <span class="sidebar-category-name" data-categories="用Python从0开始创建一个区块链"><span class="iconfont-archer">&#xe60a;</span>用Python从0开始创建一个区块链</span>
+    
+        <span class="sidebar-category-name" data-categories="比特币如何达成共识-最长链的选择"><span class="iconfont-archer">&#xe60a;</span>比特币如何达成共识-最长链的选择</span>
+    
+        <span class="sidebar-category-name" data-categories="Certbot安装-部分问题解决方案"><span class="iconfont-archer">&#xe60a;</span>Certbot安装-部分问题解决方案</span>
+    
+        <span class="sidebar-category-name" data-categories="Gitlab升级"><span class="iconfont-archer">&#xe60a;</span>Gitlab升级</span>
+    
+        <span class="sidebar-category-name" data-categories="HAProxy使用"><span class="iconfont-archer">&#xe60a;</span>HAProxy使用</span>
+    
+        <span class="sidebar-category-name" data-categories="Hexo-Github搭建博客"><span class="iconfont-archer">&#xe60a;</span>Hexo-Github搭建博客</span>
+    
+        <span class="sidebar-category-name" data-categories="LVM使用"><span class="iconfont-archer">&#xe60a;</span>LVM使用</span>
+    
+        <span class="sidebar-category-name" data-categories="MongoDB复制集部署"><span class="iconfont-archer">&#xe60a;</span>MongoDB复制集部署</span>
+    
+        <span class="sidebar-category-name" data-categories="MongoDB分片集群部署"><span class="iconfont-archer">&#xe60a;</span>MongoDB分片集群部署</span>
+    
+        <span class="sidebar-category-name" data-categories="MongoDB单实例部署"><span class="iconfont-archer">&#xe60a;</span>MongoDB单实例部署</span>
+    
+        <span class="sidebar-category-name" data-categories="MySQL存储引擎中的MyISAM和InnoDB区别详解"><span class="iconfont-archer">&#xe60a;</span>MySQL存储引擎中的MyISAM和InnoDB区别详解</span>
+    
+        <span class="sidebar-category-name" data-categories="NFS安装部署"><span class="iconfont-archer">&#xe60a;</span>NFS安装部署</span>
+    
+        <span class="sidebar-category-name" data-categories="Nginx正反向代理-负载均衡"><span class="iconfont-archer">&#xe60a;</span>Nginx正反向代理-负载均衡</span>
+    
+        <span class="sidebar-category-name" data-categories="open-falcon安装部署教程"><span class="iconfont-archer">&#xe60a;</span>open-falcon安装部署教程</span>
+    
+        <span class="sidebar-category-name" data-categories="OpenStack安装部署教程"><span class="iconfont-archer">&#xe60a;</span>OpenStack安装部署教程</span>
+    
+        <span class="sidebar-category-name" data-categories="4-0-8"><span class="iconfont-archer">&#xe60a;</span>4-0-8</span>
+    
+        <span class="sidebar-category-name" data-categories="supervisor-安装、配置、常用命令"><span class="iconfont-archer">&#xe60a;</span>supervisor-安装、配置、常用命令</span>
+    
+        <span class="sidebar-category-name" data-categories="Zabbix汉化字体修改"><span class="iconfont-archer">&#xe60a;</span>Zabbix汉化字体修改</span>
+    
+        <span class="sidebar-category-name" data-categories="Zabbix性能优化"><span class="iconfont-archer">&#xe60a;</span>Zabbix性能优化</span>
+    
+        <span class="sidebar-category-name" data-categories="Zabbix-编译安装"><span class="iconfont-archer">&#xe60a;</span>Zabbix-编译安装</span>
+    
+        <span class="sidebar-category-name" data-categories="Zabbix-YUM安装"><span class="iconfont-archer">&#xe60a;</span>Zabbix-YUM安装</span>
+    
+        <span class="sidebar-category-name" data-categories="浅析僵尸进程与孤儿进程"><span class="iconfont-archer">&#xe60a;</span>浅析僵尸进程与孤儿进程</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
+    <div class="sidebar-categories-list"></div>
+</div>
+    </div>
+</div> 
+    <script>
+    var siteMeta = {
+        root: '/',
+        author: 'Jayden'
+    }
+</script>
+    <!-- busuanzi  -->
+    
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+    <!-- CNZZ  -->
+    
+    </div>
+    <!-- async load share.js -->
+    
+        <script src="/scripts/share.js" async></script>    
+    
+    </body>
+</html>
+
+
