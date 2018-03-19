@@ -303,6 +303,40 @@
     
     
         <article class="index-post">
+            <a class="abstract-title" href = "/2018/03/11/docker-install/" >
+                
+                    <span>Docker安装部署教程</span>
+            </a>
+            <div class="abstract-content">
+                本帖子记录的是CentOS 7下安装部署Docker教程
+环境准备
+系统：CentOS 7 最小安装版
+
+安装依赖12$ yum update$ yum install -y yum-utils device-mapper-persistent-data lvm2
+安装Docker-CE12$ yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo$ yum install -y docker-ce
+可选：如果你想安装最新版本的Docker CE，你需要启用这些仓库（默认是...
+            </div>
+            <div class="abstract-post-meta">
+                <!-- date  -->
+                <div class="abstract-date">
+                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/03/11</span>
+                </div>
+                <!-- tags  -->
+                
+                <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = Docker>Docker</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = CentOS>CentOS</a>
+    
+</div>
+                
+            </div>
+        </article>
+    
+    
+    
+        <article class="index-post">
             <a class="abstract-title" href = "/2018/03/10/openstack-devstack-installation/" >
                 
                     <span>通过devstack安装部署OpenStack</span>
@@ -499,18 +533,19 @@ Supervisor只能运行于Python 2.x的环境，但子进程可以为其他任意
     
     
         <article class="index-post">
-            <a class="abstract-title" href = "/2018/03/03/blockchain-selection/" >
+            <a class="abstract-title" href = "/2018/03/03/blockchain-merkle/" >
                 
-                    <span>比特币如何达成共识 - 最长链的选择</span>
+                    <span>比特币区块结构 Merkle 树及简单支付验证分析</span>
             </a>
             <div class="abstract-content">
-                本帖子记录的是比特币如何达成共识 - 最长链的选择
-比特币没有中心机构，几乎所有的完整节点都有一份公共总帐本，那么大家如何达成共识：确认哪一份才是公认权威的总账本呢？
-为什么要遵守协议这其实是一个经济问题，在经济活动中的每个人都是自私自利的，追求的是利益的最大化，一个节点工作量只有在其他的节点认同其是有效的（打包的新区块，其他的节点只有验证通过才会加入到区块链中，并在网络上传播），才能够过得收益，而只有遵守规则才会得到其他的节点认同。因此，基于逐利，节点就会自发的遵守协议。共识就是数以万计的独立节点遵守了简单的规则（通过异步交互）自发形成的。
+                本帖子记录的是比特币区块结构 Merkle 树及简单支付验证分析
+在比特币网络中，不是每个节点都有能力储存完整的区块链数据，受限于存储空间的的限制，很多节点是以SPV（Simplified Payment Verification简单支付验证）钱包接入比特币网络，通过简单支付验证可以在不必存储完整区块链下对交易进行验证，本文将分析区块结构Merkle树及如何进行交易验证。
+区块结构在工作量证明中出现过一个区块信息截图：
 
-共识：共同遵守的协议规范
+细心的同学一定已经在里面发现了很多未讲的其他信息，如：时间戳，版本号，交易次数，二进制哈希树根(Merkle根)等。
+我们来看看一个区块结构到底是怎样的：
 
-去中心化共识在...
+如上图（下...
             </div>
             <div class="abstract-post-meta">
                 <!-- date  -->
@@ -531,19 +566,18 @@ Supervisor只能运行于Python 2.x的环境，但子进程可以为其他任意
     
     
         <article class="index-post">
-            <a class="abstract-title" href = "/2018/03/03/blockchain-merkle/" >
+            <a class="abstract-title" href = "/2018/03/03/blockchain-selection/" >
                 
-                    <span>比特币区块结构 Merkle 树及简单支付验证分析</span>
+                    <span>比特币如何达成共识 - 最长链的选择</span>
             </a>
             <div class="abstract-content">
-                本帖子记录的是比特币区块结构 Merkle 树及简单支付验证分析
-在比特币网络中，不是每个节点都有能力储存完整的区块链数据，受限于存储空间的的限制，很多节点是以SPV（Simplified Payment Verification简单支付验证）钱包接入比特币网络，通过简单支付验证可以在不必存储完整区块链下对交易进行验证，本文将分析区块结构Merkle树及如何进行交易验证。
-区块结构在工作量证明中出现过一个区块信息截图：
+                本帖子记录的是比特币如何达成共识 - 最长链的选择
+比特币没有中心机构，几乎所有的完整节点都有一份公共总帐本，那么大家如何达成共识：确认哪一份才是公认权威的总账本呢？
+为什么要遵守协议这其实是一个经济问题，在经济活动中的每个人都是自私自利的，追求的是利益的最大化，一个节点工作量只有在其他的节点认同其是有效的（打包的新区块，其他的节点只有验证通过才会加入到区块链中，并在网络上传播），才能够过得收益，而只有遵守规则才会得到其他的节点认同。因此，基于逐利，节点就会自发的遵守协议。共识就是数以万计的独立节点遵守了简单的规则（通过异步交互）自发形成的。
 
-细心的同学一定已经在里面发现了很多未讲的其他信息，如：时间戳，版本号，交易次数，二进制哈希树根(Merkle根)等。
-我们来看看一个区块结构到底是怎样的：
+共识：共同遵守的协议规范
 
-如上图（下...
+去中心化共识在...
             </div>
             <div class="abstract-post-meta">
                 <!-- date  -->
@@ -591,35 +625,6 @@ Supervisor只能运行于Python 2.x的环境，但子进程可以为其他任意
         <a class="post-tag" href="javascript:void(0);" data-tags = Python>Python</a>
     
         <a class="post-tag" href="javascript:void(0);" data-tags = Flask>Flask</a>
-    
-</div>
-                
-            </div>
-        </article>
-    
-    
-    
-        <article class="index-post">
-            <a class="abstract-title" href = "/2018/03/02/blockchain-accounting/" >
-                
-                    <span>区块链记账原理</span>
-            </a>
-            <div class="abstract-content">
-                本帖子记录的是区块链记账原理
-概念区块链(1.0)是一个基于密码学安全的分布式账本，是一个方便验证，不可篡改的账本。通常认为与智能合约相结合的区块链为区块链2.0, 如以太坊是典型的区块链2.0很多人只了解过比特币，不知道区块链，比特币实际是一个使用了区块链技术的应用，只是比特币当前太热，把区块链技术的光芒给掩盖了。区块链才是未来，期望各位开发人员少关心币价，多关心技术。本文将讲解区块链1.0技术是如何实现的。
-哈希函数在讲区块链记账之前，先说明一下哈希函数。哈希函数：Hash(原始信息) = 摘要信息原始信息可以是任意的信息, hash之后会得到一个简短的摘要信息
-哈希函数有几个特点:...
-            </div>
-            <div class="abstract-post-meta">
-                <!-- date  -->
-                <div class="abstract-date">
-                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/03/02</span>
-                </div>
-                <!-- tags  -->
-                
-                <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = Blockchain>Blockchain</a>
     
 </div>
                 
@@ -1261,7 +1266,30 @@ Supervisor只能运行于Python 2.x的环境，但子进程可以为其他任意
     
     
     
-    <div class="total-archive"> Total : 27 </div>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="total-archive"> Total : 28 </div>
     
     <div class="post-archive">
     
@@ -1273,7 +1301,7 @@ Supervisor只能运行于Python 2.x的环境，但子进程可以为其他任意
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">03/10</span><a class="archive-post-title" href= "/2018/03/10/openstack-packstack-installation/" >通过packstack快速安装openstack</a>
+            <span class="archive-post-date">03/11</span><a class="archive-post-title" href= "/2018/03/11/docker-install/" >Docker安装部署教程</a>
         </li>
     
     
@@ -1283,12 +1311,17 @@ Supervisor只能运行于Python 2.x的环境，但子进程可以为其他任意
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">03/09</span><a class="archive-post-title" href= "/2018/03/09/open-falcon-install/" >open-falcon安装部署教程</a>
+            <span class="archive-post-date">03/10</span><a class="archive-post-title" href= "/2018/03/10/openstack-packstack-installation/" >通过packstack快速安装openstack</a>
         </li>
     
     
         <li class="archive-post-item">
             <span class="archive-post-date">03/09</span><a class="archive-post-title" href= "/2018/03/09/openstack-install-introduction/" >OpenStack安装部署</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/09</span><a class="archive-post-title" href= "/2018/03/09/open-falcon-install/" >open-falcon安装部署教程</a>
         </li>
     
     
@@ -1417,6 +1450,10 @@ Supervisor只能运行于Python 2.x的环境，但子进程可以为其他任意
     
         <span class="sidebar-tag-name" data-tags="Flask"><span class="iconfont-archer">&#xe606;</span>Flask</span>
     
+        <span class="sidebar-tag-name" data-tags="Docker"><span class="iconfont-archer">&#xe606;</span>Docker</span>
+    
+        <span class="sidebar-tag-name" data-tags="CentOS"><span class="iconfont-archer">&#xe606;</span>CentOS</span>
+    
         <span class="sidebar-tag-name" data-tags="Certbot"><span class="iconfont-archer">&#xe606;</span>Certbot</span>
     
         <span class="sidebar-tag-name" data-tags="https"><span class="iconfont-archer">&#xe606;</span>https</span>
@@ -1457,19 +1494,17 @@ Supervisor只能运行于Python 2.x的环境，但子进程可以为其他任意
     
         <span class="sidebar-tag-name" data-tags="NFS"><span class="iconfont-archer">&#xe606;</span>NFS</span>
     
-        <span class="sidebar-tag-name" data-tags="CentOS"><span class="iconfont-archer">&#xe606;</span>CentOS</span>
-    
         <span class="sidebar-tag-name" data-tags="nginx"><span class="iconfont-archer">&#xe606;</span>nginx</span>
     
         <span class="sidebar-tag-name" data-tags="proxy"><span class="iconfont-archer">&#xe606;</span>proxy</span>
     
         <span class="sidebar-tag-name" data-tags="load-balance"><span class="iconfont-archer">&#xe606;</span>load-balance</span>
     
+        <span class="sidebar-tag-name" data-tags="open-falcon"><span class="iconfont-archer">&#xe606;</span>open-falcon</span>
+    
         <span class="sidebar-tag-name" data-tags="OpenStack"><span class="iconfont-archer">&#xe606;</span>OpenStack</span>
     
         <span class="sidebar-tag-name" data-tags="DevStack"><span class="iconfont-archer">&#xe606;</span>DevStack</span>
-    
-        <span class="sidebar-tag-name" data-tags="open-falcon"><span class="iconfont-archer">&#xe606;</span>open-falcon</span>
     
         <span class="sidebar-tag-name" data-tags="Installation"><span class="iconfont-archer">&#xe606;</span>Installation</span>
     
@@ -1538,6 +1573,8 @@ jsonContent:
     
         <span class="sidebar-category-name" data-categories="比特币如何达成共识-最长链的选择"><span class="iconfont-archer">&#xe60a;</span>比特币如何达成共识-最长链的选择</span>
     
+        <span class="sidebar-category-name" data-categories="Docker安装部署教程"><span class="iconfont-archer">&#xe60a;</span>Docker安装部署教程</span>
+    
         <span class="sidebar-category-name" data-categories="Certbot安装-部分问题解决方案"><span class="iconfont-archer">&#xe60a;</span>Certbot安装-部分问题解决方案</span>
     
         <span class="sidebar-category-name" data-categories="Gitlab升级"><span class="iconfont-archer">&#xe60a;</span>Gitlab升级</span>
@@ -1560,9 +1597,9 @@ jsonContent:
     
         <span class="sidebar-category-name" data-categories="Nginx正反向代理-负载均衡"><span class="iconfont-archer">&#xe60a;</span>Nginx正反向代理-负载均衡</span>
     
-        <span class="sidebar-category-name" data-categories="通过devstack安装部署OpenStack"><span class="iconfont-archer">&#xe60a;</span>通过devstack安装部署OpenStack</span>
-    
         <span class="sidebar-category-name" data-categories="open-falcon安装部署教程"><span class="iconfont-archer">&#xe60a;</span>open-falcon安装部署教程</span>
+    
+        <span class="sidebar-category-name" data-categories="通过devstack安装部署OpenStack"><span class="iconfont-archer">&#xe60a;</span>通过devstack安装部署OpenStack</span>
     
         <span class="sidebar-category-name" data-categories="OpenStack安装部署教程"><span class="iconfont-archer">&#xe60a;</span>OpenStack安装部署教程</span>
     
