@@ -290,6 +290,37 @@
     
     
         <article class="index-post">
+            <a class="abstract-title" href = "/2018/02/28/zombie-process-and-orphaned-process/" >
+                
+                    <span>浅析僵尸进程与孤儿进程</span>
+            </a>
+            <div class="abstract-content">
+                本帖子记录的是理解僵尸进程和孤儿进程的产生原因
+知识背景在被誉为UNIX编程“圣经”的一书《unix环境高级编程》中有提到僵尸进程和孤儿进程。不少同学对这两个概念会混淆，这篇文章总结一下。
+在unix/linux系统中，大多情况下，子进程是通过父进程fork创建的，注：系统调用fork，是一个比较有意思系统调用，它调用一次，返回两个值，失败返回-1,成功时在子进程返回0，父进程返回所创建子进程的pid。本文暂时只需了解这些就够了，有兴趣的同学可以查阅man文档，描述的非常清楚。
+子进程创建后，子进程的结束和父进程的运行是一个异步过程,也就是说父进程没办法预测子进程什么时候结束。 当一个子...
+            </div>
+            <div class="abstract-post-meta">
+                <!-- date  -->
+                <div class="abstract-date">
+                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/02/28</span>
+                </div>
+                <!-- tags  -->
+                
+                <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = Zombie Process>Zombie Process</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = Orphaned Process>Orphaned Process</a>
+    
+</div>
+                
+            </div>
+        </article>
+    
+    
+    
+        <article class="index-post">
             <a class="abstract-title" href = "/2018/02/28/zabbix-fonts/" >
                 
                     <span>Zabbix汉化字体修改</span>
@@ -318,37 +349,6 @@ apache：使用这个Web服务的路径在(默认路径)/var/www/html/目录下�
         <a class="post-tag" href="javascript:void(0);" data-tags = Zabbix>Zabbix</a>
     
         <a class="post-tag" href="javascript:void(0);" data-tags = Font>Font</a>
-    
-</div>
-                
-            </div>
-        </article>
-    
-    
-    
-        <article class="index-post">
-            <a class="abstract-title" href = "/2018/02/28/zombie-process-and-orphaned-process/" >
-                
-                    <span>浅析僵尸进程与孤儿进程</span>
-            </a>
-            <div class="abstract-content">
-                本帖子记录的是理解僵尸进程和孤儿进程的产生原因
-知识背景在被誉为UNIX编程“圣经”的一书《unix环境高级编程》中有提到僵尸进程和孤儿进程。不少同学对这两个概念会混淆，这篇文章总结一下。
-在unix/linux系统中，大多情况下，子进程是通过父进程fork创建的，注：系统调用fork，是一个比较有意思系统调用，它调用一次，返回两个值，失败返回-1,成功时在子进程返回0，父进程返回所创建子进程的pid。本文暂时只需了解这些就够了，有兴趣的同学可以查阅man文档，描述的非常清楚。
-子进程创建后，子进程的结束和父进程的运行是一个异步过程,也就是说父进程没办法预测子进程什么时候结束。 当一个子...
-            </div>
-            <div class="abstract-post-meta">
-                <!-- date  -->
-                <div class="abstract-date">
-                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/02/28</span>
-                </div>
-                <!-- tags  -->
-                
-                <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = Zombie Process>Zombie Process</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = Orphaned Process>Orphaned Process</a>
     
 </div>
                 
@@ -1151,6 +1151,8 @@ MongoDB复制集简介   Mongodb复制集由一组Mongod实例（进程）组成
     
     
     
+    
+    
     <div class="total-archive"> Total : 28 </div>
     
     <div class="post-archive">
@@ -1193,7 +1195,7 @@ MongoDB复制集简介   Mongodb复制集由一组Mongod实例（进程）组成
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">03/03</span><a class="archive-post-title" href= "/2018/03/03/blockchain-pow/" >比特币如何挖矿（挖矿原理）-工作量证明</a>
+            <span class="archive-post-date">03/03</span><a class="archive-post-title" href= "/2018/03/03/blockchain-merkle/" >比特币区块结构 Merkle 树及简单支付验证分析</a>
         </li>
     
     
@@ -1203,7 +1205,7 @@ MongoDB复制集简介   Mongodb复制集由一组Mongod实例（进程）组成
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">03/03</span><a class="archive-post-title" href= "/2018/03/03/blockchain-merkle/" >比特币区块结构 Merkle 树及简单支付验证分析</a>
+            <span class="archive-post-date">03/03</span><a class="archive-post-title" href= "/2018/03/03/blockchain-pow/" >比特币如何挖矿（挖矿原理）-工作量证明</a>
         </li>
     
     
@@ -1312,13 +1314,13 @@ MongoDB复制集简介   Mongodb复制集由一组Mongod实例（进程）组成
     
         <span class="sidebar-tag-name" data-tags="Flask"><span class="iconfont-archer">&#xe606;</span>Flask</span>
     
-        <span class="sidebar-tag-name" data-tags="Docker"><span class="iconfont-archer">&#xe606;</span>Docker</span>
-    
-        <span class="sidebar-tag-name" data-tags="CentOS"><span class="iconfont-archer">&#xe606;</span>CentOS</span>
-    
         <span class="sidebar-tag-name" data-tags="Certbot"><span class="iconfont-archer">&#xe606;</span>Certbot</span>
     
         <span class="sidebar-tag-name" data-tags="https"><span class="iconfont-archer">&#xe606;</span>https</span>
+    
+        <span class="sidebar-tag-name" data-tags="Docker"><span class="iconfont-archer">&#xe606;</span>Docker</span>
+    
+        <span class="sidebar-tag-name" data-tags="CentOS"><span class="iconfont-archer">&#xe606;</span>CentOS</span>
     
         <span class="sidebar-tag-name" data-tags="Gitlab"><span class="iconfont-archer">&#xe606;</span>Gitlab</span>
     
@@ -1427,17 +1429,17 @@ jsonContent:
     
         <span class="sidebar-category-name" data-categories="区块链记账原理"><span class="iconfont-archer">&#xe60a;</span>区块链记账原理</span>
     
-        <span class="sidebar-category-name" data-categories="比特币区块结构-Merkle-树及简单支付验证分析"><span class="iconfont-archer">&#xe60a;</span>比特币区块结构-Merkle-树及简单支付验证分析</span>
-    
         <span class="sidebar-category-name" data-categories="比特币如何挖矿（挖矿原理）-工作量证明"><span class="iconfont-archer">&#xe60a;</span>比特币如何挖矿（挖矿原理）-工作量证明</span>
     
-        <span class="sidebar-category-name" data-categories="用Python从0开始创建一个区块链"><span class="iconfont-archer">&#xe60a;</span>用Python从0开始创建一个区块链</span>
+        <span class="sidebar-category-name" data-categories="比特币区块结构-Merkle-树及简单支付验证分析"><span class="iconfont-archer">&#xe60a;</span>比特币区块结构-Merkle-树及简单支付验证分析</span>
     
         <span class="sidebar-category-name" data-categories="比特币如何达成共识-最长链的选择"><span class="iconfont-archer">&#xe60a;</span>比特币如何达成共识-最长链的选择</span>
     
-        <span class="sidebar-category-name" data-categories="Docker安装部署教程"><span class="iconfont-archer">&#xe60a;</span>Docker安装部署教程</span>
+        <span class="sidebar-category-name" data-categories="用Python从0开始创建一个区块链"><span class="iconfont-archer">&#xe60a;</span>用Python从0开始创建一个区块链</span>
     
         <span class="sidebar-category-name" data-categories="Certbot安装-部分问题解决方案"><span class="iconfont-archer">&#xe60a;</span>Certbot安装-部分问题解决方案</span>
+    
+        <span class="sidebar-category-name" data-categories="Docker安装部署教程"><span class="iconfont-archer">&#xe60a;</span>Docker安装部署教程</span>
     
         <span class="sidebar-category-name" data-categories="Gitlab升级"><span class="iconfont-archer">&#xe60a;</span>Gitlab升级</span>
     
