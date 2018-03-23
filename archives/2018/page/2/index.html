@@ -392,37 +392,6 @@ Gitlab部署
     
     
         <article class="index-post">
-            <a class="abstract-title" href = "/2018/02/28/zombie-process-and-orphaned-process/" >
-                
-                    <span>浅析僵尸进程与孤儿进程</span>
-            </a>
-            <div class="abstract-content">
-                本帖子记录的是理解僵尸进程和孤儿进程的产生原因
-知识背景在被誉为UNIX编程“圣经”的一书《unix环境高级编程》中有提到僵尸进程和孤儿进程。不少同学对这两个概念会混淆，这篇文章总结一下。
-在unix/linux系统中，大多情况下，子进程是通过父进程fork创建的，注：系统调用fork，是一个比较有意思系统调用，它调用一次，返回两个值，失败返回-1,成功时在子进程返回0，父进程返回所创建子进程的pid。本文暂时只需了解这些就够了，有兴趣的同学可以查阅man文档，描述的非常清楚。
-子进程创建后，子进程的结束和父进程的运行是一个异步过程,也就是说父进程没办法预测子进程什么时候结束。 当一个子...
-            </div>
-            <div class="abstract-post-meta">
-                <!-- date  -->
-                <div class="abstract-date">
-                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/02/28</span>
-                </div>
-                <!-- tags  -->
-                
-                <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = Zombie Process>Zombie Process</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = Orphaned Process>Orphaned Process</a>
-    
-</div>
-                
-            </div>
-        </article>
-    
-    
-    
-        <article class="index-post">
             <a class="abstract-title" href = "/2018/02/28/zabbix-fonts/" >
                 
                     <span>Zabbix汉化字体修改</span>
@@ -451,6 +420,37 @@ apache：使用这个Web服务的路径在(默认路径)/var/www/html/目录下�
         <a class="post-tag" href="javascript:void(0);" data-tags = Zabbix>Zabbix</a>
     
         <a class="post-tag" href="javascript:void(0);" data-tags = Font>Font</a>
+    
+</div>
+                
+            </div>
+        </article>
+    
+    
+    
+        <article class="index-post">
+            <a class="abstract-title" href = "/2018/02/28/zombie-process-and-orphaned-process/" >
+                
+                    <span>浅析僵尸进程与孤儿进程</span>
+            </a>
+            <div class="abstract-content">
+                本帖子记录的是理解僵尸进程和孤儿进程的产生原因
+知识背景在被誉为UNIX编程“圣经”的一书《unix环境高级编程》中有提到僵尸进程和孤儿进程。不少同学对这两个概念会混淆，这篇文章总结一下。
+在unix/linux系统中，大多情况下，子进程是通过父进程fork创建的，注：系统调用fork，是一个比较有意思系统调用，它调用一次，返回两个值，失败返回-1,成功时在子进程返回0，父进程返回所创建子进程的pid。本文暂时只需了解这些就够了，有兴趣的同学可以查阅man文档，描述的非常清楚。
+子进程创建后，子进程的结束和父进程的运行是一个异步过程,也就是说父进程没办法预测子进程什么时候结束。 当一个子...
+            </div>
+            <div class="abstract-post-meta">
+                <!-- date  -->
+                <div class="abstract-date">
+                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/02/28</span>
+                </div>
+                <!-- tags  -->
+                
+                <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = Zombie Process>Zombie Process</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = Orphaned Process>Orphaned Process</a>
     
 </div>
                 
@@ -1152,20 +1152,6 @@ Zabbix支持主动轮询和被动捕获。Zabbix所有的报告、统计信息�
     
     
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     <div class="total-archive"> Total : 29 </div>
     
     <div class="post-archive">
@@ -1332,13 +1318,13 @@ Zabbix支持主动轮询和被动捕获。Zabbix所有的报告、统计信息�
     
         <span class="sidebar-tag-name" data-tags="Flask"><span class="iconfont-archer">&#xe606;</span>Flask</span>
     
-        <span class="sidebar-tag-name" data-tags="Docker"><span class="iconfont-archer">&#xe606;</span>Docker</span>
-    
-        <span class="sidebar-tag-name" data-tags="CentOS"><span class="iconfont-archer">&#xe606;</span>CentOS</span>
-    
         <span class="sidebar-tag-name" data-tags="Certbot"><span class="iconfont-archer">&#xe606;</span>Certbot</span>
     
         <span class="sidebar-tag-name" data-tags="https"><span class="iconfont-archer">&#xe606;</span>https</span>
+    
+        <span class="sidebar-tag-name" data-tags="Docker"><span class="iconfont-archer">&#xe606;</span>Docker</span>
+    
+        <span class="sidebar-tag-name" data-tags="CentOS"><span class="iconfont-archer">&#xe606;</span>CentOS</span>
     
         <span class="sidebar-tag-name" data-tags="Gitlab"><span class="iconfont-archer">&#xe606;</span>Gitlab</span>
     
@@ -1394,11 +1380,11 @@ Zabbix支持主动轮询和被动捕获。Zabbix所有的报告、统计信息�
     
         <span class="sidebar-tag-name" data-tags="Installation"><span class="iconfont-archer">&#xe606;</span>Installation</span>
     
-        <span class="sidebar-tag-name" data-tags="PackStack"><span class="iconfont-archer">&#xe606;</span>PackStack</span>
-    
         <span class="sidebar-tag-name" data-tags="$$"><span class="iconfont-archer">&#xe606;</span>$$</span>
     
         <span class="sidebar-tag-name" data-tags="GFW"><span class="iconfont-archer">&#xe606;</span>GFW</span>
+    
+        <span class="sidebar-tag-name" data-tags="PackStack"><span class="iconfont-archer">&#xe606;</span>PackStack</span>
     
         <span class="sidebar-tag-name" data-tags="supervisor"><span class="iconfont-archer">&#xe606;</span>supervisor</span>
     
@@ -1459,9 +1445,9 @@ jsonContent:
     
         <span class="sidebar-category-name" data-categories="比特币如何达成共识-最长链的选择"><span class="iconfont-archer">&#xe60a;</span>比特币如何达成共识-最长链的选择</span>
     
-        <span class="sidebar-category-name" data-categories="Docker安装部署教程"><span class="iconfont-archer">&#xe60a;</span>Docker安装部署教程</span>
-    
         <span class="sidebar-category-name" data-categories="Certbot安装-部分问题解决方案"><span class="iconfont-archer">&#xe60a;</span>Certbot安装-部分问题解决方案</span>
+    
+        <span class="sidebar-category-name" data-categories="Docker安装部署教程"><span class="iconfont-archer">&#xe60a;</span>Docker安装部署教程</span>
     
         <span class="sidebar-category-name" data-categories="Gitlab升级"><span class="iconfont-archer">&#xe60a;</span>Gitlab升级</span>
     
@@ -1491,9 +1477,9 @@ jsonContent:
     
         <span class="sidebar-category-name" data-categories="OpenStack安装部署教程"><span class="iconfont-archer">&#xe60a;</span>OpenStack安装部署教程</span>
     
-        <span class="sidebar-category-name" data-categories="通过packstack快速安装openstack"><span class="iconfont-archer">&#xe60a;</span>通过packstack快速安装openstack</span>
-    
         <span class="sidebar-category-name" data-categories="4-0-8"><span class="iconfont-archer">&#xe60a;</span>4-0-8</span>
+    
+        <span class="sidebar-category-name" data-categories="通过packstack快速安装openstack"><span class="iconfont-archer">&#xe60a;</span>通过packstack快速安装openstack</span>
     
         <span class="sidebar-category-name" data-categories="supervisor-安装、配置、常用命令"><span class="iconfont-archer">&#xe60a;</span>supervisor-安装、配置、常用命令</span>
     

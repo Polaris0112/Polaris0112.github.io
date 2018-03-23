@@ -372,8 +372,10 @@
 <li>Docker-Compose</li>
 </ul>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">$ docker-compose ps</span><br><span class="line">       Name                     Command               State                                Ports                              </span><br><span class="line">------------------------------------------------------------------------------------------------------------------------------</span><br><span class="line">harbor-adminserver   /harbor/start.sh                 Up                                                                      </span><br><span class="line">harbor-db            /usr/<span class="built_in">local</span>/bin/docker-entr ...   Up      3306/tcp                                                        </span><br><span class="line">harbor-jobservice    /harbor/start.sh                 Up                                                                      </span><br><span class="line">harbor-log           /bin/sh -c /usr/<span class="built_in">local</span>/bin/ ...   Up      127.0.0.1:1514-&gt;10514/tcp                                       </span><br><span class="line">harbor-ui            /harbor/start.sh                 Up                                                                      </span><br><span class="line">nginx                nginx -g daemon off;             Up      0.0.0.0:443-&gt;443/tcp, 0.0.0.0:4443-&gt;4443/tcp, 0.0.0.0:80-&gt;80/tcp</span><br><span class="line">registry             /entrypoint.sh serve /etc/ ...   Up      5000/tcp</span><br></pre></td></tr></table></figure>
-<h2 id="启动后"><a href="#启动后" class="headerlink" title="启动后"></a>启动后</h2><p>启动完成后，我们访问刚设置的hostname即可，<code>https://harbor-test.com</code>，如果端口占用，我们可以去修改docker-compose.yml文件中，对应服务的端口映射。</p>
-<p>登录<code>https://harbor-test.com</code>，用户名和密码在配置文件中可以查看，这里我设置的是admin/Harbor123</p>
+<h2 id="启动后"><a href="#启动后" class="headerlink" title="启动后"></a>启动后</h2><p>启动完成后，我们访问刚设置的hostname即可，<code>https://harbor-test.com</code></p>
+<p>如果端口占用，我们可以去修改docker-compose.yml文件中，对应服务的端口映射。</p>
+<p>登录<code>https://harbor-test.com</code></p>
+<p>用户名和密码在配置文件中可以查看，这里我设置的是admin/Harbor123</p>
 <p><img src="/images/https://harbor-test.com/" alt="harbor-login"></p>
 <p>创建自己的项目</p>
 <p><img src="/images/harbor-create-project.png" alt="harbor-create-project"></p>
@@ -539,20 +541,6 @@
     <div class="sidebar-content sidebar-content-show-archive">
           <div class="sidebar-panel-archives">
     <!-- 在ejs中将archive按照时间排序 -->
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     
     
     
@@ -1130,13 +1118,13 @@
     
         <span class="sidebar-tag-name" data-tags="Flask"><span class="iconfont-archer">&#xe606;</span>Flask</span>
     
-        <span class="sidebar-tag-name" data-tags="Docker"><span class="iconfont-archer">&#xe606;</span>Docker</span>
-    
-        <span class="sidebar-tag-name" data-tags="CentOS"><span class="iconfont-archer">&#xe606;</span>CentOS</span>
-    
         <span class="sidebar-tag-name" data-tags="Certbot"><span class="iconfont-archer">&#xe606;</span>Certbot</span>
     
         <span class="sidebar-tag-name" data-tags="https"><span class="iconfont-archer">&#xe606;</span>https</span>
+    
+        <span class="sidebar-tag-name" data-tags="Docker"><span class="iconfont-archer">&#xe606;</span>Docker</span>
+    
+        <span class="sidebar-tag-name" data-tags="CentOS"><span class="iconfont-archer">&#xe606;</span>CentOS</span>
     
         <span class="sidebar-tag-name" data-tags="Gitlab"><span class="iconfont-archer">&#xe606;</span>Gitlab</span>
     
@@ -1192,11 +1180,11 @@
     
         <span class="sidebar-tag-name" data-tags="Installation"><span class="iconfont-archer">&#xe606;</span>Installation</span>
     
-        <span class="sidebar-tag-name" data-tags="PackStack"><span class="iconfont-archer">&#xe606;</span>PackStack</span>
-    
         <span class="sidebar-tag-name" data-tags="$$"><span class="iconfont-archer">&#xe606;</span>$$</span>
     
         <span class="sidebar-tag-name" data-tags="GFW"><span class="iconfont-archer">&#xe606;</span>GFW</span>
+    
+        <span class="sidebar-tag-name" data-tags="PackStack"><span class="iconfont-archer">&#xe606;</span>PackStack</span>
     
         <span class="sidebar-tag-name" data-tags="supervisor"><span class="iconfont-archer">&#xe606;</span>supervisor</span>
     
@@ -1257,9 +1245,9 @@ jsonContent:
     
         <span class="sidebar-category-name" data-categories="比特币如何达成共识-最长链的选择"><span class="iconfont-archer">&#xe60a;</span>比特币如何达成共识-最长链的选择</span>
     
-        <span class="sidebar-category-name" data-categories="Docker安装部署教程"><span class="iconfont-archer">&#xe60a;</span>Docker安装部署教程</span>
-    
         <span class="sidebar-category-name" data-categories="Certbot安装-部分问题解决方案"><span class="iconfont-archer">&#xe60a;</span>Certbot安装-部分问题解决方案</span>
+    
+        <span class="sidebar-category-name" data-categories="Docker安装部署教程"><span class="iconfont-archer">&#xe60a;</span>Docker安装部署教程</span>
     
         <span class="sidebar-category-name" data-categories="Gitlab升级"><span class="iconfont-archer">&#xe60a;</span>Gitlab升级</span>
     
@@ -1289,9 +1277,9 @@ jsonContent:
     
         <span class="sidebar-category-name" data-categories="OpenStack安装部署教程"><span class="iconfont-archer">&#xe60a;</span>OpenStack安装部署教程</span>
     
-        <span class="sidebar-category-name" data-categories="通过packstack快速安装openstack"><span class="iconfont-archer">&#xe60a;</span>通过packstack快速安装openstack</span>
-    
         <span class="sidebar-category-name" data-categories="4-0-8"><span class="iconfont-archer">&#xe60a;</span>4-0-8</span>
+    
+        <span class="sidebar-category-name" data-categories="通过packstack快速安装openstack"><span class="iconfont-archer">&#xe60a;</span>通过packstack快速安装openstack</span>
     
         <span class="sidebar-category-name" data-categories="supervisor-安装、配置、常用命令"><span class="iconfont-archer">&#xe60a;</span>supervisor-安装、配置、常用命令</span>
     
