@@ -2,9 +2,16 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://yoursite.com/2018/03/12/harbor-installation/</loc>
+    
+    <lastmod>2018-03-23T03:36:01.527Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://yoursite.com/2018/03/11/docker-install/</loc>
     
-    <lastmod>2018-03-21T06:12:40.263Z</lastmod>
+    <lastmod>2018-03-23T03:35:51.439Z</lastmod>
     
   </url>
   

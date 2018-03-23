@@ -290,14 +290,19 @@
     
     
         <article class="index-post">
-            <a class="abstract-title" href = "/2018/03/03/blockchain-pow/" >
+            <a class="abstract-title" href = "/2018/03/03/blockchain-merkle/" >
                 
-                    <span>比特币如何挖矿（挖矿原理）-工作量证明</span>
+                    <span>比特币区块结构 Merkle 树及简单支付验证分析</span>
             </a>
             <div class="abstract-content">
-                本帖子记录的是比特币如何挖矿（挖矿原理）-工作量证明
-在区块链记账原理一篇，我们了解到记账是把交易记录、交易时间、账本序号、上一个Hash值等信息计算Hash打包的过程。我们知道所有的计算和存贮是需要消耗计算机资源的，既然要付出成本，那节点为什么还要参与记账呢？在中本聪（比特币之父）的设计里，完成记账的节点可以获得系统给与的一定数量的比特币奖励，这个奖励的过程也就是比特币的发行过程，因此大家形象的把记账称为“挖矿”，本文将详细讨论这个过程。
-记账工作由于记账是有奖励的，每次记账都可以给自己凭空增加一定数量的个比特币（当前是12.5比特币，博文写作时每个比特币是4万人民币以上，大家可以算算...
+                本帖子记录的是比特币区块结构 Merkle 树及简单支付验证分析
+在比特币网络中，不是每个节点都有能力储存完整的区块链数据，受限于存储空间的的限制，很多节点是以SPV（Simplified Payment Verification简单支付验证）钱包接入比特币网络，通过简单支付验证可以在不必存储完整区块链下对交易进行验证，本文将分析区块结构Merkle树及如何进行交易验证。
+区块结构在工作量证明中出现过一个区块信息截图：
+
+细心的同学一定已经在里面发现了很多未讲的其他信息，如：时间戳，版本号，交易次数，二进制哈希树根(Merkle根)等。
+我们来看看一个区块结构到底是怎样的：
+
+如上图（下...
             </div>
             <div class="abstract-post-meta">
                 <!-- date  -->
@@ -318,19 +323,14 @@
     
     
         <article class="index-post">
-            <a class="abstract-title" href = "/2018/03/03/blockchain-merkle/" >
+            <a class="abstract-title" href = "/2018/03/03/blockchain-pow/" >
                 
-                    <span>比特币区块结构 Merkle 树及简单支付验证分析</span>
+                    <span>比特币如何挖矿（挖矿原理）-工作量证明</span>
             </a>
             <div class="abstract-content">
-                本帖子记录的是比特币区块结构 Merkle 树及简单支付验证分析
-在比特币网络中，不是每个节点都有能力储存完整的区块链数据，受限于存储空间的的限制，很多节点是以SPV（Simplified Payment Verification简单支付验证）钱包接入比特币网络，通过简单支付验证可以在不必存储完整区块链下对交易进行验证，本文将分析区块结构Merkle树及如何进行交易验证。
-区块结构在工作量证明中出现过一个区块信息截图：
-
-细心的同学一定已经在里面发现了很多未讲的其他信息，如：时间戳，版本号，交易次数，二进制哈希树根(Merkle根)等。
-我们来看看一个区块结构到底是怎样的：
-
-如上图（下...
+                本帖子记录的是比特币如何挖矿（挖矿原理）-工作量证明
+在区块链记账原理一篇，我们了解到记账是把交易记录、交易时间、账本序号、上一个Hash值等信息计算Hash打包的过程。我们知道所有的计算和存贮是需要消耗计算机资源的，既然要付出成本，那节点为什么还要参与记账呢？在中本聪（比特币之父）的设计里，完成记账的节点可以获得系统给与的一定数量的比特币奖励，这个奖励的过程也就是比特币的发行过程，因此大家形象的把记账称为“挖矿”，本文将详细讨论这个过程。
+记账工作由于记账是有奖励的，每次记账都可以给自己凭空增加一定数量的个比特币（当前是12.5比特币，博文写作时每个比特币是4万人民币以上，大家可以算算...
             </div>
             <div class="abstract-post-meta">
                 <!-- date  -->
@@ -955,7 +955,38 @@
     
     
     
-    <div class="total-archive"> Total : 28 </div>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="total-archive"> Total : 29 </div>
     
     <div class="post-archive">
     
@@ -964,6 +995,11 @@
     
     <div class="archive-year"> 2018 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/12</span><a class="archive-post-title" href= "/2018/03/12/harbor-installation/" >Docker镜像仓库Harbor搭建</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -997,7 +1033,7 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">03/03</span><a class="archive-post-title" href= "/2018/03/03/blockchain-merkle/" >比特币区块结构 Merkle 树及简单支付验证分析</a>
+            <span class="archive-post-date">03/03</span><a class="archive-post-title" href= "/2018/03/03/blockchain-pow/" >比特币如何挖矿（挖矿原理）-工作量证明</a>
         </li>
     
     
@@ -1007,7 +1043,7 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">03/03</span><a class="archive-post-title" href= "/2018/03/03/blockchain-pow/" >比特币如何挖矿（挖矿原理）-工作量证明</a>
+            <span class="archive-post-date">03/03</span><a class="archive-post-title" href= "/2018/03/03/blockchain-merkle/" >比特币区块结构 Merkle 树及简单支付验证分析</a>
         </li>
     
     
@@ -1042,12 +1078,12 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">02/26</span><a class="archive-post-title" href= "/2018/02/26/zabbix-optimization/" >Zabbix性能优化</a>
+            <span class="archive-post-date">02/26</span><a class="archive-post-title" href= "/2018/02/26/myisam-innodb/" >MyISAM和InnoDB区别详解</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">02/26</span><a class="archive-post-title" href= "/2018/02/26/myisam-innodb/" >MyISAM和InnoDB区别详解</a>
+            <span class="archive-post-date">02/26</span><a class="archive-post-title" href= "/2018/02/26/zabbix-optimization/" >Zabbix性能优化</a>
         </li>
     
     
@@ -1067,12 +1103,12 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">02/24</span><a class="archive-post-title" href= "/2018/02/24/mongodb-replset/" >MongoDB复制集部署</a>
+            <span class="archive-post-date">02/24</span><a class="archive-post-title" href= "/2018/02/24/mongodb-shard/" >MongoDB Sharding集群部署</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">02/24</span><a class="archive-post-title" href= "/2018/02/24/mongodb-shard/" >MongoDB Sharding集群部署</a>
+            <span class="archive-post-date">02/24</span><a class="archive-post-title" href= "/2018/02/24/mongodb-replset/" >MongoDB复制集部署</a>
         </li>
     
     
@@ -1131,6 +1167,10 @@
         <span class="sidebar-tag-name" data-tags="Migration"><span class="iconfont-archer">&#xe606;</span>Migration</span>
     
         <span class="sidebar-tag-name" data-tags="haproxy"><span class="iconfont-archer">&#xe606;</span>haproxy</span>
+    
+        <span class="sidebar-tag-name" data-tags="Registry"><span class="iconfont-archer">&#xe606;</span>Registry</span>
+    
+        <span class="sidebar-tag-name" data-tags="Harbor"><span class="iconfont-archer">&#xe606;</span>Harbor</span>
     
         <span class="sidebar-tag-name" data-tags="github"><span class="iconfont-archer">&#xe606;</span>github</span>
     
@@ -1231,13 +1271,13 @@ jsonContent:
     
         <span class="sidebar-category-name" data-categories="区块链记账原理"><span class="iconfont-archer">&#xe60a;</span>区块链记账原理</span>
     
-        <span class="sidebar-category-name" data-categories="比特币如何挖矿（挖矿原理）-工作量证明"><span class="iconfont-archer">&#xe60a;</span>比特币如何挖矿（挖矿原理）-工作量证明</span>
-    
         <span class="sidebar-category-name" data-categories="比特币区块结构-Merkle-树及简单支付验证分析"><span class="iconfont-archer">&#xe60a;</span>比特币区块结构-Merkle-树及简单支付验证分析</span>
     
-        <span class="sidebar-category-name" data-categories="比特币如何达成共识-最长链的选择"><span class="iconfont-archer">&#xe60a;</span>比特币如何达成共识-最长链的选择</span>
+        <span class="sidebar-category-name" data-categories="比特币如何挖矿（挖矿原理）-工作量证明"><span class="iconfont-archer">&#xe60a;</span>比特币如何挖矿（挖矿原理）-工作量证明</span>
     
         <span class="sidebar-category-name" data-categories="用Python从0开始创建一个区块链"><span class="iconfont-archer">&#xe60a;</span>用Python从0开始创建一个区块链</span>
+    
+        <span class="sidebar-category-name" data-categories="比特币如何达成共识-最长链的选择"><span class="iconfont-archer">&#xe60a;</span>比特币如何达成共识-最长链的选择</span>
     
         <span class="sidebar-category-name" data-categories="Certbot安装-部分问题解决方案"><span class="iconfont-archer">&#xe60a;</span>Certbot安装-部分问题解决方案</span>
     
@@ -1246,6 +1286,8 @@ jsonContent:
         <span class="sidebar-category-name" data-categories="Gitlab升级"><span class="iconfont-archer">&#xe60a;</span>Gitlab升级</span>
     
         <span class="sidebar-category-name" data-categories="HAProxy使用"><span class="iconfont-archer">&#xe60a;</span>HAProxy使用</span>
+    
+        <span class="sidebar-category-name" data-categories="Docker镜像仓库Harbor搭建"><span class="iconfont-archer">&#xe60a;</span>Docker镜像仓库Harbor搭建</span>
     
         <span class="sidebar-category-name" data-categories="Hexo-Github搭建博客"><span class="iconfont-archer">&#xe60a;</span>Hexo-Github搭建博客</span>
     
