@@ -1,0 +1,1437 @@
+<!DOCTYPE html>
+<html>
+    <!-- title -->
+
+
+
+
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" >
+    <title>分布式存储系统Ceph原理 · Jayden&#39;s Blog</title>
+    <style type="text/css">
+    @font-face {
+        font-family: 'Oswald-Regular';
+        src: url("/font/Oswald-Regular.ttf");
+    }
+
+    body {
+        margin: 0;
+    }
+
+    header,
+    footer,
+    .back-top,
+    .sidebar,
+    .container,
+    .site-intro-meta,
+    .toc-wrapper {
+        display: none;
+    }
+
+    .site-intro {
+        position: relative;
+        z-index: 3;
+        width: 100%;
+        height: 50vh;
+        overflow: hidden;
+        box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.7);
+    }
+
+    .site-intro-placeholder {
+        position: absolute;
+        z-index: -2;
+        top: 0;
+        left: 0;
+        width: calc(100% + 300px);
+        height: 100%;
+        background: repeating-linear-gradient(-45deg, #444 0, #444 80px, #333 80px, #333 160px);
+        background-position: center center;
+        transform: translate3d(-226px, 0, 0);
+        animation: gradient-move 2.5s ease-out 0s 1;
+    }
+
+    @keyframes gradient-move {
+        0% {
+            transform: translate3d(-226px, 0, 0);
+        }
+        100% {
+            transform: translate3d(0, 0, 0);
+        }
+    }
+
+</style>
+
+    <link rel="preload" href= /css/style.css?v=20180228 as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="stylesheet" type="text/css" href= /css/mobile.css?v=20180228 media="(max-width: 980px)"/>
+    <link rel="icon" href= /assets/favicon.ico>
+    <script>
+  // load webfont-loader async, and add callback function
+  function async(u, c) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+  
+  // get user agent
+  var browser = {
+    versions: function () {
+      var u = window.navigator.userAgent;
+      return {
+        userAgent: u,
+        trident: u.indexOf('Trident') > -1, //IE内核
+        presto: u.indexOf('Presto') > -1, //opera内核
+        webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+        gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+        mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+        ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+        android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+        iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
+        iPad: u.indexOf('iPad') > -1, //是否为iPad
+        webApp: u.indexOf('Safari') == -1, //是否为web应用程序，没有头部与底部
+        weixin: u.indexOf('MicroMessenger') == -1, //是否为微信浏览器
+        uc: u.indexOf('UCBrowser') > -1 //是否为android下的UC浏览器
+      };
+    }()
+  }
+  console.log("userAgent:" + browser.versions.userAgent);
+
+  // callback
+  function fontLoaded() {
+    console.log('font loaded');
+    if (document.getElementsByClassName('site-intro-meta')) {
+      document.getElementsByClassName('intro-title')[0].classList.add('intro-fade-in');
+      document.getElementsByClassName('intro-subtitle')[0].classList.add('intro-fade-in');
+      var postIntroTags = document.getElementsByClassName('post-intro-tags')[0],
+        postIntroMeat = document.getElementsByClassName('post-intro-meta')[0];
+      if (postIntroTags) {
+        postIntroTags.classList.add('post-fade-in');
+      }
+      if (postIntroMeat) {
+        postIntroMeat.classList.add('post-fade-in');
+      }
+    }
+  }
+
+  // UC不支持跨域，所以直接显示
+  function asyncCb(){
+    if (browser.versions.uc) {
+      console.log("UCBrowser");
+      fontLoaded();
+    } else {
+      WebFont.load({
+        custom: {
+          families: ['Oswald-Regular']
+        },
+        loading: function () {  //所有字体开始加载
+          // console.log('loading');
+        },
+        active: function () {  //所有字体已渲染
+          fontLoaded();
+        },
+        inactive: function () { //字体预加载失败，无效字体或浏览器不支持加载
+          console.log('inactive: timeout');
+          fontLoaded();
+        },
+        timeout: 5000 // Set the timeout to two seconds
+      });
+    }
+  }
+
+  async("https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js", asyncCb)
+</script>
+    <script>
+        (function (w) {
+            "use strict";
+            // rel=preload support test
+            if (!w.loadCSS) {
+                w.loadCSS = function () { };
+            }
+            // define on the loadCSS obj
+            var rp = loadCSS.relpreload = {};
+            // rel=preload feature support test
+            // runs once and returns a function for compat purposes
+            rp.support = (function () {
+                var ret;
+                try {
+                    ret = w.document.createElement("link").relList.supports("preload");
+                } catch (e) {
+                    ret = false;
+                }
+                return function () {
+                    return ret;
+                };
+            })();
+
+            // if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+            // then change that media back to its intended value on load
+            rp.bindMediaToggle = function (link) {
+                // remember existing media attr for ultimate state, or default to 'all'
+                var finalMedia = link.media || "all";
+
+                function enableStylesheet() {
+                    link.media = finalMedia;
+                }
+
+                // bind load handlers to enable media
+                if (link.addEventListener) {
+                    link.addEventListener("load", enableStylesheet);
+                } else if (link.attachEvent) {
+                    link.attachEvent("onload", enableStylesheet);
+                }
+
+                // Set rel and non-applicable media type to start an async request
+                // note: timeout allows this to happen async to let rendering continue in IE
+                setTimeout(function () {
+                    link.rel = "stylesheet";
+                    link.media = "only x";
+                });
+                // also enable media after 3 seconds,
+                // which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+                setTimeout(enableStylesheet, 3000);
+            };
+
+            // loop through link elements in DOM
+            rp.poly = function () {
+                // double check this to prevent external calls from running
+                if (rp.support()) {
+                    return;
+                }
+                var links = w.document.getElementsByTagName("link");
+                for (var i = 0; i < links.length; i++) {
+                    var link = links[i];
+                    // qualify links to those with rel=preload and as=style attrs
+                    if (link.rel === "preload" && link.getAttribute("as") === "style" && !link.getAttribute("data-loadcss")) {
+                        // prevent rerunning on link
+                        link.setAttribute("data-loadcss", true);
+                        // bind listeners to toggle media back
+                        rp.bindMediaToggle(link);
+                    }
+                }
+            };
+
+            // if unsupported, run the polyfill
+            if (!rp.support()) {
+                // run once at least
+                rp.poly();
+
+                // rerun poly on an interval until onload
+                var run = w.setInterval(rp.poly, 500);
+                if (w.addEventListener) {
+                    w.addEventListener("load", function () {
+                        rp.poly();
+                        w.clearInterval(run);
+                    });
+                } else if (w.attachEvent) {
+                    w.attachEvent("onload", function () {
+                        rp.poly();
+                        w.clearInterval(run);
+                    });
+                }
+            }
+            // commonjs
+            if (typeof exports !== "undefined") {
+                exports.loadCSS = loadCSS;
+            }
+            else {
+                w.loadCSS = loadCSS;
+            }
+        }(typeof global !== "undefined" ? global : this));
+    </script>
+    <script src="//cdn.staticfile.org/jquery/3.2.1/jquery.min.js" defer></script>
+    <script src="/scripts/main.js" defer></script>
+    <!-- 百度统计  -->
+    
+    <!-- 谷歌统计  -->
+    
+</head>
+
+    
+        <body class="post-body">
+    
+    
+<header class="header">
+
+    <div class="read-progress"></div>
+    <div class="header-sidebar-menu">&#xe775;</div>
+    <!-- post页的toggle banner  -->
+    
+    <div class="banner">
+            <div class="blog-title">
+                <a href="/" >Jayden&#39;s Website.</a>
+            </div>
+            <div class="post-title">
+                <a href="#" class="post-name">分布式存储系统Ceph原理</a>
+            </div>
+    </div>
+    
+    <a class="home-link" href=/>Jayden's Website.</a>
+</header>
+    <div class="wrapper">
+        <div class="site-intro">
+    
+    <!-- 主页  -->
+    
+    
+    <!-- 404页  -->
+            
+    <div class="site-intro-img" style="background-image: url(/intro/post-bg.jpg)"></div>
+    <div class="site-intro-placeholder"></div>
+    <div class="site-intro-meta">
+        <!-- 标题  -->
+        <h1 class="intro-title">
+            <!-- 主页  -->
+            
+            分布式存储系统Ceph原理
+            <!-- 404 -->
+            
+        </h1>
+        <!-- 副标题 -->
+        <p class="intro-subtitle">
+            <!-- 主页副标题  -->
+            
+            
+            <!-- 404 -->
+            
+        </p>
+        <!-- 文章页meta -->
+        
+            <!-- 文章页标签  -->
+            
+                <div class= post-intro-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = Ceph>Ceph</a>
+    
+</div>
+            
+            <div class="post-intro-meta">
+                <span class="post-intro-calander iconfont-archer">&#xe676;</span>
+                <span class="post-intro-time">2018/03/13</span>
+                
+                <span id="busuanzi_container_page_pv" class="busuanzi-pv">
+                    <span class="iconfont-archer">&#xe602;</span>
+                    <span id="busuanzi_value_page_pv"></span>
+                </span>
+                
+                <span class="shareWrapper">
+                    <span class="iconfont-archer shareIcon">&#xe71d;</span>
+                    <span class="shareText">Share</span>
+                    <ul class="shareList">
+                        <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
+                            <div class="share-qrcode"></div>
+                        </li>
+                        <li class="iconfont-archer" data-type="weibo">&#xe619;</li>
+                        <li class="iconfont-archer" data-type="qzone">&#xe62e;</li>
+                        <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
+                        <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
+                    </ul>
+                </span>
+            </div>
+        
+    </div>
+</div>
+        <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
+
+        <div class="container container-unloaded">
+            <main class="main post-page">
+    <article class="article-entry">
+        <p>本帖子记录的是分布式存储系统Ceph的原理介绍。</p>
+<h2 id="Ceph简单概述"><a href="#Ceph简单概述" class="headerlink" title="Ceph简单概述"></a>Ceph简单概述</h2><p>Ceph是一个分布式存储系统，诞生于2004年，最早致力于开发下一代高性能分布式文件系统的项目。<a href="http://ceph.com/download/" target="_blank" rel="noopener">Ceph源码下载</a>。随着云计算的发展，ceph乘上了OpenStack的春风，进而成为了开源社区受关注较高的项目之一。Ceph可以将多台服务器组成一个超大集群，把这些机器中的磁盘资源整合到一块儿，形成一个大的资源池（PB级别），然后按需分配给应用使用。Ceph分布式存储的优势：</p>
+<ul>
+<li><p>CRUSH算法<br>CRUSH算法是ceph的两大创新之一，简单来说，ceph摒弃了传统的集中式存储元数据寻址的方案，转而使用CRUSH算法完成数据的寻址操作。<br>CRUSH在一致性哈希基础上很好的考虑了容灾域的隔离，能够实现各类负载的副本放置规则，例如跨机房、机架感知等。<br>CRUSH算法有相当强大的扩展性，理论上支持数千个存储节点。</p>
+</li>
+<li><p>高可用<br>Ceph中的数据副本数量可以由管理员自行定义，并可以通过CRUSH算法指定副本的物理存储位置以分隔故障域，支持数据强一致性；<br>Ceph可以忍受多种故障场景并自动尝试并行修复；<br>Ceph支持多份强一致性副本，副本能够垮主机、机架、机房、数据中心存放。所以安全可靠。<br>Ceph存储节点可以自管理、自动修复。无单点故障，容错性强。</p>
+</li>
+<li><p>高性能<br>因为是多个副本，因此在读写操作时候能够做到高度并行化。理论上，节点越多，整个集群的IOPS和吞吐量越高。<br>另外一点ceph客户端读写数据直接与存储设备(osd) 交互。在块存储和对象存储中无需元数据服务器。</p>
+</li>
+<li><p>高扩展性<br>Ceph不同于swift，客户端所有的读写操作都要经过代理节点。一旦集群并发量增大时，代理节点很容易成为单点瓶颈。<br>Ceph本身并没有主控节点，扩展起来比较容易，并且理论上，它的性能会随着磁盘数量的增加而线性增长。<br>Ceph扩容方便、容量大。能够管理上千台服务器、EB级的容量。</p>
+</li>
+<li><p>特性丰富<br>Ceph支持三种调用接口：对象存储，块存储，文件系统挂载。三种方式可以一同使用。<br>在国内一些公司的云环境中，通常会采用Ceph作为openstack的唯一后端存储来提升数据转发效率。<br>Ceph统一存储，虽然Ceph底层是一个分布式文件系统，但由于在上层开发了支持对象和块的接口。所以在开源存储软件中，能够一统江湖。至于能不能千秋万代，就不知了。</p>
+</li>
+</ul>
+<p>Ceph提供3种存储方式分别是对象存储，块存储和文件系统，一般我们主要关心的还是块存储，推荐将虚拟机后端存储从SAN过渡到Ceph。Ceph 现在是云计算、虚拟机部署的最火开源存储解决方案，据说有20%的OpenStack部署存储用的都是Ceph的block storage。</p>
+<h2 id="Ceph分布式存储的基本架构"><a href="#Ceph分布式存储的基本架构" class="headerlink" title="Ceph分布式存储的基本架构"></a>Ceph分布式存储的基本架构</h2><p><img src="/images/ceph-1.png" alt="ceph-1"></p>
+<p>Ceph的底层是RADOS，RADOS本身也是分布式存储系统，CEPH所有的存储功能都是基于RADOS实现。RADOS采用C++开发，所提供的原生Librados API包括C和C++两种。Ceph的上层应用调用本机上的librados API，再由后者通过socket与RADOS集群中的其他节点通信并完成各种操作。</p>
+<p>RADOS向外界暴露了调用接口，即LibRADOS,应用程序只需要调用LibRADOS的接口，就可以操纵Ceph了。这其中，RADOS GW用于对象存储，RBD用于块存储，它们都属于LibRADOS;CephFS是内核态程序，向外界提供了POSIX接口，用户可以通过客户端直接挂载使用。</p>
+<p>RADOS GateWay、RBD其作用是在librados库的基础上提供抽象层次更高、更便于应用或客户端使用的上层接口。其中，RADOS GW是一个提供与Amazon S3和Swift兼容的RESTful API的gateway，以供相应的对象存储应用开发使用。RBD则提供了一个标准的块设备接口，常用于在虚拟化的场景下为虚拟机创建volume。目前，Red Hat已经将RBD驱动集成在KVM/QEMU中，以提高虚拟机访问性能。这两种方式目前在云计算中应用的比较多。</p>
+<p>CEPHFS则提供了POSIX接口，用户可直接通过客户端挂载使用。它是内核态的程序，所以无需调用用户空间的librados库。它通过内核中的net模块来与Rados进行交互。</p>
+<h2 id="Ceph之RADOS浅析"><a href="#Ceph之RADOS浅析" class="headerlink" title="Ceph之RADOS浅析"></a>Ceph之RADOS浅析</h2><p>RADOS (Reliable, Autonomic Distributed Object Store) 是Ceph的核心之一，作为Ceph分布式文件系统的一个子项目，特别为Ceph的需求设计，能够在动态变化和异质结构的存储设备机群之上提供一种稳定、可扩展、高性能的单一逻辑对象(Object)存储接口和能够实现节点的自适应和自管理的存储系统。</p>
+<p>在传统分布式存储架构中，存储节点往往仅作为被动查询对象来使用，随着存储规模的增加，数据一致性的管理会出现很多问题。</p>
+<p>而新型的存储架构倾向于将基本的块分配决策和安全保证等操作交给存储节点来做，然后通过提倡客户端和存储节点直接交互来简化数据布局并减小io瓶颈。</p>
+<p>RADOS就是这样一个可用于PB级规模数据存储集群的可伸缩的、可靠的对象存储服务。它包含两类节点：存储节点、管理节点。它通过利用存储设备的智能性，将诸如一致性数据访问、冗余存储、错误检测、错误恢复分布到包含了上千存储节点的集群中，而不是仅仅依靠少数管理节点来处理。</p>
+<p>RADOS中的存储节点被称为OSD(object storage device)，它可以仅由很普通的组件来构成，只需要包含CPU、网卡、本地缓存和一个磁盘或者RAID，并将传统的块存储方式替换成面向对象的存储。</p>
+<p>在PB级的存储规模下，存储系统一定是动态的：系统会随着新设备的部署和旧设备的淘汰而增长或收缩，系统内的设备会持续地崩溃和恢复，大量的数据被创建或者删除。RADOS通过 cluster map来实现这些，cluster map会被复制到集群中的所有部分（存储节点、控制节点，甚至是客户端），并且通过怠惰地传播小增量更新而更新。cluster map中存储了整个集群的数据的分布以及成员。</p>
+<p>通过在每个存储节点存储完整的cluster map，存储设备可以表现的半自动化，通过peer-to-peer的方式（比如定义协议）来进行数据备份、更新，错误检测、数据迁移等等操作。这无疑减轻了占少数的monitor cluster（管理节点组成的集群）的负担。</p>
+<h3 id="设计如下："><a href="#设计如下：" class="headerlink" title="设计如下："></a>设计如下：</h3><p><img src="/images/ceph-2.png" alt="ceph-2"></p>
+<p>一个RADOS系统包含大量的OSDs 和 很少的用于管理OSD集群成员的monitors。OSD的组成如简介所说。而monitor是一些独立的进程，以及少量的本地存储，monitor之间通过一致性算法保证数据的一致性。</p>
+<h3 id="Cluster-Map"><a href="#Cluster-Map" class="headerlink" title="Cluster Map"></a>Cluster Map</h3><p>存储节点集群通过monitor集群操作cluster map来实现成员的管理。cluster map 描述了哪些OSD被包含进存储集群以及所有数据在存储集群中的分布。<br><img src="/images/ceph-3.png" alt="ceph-3"></p>
+<p>cluster map不仅存储在monitor节点，它被复制到集群中的每一个存储节点，以及和集群交互的client。</p>
+<p>当因为一些原因，比如设备崩溃、数据迁移等，cluster map的内容需要改变时，cluster map的版本号被增加，map的版本号可以使通信的双方确认自己的map是否是最新的，版本旧的一方会先将map更新成对方的map，然后才会进行后续操作。</p>
+<h3 id="Data-Placement"><a href="#Data-Placement" class="headerlink" title="Data Placement"></a>Data Placement</h3><p>首先，如下图，总体说下RADOS的存储层次，RADOS中基本的存储单位是对象，一般为2MB或4MB，当一个文件要存入RADOS时，首先会被切分成大小固定的对象（最后一个对象大小可能不同），然后将对象分配到一个PG（Placement Group）中，然后PG会复制几份，伪随机地派给不同的存储节点。当新的存储节点被加入集群，会在已有数据中随机抽取一部分数据迁移到新节点。这种概率平衡的分布方式可以保证设备在潜在的高负载下正常工作。更重要的是，数据的分布过程仅需要做几次随机映射，不需要大型的集中式分配表。</p>
+<p><img src="/images/ceph-4.png" alt="ceph-4"></p>
+<p><strong>对于每个层次的详细说明：</strong></p>
+<ul>
+<li><p>File—— 用户需要存储或者访问的文件。</p>
+</li>
+<li><p>Object—— RADOS的基本存储单元。Object与上面提到的file的区别是，object的最大size由RADOS限定（通常为2MB或4MB），以便实现底层存储的组织管理。因此，当上层应用向RADOS存入size很大的file时，需要将file切分成统一大小的一系列object（最后一个的大小可以不同）进行存储。</p>
+</li>
+<li><p>PG（Placement Group）—— 对object的存储进行组织和位置映射。具体而言，一个PG负责组织若干个object（可以为数千个甚至更多），但一个object只能被映射到一个PG中，即，PG和object之间是“一对多”映射关系。同时，一个PG会被映射到n个OSD上，而每个OSD上都会承载大量的PG，即，PG和OSD之间是“多对多”映射关系。在实践当中，n至少为2（n代表冗余的份数），如果用于生产环境，则至少为3。一个OSD上的PG则可达到数百个。事实上，PG数量的设置牵扯到数据分布的均匀性问题。</p>
+</li>
+<li><p>OSD—— 即object storage device，前文已经详细介绍，此处不再展开。唯一需要说明的是，OSD的数量事实上也关系到系统的数据分布均匀性，因此其数量不应太少。在实践当中，至少也应该是数十上百个的量级才有助于Ceph系统的设计发挥其应有的优势。</p>
+</li>
+</ul>
+<p><strong>各层次之间的映射关系：</strong></p>
+<ul>
+<li><p>file -&gt; object<br>object的最大size是由RADOS配置的，当用户要存储一个file，需要将file切分成几个object。</p>
+</li>
+<li><p>object -&gt; PG<br>每个object都会被映射到一个PG中，然后以PG为单位进行备份以及进一步映射到具体的OSD上。</p>
+</li>
+<li><p>PG -&gt; OSD<br>根据用户设置的冗余存储的个数r，PG会最终存储到r个OSD上，这个映射是通过一种伪随机的映射算法 CRUSH 来实现的，这个算法的特点是可以进行配置。</p>
+</li>
+</ul>
+<h3 id="Ceph集群维护"><a href="#Ceph集群维护" class="headerlink" title="Ceph集群维护"></a>Ceph集群维护</h3><p>前面已经介绍了，由若干个monitor共同负责整个RADOS集群中所有OSD状态的发现与记录，并且共同形成cluster map的master版本，然后扩散至全体OSD以及client。OSD使用cluster map进行数据的维护，而client使用cluster map进行数据的寻址。</p>
+<p>monitor并不主动轮询各个OSD的当前状态。相反，OSD需要向monitor上报状态信息。常见的上报有两种情况：一是新的OSD被加入集群，二是某个OSD发现自身或者其他OSD发生异常。在收到这些上报信息后，monitor将更新cluster map信息并加以扩散。其细节将在下文中加以介绍。</p>
+<p><strong>Cluster map的实际内容包括：</strong></p>
+<ul>
+<li><p>Epoch，即版本号。cluster map的epoch是一个单调递增序列。epoch越大，则cluster map版本越新。因此，持有不同版本cluster map的OSD或client可以简单地通过比较epoch决定应该遵从谁手中的版本。而monitor手中必定有epoch最大、版本最新的cluster map。当任意两方在通信时发现彼此epoch值不同时，将默认先将cluster map同步至高版本一方的状态，再进行后续操作。</p>
+</li>
+<li><p>各个OSD的网络地址。</p>
+</li>
+<li><p>各个OSD的状态。OSD状态的描述分为两个维度：up或者down（表明OSD是否正常工作），in或者out（表明OSD是否在至少一个PG中）。因此，对于任意一个OSD，共有四种可能的状态：<br>up且in：说明该OSD正常运行，且已经承载至少一个PG的数据。这是一个OSD的标准工作状态；</p>
+</li>
+</ul>
+<p>up且out：说明该OSD正常运行，但并未承载任何PG，其中也没有数据。一个新的OSD刚刚被加入Ceph集群后，便会处于这一状态。而一个出现故障的OSD被修复后，重新加入Ceph集群时，也是处于这一状态；</p>
+<p>down且in：说明该OSD发生异常，但仍然承载着至少一个PG，其中仍然存储着数据。这种状态下的OSD刚刚被发现存在异常，可能仍能恢复正常，也可能会彻底无法工作；</p>
+<p>down且out：说明该OSD已经彻底发生故障，且已经不再承载任何PG。</p>
+<ul>
+<li>CRUSH算法配置参数。表明了Ceph集群的物理层级关系（cluster hierarchy），位置映射规则（placement rules）。<br>根据cluster map的定义可以看出，其版本变化通常只会由（3）和（4）两项信息的变化触发。而这两者相比，（3）发生变化的概率更高一些。这可以通过下面对OSD工作状态变化过程的介绍加以反映。</li>
+</ul>
+<p>一个新的OSD上线后，首先根据配置信息与monitor通信。Monitor将其加入cluster map，并设置为up且out状态，再将最新版本的cluster map发给这个新OSD。</p>
+<p>收到monitor发来的cluster map之后，这个新OSD计算出自己所承载的PG（为简化讨论，此处我们假定这个新的OSD开始只承载一个PG），以及和自己承载同一个PG的其他OSD。然后，新OSD将与这些OSD取得联系。如果这个PG目前处于降级状态（即承载该PG的OSD个数少于正常值，如正常应该是3个，此时只有2个或1个。这种情况通常是OSD故障所致），则其他OSD将把这个PG内的所有对象和元数据复制给新OSD。数据复制完成后，新OSD被置为up且in状态。而cluster map内容也将据此更新。这事实上是一个自动化的failure recovery过程。当然，即便没有新的OSD加入，降级的PG也将计算出其他OSD实现failure recovery。</p>
+<p>如果该PG目前一切正常，则这个新OSD将替换掉现有OSD中的一个（PG内将重新选出Primary OSD），并承担其数据。在数据复制完成后，新OSD被置为up且in状态，而被替换的OSD将退出该PG（但状态通常仍然为up且in，因为还要承载其他PG）。而cluster map内容也将据此更新。这事实上是一个自动化的数据re-balancing过程。</p>
+<p>如果一个OSD发现和自己共同承载一个PG的另一个OSD无法联通，则会将这一情况上报monitor。此外，如果一个OSD deamon发现自身工作状态异常，也将把异常情况主动上报给monitor。在上述情况下，monitor将把出现问题的OSD的状态设为down且in。如果超过某一预订时间期限，该OSD仍然无法恢复正常，则其状态将被设置为down且out。反之，如果该OSD能够恢复正常，则其状态会恢复为up且in。在上述这些状态变化发生之后，monitor都将更新cluster map并进行扩散。这事实上是自动化的failure detection过程。</p>
+<p>对于一个RADOS集群而言，即便由数千个甚至更多OSD组成，cluster map的数据结构大小也并不惊人。同时，cluster map的状态更新并不会频繁发生。即便如此，Ceph依然对cluster map信息的扩散机制进行了优化，以便减轻相关计算和通信压力：</p>
+<p>首先，cluster map信息是以增量形式扩散的。如果任意一次通信的双方发现其epoch不一致，则版本更新的一方将把二者所拥有的cluster map的差异发送给另外一方。</p>
+<p>其次，cluster map信息是以异步且lazy的形式扩散的。也即，monitor并不会在每一次cluster map版本更新后都将新版本广播至全体OSD，而是在有OSD向自己上报信息时，将更新回复给对方。类似的，各个OSD也是在和其他OSD通信时，将更新发送给版本低于自己的对方。</p>
+<p>基于上述机制，Ceph避免了由于cluster map版本更新而引起的广播风暴。这虽然是一种异步且lazy的机制，但对于一个由n个OSD组成的Ceph集群，任何一次版本更新能够在O(log(n))时间复杂度内扩散到集群中的任何一个OSD上。</p>
+<p>一个可能被问到的问题是：既然这是一种异步和lazy的扩散机制，则在版本扩散过程中，系统必定出现各个OSD看到的cluster map不一致的情况，这是否会导致问题？答案是：不会。事实上，如果一个client和它要访问çAPG内部的各个OSD看到的cluster map状态一致，则访问操作就可以正确进行。而如果这个client或者PG中的某个OSD和其他几方的cluster map不一致，则根据Ceph的机制设计，这几方将首先同步cluster map至最新状态，并进行必要的数据re-balancing操作，然后即可继续正常访问。</p>
+<h2 id="Ceph内部架构"><a href="#Ceph内部架构" class="headerlink" title="Ceph内部架构"></a>Ceph内部架构</h2><p><img src="/images/ceph-4.png" alt="ceph-4"></p>
+<p>每台服务器都有好几块磁盘（sda,sdb,sdc等），磁盘又可以进一步分区（sda1,sda2等）。CEPH中最基本的进程就是OSD(对象存储设备)，每个磁盘对应一个OSD。</p>
+<p>如果用户通过客户端想要存储一个文件，那么在RADOS中，该文件实际上会分为一个个4M块大小的对象。每个文件都一个文件ID(例如A),那么这些对象的ID就是（A0,A1,A2等）。然而在分布式储存系统中，有成千上万个对象，光遍历就要花很长的时间，所以对象会先通过hash-取模运算，存放到一个PG（Place Group）中，PG相当于数据库中的索引（PG的数量是固定的，不会随着OSD的增加或者删除而改变），这样一来，只需要首先定位到PG的位置，然后在PG中查询对象即可，大大提高了查询的效率。之后，PG中的对象又会根据设置的副本数量进行复制，并根据Crush算法存储到OSD节点上。</p>
+<p>无论使用哪种存储方式（对象、块、挂载），存储的数据都会被切分成对象（Objects）。Objects size大小可以由管理员调整，通常为2M或4M。每个对象都会有一个唯一的OID，由<br>ino与ono生成。ino即是文件的File ID，用于在全局唯一标示每一个文件，而ono则是分片的编号。比如：一个文件FileID为A，它被切成了两个对象，一个对象编号0，另一个编号1，那么这两个文件的oid则为A0与A1。Oid的好处是可以唯一标示每个不同的对象，并且存储了对象与文件的从属关系。</p>
+<p>但是对象并不会直接存储进OSD中，因为对象的size很小，在一个大规模的集群中可能有几百到几千万个对象。这么多对象光是遍历寻址，速度都是很缓慢的；并且如果将对象直接通过某种固定映射的哈希算法映射到osd上，当这个osd损坏时，对象无法自动迁移至其他osd上面（因为映射函数不允许）。为了解决这些问题，ceph引入了归置组的概念，即PG。</p>
+<p>PG是一个逻辑概念，我们linux系统中可以直接看到对象，但是无法直接看到PG。它在数据寻址时类似于数据库中的索引：每个对象都会固定映射进一个PG中，所以当我们要寻找一个对象时，只需要先找到对象所属的PG，然后遍历这个PG就可以了，无需遍历所有对象。而且在数据迁移时，也是以PG作为基本单位进行迁移，ceph不会直接操作对象。</p>
+<p>对象映射进PG的方式：使用静态hash函数对OID做hash取出特征码，用特征码与PG的数量去模，得出PGID。<br>最后PG会根据管理员设置的副本数量进行复制，然后通过crush算法存储到不同的OSD节点上。</p>
+<h2 id="Ceph的基本组件"><a href="#Ceph的基本组件" class="headerlink" title="Ceph的基本组件"></a>Ceph的基本组件</h2><p><img src="/images/ceph-5.png" alt="ceph-5"></p>
+<p>如上图所示，Ceph主要有三个基本进程</p>
+<ul>
+<li><p>Osd<br>用于集群中所有数据与对象的存储。处理集群数据的复制、恢复、回填、再均衡。并向其他osd守护进程发送心跳，然后向Mon提供一些监控信息。<br>当Ceph存储集群设定数据有两个副本时（一共存两份），则至少需要两个OSD守护进程即两个OSD节点，集群才能达到active+clean状态。</p>
+</li>
+<li><p>MDS(可选)<br>为Ceph文件系统提供元数据计算、缓存与同步。在ceph中，元数据也是存储在osd节点中的，mds类似于元数据的代理缓存服务器。<br>MDS进程并不是必须的进程，只有需要使用CEPHFS时，才需要配置MDS节点。</p>
+</li>
+<li><p>Monitor<br>监控整个集群Cluster map的状态，维护集群的cluster MAP二进制表，保证集群数据的一致性。ClusterMAP描述了对象块存储的物理位置，以及一个将设备<br>聚合到物理位置的桶列表。</p>
+</li>
+</ul>
+<p><strong>Ceph要求必须是奇数个Monitor监控节点，而且至少是3个！</strong>（如果是自己私下测试玩玩的话，可以是1个，但是生产环境绝不建议1个）用于维护和监控整个集群的状态，每个Monitor都有一个Cluster Map，只要有这个Map，就能够清楚知道每个对象存储在什么位置了。客户端会先tcp连接到Monitor，从中获取Cluster Map，并在客户端进行计算，当知道对象的位置后，再直接与OSD通信（去中心化的思想）。OSD节点平常会向Monitor节点发送简单心跳，只有当添加、删除或者出现异常状况时，才会自动上报信息给Monitor。</p>
+<p>MDS是可选的，只有需要使用Ceph FS的时候才需要配置MDS节点。在Ceph中，元数据也是存放在OSD中的，MDS只相当于元数据的缓存服务器。</p>
+<p>在Ceph中，如果要写数据，只能向主OSD写，然后再由主OSD向从OSD同步地写，只有当从OSD返回结果给主OSD后，主OSD才会向客户端报告写入完成的消息。如果要读数据，不会使用读写分离，而是也需要先向主OSD发请求，以保证数据的强一致性。</p>
+<h3 id="OSD"><a href="#OSD" class="headerlink" title="OSD"></a>OSD</h3><p>首先描述一下ceph数据的存储过程，如下图：</p>
+<p><img src="/images/ceph-4.png" alt="ceph-4"></p>
+<p>无论使用哪种存储方式（对象、块、挂载），存储的数据都会被切分成对象（Objects）。Objects size大小可以由管理员调整，通常为2M或4M。<br>每个对象都会有一个唯一的OID，由ino与ono生成，虽然这些名词看上去很复杂，其实相当简单。ino即是文件的File ID，用于在全局唯一标示每一个文件，<br>而ono则是分片的编号。比如：一个文件FileID为A，它被切成了两个对象，一个对象编号0，另一个编号1，那么这两个文件的oid则为A0与A1。<br>Oid的好处是可以唯一标示每个不同的对象，并且存储了对象与文件的从属关系。由于ceph的所有数据都虚拟成了整齐划一的对象，所以在读写时效率都会比较高。</p>
+<p>但是对象并不会直接存储进OSD中，因为对象的size很小，在一个大规模的集群中可能有几百到几千万个对象。这么多对象光是遍历寻址，速度都是很缓慢的；<br>并且如果将对象直接通过某种固定映射的哈希算法映射到osd上，当这个osd损坏时，对象无法自动迁移至其他osd上面（因为映射函数不允许）。<br>为了解决这些问题，ceph引入了归置组的概念，即PG。</p>
+<p>PG是一个逻辑概念，我们linux系统中可以直接看到对象，但是无法直接看到PG。它在数据寻址时类似于数据库中的索引：每个对象都会固定映射进一个PG中，<br>所以当我们要寻找一个对象时，只需要先找到对象所属的PG，然后遍历这个PG就可以了，无需遍历所有对象。而且在数据迁移时，也是以PG作为基本单位进行迁移，<br>ceph不会直接操作对象。</p>
+<p>对象时如何映射进PG的？还记得OID么？首先使用静态hash函数对OID做hash取出特征码，用特征码与PG的数量去模，得到的序号则是PGID。由于这种设计方式，<br>PG的数量多寡直接决定了数据分布的均匀性，所以合理设置的PG数量可以很好的提升CEPH集群的性能并使数据均匀分布。</p>
+<p>最后PG会根据管理员设置的副本数量进行复制，然后通过crush算法存储到不同的OSD节点上（其实是把PG中的所有对象存储到节点上），第一个osd节点即为主节点，<br>其余均为从节点。</p>
+<p>下面是一段ceph中的伪代码,简要描述了ceph的数据存储流程</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">locator = object_name</span><br><span class="line">obj_hash =  <span class="built_in">hash</span>(locator)</span><br><span class="line">pg = obj_hash % num_pg</span><br><span class="line">osds_for_pg = crush(pg)    <span class="comment"># returns a list of osds</span></span><br><span class="line">primary = osds_for_pg[0]</span><br><span class="line">replicas = osds_for_pg[1:]</span><br></pre></td></tr></table></figure>
+<p><img src="/images/ceph-6.png" alt="ceph-6"></p>
+<p>上图中更好的诠释了ceph数据流的存储过程，数据无论是从三中接口哪一种写入的，最终都要切分成对象存储到底层的RADOS中。逻辑上通过算法先映射到PG上，最终存储近OSD节点里。图中除了之前介绍过的概念之外多了一个pools的概念。</p>
+<p><img src="/images/ceph-7.png" alt="ceph-7"></p>
+<p>Pool是管理员自定义的命名空间，像其他的命名空间一样，用来隔离对象与PG。我们在调用API存储即使用对象存储时，需要指定对象要存储进哪一个POOL中。除了隔离数据，我们也可以分别对不同的POOL设置不同的优化策略，比如副本数、数据清洗次数、数据块及对象大小等。</p>
+<p>OSD是强一致性的分布式存储，它的读写流程如下图：<br><img src="/images/ceph-8.png" alt="ceph-8"></p>
+<p>Ceph的读写操作采用主从模型，客户端要读写数据时，只能向对象所对应的主osd节点发起请求。主节点在接受到写请求时，会同步的向从OSD中写入数据。当所有的OSD节点都写入完成后，主节点才会向客户端报告写入完成的信息。因此保证了主从节点数据的高度一致性。而读取的时候，客户端也只会向主osd节点发起读请求，并不会有类似于数据库中的读写分离的情况出现，这也是出于强一致性的考虑。由于所有写操作都要交给主osd节点来处理，所以在数据量很大时，性能可能会比较慢，为了克服这个问题以及让ceph能支持事物，每个osd节点都包含了一个journal文件，稍后介绍。</p>
+<p>数据流向介绍到这里就告一段落了，现在终于回到正题：osd进程。在ceph中，每一个osd进程都可称作是一个osd节点，也就是说，每台存储服务器上可能包含了众多的osd节点，每个osd节点监听不同的端口，类似于在同一台服务器上跑多个mysql或redis。每个osd节点可以设置一个目录作为实际存储区域，也可以是一个分区，一整块硬盘。如下图，当前这台机器上跑了两个osd进程，每个osd监听4个端口，分别用于接收客户请求、传输数据、发送心跳、同步数据等操作。</p>
+<p><img src="/images/ceph-9.png" alt="ceph-9"></p>
+<p>如上图所示，osd节点默认监听tcp的6800到6803端口，如果同一台服务器上有多个osd节点，则依次往后排序。</p>
+<p>在生产环境中的osd最少可能都有上百个，所以每个osd都有一个全局的编号，类似osd0，osd1，osd2……..序号根据osd诞生的顺序排列，并且是全局唯一的。存储了相同PG的osd节点除了向mon节点发送心跳外，还会互相发送心跳信息以检测pg数据副本是否正常。</p>
+<p><img src="/images/ceph-10.png" alt="ceph-10"></p>
+<p>默认大小为5G，也就说每创建一个osd节点，还没使用就要被journal占走5G的空间。这个值是可以调整的，具体大小要依osd的总大小而定。</p>
+<p>Journal的作用类似于mysql innodb引擎中的事物日志系统。当有突发的大量写入操作时，ceph可以先把一些零散的，随机的IO请求保存到缓存中进行合并，然后再统一向内核发起IO请求。这样做效率会比较高，但是一旦osd节点崩溃，缓存中的数据就会丢失，所以数据在还未写进硬盘中时，都会记录到journal中，当osd崩溃后重新启动时，会自动尝试从journal恢复因崩溃丢失的缓存数据。因此journal的io是非常密集的，而且由于一个数据要io两次，很大程度上也损耗了硬件的io性能，所以通常在生产环境中，使用ssd来单独存储journal文件以提高ceph读写性能。</p>
+<h3 id="monitor节点"><a href="#monitor节点" class="headerlink" title="monitor节点"></a>monitor节点</h3><p>Mon节点监控着整个ceph集群的状态信息，监听于tcp的6789端口。每一个ceph集群中至少要有一个Mon节点，官方推荐每个集群至少部署三台。Mon节点中保存了最新的版本集群数据分布图（cluster map）的主副本。客户端在使用时，需要挂载mon节点的6789端口，下载最新的cluster map，通过crush算法获得集群中各osd的IP地址，然后再与osd节点直接建立连接来传输数据。所以对于ceph来说，并不需要有集中式的主节点用于计算与寻址，客户端分摊了这部分工作。而且客户端也可以直接和osd通信，省去了中间代理服务器的额外开销。</p>
+<p>Mon节点之间使用Paxos算法来保持各节点cluster map的一致性；各mon节点的功能总体上是一样的，相互间的关系可以被简单理解为主备关系。如果主mon节点损坏，其他mon存活节点超过半数时，集群还可以正常运行。当故障mon节点恢复时，会主动向其他mon节点拉取最新的cluster map。</p>
+<p>Mon节点并不会主动轮询各个osd的当前状态，相反，osd只有在一些特殊情况才会上报自己的信息，平常只会简单的发送心跳。特殊情况包括：1、新的OSD被加入集群；2、某个OSD发现自身或其他OSD发生异常。Mon节点在收到这些上报信息时，则会更新cluster map信息并加以扩散。</p>
+<p>cluster map信息是以异步且lazy的形式扩散的。monitor并不会在每一次cluster map版本更新后都将新版本广播至全体OSD，而是在有OSD向自己上报信息时，将更新回复给对方。类似的，各个OSD也是在和其他OSD通信时，如果发现对方的osd中持有的cluster map版本较低，则把自己更新的版本发送给对方。</p>
+<p>推荐使用以下的架构：<br><img src="/images/ceph-11.png" alt="ceph-11.png"></p>
+<p>这里的ceph除了管理网段外，设了两个网段，一个用于客户端读写传输数据。另一个用于各OSD节点之间同步数据和发送心跳信息等。这样做的好处是可以分担网卡的IO压力。否则在数据清洗时，客户端的读写速度会变得极为缓慢。</p>
+<h3 id="MDS"><a href="#MDS" class="headerlink" title="MDS"></a>MDS</h3><p>Mds是ceph集群中的元数据服务器，而通常它都不是必须的，因为只有在使用cephfs的时候才需要它，而目在云计算中用的更广泛的是另外两种存储方式。<br>Mds虽然是元数据服务器，但是它不负责存储元数据，元数据也是被切成对象存在各个osd节点中的，如下图：</p>
+<p><img src="/images/ceph-12.png" alt="ceph-12"></p>
+<p>在创建CEPHFS时，要至少创建两个POOL，一个用于存放数据，另一个用于存放元数据。Mds只是负责接受用户的元数据查询请求，然后从osd中把数据取出来映射进自己的内存中供客户访问。所以mds其实类似一个代理缓存服务器，替osd分担了用户的访问压力,如下图：</p>
+<p><img src="/images/ceph-13.png" alt="ceph-13"></p>
+
+    </article>
+    <!-- 前后页  -->
+    <ul class="post-paginator">
+        <li class="next">
+            
+                <div class="nextSlogan">Next Post</div>
+                <a href= "/2018/03/15/ceph-optimization-summary/" title= Ceph 优化总结 >
+                    <div class="nextTitle">Ceph 优化总结</div>
+                </a>
+            
+        </li>
+        <li class="previous">
+            
+                <div class="prevSlogan">Previous Post</div>
+                <a href= "/2018/03/12/harbor-installation/" title= Docker镜像仓库Harbor搭建 >
+                    <div class="prevTitle">Docker镜像仓库Harbor搭建</div>
+                </a>
+            
+        </li>
+    </ul>
+    <!-- 评论插件 -->
+    <!-- 来必力City版安装代码 -->
+
+<!-- City版安装代码已完成 -->
+    
+    
+    <!--PC版-->
+
+    <!--PC版-->
+
+
+    
+    <!-- 评论 -->
+</main>
+            <!-- profile -->
+            
+        </div>
+        <footer class="footer footer-unloaded">
+    <!-- social  -->
+    
+    <div class="social">
+        
+    
+        
+            
+                <a href="mailto:jjc27017@gmail.com" class="iconfont-archer email" title=email ></a>
+            
+        
+    
+        
+            
+                <a href="//github.com/Polaris0112" class="iconfont-archer github" target="_blank" title=github></a>
+            
+        
+    
+        
+            
+                <span class="iconfont-archer wechat" title=wechat>
+                  
+                  <img class="profile-qr" src="/assets/wechat_qr.png" />
+                </span>
+            
+        
+    
+        
+            
+                <span class="iconfont-archer qq" title=qq>
+                  
+                  <img class="profile-qr" src="/assets/qq_qr.jpg" />
+                </span>
+            
+        
+    
+        
+            
+                <a href="//weibo.com/__Tk__" class="iconfont-archer weibo" target="_blank" title=weibo></a>
+            
+        
+    
+        
+            
+                <a href="//www.zhihu.com/people/chen-jia-jian-62" class="iconfont-archer zhihu" target="_blank" title=zhihu></a>
+            
+        
+    
+        
+            
+                <a href="//www.douban.com/people/170240662/" class="iconfont-archer douban" target="_blank" title=douban></a>
+            
+        
+    
+        
+            
+                <a href="//www.facebook.com/jiajian.chen.79" class="iconfont-archer facebook" target="_blank" title=facebook></a>
+            
+        
+    
+        
+            
+                <a href="//twitter.com/Jayden_0112" class="iconfont-archer twitter" target="_blank" title=twitter></a>
+            
+        
+    
+        
+    
+        
+    
+        
+            
+                <a href="//www.linkedin.com/in/嘉健-陈-3a0a20157/" class="iconfont-archer linkedin" target="_blank" title=linkedin></a>
+            
+        
+    
+        
+    
+        
+    
+
+    </div>
+    
+    <!-- powered by Hexo  -->
+    <div class="copyright">
+        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank">Archer</a></span>
+    </div>
+    <!-- 不蒜子  -->
+    
+    <div class="busuanzi-container">
+        <span id="busuanzi_container_site_pv">PV: <span id="busuanzi_value_site_pv"></span>
+        </span>
+    </div>
+    
+</footer>
+    </div>
+    <!-- toc -->
+    
+    <div class="toc-wrapper">
+        <div class="toc-catalog">
+            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+        </div>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Ceph简单概述"><span class="toc-number">1.</span> <span class="toc-text">Ceph简单概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Ceph分布式存储的基本架构"><span class="toc-number">2.</span> <span class="toc-text">Ceph分布式存储的基本架构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Ceph之RADOS浅析"><span class="toc-number">3.</span> <span class="toc-text">Ceph之RADOS浅析</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#设计如下："><span class="toc-number">3.1.</span> <span class="toc-text">设计如下：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Cluster-Map"><span class="toc-number">3.2.</span> <span class="toc-text">Cluster Map</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Data-Placement"><span class="toc-number">3.3.</span> <span class="toc-text">Data Placement</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Ceph集群维护"><span class="toc-number">3.4.</span> <span class="toc-text">Ceph集群维护</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Ceph内部架构"><span class="toc-number">4.</span> <span class="toc-text">Ceph内部架构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Ceph的基本组件"><span class="toc-number">5.</span> <span class="toc-text">Ceph的基本组件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#OSD"><span class="toc-number">5.1.</span> <span class="toc-text">OSD</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#monitor节点"><span class="toc-number">5.2.</span> <span class="toc-text">monitor节点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#MDS"><span class="toc-number">5.3.</span> <span class="toc-text">MDS</span></a></li></ol></li></ol>
+    </div>
+    
+    <div class="back-top iconfont-archer">&#xe639;</div>
+    <div class="sidebar sidebar-hide">
+    <ul class="sidebar-tabs sidebar-tabs-active-0">
+        <li class="sidebar-tab-archives"><span class="iconfont-archer">&#xe67d;</span><span class="tab-name">Archive</span></li>
+        <li class="sidebar-tab-tags"><span class="iconfont-archer">&#xe61b;</span><span class="tab-name">Tag</span></li>
+        <li class="sidebar-tab-categories"><span class="iconfont-archer">&#xe666;</span><span class="tab-name">Cate</span></li>
+    </ul>
+    <div class="sidebar-content sidebar-content-show-archive">
+          <div class="sidebar-panel-archives">
+    <!-- 在ejs中将archive按照时间排序 -->
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="total-archive"> Total : 31 </div>
+    
+    <div class="post-archive">
+    
+    
+    
+    
+    <div class="archive-year"> 2018 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/15</span><a class="archive-post-title" href= "/2018/03/15/ceph-optimization-summary/" >Ceph 优化总结</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/13</span><a class="archive-post-title" href= "/2018/03/13/ceph-introduction/" >分布式存储系统Ceph原理</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/12</span><a class="archive-post-title" href= "/2018/03/12/harbor-installation/" >Docker镜像仓库Harbor搭建</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/11</span><a class="archive-post-title" href= "/2018/03/11/docker-install/" >Docker安装部署教程</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/10</span><a class="archive-post-title" href= "/2018/03/10/openstack-packstack-installation/" >通过packstack快速安装openstack</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/10</span><a class="archive-post-title" href= "/2018/03/10/openstack-devstack-installation/" >通过devstack安装部署OpenStack</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/09</span><a class="archive-post-title" href= "/2018/03/09/openstack-install-introduction/" >OpenStack安装部署</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/09</span><a class="archive-post-title" href= "/2018/03/09/open-falcon-install/" >open-falcon安装部署教程</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/08</span><a class="archive-post-title" href= "/2018/03/08/supervisor/" >supervisor 安装、配置、常用命令</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/03</span><a class="archive-post-title" href= "/2018/03/03/blockchain-merkle/" >比特币区块结构 Merkle 树及简单支付验证分析</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/03</span><a class="archive-post-title" href= "/2018/03/03/blockchain-selection/" >比特币如何达成共识 - 最长链的选择</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/03</span><a class="archive-post-title" href= "/2018/03/03/blockchain-pow/" >比特币如何挖矿（挖矿原理）-工作量证明</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/02</span><a class="archive-post-title" href= "/2018/03/02/blockchain-accounting/" >区块链记账原理</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/02</span><a class="archive-post-title" href= "/2018/03/02/blockchain-python/" >用Python从0开始创建一个区块链</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/01</span><a class="archive-post-title" href= "/2018/03/01/gitlab-update/" >Gitlab踩坑升级过程</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/28</span><a class="archive-post-title" href= "/2018/02/28/zombie-process-and-orphaned-process/" >浅析僵尸进程与孤儿进程</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/28</span><a class="archive-post-title" href= "/2018/02/28/zabbix-fonts/" >Zabbix汉化字体修改</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/27</span><a class="archive-post-title" href= "/2018/02/27/nfs-installation/" >NFS安装部署</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/26</span><a class="archive-post-title" href= "/2018/02/26/myisam-innodb/" >MyISAM和InnoDB区别详解</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/26</span><a class="archive-post-title" href= "/2018/02/26/zabbix-optimization/" >Zabbix性能优化</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/25</span><a class="archive-post-title" href= "/2018/02/25/zabbix-source-installation/" >Zabbix 编译安装部署</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/25</span><a class="archive-post-title" href= "/2018/02/25/zabbix-yum-installation/" >Zabbix YUM方式部署</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/24</span><a class="archive-post-title" href= "/2018/02/24/mongodb-shard/" >MongoDB Sharding集群部署</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/24</span><a class="archive-post-title" href= "/2018/02/24/mongodb-single/" >MongoDB单实例部署</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/24</span><a class="archive-post-title" href= "/2018/02/24/mongodb-replset/" >MongoDB复制集部署</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/23</span><a class="archive-post-title" href= "/2018/02/23/haproxy/" >HAProxy日常使用说明</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/22</span><a class="archive-post-title" href= "/2018/02/22/certbot/" >Certbot安装/部分问题解决方案</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/21</span><a class="archive-post-title" href= "/2018/02/21/nginx/" >Nginx正反向代理/负载均衡</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/20</span><a class="archive-post-title" href= "/2018/02/20/lvm/" >LVM创建/扩容/常用操作</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/12</span><a class="archive-post-title" href= "/2018/02/12/hexo/" >Hexo+Github搭建博客</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/20</span><a class="archive-post-title" href= "/2018/01/20/shadowsocks/" >小灰机-4.0.8下载</a>
+        </li>
+    
+    </div>
+  </div>
+        <div class="sidebar-panel-tags">
+    <div class="sidebar-tags-name">
+    
+        <span class="sidebar-tag-name" data-tags="Blockchain"><span class="iconfont-archer">&#xe606;</span>Blockchain</span>
+    
+        <span class="sidebar-tag-name" data-tags="Python"><span class="iconfont-archer">&#xe606;</span>Python</span>
+    
+        <span class="sidebar-tag-name" data-tags="Flask"><span class="iconfont-archer">&#xe606;</span>Flask</span>
+    
+        <span class="sidebar-tag-name" data-tags="Ceph"><span class="iconfont-archer">&#xe606;</span>Ceph</span>
+    
+        <span class="sidebar-tag-name" data-tags="Certbot"><span class="iconfont-archer">&#xe606;</span>Certbot</span>
+    
+        <span class="sidebar-tag-name" data-tags="https"><span class="iconfont-archer">&#xe606;</span>https</span>
+    
+        <span class="sidebar-tag-name" data-tags="Docker"><span class="iconfont-archer">&#xe606;</span>Docker</span>
+    
+        <span class="sidebar-tag-name" data-tags="CentOS"><span class="iconfont-archer">&#xe606;</span>CentOS</span>
+    
+        <span class="sidebar-tag-name" data-tags="Gitlab"><span class="iconfont-archer">&#xe606;</span>Gitlab</span>
+    
+        <span class="sidebar-tag-name" data-tags="Update"><span class="iconfont-archer">&#xe606;</span>Update</span>
+    
+        <span class="sidebar-tag-name" data-tags="Migration"><span class="iconfont-archer">&#xe606;</span>Migration</span>
+    
+        <span class="sidebar-tag-name" data-tags="haproxy"><span class="iconfont-archer">&#xe606;</span>haproxy</span>
+    
+        <span class="sidebar-tag-name" data-tags="Registry"><span class="iconfont-archer">&#xe606;</span>Registry</span>
+    
+        <span class="sidebar-tag-name" data-tags="Harbor"><span class="iconfont-archer">&#xe606;</span>Harbor</span>
+    
+        <span class="sidebar-tag-name" data-tags="github"><span class="iconfont-archer">&#xe606;</span>github</span>
+    
+        <span class="sidebar-tag-name" data-tags="hexo"><span class="iconfont-archer">&#xe606;</span>hexo</span>
+    
+        <span class="sidebar-tag-name" data-tags="blog"><span class="iconfont-archer">&#xe606;</span>blog</span>
+    
+        <span class="sidebar-tag-name" data-tags="centos"><span class="iconfont-archer">&#xe606;</span>centos</span>
+    
+        <span class="sidebar-tag-name" data-tags="lvm"><span class="iconfont-archer">&#xe606;</span>lvm</span>
+    
+        <span class="sidebar-tag-name" data-tags="NoSql"><span class="iconfont-archer">&#xe606;</span>NoSql</span>
+    
+        <span class="sidebar-tag-name" data-tags="MongoDB"><span class="iconfont-archer">&#xe606;</span>MongoDB</span>
+    
+        <span class="sidebar-tag-name" data-tags="ReplSet"><span class="iconfont-archer">&#xe606;</span>ReplSet</span>
+    
+        <span class="sidebar-tag-name" data-tags="Sharding"><span class="iconfont-archer">&#xe606;</span>Sharding</span>
+    
+        <span class="sidebar-tag-name" data-tags="replSet"><span class="iconfont-archer">&#xe606;</span>replSet</span>
+    
+        <span class="sidebar-tag-name" data-tags="MySQL"><span class="iconfont-archer">&#xe606;</span>MySQL</span>
+    
+        <span class="sidebar-tag-name" data-tags="MyISAM"><span class="iconfont-archer">&#xe606;</span>MyISAM</span>
+    
+        <span class="sidebar-tag-name" data-tags="InnoDB"><span class="iconfont-archer">&#xe606;</span>InnoDB</span>
+    
+        <span class="sidebar-tag-name" data-tags="NFS"><span class="iconfont-archer">&#xe606;</span>NFS</span>
+    
+        <span class="sidebar-tag-name" data-tags="open-falcon"><span class="iconfont-archer">&#xe606;</span>open-falcon</span>
+    
+        <span class="sidebar-tag-name" data-tags="nginx"><span class="iconfont-archer">&#xe606;</span>nginx</span>
+    
+        <span class="sidebar-tag-name" data-tags="proxy"><span class="iconfont-archer">&#xe606;</span>proxy</span>
+    
+        <span class="sidebar-tag-name" data-tags="load-balance"><span class="iconfont-archer">&#xe606;</span>load-balance</span>
+    
+        <span class="sidebar-tag-name" data-tags="OpenStack"><span class="iconfont-archer">&#xe606;</span>OpenStack</span>
+    
+        <span class="sidebar-tag-name" data-tags="DevStack"><span class="iconfont-archer">&#xe606;</span>DevStack</span>
+    
+        <span class="sidebar-tag-name" data-tags="PackStack"><span class="iconfont-archer">&#xe606;</span>PackStack</span>
+    
+        <span class="sidebar-tag-name" data-tags="Installation"><span class="iconfont-archer">&#xe606;</span>Installation</span>
+    
+        <span class="sidebar-tag-name" data-tags="$$"><span class="iconfont-archer">&#xe606;</span>$$</span>
+    
+        <span class="sidebar-tag-name" data-tags="GFW"><span class="iconfont-archer">&#xe606;</span>GFW</span>
+    
+        <span class="sidebar-tag-name" data-tags="supervisor"><span class="iconfont-archer">&#xe606;</span>supervisor</span>
+    
+        <span class="sidebar-tag-name" data-tags="Zabbix"><span class="iconfont-archer">&#xe606;</span>Zabbix</span>
+    
+        <span class="sidebar-tag-name" data-tags="Font"><span class="iconfont-archer">&#xe606;</span>Font</span>
+    
+        <span class="sidebar-tag-name" data-tags="Optimization"><span class="iconfont-archer">&#xe606;</span>Optimization</span>
+    
+        <span class="sidebar-tag-name" data-tags="Source"><span class="iconfont-archer">&#xe606;</span>Source</span>
+    
+        <span class="sidebar-tag-name" data-tags="Yum"><span class="iconfont-archer">&#xe606;</span>Yum</span>
+    
+        <span class="sidebar-tag-name" data-tags="Zombie Process"><span class="iconfont-archer">&#xe606;</span>Zombie Process</span>
+    
+        <span class="sidebar-tag-name" data-tags="Orphaned Process"><span class="iconfont-archer">&#xe606;</span>Orphaned Process</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
+    <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
+    缺失模块。<br/>
+    1、请确保node版本大于6.2<br/>
+    2、在博客根目录（注意不是archer根目录）执行以下命令：<br/>
+    <span style="color: #f75357; font-size: 1rem; line-height: 2rem;">npm i hexo-generator-json-content --save</span><br/>
+    3、在根目录_config.yml里添加配置：
+    <pre style="color: #787878; font-size: 0.6rem;">
+jsonContent:
+  meta: false
+  pages: false
+  posts:
+    title: true
+    date: true
+    path: true
+    text: false
+    raw: false
+    content: false
+    slug: false
+    updated: false
+    comments: false
+    link: false
+    permalink: false
+    excerpt: false
+    categories: true
+    tags: true</pre>
+    </div> 
+    <div class="sidebar-tags-list"></div>
+</div>
+        <div class="sidebar-panel-categories">
+    <div class="sidebar-categories-name">
+    
+        <span class="sidebar-category-name" data-categories="区块链记账原理"><span class="iconfont-archer">&#xe60a;</span>区块链记账原理</span>
+    
+        <span class="sidebar-category-name" data-categories="比特币区块结构-Merkle-树及简单支付验证分析"><span class="iconfont-archer">&#xe60a;</span>比特币区块结构-Merkle-树及简单支付验证分析</span>
+    
+        <span class="sidebar-category-name" data-categories="比特币如何挖矿（挖矿原理）-工作量证明"><span class="iconfont-archer">&#xe60a;</span>比特币如何挖矿（挖矿原理）-工作量证明</span>
+    
+        <span class="sidebar-category-name" data-categories="用Python从0开始创建一个区块链"><span class="iconfont-archer">&#xe60a;</span>用Python从0开始创建一个区块链</span>
+    
+        <span class="sidebar-category-name" data-categories="比特币如何达成共识-最长链的选择"><span class="iconfont-archer">&#xe60a;</span>比特币如何达成共识-最长链的选择</span>
+    
+        <span class="sidebar-category-name" data-categories="分布式存储系统Ceph原理介绍"><span class="iconfont-archer">&#xe60a;</span>分布式存储系统Ceph原理介绍</span>
+    
+        <span class="sidebar-category-name" data-categories="Ceph-优化总结"><span class="iconfont-archer">&#xe60a;</span>Ceph-优化总结</span>
+    
+        <span class="sidebar-category-name" data-categories="Certbot安装-部分问题解决方案"><span class="iconfont-archer">&#xe60a;</span>Certbot安装-部分问题解决方案</span>
+    
+        <span class="sidebar-category-name" data-categories="Docker安装部署教程"><span class="iconfont-archer">&#xe60a;</span>Docker安装部署教程</span>
+    
+        <span class="sidebar-category-name" data-categories="Gitlab升级"><span class="iconfont-archer">&#xe60a;</span>Gitlab升级</span>
+    
+        <span class="sidebar-category-name" data-categories="HAProxy使用"><span class="iconfont-archer">&#xe60a;</span>HAProxy使用</span>
+    
+        <span class="sidebar-category-name" data-categories="Docker镜像仓库Harbor搭建"><span class="iconfont-archer">&#xe60a;</span>Docker镜像仓库Harbor搭建</span>
+    
+        <span class="sidebar-category-name" data-categories="Hexo-Github搭建博客"><span class="iconfont-archer">&#xe60a;</span>Hexo-Github搭建博客</span>
+    
+        <span class="sidebar-category-name" data-categories="LVM使用"><span class="iconfont-archer">&#xe60a;</span>LVM使用</span>
+    
+        <span class="sidebar-category-name" data-categories="MongoDB复制集部署"><span class="iconfont-archer">&#xe60a;</span>MongoDB复制集部署</span>
+    
+        <span class="sidebar-category-name" data-categories="MongoDB分片集群部署"><span class="iconfont-archer">&#xe60a;</span>MongoDB分片集群部署</span>
+    
+        <span class="sidebar-category-name" data-categories="MongoDB单实例部署"><span class="iconfont-archer">&#xe60a;</span>MongoDB单实例部署</span>
+    
+        <span class="sidebar-category-name" data-categories="MySQL存储引擎中的MyISAM和InnoDB区别详解"><span class="iconfont-archer">&#xe60a;</span>MySQL存储引擎中的MyISAM和InnoDB区别详解</span>
+    
+        <span class="sidebar-category-name" data-categories="NFS安装部署"><span class="iconfont-archer">&#xe60a;</span>NFS安装部署</span>
+    
+        <span class="sidebar-category-name" data-categories="open-falcon安装部署教程"><span class="iconfont-archer">&#xe60a;</span>open-falcon安装部署教程</span>
+    
+        <span class="sidebar-category-name" data-categories="Nginx正反向代理-负载均衡"><span class="iconfont-archer">&#xe60a;</span>Nginx正反向代理-负载均衡</span>
+    
+        <span class="sidebar-category-name" data-categories="通过devstack安装部署OpenStack"><span class="iconfont-archer">&#xe60a;</span>通过devstack安装部署OpenStack</span>
+    
+        <span class="sidebar-category-name" data-categories="通过packstack快速安装openstack"><span class="iconfont-archer">&#xe60a;</span>通过packstack快速安装openstack</span>
+    
+        <span class="sidebar-category-name" data-categories="OpenStack安装部署教程"><span class="iconfont-archer">&#xe60a;</span>OpenStack安装部署教程</span>
+    
+        <span class="sidebar-category-name" data-categories="4-0-8"><span class="iconfont-archer">&#xe60a;</span>4-0-8</span>
+    
+        <span class="sidebar-category-name" data-categories="supervisor-安装、配置、常用命令"><span class="iconfont-archer">&#xe60a;</span>supervisor-安装、配置、常用命令</span>
+    
+        <span class="sidebar-category-name" data-categories="Zabbix汉化字体修改"><span class="iconfont-archer">&#xe60a;</span>Zabbix汉化字体修改</span>
+    
+        <span class="sidebar-category-name" data-categories="Zabbix性能优化"><span class="iconfont-archer">&#xe60a;</span>Zabbix性能优化</span>
+    
+        <span class="sidebar-category-name" data-categories="Zabbix-编译安装"><span class="iconfont-archer">&#xe60a;</span>Zabbix-编译安装</span>
+    
+        <span class="sidebar-category-name" data-categories="Zabbix-YUM安装"><span class="iconfont-archer">&#xe60a;</span>Zabbix-YUM安装</span>
+    
+        <span class="sidebar-category-name" data-categories="浅析僵尸进程与孤儿进程"><span class="iconfont-archer">&#xe60a;</span>浅析僵尸进程与孤儿进程</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
+    <div class="sidebar-categories-list"></div>
+</div>
+    </div>
+</div> 
+    <script>
+    var siteMeta = {
+        root: '/',
+        author: 'Jayden'
+    }
+</script>
+    <!-- busuanzi  -->
+    
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+    <!-- CNZZ  -->
+    
+    </div>
+    <!-- async load share.js -->
+    
+        <script src="/scripts/share.js" async></script>    
+    
+    </body>
+</html>
+
+

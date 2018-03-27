@@ -323,18 +323,14 @@
     
     
         <article class="index-post">
-            <a class="abstract-title" href = "/2018/03/03/blockchain-selection/" >
+            <a class="abstract-title" href = "/2018/03/03/blockchain-pow/" >
                 
-                    <span>比特币如何达成共识 - 最长链的选择</span>
+                    <span>比特币如何挖矿（挖矿原理）-工作量证明</span>
             </a>
             <div class="abstract-content">
-                本帖子记录的是比特币如何达成共识 - 最长链的选择
-比特币没有中心机构，几乎所有的完整节点都有一份公共总帐本，那么大家如何达成共识：确认哪一份才是公认权威的总账本呢？
-为什么要遵守协议这其实是一个经济问题，在经济活动中的每个人都是自私自利的，追求的是利益的最大化，一个节点工作量只有在其他的节点认同其是有效的（打包的新区块，其他的节点只有验证通过才会加入到区块链中，并在网络上传播），才能够过得收益，而只有遵守规则才会得到其他的节点认同。因此，基于逐利，节点就会自发的遵守协议。共识就是数以万计的独立节点遵守了简单的规则（通过异步交互）自发形成的。
-
-共识：共同遵守的协议规范
-
-去中心化共识在...
+                本帖子记录的是比特币如何挖矿（挖矿原理）-工作量证明
+在区块链记账原理一篇，我们了解到记账是把交易记录、交易时间、账本序号、上一个Hash值等信息计算Hash打包的过程。我们知道所有的计算和存贮是需要消耗计算机资源的，既然要付出成本，那节点为什么还要参与记账呢？在中本聪（比特币之父）的设计里，完成记账的节点可以获得系统给与的一定数量的比特币奖励，这个奖励的过程也就是比特币的发行过程，因此大家形象的把记账称为“挖矿”，本文将详细讨论这个过程。
+记账工作由于记账是有奖励的，每次记账都可以给自己凭空增加一定数量的个比特币（当前是12.5比特币，博文写作时每个比特币是4万人民币以上，大家可以算算...
             </div>
             <div class="abstract-post-meta">
                 <!-- date  -->
@@ -355,14 +351,18 @@
     
     
         <article class="index-post">
-            <a class="abstract-title" href = "/2018/03/03/blockchain-pow/" >
+            <a class="abstract-title" href = "/2018/03/03/blockchain-selection/" >
                 
-                    <span>比特币如何挖矿（挖矿原理）-工作量证明</span>
+                    <span>比特币如何达成共识 - 最长链的选择</span>
             </a>
             <div class="abstract-content">
-                本帖子记录的是比特币如何挖矿（挖矿原理）-工作量证明
-在区块链记账原理一篇，我们了解到记账是把交易记录、交易时间、账本序号、上一个Hash值等信息计算Hash打包的过程。我们知道所有的计算和存贮是需要消耗计算机资源的，既然要付出成本，那节点为什么还要参与记账呢？在中本聪（比特币之父）的设计里，完成记账的节点可以获得系统给与的一定数量的比特币奖励，这个奖励的过程也就是比特币的发行过程，因此大家形象的把记账称为“挖矿”，本文将详细讨论这个过程。
-记账工作由于记账是有奖励的，每次记账都可以给自己凭空增加一定数量的个比特币（当前是12.5比特币，博文写作时每个比特币是4万人民币以上，大家可以算算...
+                本帖子记录的是比特币如何达成共识 - 最长链的选择
+比特币没有中心机构，几乎所有的完整节点都有一份公共总帐本，那么大家如何达成共识：确认哪一份才是公认权威的总账本呢？
+为什么要遵守协议这其实是一个经济问题，在经济活动中的每个人都是自私自利的，追求的是利益的最大化，一个节点工作量只有在其他的节点认同其是有效的（打包的新区块，其他的节点只有验证通过才会加入到区块链中，并在网络上传播），才能够过得收益，而只有遵守规则才会得到其他的节点认同。因此，基于逐利，节点就会自发的遵守协议。共识就是数以万计的独立节点遵守了简单的规则（通过异步交互）自发形成的。
+
+共识：共同遵守的协议规范
+
+去中心化共识在...
             </div>
             <div class="abstract-post-meta">
                 <!-- date  -->
@@ -986,11 +986,7 @@
     
     
     
-    
-    
-    
-    
-    <div class="total-archive"> Total : 29 </div>
+    <div class="total-archive"> Total : 31 </div>
     
     <div class="post-archive">
     
@@ -999,6 +995,16 @@
     
     <div class="archive-year"> 2018 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/15</span><a class="archive-post-title" href= "/2018/03/15/ceph-optimization-summary/" >Ceph 优化总结</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/13</span><a class="archive-post-title" href= "/2018/03/13/ceph-introduction/" >分布式存储系统Ceph原理</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -1012,12 +1018,12 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">03/10</span><a class="archive-post-title" href= "/2018/03/10/openstack-devstack-installation/" >通过devstack安装部署OpenStack</a>
+            <span class="archive-post-date">03/10</span><a class="archive-post-title" href= "/2018/03/10/openstack-packstack-installation/" >通过packstack快速安装openstack</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">03/10</span><a class="archive-post-title" href= "/2018/03/10/openstack-packstack-installation/" >通过packstack快速安装openstack</a>
+            <span class="archive-post-date">03/10</span><a class="archive-post-title" href= "/2018/03/10/openstack-devstack-installation/" >通过devstack安装部署OpenStack</a>
         </li>
     
     
@@ -1037,17 +1043,17 @@
     
     
         <li class="archive-post-item">
+            <span class="archive-post-date">03/03</span><a class="archive-post-title" href= "/2018/03/03/blockchain-merkle/" >比特币区块结构 Merkle 树及简单支付验证分析</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
             <span class="archive-post-date">03/03</span><a class="archive-post-title" href= "/2018/03/03/blockchain-selection/" >比特币如何达成共识 - 最长链的选择</a>
         </li>
     
     
         <li class="archive-post-item">
             <span class="archive-post-date">03/03</span><a class="archive-post-title" href= "/2018/03/03/blockchain-pow/" >比特币如何挖矿（挖矿原理）-工作量证明</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">03/03</span><a class="archive-post-title" href= "/2018/03/03/blockchain-merkle/" >比特币区块结构 Merkle 树及简单支付验证分析</a>
         </li>
     
     
@@ -1102,12 +1108,12 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">02/24</span><a class="archive-post-title" href= "/2018/02/24/mongodb-single/" >MongoDB单实例部署</a>
+            <span class="archive-post-date">02/24</span><a class="archive-post-title" href= "/2018/02/24/mongodb-shard/" >MongoDB Sharding集群部署</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">02/24</span><a class="archive-post-title" href= "/2018/02/24/mongodb-shard/" >MongoDB Sharding集群部署</a>
+            <span class="archive-post-date">02/24</span><a class="archive-post-title" href= "/2018/02/24/mongodb-single/" >MongoDB单实例部署</a>
         </li>
     
     
@@ -1155,6 +1161,8 @@
         <span class="sidebar-tag-name" data-tags="Python"><span class="iconfont-archer">&#xe606;</span>Python</span>
     
         <span class="sidebar-tag-name" data-tags="Flask"><span class="iconfont-archer">&#xe606;</span>Flask</span>
+    
+        <span class="sidebar-tag-name" data-tags="Ceph"><span class="iconfont-archer">&#xe606;</span>Ceph</span>
     
         <span class="sidebar-tag-name" data-tags="Certbot"><span class="iconfont-archer">&#xe606;</span>Certbot</span>
     
@@ -1277,11 +1285,15 @@ jsonContent:
     
         <span class="sidebar-category-name" data-categories="比特币区块结构-Merkle-树及简单支付验证分析"><span class="iconfont-archer">&#xe60a;</span>比特币区块结构-Merkle-树及简单支付验证分析</span>
     
-        <span class="sidebar-category-name" data-categories="比特币如何达成共识-最长链的选择"><span class="iconfont-archer">&#xe60a;</span>比特币如何达成共识-最长链的选择</span>
-    
         <span class="sidebar-category-name" data-categories="比特币如何挖矿（挖矿原理）-工作量证明"><span class="iconfont-archer">&#xe60a;</span>比特币如何挖矿（挖矿原理）-工作量证明</span>
     
         <span class="sidebar-category-name" data-categories="用Python从0开始创建一个区块链"><span class="iconfont-archer">&#xe60a;</span>用Python从0开始创建一个区块链</span>
+    
+        <span class="sidebar-category-name" data-categories="比特币如何达成共识-最长链的选择"><span class="iconfont-archer">&#xe60a;</span>比特币如何达成共识-最长链的选择</span>
+    
+        <span class="sidebar-category-name" data-categories="分布式存储系统Ceph原理介绍"><span class="iconfont-archer">&#xe60a;</span>分布式存储系统Ceph原理介绍</span>
+    
+        <span class="sidebar-category-name" data-categories="Ceph-优化总结"><span class="iconfont-archer">&#xe60a;</span>Ceph-优化总结</span>
     
         <span class="sidebar-category-name" data-categories="Certbot安装-部分问题解决方案"><span class="iconfont-archer">&#xe60a;</span>Certbot安装-部分问题解决方案</span>
     
