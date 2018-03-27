@@ -290,6 +290,37 @@
     
     
         <article class="index-post">
+            <a class="abstract-title" href = "/2018/02/28/zombie-process-and-orphaned-process/" >
+                
+                    <span>浅析僵尸进程与孤儿进程</span>
+            </a>
+            <div class="abstract-content">
+                本帖子记录的是理解僵尸进程和孤儿进程的产生原因
+知识背景在被誉为UNIX编程“圣经”的一书《unix环境高级编程》中有提到僵尸进程和孤儿进程。不少同学对这两个概念会混淆，这篇文章总结一下。
+在unix/linux系统中，大多情况下，子进程是通过父进程fork创建的，注：系统调用fork，是一个比较有意思系统调用，它调用一次，返回两个值，失败返回-1,成功时在子进程返回0，父进程返回所创建子进程的pid。本文暂时只需了解这些就够了，有兴趣的同学可以查阅man文档，描述的非常清楚。
+子进程创建后，子进程的结束和父进程的运行是一个异步过程,也就是说父进程没办法预测子进程什么时候结束。 当一个子...
+            </div>
+            <div class="abstract-post-meta">
+                <!-- date  -->
+                <div class="abstract-date">
+                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/02/28</span>
+                </div>
+                <!-- tags  -->
+                
+                <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = Zombie Process>Zombie Process</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = Orphaned Process>Orphaned Process</a>
+    
+</div>
+                
+            </div>
+        </article>
+    
+    
+    
+        <article class="index-post">
             <a class="abstract-title" href = "/2018/02/28/zabbix-fonts/" >
                 
                     <span>Zabbix汉化字体修改</span>
@@ -318,37 +349,6 @@ apache：使用这个Web服务的路径在(默认路径)/var/www/html/目录下�
         <a class="post-tag" href="javascript:void(0);" data-tags = Zabbix>Zabbix</a>
     
         <a class="post-tag" href="javascript:void(0);" data-tags = Font>Font</a>
-    
-</div>
-                
-            </div>
-        </article>
-    
-    
-    
-        <article class="index-post">
-            <a class="abstract-title" href = "/2018/02/28/zombie-process-and-orphaned-process/" >
-                
-                    <span>浅析僵尸进程与孤儿进程</span>
-            </a>
-            <div class="abstract-content">
-                本帖子记录的是理解僵尸进程和孤儿进程的产生原因
-知识背景在被誉为UNIX编程“圣经”的一书《unix环境高级编程》中有提到僵尸进程和孤儿进程。不少同学对这两个概念会混淆，这篇文章总结一下。
-在unix/linux系统中，大多情况下，子进程是通过父进程fork创建的，注：系统调用fork，是一个比较有意思系统调用，它调用一次，返回两个值，失败返回-1,成功时在子进程返回0，父进程返回所创建子进程的pid。本文暂时只需了解这些就够了，有兴趣的同学可以查阅man文档，描述的非常清楚。
-子进程创建后，子进程的结束和父进程的运行是一个异步过程,也就是说父进程没办法预测子进程什么时候结束。 当一个子...
-            </div>
-            <div class="abstract-post-meta">
-                <!-- date  -->
-                <div class="abstract-date">
-                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/02/28</span>
-                </div>
-                <!-- tags  -->
-                
-                <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = Zombie Process>Zombie Process</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = Orphaned Process>Orphaned Process</a>
     
 </div>
                 
@@ -456,6 +456,40 @@ I...
     
     
         <article class="index-post">
+            <a class="abstract-title" href = "/2018/02/25/zabbix-yum-installation/" >
+                
+                    <span>Zabbix YUM方式部署</span>
+            </a>
+            <div class="abstract-content">
+                本帖子记录的是使用YUM方式安装Zabbix3.4.x
+Zabbix简介Zabbix 是由Alexei Vladishev创建，目前由Zabbix SIA在持续开发和支持。
+Zabbix 是一个企业级的分布式开源监控方案。
+Zabbix是一款能够监控各种网络参数以及服务器健康性和完整性的软件。Zabbix使用灵活的通知机制，允许用户为几乎任何事件配置基于邮件的告警。这样可以快速反馈服务器的问题。基于已存储的数据，Zabbix提供了出色的报告和数据可视化功能。这些功能使得Zabbix成为容量规划的理想方案。
+Zabbix支持主动轮询和被动捕获。Zabbix所有的报告、统计信息和配置参数都可...
+            </div>
+            <div class="abstract-post-meta">
+                <!-- date  -->
+                <div class="abstract-date">
+                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/02/25</span>
+                </div>
+                <!-- tags  -->
+                
+                <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = Installation>Installation</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = Zabbix>Zabbix</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = Yum>Yum</a>
+    
+</div>
+                
+            </div>
+        </article>
+    
+    
+    
+        <article class="index-post">
             <a class="abstract-title" href = "/2018/02/25/zabbix-source-installation/" >
                 
                     <span>Zabbix 编译安装部署</span>
@@ -490,31 +524,31 @@ Zabbix支持主动轮询和被动捕获。Zabbix所有的报告、统计信息�
     
     
         <article class="index-post">
-            <a class="abstract-title" href = "/2018/02/25/zabbix-yum-installation/" >
+            <a class="abstract-title" href = "/2018/02/24/mongodb-shard/" >
                 
-                    <span>Zabbix YUM方式部署</span>
+                    <span>MongoDB Sharding集群部署</span>
             </a>
             <div class="abstract-content">
-                本帖子记录的是使用YUM方式安装Zabbix3.4.x
-Zabbix简介Zabbix 是由Alexei Vladishev创建，目前由Zabbix SIA在持续开发和支持。
-Zabbix 是一个企业级的分布式开源监控方案。
-Zabbix是一款能够监控各种网络参数以及服务器健康性和完整性的软件。Zabbix使用灵活的通知机制，允许用户为几乎任何事件配置基于邮件的告警。这样可以快速反馈服务器的问题。基于已存储的数据，Zabbix提供了出色的报告和数据可视化功能。这些功能使得Zabbix成为容量规划的理想方案。
-Zabbix支持主动轮询和被动捕获。Zabbix所有的报告、统计信息和配置参数都可...
+                本帖子记录的是MongoDB分片+副本集集群部署
+MongoDB Sharding简介  分片（sharding）是MongoDB用来将大型集合分割到不同服务器（或者说一个集群）上所采用的方法。尽管分片起源于关系型数据库分区，但MongoDB分片完全又是另一回事。和MySQL分区方案相比，MongoDB的最大区别在于它几乎能自动完成所有事情，只要告诉MongoDB要分配数据，它就能自动维护数据在不同服务器之间的均衡。 
+分片的目的  高数据量和吞吐量的数据库应用会对单机的性能造成较大压力,大的查询量会将单机的CPU耗尽,大的数据量对单机的存储压力较大,最终会耗尽系统的内存而将压力转移到磁...
             </div>
             <div class="abstract-post-meta">
                 <!-- date  -->
                 <div class="abstract-date">
-                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/02/25</span>
+                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/02/24</span>
                 </div>
                 <!-- tags  -->
                 
                 <div class= abstract-tags >
     
-        <a class="post-tag" href="javascript:void(0);" data-tags = Installation>Installation</a>
+        <a class="post-tag" href="javascript:void(0);" data-tags = NoSql>NoSql</a>
     
-        <a class="post-tag" href="javascript:void(0);" data-tags = Zabbix>Zabbix</a>
+        <a class="post-tag" href="javascript:void(0);" data-tags = MongoDB>MongoDB</a>
     
-        <a class="post-tag" href="javascript:void(0);" data-tags = Yum>Yum</a>
+        <a class="post-tag" href="javascript:void(0);" data-tags = Sharding>Sharding</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = replSet>replSet</a>
     
 </div>
                 
@@ -566,40 +600,6 @@ yum安装方式123456789101112131415## 以3.4.x为例## 创建yum源文件$ vim 
         <a class="post-tag" href="javascript:void(0);" data-tags = NoSql>NoSql</a>
     
         <a class="post-tag" href="javascript:void(0);" data-tags = MongoDB>MongoDB</a>
-    
-</div>
-                
-            </div>
-        </article>
-    
-    
-    
-        <article class="index-post">
-            <a class="abstract-title" href = "/2018/02/24/mongodb-shard/" >
-                
-                    <span>MongoDB Sharding集群部署</span>
-            </a>
-            <div class="abstract-content">
-                本帖子记录的是MongoDB分片+副本集集群部署
-MongoDB Sharding简介  分片（sharding）是MongoDB用来将大型集合分割到不同服务器（或者说一个集群）上所采用的方法。尽管分片起源于关系型数据库分区，但MongoDB分片完全又是另一回事。和MySQL分区方案相比，MongoDB的最大区别在于它几乎能自动完成所有事情，只要告诉MongoDB要分配数据，它就能自动维护数据在不同服务器之间的均衡。 
-分片的目的  高数据量和吞吐量的数据库应用会对单机的性能造成较大压力,大的查询量会将单机的CPU耗尽,大的数据量对单机的存储压力较大,最终会耗尽系统的内存而将压力转移到磁...
-            </div>
-            <div class="abstract-post-meta">
-                <!-- date  -->
-                <div class="abstract-date">
-                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/02/24</span>
-                </div>
-                <!-- tags  -->
-                
-                <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = NoSql>NoSql</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = MongoDB>MongoDB</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = Sharding>Sharding</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = replSet>replSet</a>
     
 </div>
                 
@@ -1186,24 +1186,6 @@ MongoDB复制集简介   Mongodb复制集由一组Mongod实例（进程）组成
     
     
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     <div class="total-archive"> Total : 31 </div>
     
     <div class="post-archive">
@@ -1236,12 +1218,12 @@ MongoDB复制集简介   Mongodb复制集由一组Mongod实例（进程）组成
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">03/10</span><a class="archive-post-title" href= "/2018/03/10/openstack-devstack-installation/" >通过devstack安装部署OpenStack</a>
+            <span class="archive-post-date">03/10</span><a class="archive-post-title" href= "/2018/03/10/openstack-packstack-installation/" >通过packstack快速安装openstack</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">03/10</span><a class="archive-post-title" href= "/2018/03/10/openstack-packstack-installation/" >通过packstack快速安装openstack</a>
+            <span class="archive-post-date">03/10</span><a class="archive-post-title" href= "/2018/03/10/openstack-devstack-installation/" >通过devstack安装部署OpenStack</a>
         </li>
     
     
@@ -1261,17 +1243,17 @@ MongoDB复制集简介   Mongodb复制集由一组Mongod实例（进程）组成
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">03/03</span><a class="archive-post-title" href= "/2018/03/03/blockchain-selection/" >比特币如何达成共识 - 最长链的选择</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
             <span class="archive-post-date">03/03</span><a class="archive-post-title" href= "/2018/03/03/blockchain-merkle/" >比特币区块结构 Merkle 树及简单支付验证分析</a>
         </li>
     
     
         <li class="archive-post-item">
             <span class="archive-post-date">03/03</span><a class="archive-post-title" href= "/2018/03/03/blockchain-pow/" >比特币如何挖矿（挖矿原理）-工作量证明</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/03</span><a class="archive-post-title" href= "/2018/03/03/blockchain-selection/" >比特币如何达成共识 - 最长链的选择</a>
         </li>
     
     
@@ -1316,17 +1298,12 @@ MongoDB复制集简介   Mongodb复制集由一组Mongod实例（进程）组成
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">02/25</span><a class="archive-post-title" href= "/2018/02/25/zabbix-yum-installation/" >Zabbix YUM方式部署</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
             <span class="archive-post-date">02/25</span><a class="archive-post-title" href= "/2018/02/25/zabbix-source-installation/" >Zabbix 编译安装部署</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">02/24</span><a class="archive-post-title" href= "/2018/02/24/mongodb-replset/" >MongoDB复制集部署</a>
+            <span class="archive-post-date">02/25</span><a class="archive-post-title" href= "/2018/02/25/zabbix-yum-installation/" >Zabbix YUM方式部署</a>
         </li>
     
     
@@ -1337,6 +1314,11 @@ MongoDB复制集简介   Mongodb复制集由一组Mongod实例（进程）组成
     
         <li class="archive-post-item">
             <span class="archive-post-date">02/24</span><a class="archive-post-title" href= "/2018/02/24/mongodb-single/" >MongoDB单实例部署</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/24</span><a class="archive-post-title" href= "/2018/02/24/mongodb-replset/" >MongoDB复制集部署</a>
         </li>
     
     
@@ -1398,15 +1380,15 @@ MongoDB复制集简介   Mongodb复制集由一组Mongod实例（进程）组成
     
         <span class="sidebar-tag-name" data-tags="haproxy"><span class="iconfont-archer">&#xe606;</span>haproxy</span>
     
-        <span class="sidebar-tag-name" data-tags="Registry"><span class="iconfont-archer">&#xe606;</span>Registry</span>
-    
-        <span class="sidebar-tag-name" data-tags="Harbor"><span class="iconfont-archer">&#xe606;</span>Harbor</span>
-    
         <span class="sidebar-tag-name" data-tags="github"><span class="iconfont-archer">&#xe606;</span>github</span>
     
         <span class="sidebar-tag-name" data-tags="hexo"><span class="iconfont-archer">&#xe606;</span>hexo</span>
     
         <span class="sidebar-tag-name" data-tags="blog"><span class="iconfont-archer">&#xe606;</span>blog</span>
+    
+        <span class="sidebar-tag-name" data-tags="Registry"><span class="iconfont-archer">&#xe606;</span>Registry</span>
+    
+        <span class="sidebar-tag-name" data-tags="Harbor"><span class="iconfont-archer">&#xe606;</span>Harbor</span>
     
         <span class="sidebar-tag-name" data-tags="centos"><span class="iconfont-archer">&#xe606;</span>centos</span>
     
@@ -1416,11 +1398,11 @@ MongoDB复制集简介   Mongodb复制集由一组Mongod实例（进程）组成
     
         <span class="sidebar-tag-name" data-tags="MongoDB"><span class="iconfont-archer">&#xe606;</span>MongoDB</span>
     
+        <span class="sidebar-tag-name" data-tags="ReplSet"><span class="iconfont-archer">&#xe606;</span>ReplSet</span>
+    
         <span class="sidebar-tag-name" data-tags="Sharding"><span class="iconfont-archer">&#xe606;</span>Sharding</span>
     
         <span class="sidebar-tag-name" data-tags="replSet"><span class="iconfont-archer">&#xe606;</span>replSet</span>
-    
-        <span class="sidebar-tag-name" data-tags="ReplSet"><span class="iconfont-archer">&#xe606;</span>ReplSet</span>
     
         <span class="sidebar-tag-name" data-tags="MySQL"><span class="iconfont-archer">&#xe606;</span>MySQL</span>
     
@@ -1436,11 +1418,11 @@ MongoDB复制集简介   Mongodb复制集由一组Mongod实例（进程）组成
     
         <span class="sidebar-tag-name" data-tags="load-balance"><span class="iconfont-archer">&#xe606;</span>load-balance</span>
     
+        <span class="sidebar-tag-name" data-tags="open-falcon"><span class="iconfont-archer">&#xe606;</span>open-falcon</span>
+    
         <span class="sidebar-tag-name" data-tags="OpenStack"><span class="iconfont-archer">&#xe606;</span>OpenStack</span>
     
         <span class="sidebar-tag-name" data-tags="DevStack"><span class="iconfont-archer">&#xe606;</span>DevStack</span>
-    
-        <span class="sidebar-tag-name" data-tags="open-falcon"><span class="iconfont-archer">&#xe606;</span>open-falcon</span>
     
         <span class="sidebar-tag-name" data-tags="Installation"><span class="iconfont-archer">&#xe606;</span>Installation</span>
     
@@ -1460,11 +1442,11 @@ MongoDB复制集简介   Mongodb复制集由一组Mongod实例（进程）组成
     
         <span class="sidebar-tag-name" data-tags="Source"><span class="iconfont-archer">&#xe606;</span>Source</span>
     
+        <span class="sidebar-tag-name" data-tags="Yum"><span class="iconfont-archer">&#xe606;</span>Yum</span>
+    
         <span class="sidebar-tag-name" data-tags="Zombie Process"><span class="iconfont-archer">&#xe606;</span>Zombie Process</span>
     
         <span class="sidebar-tag-name" data-tags="Orphaned Process"><span class="iconfont-archer">&#xe606;</span>Orphaned Process</span>
-    
-        <span class="sidebar-tag-name" data-tags="Yum"><span class="iconfont-archer">&#xe606;</span>Yum</span>
     
     </div>
     <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
@@ -1503,17 +1485,17 @@ jsonContent:
     
         <span class="sidebar-category-name" data-categories="比特币区块结构-Merkle-树及简单支付验证分析"><span class="iconfont-archer">&#xe60a;</span>比特币区块结构-Merkle-树及简单支付验证分析</span>
     
-        <span class="sidebar-category-name" data-categories="比特币如何挖矿（挖矿原理）-工作量证明"><span class="iconfont-archer">&#xe60a;</span>比特币如何挖矿（挖矿原理）-工作量证明</span>
-    
         <span class="sidebar-category-name" data-categories="用Python从0开始创建一个区块链"><span class="iconfont-archer">&#xe60a;</span>用Python从0开始创建一个区块链</span>
+    
+        <span class="sidebar-category-name" data-categories="比特币如何挖矿（挖矿原理）-工作量证明"><span class="iconfont-archer">&#xe60a;</span>比特币如何挖矿（挖矿原理）-工作量证明</span>
     
         <span class="sidebar-category-name" data-categories="比特币如何达成共识-最长链的选择"><span class="iconfont-archer">&#xe60a;</span>比特币如何达成共识-最长链的选择</span>
     
         <span class="sidebar-category-name" data-categories="分布式存储系统Ceph原理介绍"><span class="iconfont-archer">&#xe60a;</span>分布式存储系统Ceph原理介绍</span>
     
-        <span class="sidebar-category-name" data-categories="Ceph-优化总结"><span class="iconfont-archer">&#xe60a;</span>Ceph-优化总结</span>
-    
         <span class="sidebar-category-name" data-categories="Certbot安装-部分问题解决方案"><span class="iconfont-archer">&#xe60a;</span>Certbot安装-部分问题解决方案</span>
+    
+        <span class="sidebar-category-name" data-categories="Ceph-优化总结"><span class="iconfont-archer">&#xe60a;</span>Ceph-优化总结</span>
     
         <span class="sidebar-category-name" data-categories="Docker安装部署教程"><span class="iconfont-archer">&#xe60a;</span>Docker安装部署教程</span>
     
@@ -1521,27 +1503,27 @@ jsonContent:
     
         <span class="sidebar-category-name" data-categories="HAProxy使用"><span class="iconfont-archer">&#xe60a;</span>HAProxy使用</span>
     
-        <span class="sidebar-category-name" data-categories="Docker镜像仓库Harbor搭建"><span class="iconfont-archer">&#xe60a;</span>Docker镜像仓库Harbor搭建</span>
-    
         <span class="sidebar-category-name" data-categories="Hexo-Github搭建博客"><span class="iconfont-archer">&#xe60a;</span>Hexo-Github搭建博客</span>
+    
+        <span class="sidebar-category-name" data-categories="Docker镜像仓库Harbor搭建"><span class="iconfont-archer">&#xe60a;</span>Docker镜像仓库Harbor搭建</span>
     
         <span class="sidebar-category-name" data-categories="LVM使用"><span class="iconfont-archer">&#xe60a;</span>LVM使用</span>
     
-        <span class="sidebar-category-name" data-categories="MongoDB分片集群部署"><span class="iconfont-archer">&#xe60a;</span>MongoDB分片集群部署</span>
-    
         <span class="sidebar-category-name" data-categories="MongoDB复制集部署"><span class="iconfont-archer">&#xe60a;</span>MongoDB复制集部署</span>
     
-        <span class="sidebar-category-name" data-categories="MySQL存储引擎中的MyISAM和InnoDB区别详解"><span class="iconfont-archer">&#xe60a;</span>MySQL存储引擎中的MyISAM和InnoDB区别详解</span>
+        <span class="sidebar-category-name" data-categories="MongoDB分片集群部署"><span class="iconfont-archer">&#xe60a;</span>MongoDB分片集群部署</span>
     
         <span class="sidebar-category-name" data-categories="MongoDB单实例部署"><span class="iconfont-archer">&#xe60a;</span>MongoDB单实例部署</span>
+    
+        <span class="sidebar-category-name" data-categories="MySQL存储引擎中的MyISAM和InnoDB区别详解"><span class="iconfont-archer">&#xe60a;</span>MySQL存储引擎中的MyISAM和InnoDB区别详解</span>
     
         <span class="sidebar-category-name" data-categories="NFS安装部署"><span class="iconfont-archer">&#xe60a;</span>NFS安装部署</span>
     
         <span class="sidebar-category-name" data-categories="Nginx正反向代理-负载均衡"><span class="iconfont-archer">&#xe60a;</span>Nginx正反向代理-负载均衡</span>
     
-        <span class="sidebar-category-name" data-categories="通过devstack安装部署OpenStack"><span class="iconfont-archer">&#xe60a;</span>通过devstack安装部署OpenStack</span>
-    
         <span class="sidebar-category-name" data-categories="open-falcon安装部署教程"><span class="iconfont-archer">&#xe60a;</span>open-falcon安装部署教程</span>
+    
+        <span class="sidebar-category-name" data-categories="通过devstack安装部署OpenStack"><span class="iconfont-archer">&#xe60a;</span>通过devstack安装部署OpenStack</span>
     
         <span class="sidebar-category-name" data-categories="OpenStack安装部署教程"><span class="iconfont-archer">&#xe60a;</span>OpenStack安装部署教程</span>
     
@@ -1557,9 +1539,9 @@ jsonContent:
     
         <span class="sidebar-category-name" data-categories="Zabbix-编译安装"><span class="iconfont-archer">&#xe60a;</span>Zabbix-编译安装</span>
     
-        <span class="sidebar-category-name" data-categories="浅析僵尸进程与孤儿进程"><span class="iconfont-archer">&#xe60a;</span>浅析僵尸进程与孤儿进程</span>
-    
         <span class="sidebar-category-name" data-categories="Zabbix-YUM安装"><span class="iconfont-archer">&#xe60a;</span>Zabbix-YUM安装</span>
+    
+        <span class="sidebar-category-name" data-categories="浅析僵尸进程与孤儿进程"><span class="iconfont-archer">&#xe60a;</span>浅析僵尸进程与孤儿进程</span>
     
     </div>
     <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
