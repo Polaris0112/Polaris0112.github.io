@@ -415,40 +415,318 @@
 </li>
 </ul>
 <h3 id="Ceph-Configurations"><a href="#Ceph-Configurations" class="headerlink" title="Ceph Configurations"></a>Ceph Configurations</h3><ul>
-<li>[global]<br>| 参数名          | 描述                                           | 默认值 | 建议值           |<br>| ——–        | :—-:                                         | :—-: | :—-:           |<br>| public network  | 客户端访问网络                                 | -      | 192.168.100.0/24 |<br>| cluster network | 集群网络                                       | -      | 192.168.1.0/24   |<br>| max open files  | 如果设置了该选项，Ceph会设置系统的max open fds | 0      | 131072           |</li>
+<li>[global]</li>
 </ul>
+<table>
+<thead>
+<tr>
+<th>参数名</th>
+<th style="text-align:center">描述</th>
+<th style="text-align:center">默认值</th>
+<th style="text-align:center">建议值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>public network</td>
+<td style="text-align:center">客户端访问网络</td>
+<td style="text-align:center">-</td>
+<td style="text-align:center">192.168.100.0/24</td>
+</tr>
+<tr>
+<td>cluster network</td>
+<td style="text-align:center">集群网络</td>
+<td style="text-align:center">-</td>
+<td style="text-align:center">192.168.1.0/24</td>
+</tr>
+<tr>
+<td>max open files</td>
+<td style="text-align:center">如果设置了该选项，Ceph会设置系统的max open fds</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">131072</td>
+</tr>
+</tbody>
+</table>
 <p>查看系统最大文件打开数可以使用命令<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ cat /proc/sys/fs/file-max</span><br></pre></td></tr></table></figure></p>
 <ul>
-<li><p>[osd] - filestore<br>| 参数名 | 描述 | 默认值 | 建议值 |<br>| :—: | :—: | :—: | :—: |<br>|filestore xattr use omap | 为XATTRS使用object map，EXT4文件系统时使用，XFS或者btrfs也可以使用 | false | true |<br>|filestore max sync interval | 从日志到数据盘最大同步间隔(seconds) | 5 | 15 |<br>|filestore min sync interval | 从日志到数据盘最小同步间隔(seconds) | 0.1 | 10 |<br>|filestore queue max ops | 数据盘最大接受的操作数 | 500 | 25000 |<br>|filestore queue max bytes | 数据盘一次操作最大字节数(bytes) | 100 &lt;&lt; 20 | 10485760 |<br>|filestore queue committing max ops | 数据盘能够commit的操作数 | 500 | 5000 |<br>|filestore queue committing max bytes | 数据盘能够commit的最大字节数(bytes) | 100 &lt;&lt; 20 | 10485760000 |<br>|filestore op threads | 并发文件系统操作数 | 2 | 32 |</p>
+<li>[osd] - filestore</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">参数名</th>
+<th style="text-align:center">描述</th>
+<th style="text-align:center">默认值</th>
+<th style="text-align:center">建议值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">filestore xattr use omap</td>
+<td style="text-align:center">为XATTRS使用object map，EXT4文件系统时使用，XFS或者btrfs也可以使用</td>
+<td style="text-align:center">false</td>
+<td style="text-align:center">true</td>
+</tr>
+<tr>
+<td style="text-align:center">filestore max sync interval</td>
+<td style="text-align:center">从日志到数据盘最大同步间隔(seconds)</td>
+<td style="text-align:center">5</td>
+<td style="text-align:center">15</td>
+</tr>
+<tr>
+<td style="text-align:center">filestore min sync interval</td>
+<td style="text-align:center">从日志到数据盘最小同步间隔(seconds)</td>
+<td style="text-align:center">0.1</td>
+<td style="text-align:center">10</td>
+</tr>
+<tr>
+<td style="text-align:center">filestore queue max ops</td>
+<td style="text-align:center">数据盘最大接受的操作数</td>
+<td style="text-align:center">500</td>
+<td style="text-align:center">25000</td>
+</tr>
+<tr>
+<td style="text-align:center">filestore queue max bytes</td>
+<td style="text-align:center">数据盘一次操作最大字节数(bytes)</td>
+<td style="text-align:center">100 &lt;&lt; 20</td>
+<td style="text-align:center">10485760</td>
+</tr>
+<tr>
+<td style="text-align:center">filestore queue committing max ops</td>
+<td style="text-align:center">数据盘能够commit的操作数</td>
+<td style="text-align:center">500</td>
+<td style="text-align:center">5000</td>
+</tr>
+<tr>
+<td style="text-align:center">filestore queue committing max bytes</td>
+<td style="text-align:center">数据盘能够commit的最大字节数(bytes)</td>
+<td style="text-align:center">100 &lt;&lt; 20</td>
+<td style="text-align:center">10485760000</td>
+</tr>
+<tr>
+<td style="text-align:center">filestore op threads</td>
+<td style="text-align:center">并发文件系统操作数</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">32</td>
+</tr>
+</tbody>
+</table>
 <ul>
 <li>调整omap的原因主要是EXT4文件系统默认仅有4K</li>
 <li>filestore queue相关的参数对于性能影响很小，参数调整不会对性能优化有本质上提升</li>
 </ul>
-</li>
-</ul>
 <ul>
-<li><p>[osd] - journal<br>| 参数名 | 描述 | 默认值 | 建议值 |<br>| :—: | :—: | :—: | :—: |<br>|osd journal size | OSD日志大小(MB) | 5120 | 20000|<br>|journal max write bytes | journal一次性写入的最大字节数(bytes) | 10 &lt;&lt; 20 | 1073714824|<br>|journal max write entries | journal一次性写入的最大记录数 | 100 | 10000|<br>|journal queue max ops | journal一次性最大在队列中的操作数 | 500 | 50000|<br>|journal queue max bytes | journal一次性最大在队列中的字节数(bytes) | 10 &lt;&lt; 20 | 10485760000|</p>
+<li>[osd] - journal</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">参数名</th>
+<th style="text-align:center">描述</th>
+<th style="text-align:center">默认值</th>
+<th style="text-align:center">建议值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">osd journal size</td>
+<td style="text-align:center">OSD日志大小(MB)</td>
+<td style="text-align:center">5120</td>
+<td style="text-align:center">20000</td>
+</tr>
+<tr>
+<td style="text-align:center">journal max write bytes</td>
+<td style="text-align:center">journal一次性写入的最大字节数(bytes)</td>
+<td style="text-align:center">10 &lt;&lt; 20</td>
+<td style="text-align:center">1073714824</td>
+</tr>
+<tr>
+<td style="text-align:center">journal max write entries</td>
+<td style="text-align:center">journal一次性写入的最大记录数</td>
+<td style="text-align:center">100</td>
+<td style="text-align:center">10000</td>
+</tr>
+<tr>
+<td style="text-align:center">journal queue max ops</td>
+<td style="text-align:center">journal一次性最大在队列中的操作数</td>
+<td style="text-align:center">500</td>
+<td style="text-align:center">50000</td>
+</tr>
+<tr>
+<td style="text-align:center">journal queue max bytes</td>
+<td style="text-align:center">journal一次性最大在队列中的字节数(bytes)</td>
+<td style="text-align:center">10 &lt;&lt; 20</td>
+<td style="text-align:center">10485760000</td>
+</tr>
+</tbody>
+</table>
 <ul>
 <li>Ceph OSD Daemon stops writes and synchronizes the journal with the filesystem, allowing Ceph OSD Daemons to trim operations from the journal and reuse the space.</li>
 <li>上面这段话的意思就是，Ceph OSD进程在往数据盘上刷数据的过程中，是停止写操作的。</li>
 </ul>
-</li>
-</ul>
 <ul>
-<li><p>[osd] - osd config tuning<br>| 参数名 | 描述 | 默认值 | 建议值 |<br>| :—: | :—: | :—: | :—: |<br>|osd max write size | OSD一次可写入的最大值(MB) | 90 | 512|<br>|osd client message size cap | 客户端允许在内存中的最大数据(bytes) | 524288000 | 2147483648|<br>|osd deep scrub stride | 在Deep Scrub时候允许读取的字节数(bytes) | 524288 | 131072|<br>|osd op threads | OSD进程操作的线程数 | 2 | 8|<br>|osd disk threads | OSD密集型操作例如恢复和Scrubbing时的线程 | 1 | 4|<br>|osd map cache size | 保留OSD Map的缓存(MB) | 500 | 1024|<br>|osd map cache bl size | OSD进程在内存中的OSD Map缓存(MB) | 50 | 128|<br>|osd mount options xfs | Ceph OSD xfs Mount选项 | rw,noatime,inode64 | rw,noexec,nodev,noatime,nodiratime,nobarrier|</p>
+<li>[osd] - osd config tuning</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">参数名</th>
+<th style="text-align:center">描述</th>
+<th style="text-align:center">默认值</th>
+<th style="text-align:center">建议值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">osd max write size</td>
+<td style="text-align:center">OSD一次可写入的最大值(MB)</td>
+<td style="text-align:center">90</td>
+<td style="text-align:center">512</td>
+</tr>
+<tr>
+<td style="text-align:center">osd client message size cap</td>
+<td style="text-align:center">客户端允许在内存中的最大数据(bytes)</td>
+<td style="text-align:center">524288000</td>
+<td style="text-align:center">2147483648</td>
+</tr>
+<tr>
+<td style="text-align:center">osd deep scrub stride</td>
+<td style="text-align:center">在Deep Scrub时候允许读取的字节数(bytes)</td>
+<td style="text-align:center">524288</td>
+<td style="text-align:center">131072</td>
+</tr>
+<tr>
+<td style="text-align:center">osd op threads</td>
+<td style="text-align:center">OSD进程操作的线程数</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">8</td>
+</tr>
+<tr>
+<td style="text-align:center">osd disk threads</td>
+<td style="text-align:center">OSD密集型操作例如恢复和Scrubbing时的线程</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">4</td>
+</tr>
+<tr>
+<td style="text-align:center">osd map cache size</td>
+<td style="text-align:center">保留OSD Map的缓存(MB)</td>
+<td style="text-align:center">500</td>
+<td style="text-align:center">1024</td>
+</tr>
+<tr>
+<td style="text-align:center">osd map cache bl size</td>
+<td style="text-align:center">OSD进程在内存中的OSD Map缓存(MB)</td>
+<td style="text-align:center">50</td>
+<td style="text-align:center">128</td>
+</tr>
+<tr>
+<td style="text-align:center">osd mount options xfs</td>
+<td style="text-align:center">Ceph OSD xfs Mount选项</td>
+<td style="text-align:center">rw,noatime,inode64</td>
+<td style="text-align:center">rw,noexec,nodev,noatime,nodiratime,nobarrier</td>
+</tr>
+</tbody>
+</table>
 <ul>
 <li>增加osd op threads和disk threads会带来额外的CPU开销</li>
 </ul>
-</li>
-</ul>
 <ul>
-<li>[osd] - recovery tuning<br>| 参数名 | 描述 | 默认值 | 建议值 |<br>| :—: | :—: | :—: | :—: |<br>|osd recovery op priority | 恢复操作优先级，取值1-63，值越高占用资源越高 | 10 | 4|<br>|osd recovery max active | 同一时间内活跃的恢复请求数 | 15 | 10|<br>|osd max backfills | 一个OSD允许的最大backfills数 | 10 | 4|</li>
+<li>[osd] - recovery tuning</li>
 </ul>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">参数名</th>
+<th style="text-align:center">描述</th>
+<th style="text-align:center">默认值</th>
+<th style="text-align:center">建议值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">osd recovery op priority</td>
+<td style="text-align:center">恢复操作优先级，取值1-63，值越高占用资源越高</td>
+<td style="text-align:center">10</td>
+<td style="text-align:center">4</td>
+</tr>
+<tr>
+<td style="text-align:center">osd recovery max active</td>
+<td style="text-align:center">同一时间内活跃的恢复请求数</td>
+<td style="text-align:center">15</td>
+<td style="text-align:center">10</td>
+</tr>
+<tr>
+<td style="text-align:center">osd max backfills</td>
+<td style="text-align:center">一个OSD允许的最大backfills数</td>
+<td style="text-align:center">10</td>
+<td style="text-align:center">4</td>
+</tr>
+</tbody>
+</table>
 <ul>
-<li>[osd] - client tuning<br>| 参数名 | 描述 | 默认值 | 建议值 |<br>| :—: | :—: | :—: | :—: |<br>|rbd cache | RBD缓存 | true | true|<br>|rbd cache size | RBD缓存大小(bytes) | 33554432 | 268435456|<br>|rbd cache max dirty | 缓存为write-back时允许的最大dirty字节数(bytes)，如果为0，使用write-through | 25165824 | 134217728|<br>|rbd cache max dirty age | 在被刷新到存储盘前dirty数据存在缓存的时间(seconds) | 1 | 5|</li>
+<li>[osd] - client tuning</li>
 </ul>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">参数名</th>
+<th style="text-align:center">描述</th>
+<th style="text-align:center">默认值</th>
+<th style="text-align:center">建议值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">rbd cache</td>
+<td style="text-align:center">RBD缓存</td>
+<td style="text-align:center">true</td>
+<td style="text-align:center">true</td>
+</tr>
+<tr>
+<td style="text-align:center">rbd cache size</td>
+<td style="text-align:center">RBD缓存大小(bytes)</td>
+<td style="text-align:center">33554432</td>
+<td style="text-align:center">268435456</td>
+</tr>
+<tr>
+<td style="text-align:center">rbd cache max dirty</td>
+<td style="text-align:center">缓存为write-back时允许的最大dirty字节数(bytes)，如果为0，使用write-through</td>
+<td style="text-align:center">25165824</td>
+<td style="text-align:center">134217728</td>
+</tr>
+<tr>
+<td style="text-align:center">rbd cache max dirty age</td>
+<td style="text-align:center">在被刷新到存储盘前dirty数据存在缓存的时间(seconds)</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">5</td>
+</tr>
+</tbody>
+</table>
 <p>关闭Debug</p>
-<h3 id="PG-Number"><a href="#PG-Number" class="headerlink" title="PG Number"></a>PG Number</h3><p>PG和PGP数量一定要根据OSD的数量进行调整，计算公式如下，但是最后算出的结果一定要接近或者等于一个2的指数<br><img src="/images/ceph-14.png" alt="ceph-14"><br>| 名称 | 说明 | 备注 |<br>| :—: | :—: | :—: |<br>| PoolPGCount | 单个Pool的PG数量|  |<br>| Target PGs per OSD| 每个OSD的PGS数量 | 1.如果未来集群的OSD数量基本不再增长，Target PGs per OSD=100<br>2.如果未来集群的OSD数量可能增长到目前规模的2倍以内，Target PGs per OSD=200<br>3.如果未来集群的OSD数量可能增长到大于目前规模的2倍且小于3倍，Target PGs per OSD=300。|<br>| OSD # | 集群OSD的总数，默认是全部OSD数量 | 如果通过CRUSH rules进行了SSD和SATA设备的规则拆分(比如SSD和SATA划分两个zone)，需要单独填写对应rule的数量|<br>| %Data | Pool占用所在OSD总容量的百分比(预估值) | |<br>|  Size | 每个pool的replicas size，默认是3 | 如果使用Erasure Coded Pools简称EC pool，Pool Size=k+m |</p>
+<h3 id="PG-Number"><a href="#PG-Number" class="headerlink" title="PG Number"></a>PG Number</h3><p>PG和PGP数量一定要根据OSD的数量进行调整，计算公式如下，但是最后算出的结果一定要接近或者等于一个2的指数</p>
+<p><img src="/images/ceph-14.png" alt="ceph-14"></p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">名称</th>
+<th style="text-align:center">说明</th>
+<th style="text-align:center">备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">PoolPGCount</td>
+<td style="text-align:center">单个Pool的PG数量</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">Target PGs per OSD</td>
+<td style="text-align:center">每个OSD的PGS数量</td>
+<td style="text-align:center">1.如果未来集群的OSD数量基本不再增长，Target PGs per OSD=100</td>
+</tr>
+</tbody>
+</table>
+<p>2.如果未来集群的OSD数量可能增长到目前规模的2倍以内，Target PGs per OSD=200<br>3.如果未来集群的OSD数量可能增长到大于目前规模的2倍且小于3倍，Target PGs per OSD=300。|<br>| OSD # | 集群OSD的总数，默认是全部OSD数量 | 如果通过CRUSH rules进行了SSD和SATA设备的规则拆分(比如SSD和SATA划分两个zone)，需要单独填写对应rule的数量|<br>| %Data | Pool占用所在OSD总容量的百分比(预估值) | |<br>|  Size | 每个pool的replicas size，默认是3 | 如果使用Erasure Coded Pools简称EC pool，Pool Size=k+m |</p>
 <p><strong>结果：</strong><br>１．如果上述计算的值小于（OSD＃）/（Size）的值，则将该值更新为（OSD＃）/（Size）的值。 这是为了通过为每个池分配至少一个主或辅助PG到每个OSD来确保均匀加载/数据分发。</p>
 <p>２．然后将输出值四舍五入为最接近的2的幂。</p>
 <p>提示：最接近的2的幂提供了CRUSH算法的效率的边际改进。</p>
@@ -1142,12 +1420,12 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">02/25</span><a class="archive-post-title" href= "/2018/02/25/zabbix-source-installation/" >Zabbix 编译安装部署</a>
+            <span class="archive-post-date">02/25</span><a class="archive-post-title" href= "/2018/02/25/zabbix-yum-installation/" >Zabbix YUM方式部署</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">02/25</span><a class="archive-post-title" href= "/2018/02/25/zabbix-yum-installation/" >Zabbix YUM方式部署</a>
+            <span class="archive-post-date">02/25</span><a class="archive-post-title" href= "/2018/02/25/zabbix-source-installation/" >Zabbix 编译安装部署</a>
         </li>
     
     
@@ -1224,25 +1502,25 @@
     
         <span class="sidebar-tag-name" data-tags="haproxy"><span class="iconfont-archer">&#xe606;</span>haproxy</span>
     
+        <span class="sidebar-tag-name" data-tags="Registry"><span class="iconfont-archer">&#xe606;</span>Registry</span>
+    
+        <span class="sidebar-tag-name" data-tags="Harbor"><span class="iconfont-archer">&#xe606;</span>Harbor</span>
+    
         <span class="sidebar-tag-name" data-tags="github"><span class="iconfont-archer">&#xe606;</span>github</span>
     
         <span class="sidebar-tag-name" data-tags="hexo"><span class="iconfont-archer">&#xe606;</span>hexo</span>
     
         <span class="sidebar-tag-name" data-tags="blog"><span class="iconfont-archer">&#xe606;</span>blog</span>
     
-        <span class="sidebar-tag-name" data-tags="Registry"><span class="iconfont-archer">&#xe606;</span>Registry</span>
-    
-        <span class="sidebar-tag-name" data-tags="Harbor"><span class="iconfont-archer">&#xe606;</span>Harbor</span>
-    
-        <span class="sidebar-tag-name" data-tags="centos"><span class="iconfont-archer">&#xe606;</span>centos</span>
-    
-        <span class="sidebar-tag-name" data-tags="lvm"><span class="iconfont-archer">&#xe606;</span>lvm</span>
-    
         <span class="sidebar-tag-name" data-tags="NoSql"><span class="iconfont-archer">&#xe606;</span>NoSql</span>
     
         <span class="sidebar-tag-name" data-tags="MongoDB"><span class="iconfont-archer">&#xe606;</span>MongoDB</span>
     
         <span class="sidebar-tag-name" data-tags="ReplSet"><span class="iconfont-archer">&#xe606;</span>ReplSet</span>
+    
+        <span class="sidebar-tag-name" data-tags="centos"><span class="iconfont-archer">&#xe606;</span>centos</span>
+    
+        <span class="sidebar-tag-name" data-tags="lvm"><span class="iconfont-archer">&#xe606;</span>lvm</span>
     
         <span class="sidebar-tag-name" data-tags="Sharding"><span class="iconfont-archer">&#xe606;</span>Sharding</span>
     
@@ -1262,31 +1540,31 @@
     
         <span class="sidebar-tag-name" data-tags="load-balance"><span class="iconfont-archer">&#xe606;</span>load-balance</span>
     
+        <span class="sidebar-tag-name" data-tags="open-falcon"><span class="iconfont-archer">&#xe606;</span>open-falcon</span>
+    
         <span class="sidebar-tag-name" data-tags="OpenStack"><span class="iconfont-archer">&#xe606;</span>OpenStack</span>
     
         <span class="sidebar-tag-name" data-tags="DevStack"><span class="iconfont-archer">&#xe606;</span>DevStack</span>
     
-        <span class="sidebar-tag-name" data-tags="open-falcon"><span class="iconfont-archer">&#xe606;</span>open-falcon</span>
+        <span class="sidebar-tag-name" data-tags="PackStack"><span class="iconfont-archer">&#xe606;</span>PackStack</span>
     
         <span class="sidebar-tag-name" data-tags="Installation"><span class="iconfont-archer">&#xe606;</span>Installation</span>
-    
-        <span class="sidebar-tag-name" data-tags="PackStack"><span class="iconfont-archer">&#xe606;</span>PackStack</span>
     
         <span class="sidebar-tag-name" data-tags="$$"><span class="iconfont-archer">&#xe606;</span>$$</span>
     
         <span class="sidebar-tag-name" data-tags="GFW"><span class="iconfont-archer">&#xe606;</span>GFW</span>
     
+        <span class="sidebar-tag-name" data-tags="supervisor"><span class="iconfont-archer">&#xe606;</span>supervisor</span>
+    
         <span class="sidebar-tag-name" data-tags="Zabbix"><span class="iconfont-archer">&#xe606;</span>Zabbix</span>
     
         <span class="sidebar-tag-name" data-tags="Font"><span class="iconfont-archer">&#xe606;</span>Font</span>
     
-        <span class="sidebar-tag-name" data-tags="supervisor"><span class="iconfont-archer">&#xe606;</span>supervisor</span>
-    
         <span class="sidebar-tag-name" data-tags="Optimization"><span class="iconfont-archer">&#xe606;</span>Optimization</span>
     
-        <span class="sidebar-tag-name" data-tags="Source"><span class="iconfont-archer">&#xe606;</span>Source</span>
-    
         <span class="sidebar-tag-name" data-tags="Yum"><span class="iconfont-archer">&#xe606;</span>Yum</span>
+    
+        <span class="sidebar-tag-name" data-tags="Source"><span class="iconfont-archer">&#xe606;</span>Source</span>
     
         <span class="sidebar-tag-name" data-tags="Zombie Process"><span class="iconfont-archer">&#xe606;</span>Zombie Process</span>
     
@@ -1347,13 +1625,13 @@ jsonContent:
     
         <span class="sidebar-category-name" data-categories="HAProxy使用"><span class="iconfont-archer">&#xe60a;</span>HAProxy使用</span>
     
-        <span class="sidebar-category-name" data-categories="Hexo-Github搭建博客"><span class="iconfont-archer">&#xe60a;</span>Hexo-Github搭建博客</span>
-    
         <span class="sidebar-category-name" data-categories="Docker镜像仓库Harbor搭建"><span class="iconfont-archer">&#xe60a;</span>Docker镜像仓库Harbor搭建</span>
     
-        <span class="sidebar-category-name" data-categories="LVM使用"><span class="iconfont-archer">&#xe60a;</span>LVM使用</span>
+        <span class="sidebar-category-name" data-categories="Hexo-Github搭建博客"><span class="iconfont-archer">&#xe60a;</span>Hexo-Github搭建博客</span>
     
         <span class="sidebar-category-name" data-categories="MongoDB复制集部署"><span class="iconfont-archer">&#xe60a;</span>MongoDB复制集部署</span>
+    
+        <span class="sidebar-category-name" data-categories="LVM使用"><span class="iconfont-archer">&#xe60a;</span>LVM使用</span>
     
         <span class="sidebar-category-name" data-categories="MongoDB分片集群部署"><span class="iconfont-archer">&#xe60a;</span>MongoDB分片集群部署</span>
     
@@ -1365,25 +1643,25 @@ jsonContent:
     
         <span class="sidebar-category-name" data-categories="Nginx正反向代理-负载均衡"><span class="iconfont-archer">&#xe60a;</span>Nginx正反向代理-负载均衡</span>
     
-        <span class="sidebar-category-name" data-categories="通过devstack安装部署OpenStack"><span class="iconfont-archer">&#xe60a;</span>通过devstack安装部署OpenStack</span>
-    
         <span class="sidebar-category-name" data-categories="open-falcon安装部署教程"><span class="iconfont-archer">&#xe60a;</span>open-falcon安装部署教程</span>
     
-        <span class="sidebar-category-name" data-categories="OpenStack安装部署教程"><span class="iconfont-archer">&#xe60a;</span>OpenStack安装部署教程</span>
+        <span class="sidebar-category-name" data-categories="通过devstack安装部署OpenStack"><span class="iconfont-archer">&#xe60a;</span>通过devstack安装部署OpenStack</span>
     
         <span class="sidebar-category-name" data-categories="通过packstack快速安装openstack"><span class="iconfont-archer">&#xe60a;</span>通过packstack快速安装openstack</span>
     
-        <span class="sidebar-category-name" data-categories="4-0-8"><span class="iconfont-archer">&#xe60a;</span>4-0-8</span>
+        <span class="sidebar-category-name" data-categories="OpenStack安装部署教程"><span class="iconfont-archer">&#xe60a;</span>OpenStack安装部署教程</span>
     
-        <span class="sidebar-category-name" data-categories="Zabbix汉化字体修改"><span class="iconfont-archer">&#xe60a;</span>Zabbix汉化字体修改</span>
+        <span class="sidebar-category-name" data-categories="4-0-8"><span class="iconfont-archer">&#xe60a;</span>4-0-8</span>
     
         <span class="sidebar-category-name" data-categories="supervisor-安装、配置、常用命令"><span class="iconfont-archer">&#xe60a;</span>supervisor-安装、配置、常用命令</span>
     
+        <span class="sidebar-category-name" data-categories="Zabbix汉化字体修改"><span class="iconfont-archer">&#xe60a;</span>Zabbix汉化字体修改</span>
+    
         <span class="sidebar-category-name" data-categories="Zabbix性能优化"><span class="iconfont-archer">&#xe60a;</span>Zabbix性能优化</span>
     
-        <span class="sidebar-category-name" data-categories="Zabbix-编译安装"><span class="iconfont-archer">&#xe60a;</span>Zabbix-编译安装</span>
-    
         <span class="sidebar-category-name" data-categories="Zabbix-YUM安装"><span class="iconfont-archer">&#xe60a;</span>Zabbix-YUM安装</span>
+    
+        <span class="sidebar-category-name" data-categories="Zabbix-编译安装"><span class="iconfont-archer">&#xe60a;</span>Zabbix-编译安装</span>
     
         <span class="sidebar-category-name" data-categories="浅析僵尸进程与孤儿进程"><span class="iconfont-archer">&#xe60a;</span>浅析僵尸进程与孤儿进程</span>
     
