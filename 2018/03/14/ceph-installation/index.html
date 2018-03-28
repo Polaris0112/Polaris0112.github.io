@@ -1,0 +1,1438 @@
+<!DOCTYPE html>
+<html>
+    <!-- title -->
+
+
+
+
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" >
+    <title>分布式存储系统Ceph部署过程 · Jayden&#39;s Blog</title>
+    <style type="text/css">
+    @font-face {
+        font-family: 'Oswald-Regular';
+        src: url("/font/Oswald-Regular.ttf");
+    }
+
+    body {
+        margin: 0;
+    }
+
+    header,
+    footer,
+    .back-top,
+    .sidebar,
+    .container,
+    .site-intro-meta,
+    .toc-wrapper {
+        display: none;
+    }
+
+    .site-intro {
+        position: relative;
+        z-index: 3;
+        width: 100%;
+        height: 50vh;
+        overflow: hidden;
+        box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.7);
+    }
+
+    .site-intro-placeholder {
+        position: absolute;
+        z-index: -2;
+        top: 0;
+        left: 0;
+        width: calc(100% + 300px);
+        height: 100%;
+        background: repeating-linear-gradient(-45deg, #444 0, #444 80px, #333 80px, #333 160px);
+        background-position: center center;
+        transform: translate3d(-226px, 0, 0);
+        animation: gradient-move 2.5s ease-out 0s 1;
+    }
+
+    @keyframes gradient-move {
+        0% {
+            transform: translate3d(-226px, 0, 0);
+        }
+        100% {
+            transform: translate3d(0, 0, 0);
+        }
+    }
+
+</style>
+
+    <link rel="preload" href= /css/style.css?v=20180228 as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="stylesheet" type="text/css" href= /css/mobile.css?v=20180228 media="(max-width: 980px)"/>
+    <link rel="icon" href= /assets/favicon.ico>
+    <script>
+  // load webfont-loader async, and add callback function
+  function async(u, c) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+  
+  // get user agent
+  var browser = {
+    versions: function () {
+      var u = window.navigator.userAgent;
+      return {
+        userAgent: u,
+        trident: u.indexOf('Trident') > -1, //IE内核
+        presto: u.indexOf('Presto') > -1, //opera内核
+        webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+        gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+        mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+        ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+        android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+        iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
+        iPad: u.indexOf('iPad') > -1, //是否为iPad
+        webApp: u.indexOf('Safari') == -1, //是否为web应用程序，没有头部与底部
+        weixin: u.indexOf('MicroMessenger') == -1, //是否为微信浏览器
+        uc: u.indexOf('UCBrowser') > -1 //是否为android下的UC浏览器
+      };
+    }()
+  }
+  console.log("userAgent:" + browser.versions.userAgent);
+
+  // callback
+  function fontLoaded() {
+    console.log('font loaded');
+    if (document.getElementsByClassName('site-intro-meta')) {
+      document.getElementsByClassName('intro-title')[0].classList.add('intro-fade-in');
+      document.getElementsByClassName('intro-subtitle')[0].classList.add('intro-fade-in');
+      var postIntroTags = document.getElementsByClassName('post-intro-tags')[0],
+        postIntroMeat = document.getElementsByClassName('post-intro-meta')[0];
+      if (postIntroTags) {
+        postIntroTags.classList.add('post-fade-in');
+      }
+      if (postIntroMeat) {
+        postIntroMeat.classList.add('post-fade-in');
+      }
+    }
+  }
+
+  // UC不支持跨域，所以直接显示
+  function asyncCb(){
+    if (browser.versions.uc) {
+      console.log("UCBrowser");
+      fontLoaded();
+    } else {
+      WebFont.load({
+        custom: {
+          families: ['Oswald-Regular']
+        },
+        loading: function () {  //所有字体开始加载
+          // console.log('loading');
+        },
+        active: function () {  //所有字体已渲染
+          fontLoaded();
+        },
+        inactive: function () { //字体预加载失败，无效字体或浏览器不支持加载
+          console.log('inactive: timeout');
+          fontLoaded();
+        },
+        timeout: 5000 // Set the timeout to two seconds
+      });
+    }
+  }
+
+  async("https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js", asyncCb)
+</script>
+    <script>
+        (function (w) {
+            "use strict";
+            // rel=preload support test
+            if (!w.loadCSS) {
+                w.loadCSS = function () { };
+            }
+            // define on the loadCSS obj
+            var rp = loadCSS.relpreload = {};
+            // rel=preload feature support test
+            // runs once and returns a function for compat purposes
+            rp.support = (function () {
+                var ret;
+                try {
+                    ret = w.document.createElement("link").relList.supports("preload");
+                } catch (e) {
+                    ret = false;
+                }
+                return function () {
+                    return ret;
+                };
+            })();
+
+            // if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+            // then change that media back to its intended value on load
+            rp.bindMediaToggle = function (link) {
+                // remember existing media attr for ultimate state, or default to 'all'
+                var finalMedia = link.media || "all";
+
+                function enableStylesheet() {
+                    link.media = finalMedia;
+                }
+
+                // bind load handlers to enable media
+                if (link.addEventListener) {
+                    link.addEventListener("load", enableStylesheet);
+                } else if (link.attachEvent) {
+                    link.attachEvent("onload", enableStylesheet);
+                }
+
+                // Set rel and non-applicable media type to start an async request
+                // note: timeout allows this to happen async to let rendering continue in IE
+                setTimeout(function () {
+                    link.rel = "stylesheet";
+                    link.media = "only x";
+                });
+                // also enable media after 3 seconds,
+                // which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+                setTimeout(enableStylesheet, 3000);
+            };
+
+            // loop through link elements in DOM
+            rp.poly = function () {
+                // double check this to prevent external calls from running
+                if (rp.support()) {
+                    return;
+                }
+                var links = w.document.getElementsByTagName("link");
+                for (var i = 0; i < links.length; i++) {
+                    var link = links[i];
+                    // qualify links to those with rel=preload and as=style attrs
+                    if (link.rel === "preload" && link.getAttribute("as") === "style" && !link.getAttribute("data-loadcss")) {
+                        // prevent rerunning on link
+                        link.setAttribute("data-loadcss", true);
+                        // bind listeners to toggle media back
+                        rp.bindMediaToggle(link);
+                    }
+                }
+            };
+
+            // if unsupported, run the polyfill
+            if (!rp.support()) {
+                // run once at least
+                rp.poly();
+
+                // rerun poly on an interval until onload
+                var run = w.setInterval(rp.poly, 500);
+                if (w.addEventListener) {
+                    w.addEventListener("load", function () {
+                        rp.poly();
+                        w.clearInterval(run);
+                    });
+                } else if (w.attachEvent) {
+                    w.attachEvent("onload", function () {
+                        rp.poly();
+                        w.clearInterval(run);
+                    });
+                }
+            }
+            // commonjs
+            if (typeof exports !== "undefined") {
+                exports.loadCSS = loadCSS;
+            }
+            else {
+                w.loadCSS = loadCSS;
+            }
+        }(typeof global !== "undefined" ? global : this));
+    </script>
+    <script src="//cdn.staticfile.org/jquery/3.2.1/jquery.min.js" defer></script>
+    <script src="/scripts/main.js" defer></script>
+    <!-- 百度统计  -->
+    
+    <!-- 谷歌统计  -->
+    
+</head>
+
+    
+        <body class="post-body">
+    
+    
+<header class="header">
+
+    <div class="read-progress"></div>
+    <div class="header-sidebar-menu">&#xe775;</div>
+    <!-- post页的toggle banner  -->
+    
+    <div class="banner">
+            <div class="blog-title">
+                <a href="/" >Jayden&#39;s Website.</a>
+            </div>
+            <div class="post-title">
+                <a href="#" class="post-name">分布式存储系统Ceph部署过程</a>
+            </div>
+    </div>
+    
+    <a class="home-link" href=/>Jayden's Website.</a>
+</header>
+    <div class="wrapper">
+        <div class="site-intro">
+    
+    <!-- 主页  -->
+    
+    
+    <!-- 404页  -->
+            
+    <div class="site-intro-img" style="background-image: url(/intro/post-bg.jpg)"></div>
+    <div class="site-intro-placeholder"></div>
+    <div class="site-intro-meta">
+        <!-- 标题  -->
+        <h1 class="intro-title">
+            <!-- 主页  -->
+            
+            分布式存储系统Ceph部署过程
+            <!-- 404 -->
+            
+        </h1>
+        <!-- 副标题 -->
+        <p class="intro-subtitle">
+            <!-- 主页副标题  -->
+            
+            
+            <!-- 404 -->
+            
+        </p>
+        <!-- 文章页meta -->
+        
+            <!-- 文章页标签  -->
+            
+                <div class= post-intro-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = Ceph>Ceph</a>
+    
+</div>
+            
+            <div class="post-intro-meta">
+                <span class="post-intro-calander iconfont-archer">&#xe676;</span>
+                <span class="post-intro-time">2018/03/14</span>
+                
+                <span id="busuanzi_container_page_pv" class="busuanzi-pv">
+                    <span class="iconfont-archer">&#xe602;</span>
+                    <span id="busuanzi_value_page_pv"></span>
+                </span>
+                
+                <span class="shareWrapper">
+                    <span class="iconfont-archer shareIcon">&#xe71d;</span>
+                    <span class="shareText">Share</span>
+                    <ul class="shareList">
+                        <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
+                            <div class="share-qrcode"></div>
+                        </li>
+                        <li class="iconfont-archer" data-type="weibo">&#xe619;</li>
+                        <li class="iconfont-archer" data-type="qzone">&#xe62e;</li>
+                        <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
+                        <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
+                    </ul>
+                </span>
+            </div>
+        
+    </div>
+</div>
+        <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
+
+        <div class="container container-unloaded">
+            <main class="main post-page">
+    <article class="article-entry">
+        <p>本帖子记录的是分布式存储系统Ceph部署过程记录。</p>
+<h2 id="环境准备"><a href="#环境准备" class="headerlink" title="环境准备"></a>环境准备</h2><p>这里我只是测试环境，所以使用一个监控节点，两个存储节点，具体如下：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">ip地址(双网卡)</th>
+<th style="text-align:center">主机名</th>
+<th style="text-align:center">ceph磁盘</th>
+<th style="text-align:center">系统</th>
+<th style="text-align:center">备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">192.168.0.200/172.16.0.100</td>
+<td style="text-align:center">ceph-node1</td>
+<td style="text-align:center">100G</td>
+<td style="text-align:center">CentOS Linux release 7.4.1708 (Core)</td>
+<td style="text-align:center">作为mds、mon、osd0</td>
+</tr>
+<tr>
+<td style="text-align:center">192.168.0.201/172.16.0.101</td>
+<td style="text-align:center">ceph-node2</td>
+<td style="text-align:center">100G</td>
+<td style="text-align:center">CentOS Linux release 7.4.1708 (Core)</td>
+<td style="text-align:center">作为osd1</td>
+</tr>
+<tr>
+<td style="text-align:center">192.168.0.202/172.16.0.102</td>
+<td style="text-align:center">ceph-node3</td>
+<td style="text-align:center">100G</td>
+<td style="text-align:center">CentOS Linux release 7.4.1708 (Core)</td>
+<td style="text-align:center">作为osd2</td>
+</tr>
+<tr>
+<td style="text-align:center">192.168.0.203/172.16.0.103</td>
+<td style="text-align:center">ceph-client</td>
+<td style="text-align:center">挂载点：/cephfs</td>
+<td style="text-align:center">CentOS Linux release 7.4.1708 (Core)</td>
+<td style="text-align:center">ceph客户端</td>
+</tr>
+</tbody>
+</table>
+<p>Ceph的文件系统作为一个目录挂载到客户端cephclient的/cephfs目录下，可以像操作普通目录一样对此目录进行操作。</p>
+<h2 id="安装前准备-每个节点都需要做以下操作"><a href="#安装前准备-每个节点都需要做以下操作" class="headerlink" title="安装前准备(每个节点都需要做以下操作)"></a>安装前准备(每个节点都需要做以下操作)</h2><p>分别在ceph的三个节点机（ceph-node1、ceph-node2、ceph-node3）上添加hosts<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ vi /etc/hosts</span><br><span class="line">127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4</span><br><span class="line">::1         localhost localhost.localdomain localhost6 localhost6.localdomain6</span><br><span class="line">192.168.0.200 ceph-node1</span><br><span class="line">192.168.0.201 ceph-node2</span><br><span class="line">192.168.0.202 ceph-node3</span><br><span class="line">192.168.0.203 ceph-client</span><br></pre></td></tr></table></figure></p>
+<h3 id="关闭防火墙和selinux"><a href="#关闭防火墙和selinux" class="headerlink" title="关闭防火墙和selinux"></a>关闭防火墙和<code>selinux</code></h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ sed -i <span class="string">'s/SELINUX=.*/SELINUX=disabled/'</span> /etc/selinux/config</span><br><span class="line">$ setenforce 0</span><br><span class="line">$ systemctl stop firewalld</span><br><span class="line">$ systemctl <span class="built_in">disable</span> firewalld</span><br></pre></td></tr></table></figure>
+<h3 id="创建用户ceph"><a href="#创建用户ceph" class="headerlink" title="创建用户ceph"></a>创建用户<code>ceph</code></h3><p>分别在ceph的三个节点机（ceph-node1、ceph-node2、ceph-node3）上创建用户ceph，密码统一设置为ceph</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ adduser ceph</span><br><span class="line">$ <span class="built_in">echo</span> <span class="string">"ceph"</span>|passwd --stdin ceph</span><br><span class="line">$ <span class="built_in">echo</span> <span class="string">"ceph ALL = (root) NOPASSWD:ALL"</span> | sudo tee /etc/sudoers.d/ceph</span><br><span class="line">$ chmod 0440 /etc/sudoers.d/ceph</span><br></pre></td></tr></table></figure>
+<h3 id="配置NTP服务"><a href="#配置NTP服务" class="headerlink" title="配置NTP服务"></a>配置<code>NTP</code>服务</h3><p>由于Ceph对时间比较敏感，所以建议使用ntp服务保持三台服务器的时间保持同步</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br></pre></td><td class="code"><pre><span class="line">$ yum install -y ntp</span><br><span class="line">$ vi /etc/ntp.conf</span><br><span class="line"><span class="comment"># For more information about this file, see the man pages</span></span><br><span class="line"><span class="comment"># ntp.conf(5), ntp_acc(5), ntp_auth(5), ntp_clock(5), ntp_misc(5), ntp_mon(5).</span></span><br><span class="line"> </span><br><span class="line">driftfile /var/lib/ntp/drift</span><br><span class="line"> </span><br><span class="line"><span class="comment"># Permit time synchronization with our time source, but do not</span></span><br><span class="line"><span class="comment"># permit the source to query or modify the service on this system.</span></span><br><span class="line">restrict default nomodify notrap nopeer noquery</span><br><span class="line"> </span><br><span class="line"><span class="comment"># Permit all access over the loopback interface.  This could</span></span><br><span class="line"><span class="comment"># be tightened as well, but to do so would effect some of</span></span><br><span class="line"><span class="comment"># the administrative functions.</span></span><br><span class="line">restrict 127.0.0.1</span><br><span class="line">restrict ::1</span><br><span class="line"> </span><br><span class="line"><span class="comment"># 允许1-4网段的服务器来校时，不允许客户端来修改，登录ntp服务器 </span></span><br><span class="line">restrict 192.168.1.0 mask 255.255.255.0 nomodify notrap</span><br><span class="line">restrict 192.168.2.0 mask 255.255.255.0 nomodify notrap</span><br><span class="line">restrict 192.168.3.0 mask 255.255.255.0 nomodify notrap</span><br><span class="line">restrict 192.168.4.0 mask 255.255.255.0 nomodify notrap</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="comment"># Hosts on local network are less restricted.</span></span><br><span class="line"><span class="comment">#restrict 192.168.1.0 mask 255.255.255.0 nomodify notrap</span></span><br><span class="line"> </span><br><span class="line"><span class="comment"># Use public servers from the pool.ntp.org project.</span></span><br><span class="line"><span class="comment"># Please consider joining the pool (http://www.pool.ntp.org/join.html).</span></span><br><span class="line"><span class="comment">#server 0.centos.pool.ntp.org iburst</span></span><br><span class="line"><span class="comment">#server 1.centos.pool.ntp.org iburst</span></span><br><span class="line"><span class="comment">#server 2.centos.pool.ntp.org iburst</span></span><br><span class="line"><span class="comment">#server 3.centos.pool.ntp.org iburst</span></span><br><span class="line"> </span><br><span class="line">server time1.aliyun.com</span><br><span class="line">server time2.aliyun.com</span><br><span class="line">server time3.aliyun.com</span><br><span class="line">server time4.aliyun.com</span><br><span class="line">server time5.aliyun.com</span><br><span class="line">server time6.aliyun.com</span><br><span class="line">server time7.aliyun.com</span><br><span class="line"> </span><br><span class="line"><span class="comment">#broadcast 192.168.1.255 autokey        # broadcast server</span></span><br><span class="line"><span class="comment">#broadcastclient                        # broadcast client</span></span><br><span class="line"><span class="comment">#broadcast 224.0.1.1 autokey            # multicast server</span></span><br><span class="line"><span class="comment">#multicastclient 224.0.1.1              # multicast client</span></span><br><span class="line"><span class="comment">#manycastserver 239.255.254.254         # manycast server</span></span><br><span class="line"><span class="comment">#manycastclient 239.255.254.254 autokey # manycast client</span></span><br><span class="line"> </span><br><span class="line"><span class="comment"># Enable public key cryptography.</span></span><br><span class="line"><span class="comment">#crypto</span></span><br><span class="line"> </span><br><span class="line">includefile /etc/ntp/crypto/pw</span><br><span class="line"> </span><br><span class="line"><span class="comment"># Key file containing the keys and key identifiers used when operating</span></span><br><span class="line"><span class="comment"># with symmetric key cryptography. </span></span><br><span class="line">keys /etc/ntp/keys</span><br><span class="line"> </span><br><span class="line"><span class="comment"># Specify the key identifiers which are trusted.</span></span><br><span class="line"><span class="comment">#trustedkey 4 8 42</span></span><br><span class="line"> </span><br><span class="line"><span class="comment"># Specify the key identifier to use with the ntpdc utility.</span></span><br><span class="line"><span class="comment">#requestkey 8</span></span><br><span class="line"> </span><br><span class="line"><span class="comment"># Specify the key identifier to use with the ntpq utility.</span></span><br><span class="line"><span class="comment">#controlkey 8</span></span><br><span class="line"> </span><br><span class="line"><span class="comment"># Enable writing of statistics records.</span></span><br><span class="line"><span class="comment">#statistics clockstats cryptostats loopstats peerstats</span></span><br><span class="line"> </span><br><span class="line"><span class="comment"># Disable the monitoring facility to prevent amplification attacks using ntpdc</span></span><br><span class="line"><span class="comment"># monlist command when default restrict does not include the noquery flag. See</span></span><br><span class="line"><span class="comment"># CVE-2013-5211 for more details.</span></span><br><span class="line"><span class="comment"># Note: Monitoring will not be disabled with the limited restriction flag.</span></span><br><span class="line"><span class="built_in">disable</span> monitor</span><br><span class="line"></span><br><span class="line"><span class="comment"># Enable Logfile</span></span><br><span class="line">logfile /var/<span class="built_in">log</span>/ntp.log</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">$ systemctl start ntpd</span><br><span class="line">$ systemctl <span class="built_in">enable</span> ntpd</span><br></pre></td></tr></table></figure>
+<h2 id="安装并配置"><a href="#安装并配置" class="headerlink" title="安装并配置"></a>安装并配置</h2><h3 id="更换系统源"><a href="#更换系统源" class="headerlink" title="更换系统源"></a>更换系统源</h3><p>把系统默认源更换为阿里云源</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ rm -rf /etc/yum.repos.d/*.repo</span><br><span class="line">$ wget -O /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo</span><br><span class="line">$ wget -O /etc/yum.repos.d/epel.repo http://mirrors.aliyun.com/repo/epel-7.repo</span><br><span class="line">$ sed -i <span class="string">'/aliyuncs/d'</span> /etc/yum.repos.d/CentOS-Base.repo</span><br><span class="line">$ sed -i <span class="string">'s/$releasever/7/g'</span> /etc/yum.repos.d/CentOS-Base.repo</span><br><span class="line">$ sed -i <span class="string">'/aliyuncs/d'</span> /etc/yum.repos.d/epel.repo</span><br><span class="line">$ yum clean all</span><br><span class="line">$ yum makecache fast</span><br></pre></td></tr></table></figure>
+<h2 id="安装Ceph-Deploy-主节点-管理节点"><a href="#安装Ceph-Deploy-主节点-管理节点" class="headerlink" title="安装Ceph-Deploy(主节点/管理节点)"></a>安装Ceph-Deploy(主节点/管理节点)</h2><p>以下操作仅在主节点/管理节点中进行，<strong>不需要所有节点进行以下操作</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ yum install http://mirrors.163.com/ceph/rpm-jewel/el7/noarch/ceph-deploy-1.5.38-0.noarch.rpm</span><br><span class="line">$ ceph-deploy --version</span><br><span class="line">1.5.39</span><br></pre></td></tr></table></figure>
+<h3 id="创建CEPH集群"><a href="#创建CEPH集群" class="headerlink" title="创建CEPH集群"></a>创建<code>CEPH</code>集群</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">$ sudo -iu ceph</span><br><span class="line">$ mkdir -p ceph-cluster</span><br><span class="line">$ <span class="built_in">cd</span> /home/ceph/ceph-cluster</span><br><span class="line">$ ceph-deploy new ceph-node-1 ceph-node-2 ceph-node-3</span><br><span class="line">[ceph_deploy.conf][DEBUG ] found configuration file at: /home/ceph/.cephdeploy.conf</span><br><span class="line">[ceph_deploy.cli][INFO  ] Invoked (1.5.37): /usr/bin/ceph-deploy new ceph-node1</span><br><span class="line">[ceph_deploy.cli][INFO  ] ceph-deploy options:</span><br><span class="line">[ceph_deploy.cli][INFO  ]  username                      : None</span><br><span class="line">[ceph_deploy.cli][INFO  ]  func                          : &lt;<span class="keyword">function</span> new at 0x112b500&gt;</span><br><span class="line">[ceph_deploy.cli][INFO  ]  verbose                       : False</span><br><span class="line">[ceph_deploy.cli][INFO  ]  overwrite_conf                : False</span><br><span class="line">[ceph_deploy.cli][INFO  ]  quiet                         : False</span><br><span class="line">[ceph_deploy.cli][INFO  ]  cd_conf                       : &lt;ceph_deploy.conf.cephdeploy.Conf instance at 0xf26e18&gt;</span><br><span class="line">[ceph_deploy.cli][INFO  ]  cluster                       : ceph</span><br><span class="line">[ceph_deploy.cli][INFO  ]  ssh_copykey                   : True</span><br><span class="line">[ceph_deploy.cli][INFO  ]  mon                           : [<span class="string">'ceph-node1'</span>,<span class="string">'ceph-node2'</span>,<span class="string">'ceph-node3'</span>]</span><br><span class="line">[ceph_deploy.cli][INFO  ]  public_network                : None</span><br><span class="line">[ceph_deploy.cli][INFO  ]  ceph_conf                     : None</span><br><span class="line">[ceph_deploy.cli][INFO  ]  cluster_network               : None</span><br><span class="line">[ceph_deploy.cli][INFO  ]  default_release               : False</span><br><span class="line">[ceph_deploy.cli][INFO  ]  fsid                          : None</span><br><span class="line">[ceph_deploy.new][DEBUG ] Creating new cluster named ceph</span><br><span class="line">···</span><br><span class="line">···</span><br></pre></td></tr></table></figure>
+<h3 id="编辑CEPH配置文件"><a href="#编辑CEPH配置文件" class="headerlink" title="编辑CEPH配置文件"></a>编辑<code>CEPH</code>配置文件</h3><p>在<code>global</code>下添加以下配置：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ vi ceph.conf</span><br><span class="line">[global]</span><br><span class="line">mon_clock_drift_allowed = 5</span><br><span class="line">osd_journal_size = 20480</span><br><span class="line">public_network=172.16.0.0/24</span><br></pre></td></tr></table></figure>
+<h3 id="安装CEPH-所有节点都需要安装"><a href="#安装CEPH-所有节点都需要安装" class="headerlink" title="安装CEPH(所有节点都需要安装)"></a>安装<code>CEPH</code>(所有节点都需要安装)</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ ceph-deploy install --release jewel --repo-url http://mirrors.163.com/ceph/rpm-jewel/el7 --gpg-url http://mirrors.163.com/ceph/keys/release.asc ceph-client ceph-node-1 ceph-node-2 ceph-node-3</span><br><span class="line"></span><br><span class="line"><span class="comment">## 检查CEPH版本</span></span><br><span class="line">$ ceph -v</span><br><span class="line">ceph version 10.2.10 (5dc1e4c05cb68dbf62ae6fce3f0700e4654fdbbe)</span><br></pre></td></tr></table></figure>
+<h3 id="初始化MOM节点-主节点-管理节点"><a href="#初始化MOM节点-主节点-管理节点" class="headerlink" title="初始化MOM节点(主节点/管理节点)"></a>初始化MOM节点(主节点/管理节点)</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">$ ceph-deploy mon create-initial</span><br><span class="line">···</span><br><span class="line">···</span><br><span class="line">[ceph_deploy.gatherkeys][INFO  ] Storing ceph.client.admin.keyring</span><br><span class="line">[ceph_deploy.gatherkeys][INFO  ] Storing ceph.bootstrap-mds.keyring</span><br><span class="line">[ceph_deploy.gatherkeys][INFO  ] keyring <span class="string">'ceph.mon.keyring'</span> already exists</span><br><span class="line">[ceph_deploy.gatherkeys][INFO  ] Storing ceph.bootstrap-osd.keyring</span><br><span class="line">[ceph_deploy.gatherkeys][INFO  ] Storing ceph.bootstrap-rgw.keyring</span><br><span class="line">[ceph_deploy.gatherkeys][INFO  ] Destroy temp directory /tmp/tmp8sI0aU</span><br></pre></td></tr></table></figure>
+<h3 id="查看集群状态（在OSD节点上查看）"><a href="#查看集群状态（在OSD节点上查看）" class="headerlink" title="查看集群状态（在OSD节点上查看）"></a>查看集群状态（在OSD节点上查看）</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">$ ceph -s</span><br><span class="line">     cluster 60597e53-ad29-44bd-8dcd-db6aeae6f580</span><br><span class="line">     health HEALTH_ERR</span><br><span class="line">            no osds</span><br><span class="line">     monmap e2: 3 mons at &#123;ceph-node-1=172.16.0.100:6789/0,ceph-node-2=172.16.0.101:6789/0,ceph-node-3=172.16.0.102:6789/0&#125;</span><br><span class="line">            election epoch 6, quorum 0,1,2 ceph-node-1,ceph-node-2,ceph-node-3</span><br><span class="line">     osdmap e1: 0 osds: 0 up, 0 <span class="keyword">in</span></span><br><span class="line">            flags sortbitwise,require_jewel_osds</span><br><span class="line">      pgmap v2: 64 pgs, 1 pools, 0 bytes data, 0 objects</span><br><span class="line">            0 kB used, 0 kB / 0 kB avail</span><br><span class="line">                  64 creating</span><br></pre></td></tr></table></figure>
+<h3 id="配置管理节点ceph-master"><a href="#配置管理节点ceph-master" class="headerlink" title="配置管理节点ceph-master"></a>配置管理节点<code>ceph-master</code></h3><p>用<code>ceph-deploy</code>把配置文件和<code>admin</code>密钥拷贝到<code>Master</code>节点</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ ceph-deploy admin ceph-master</span><br><span class="line"></span><br><span class="line"><span class="comment">## 确保你对ceph.client.admin.keyring有正确的操作权限</span></span><br><span class="line">$ chmod +r /etc/ceph/ceph.client.admin.keyring</span><br></pre></td></tr></table></figure>
+<h3 id="添加数据节点-在节点上用root进行操作"><a href="#添加数据节点-在节点上用root进行操作" class="headerlink" title="添加数据节点(在节点上用root进行操作)"></a>添加数据节点(在节点上用<code>root</code>进行操作)</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[root@ceph-node1 ~]<span class="comment"># mkdir /data</span></span><br><span class="line">[root@ceph-node1 ~]<span class="comment"># mkdir /data/osd0</span></span><br><span class="line">[root@ceph-node1 ~]<span class="comment"># chmod -R 777 /data/</span></span><br><span class="line"> </span><br><span class="line">[root@ceph-node2 ~]<span class="comment"># mkdir /data</span></span><br><span class="line">[root@ceph-node2 ~]<span class="comment"># mkdir /data/osd1</span></span><br><span class="line">[root@ceph-node2 ~]<span class="comment"># chmod -R 777 /data/</span></span><br><span class="line"> </span><br><span class="line">[root@ceph-node3 ~]<span class="comment"># mkdir /data</span></span><br><span class="line">[root@ceph-node3 ~]<span class="comment"># mkdir /data/osd2</span></span><br><span class="line">[root@ceph-node3 ~]<span class="comment"># chmod -R 777 /data/</span></span><br></pre></td></tr></table></figure>
+<p>分别挂载磁盘</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@ceph-node1 ~]<span class="comment"># mount /dev/vdb1 /data/osd0</span></span><br><span class="line"> </span><br><span class="line">[root@ceph-node2 ~]<span class="comment"># mount /dev/vdb1 /data/osd1</span></span><br><span class="line"> </span><br><span class="line">[root@ceph-node3 ~]<span class="comment"># mount /dev/vdb1 /data/osd2</span></span><br></pre></td></tr></table></figure>
+<h3 id="在主节点-管理节点准备OSD"><a href="#在主节点-管理节点准备OSD" class="headerlink" title="在主节点/管理节点准备OSD"></a>在主节点/管理节点准备OSD</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">cd</span> /home/ceph/ceph-cluster/</span><br><span class="line">$ ceph-deploy osd prepare ceph-node1:/data/osd0 ceph-node2:/data/osd1 ceph-node3:/data/osd2</span><br><span class="line">······</span><br><span class="line">······</span><br><span class="line">[ceph-node3][INFO  ] Running <span class="built_in">command</span>: sudo /usr/sbin/ceph-disk -v prepare --cluster ceph --fs-type xfs -- /data/osd2</span><br><span class="line">[ceph-node3][WARNIN] <span class="built_in">command</span>: Running <span class="built_in">command</span>: /usr/bin/ceph-osd --cluster=ceph --show-config-value=fsid</span><br><span class="line">[ceph-node3][WARNIN] <span class="built_in">command</span>: Running <span class="built_in">command</span>: /usr/bin/ceph-osd --check-allows-journal -i 0 --<span class="built_in">log</span>-file <span class="variable">$run_dir</span>/<span class="variable">$cluster</span>-osd-check.log --cluster ceph --setuser ceph --setgroup ceph</span><br><span class="line">[ceph-node3][WARNIN] <span class="built_in">command</span>: Running <span class="built_in">command</span>: /usr/bin/ceph-osd --check-wants-journal -i 0 --<span class="built_in">log</span>-file <span class="variable">$run_dir</span>/<span class="variable">$cluster</span>-osd-check.log --cluster ceph --setuser ceph --setgroup ceph</span><br><span class="line">[ceph-node3][WARNIN] <span class="built_in">command</span>: Running <span class="built_in">command</span>: /usr/bin/ceph-osd --check-needs-journal -i 0 --<span class="built_in">log</span>-file <span class="variable">$run_dir</span>/<span class="variable">$cluster</span>-osd-check.log --cluster ceph --setuser ceph --setgroup ceph</span><br><span class="line">[ceph-node3][WARNIN] <span class="built_in">command</span>: Running <span class="built_in">command</span>: /usr/bin/ceph-osd --cluster=ceph --show-config-value=osd_journal_size</span><br><span class="line">[ceph-node3][WARNIN] populate_data_path: Preparing osd data dir /data/osd2</span><br><span class="line">[ceph-node3][WARNIN] <span class="built_in">command</span>: Running <span class="built_in">command</span>: /sbin/restorecon -R /data/osd2/ceph_fsid.5285.tmp</span><br><span class="line">[ceph-node3][WARNIN] <span class="built_in">command</span>: Running <span class="built_in">command</span>: /usr/bin/chown -R ceph:ceph /data/osd2/ceph_fsid.5285.tmp</span><br><span class="line">[ceph-node3][WARNIN] <span class="built_in">command</span>: Running <span class="built_in">command</span>: /sbin/restorecon -R /data/osd2/fsid.5285.tmp</span><br><span class="line">[ceph-node3][WARNIN] <span class="built_in">command</span>: Running <span class="built_in">command</span>: /usr/bin/chown -R ceph:ceph /data/osd2/fsid.5285.tmp</span><br><span class="line">[ceph-node3][WARNIN] <span class="built_in">command</span>: Running <span class="built_in">command</span>: /sbin/restorecon -R /data/osd2/magic.5285.tmp</span><br><span class="line">[ceph-node3][WARNIN] <span class="built_in">command</span>: Running <span class="built_in">command</span>: /usr/bin/chown -R ceph:ceph /data/osd2/magic.5285.tmp</span><br><span class="line">[ceph-node3][INFO  ] checking OSD status...</span><br><span class="line">[ceph-node3][DEBUG ] find the location of an executable</span><br><span class="line">[ceph-node3][INFO  ] Running <span class="built_in">command</span>: sudo /bin/ceph --cluster=ceph osd <span class="built_in">stat</span> --format=json</span><br><span class="line">[ceph-node3][WARNIN] there are 2 OSDs down</span><br><span class="line">[ceph-node3][WARNIN] there are 2 OSDs out</span><br><span class="line">[ceph_deploy.osd][DEBUG ] Host ceph-node3 is now ready <span class="keyword">for</span> osd use.</span><br></pre></td></tr></table></figure>
+<h3 id="激活OSD（仍然在主节点-管理节点上操作）"><a href="#激活OSD（仍然在主节点-管理节点上操作）" class="headerlink" title="激活OSD（仍然在主节点/管理节点上操作）"></a>激活OSD（仍然在主节点/管理节点上操作）</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">$ ceph-deploy osd activate ceph-node1:/data/osd0 ceph-node2:/data/osd1 ceph-node3:/data/osd2</span><br><span class="line">······</span><br><span class="line">······</span><br><span class="line">[ceph-node3][WARNIN] start_daemon: Starting ceph osd.4...</span><br><span class="line">[ceph-node3][WARNIN] command_check_call: Running <span class="built_in">command</span>: /usr/bin/systemctl <span class="built_in">disable</span> ceph-osd@4</span><br><span class="line">[ceph-node3][WARNIN] command_check_call: Running <span class="built_in">command</span>: /usr/bin/systemctl <span class="built_in">disable</span> ceph-osd@4 --runtime</span><br><span class="line">[ceph-node3][WARNIN] command_check_call: Running <span class="built_in">command</span>: /usr/bin/systemctl <span class="built_in">enable</span> ceph-osd@4</span><br><span class="line">[ceph-node3][WARNIN] Created symlink from /etc/systemd/system/ceph-osd.target.wants/ceph-osd@4.service to /usr/lib/systemd/system/ceph-osd@.service.</span><br><span class="line">[ceph-node3][WARNIN] command_check_call: Running <span class="built_in">command</span>: /usr/bin/systemctl start ceph-osd@4</span><br><span class="line">[ceph-node3][INFO  ] checking OSD status...</span><br><span class="line">[ceph-node3][DEBUG ] find the location of an executable</span><br><span class="line">[ceph-node3][INFO  ] Running <span class="built_in">command</span>: sudo /bin/ceph --cluster=ceph osd <span class="built_in">stat</span> --format=json</span><br><span class="line">[ceph-node3][WARNIN] there are 2 OSDs down</span><br><span class="line">[ceph-node3][WARNIN] there are 2 OSDs out</span><br><span class="line">[ceph-node3][INFO  ] Running <span class="built_in">command</span>: sudo systemctl <span class="built_in">enable</span> ceph.target</span><br></pre></td></tr></table></figure>
+<h3 id="开机挂载磁盘（所有OSD节点都要操作）"><a href="#开机挂载磁盘（所有OSD节点都要操作）" class="headerlink" title="开机挂载磁盘（所有OSD节点都要操作）"></a>开机挂载磁盘（所有<code>OSD</code>节点都要操作）</h3><p>挂载好的新磁盘会在下一次重启或开机的时候失效，因此需要在每台机上对新磁盘进行挂载，并编辑/etc/fstab文件</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[root@ceph-node1 ~]<span class="comment"># cat /etc/fstab</span></span><br><span class="line">........</span><br><span class="line">/dev/vdb1               /data/osd0                   xfs     defaults        0 0</span><br><span class="line"> </span><br><span class="line">[root@ceph-node2 ~]<span class="comment"># cat /etc/fstab</span></span><br><span class="line">........</span><br><span class="line">/dev/vdb1               /data/osd1                   xfs     defaults        0 0</span><br><span class="line"> </span><br><span class="line">[root@ceph-node3 ~]<span class="comment"># cat /etc/fstab</span></span><br><span class="line">........</span><br><span class="line">/dev/vdb1               /data/osd2                   xfs     defaults        0 0</span><br></pre></td></tr></table></figure>
+<h3 id="分发配置和密钥（主节点-管理节点上执行）"><a href="#分发配置和密钥（主节点-管理节点上执行）" class="headerlink" title="分发配置和密钥（主节点/管理节点上执行）"></a>分发配置和密钥（主节点/管理节点上执行）</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">$ sudo -iu ceph</span><br><span class="line">$ <span class="built_in">cd</span> /home/ceph/ceph-cluster</span><br><span class="line">$ ceph-deploy admin ceph-node1 ceph-node2 ceph-node3</span><br><span class="line">······</span><br><span class="line">······</span><br><span class="line">[ceph_deploy.admin][DEBUG ] Pushing admin keys and conf to ceph-node1</span><br><span class="line">[ceph-node1][DEBUG ] connection detected need <span class="keyword">for</span> sudo</span><br><span class="line">[ceph-node1][DEBUG ] connected to host: ceph-node1 </span><br><span class="line">[ceph-node1][DEBUG ] detect platform information from remote host</span><br><span class="line">[ceph-node1][DEBUG ] detect machine <span class="built_in">type</span></span><br><span class="line">[ceph-node1][DEBUG ] write cluster configuration to /etc/ceph/&#123;cluster&#125;.conf</span><br><span class="line">[ceph_deploy.admin][DEBUG ] Pushing admin keys and conf to ceph-node2</span><br><span class="line">ceph@ceph-node2<span class="string">'s password: </span></span><br><span class="line"><span class="string">[ceph-node2][DEBUG ] connection detected need for sudo</span></span><br><span class="line"><span class="string">ceph@ceph-node2'</span>s password: </span><br><span class="line">[ceph-node2][DEBUG ] connected to host: ceph-node2 </span><br><span class="line">[ceph-node2][DEBUG ] detect platform information from remote host</span><br><span class="line">[ceph-node2][DEBUG ] detect machine <span class="built_in">type</span></span><br><span class="line">[ceph-node2][DEBUG ] write cluster configuration to /etc/ceph/&#123;cluster&#125;.conf</span><br><span class="line">[ceph_deploy.admin][DEBUG ] Pushing admin keys and conf to ceph-node3</span><br><span class="line">ceph@ceph-node3<span class="string">'s password: </span></span><br><span class="line"><span class="string">[ceph-node3][DEBUG ] connection detected need for sudo</span></span><br><span class="line"><span class="string">ceph@ceph-node3'</span>s password: </span><br><span class="line">[ceph-node3][DEBUG ] connected to host: ceph-node3 </span><br><span class="line">[ceph-node3][DEBUG ] detect platform information from remote host</span><br><span class="line">[ceph-node3][DEBUG ] detect machine <span class="built_in">type</span></span><br><span class="line">[ceph-node3][DEBUG ] write cluster configuration to /etc/ceph/&#123;cluster&#125;.conf</span><br></pre></td></tr></table></figure>
+<h3 id="查看集群状态"><a href="#查看集群状态" class="headerlink" title="查看集群状态"></a>查看集群状态</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">$ ceph health</span><br><span class="line">HEALTH_OK</span><br><span class="line"></span><br><span class="line">$ ceph -s</span><br><span class="line">    cluster 12d4f209-69ea-4ad9-9507-b00557b42815</span><br><span class="line">     health HEALTH_OK</span><br><span class="line">     monmap e1: 3 mons at &#123;ceph-node-1=172.16.0.100:6789/0,ceph-node-2=172.16.0.101:6789/0,ceph-node-3=172.16.0.102:6789/0&#125;</span><br><span class="line">            election epoch 2, quorum 0 ceph-node1</span><br><span class="line">     osdmap e14: 3 osds: 3 up, 3 <span class="keyword">in</span></span><br><span class="line">      pgmap v26: 64 pgs, 1 pools, 0 bytes data, 0 objects</span><br><span class="line">            15459 MB used, 45944 MB / 61404 MB avail</span><br><span class="line">                  64 active+clean</span><br></pre></td></tr></table></figure>
+<h3 id="重新部署（温馨提示）"><a href="#重新部署（温馨提示）" class="headerlink" title="重新部署（温馨提示）"></a>重新部署（温馨提示）</h3><p><strong>部署过程中如果出现任何奇怪的问题无法解决，可以简单的删除所有节点，一切从头再来：</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ ceph-deploy purge ceph-mon1 ceph-mon2 ceph-mon3 ceph-osd1 ceph-osd2</span><br><span class="line">$ ceph-deploy purgedata ceph-mon1 ceph-mon2 ceph-mon3 ceph-osd1 ceph-osd2</span><br><span class="line">$ ceph-deploy forgetkey</span><br></pre></td></tr></table></figure>
+<h3 id="创建文件系统"><a href="#创建文件系统" class="headerlink" title="创建文件系统"></a>创建文件系统</h3><p>创建文件系统的步骤参考<a href="http://docs.ceph.com/docs/master/cephfs/createfs/" target="_blank" rel="noopener">官网</a><br>对于一个刚创建的MDS服务，虽然服务是运行的，但是它的状态直到创建 pools 以及文件系统的时候才会变为Active.</p>
+<p>还没有创建时候的状态<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ ceph mds <span class="built_in">stat</span></span><br><span class="line">e1: 0/0/0 up</span><br></pre></td></tr></table></figure></p>
+<p>创建管理节点（ceph-node1节点上）</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">$ sudo -iu ceph</span><br><span class="line">$ <span class="built_in">cd</span> /home/ceph/ceph-cluster</span><br><span class="line">$ ceph-deploy mds create ceph-node1 ceph-node2 ceph-node3</span><br><span class="line">······</span><br><span class="line">······</span><br><span class="line">[ceph-node2][INFO  ] Running <span class="built_in">command</span>: service ceph start mds.ceph-node2</span><br><span class="line">[ceph-node2][DEBUG ] === mds.ceph-node2 === </span><br><span class="line">[ceph-node2][DEBUG ] Starting Ceph mds.ceph-node2 on ceph-node2...</span><br><span class="line">[ceph-node2][WARNIN] Running as unit ceph-mds.ceph-node2.1496648453.865988091.service.</span><br><span class="line">[ceph-node2][INFO  ] Running <span class="built_in">command</span>: systemctl <span class="built_in">enable</span> ceph</span><br><span class="line">[ceph-node2][WARNIN] ceph.service is not a native service, redirecting to /sbin/chkconfig.</span><br><span class="line">[ceph-node2][WARNIN] Executing /sbin/chkconfig ceph on</span><br><span class="line">[ceph_deploy][ERROR ] GenericError: Failed to create 1 MDSs</span><br></pre></td></tr></table></figure>
+<p><strong>注意：如果不创建mds管理节点，client客户端将不能正常挂载到ceph集群！！</strong></p>
+<h3 id="创建pool"><a href="#创建pool" class="headerlink" title="创建pool"></a>创建<code>pool</code></h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ ceph osd lspools</span><br><span class="line">0 rbd,</span><br></pre></td></tr></table></figure>
+<p>新创建的ceph集群只有rdb一个pool。这时需要创建一个新的pool<br>新建pool，可参考<a href="http://docs.ceph.com/docs/master/rados/operations/pools/" target="_blank" rel="noopener">官网</a></p>
+<p>创建新的pool<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">$ ceph osd pool create cephfs_data 32                //用于数据的pool。后面的数字是PG的数量</span><br><span class="line">pool <span class="string">'cephfs_data'</span> created</span><br><span class="line">$ ceph osd pool create cephfs_metadata 32            //用于元数据的pool</span><br><span class="line">pool <span class="string">'cephfs_metadata'</span> created</span><br><span class="line"></span><br><span class="line">$ ceph fs new myceph  cephfs_metadata cephfs_data</span><br><span class="line">new fs with metadata pool 2 and data pool 1</span><br><span class="line"></span><br><span class="line">$ ceph osd lspools</span><br><span class="line">0 rbd,1 cephfs_data,2 cephfs_metadata,</span><br><span class="line"></span><br><span class="line"><span class="comment">## 检验</span></span><br><span class="line">$ ceph mds <span class="built_in">stat</span></span><br><span class="line">e5: 1/1/1 up &#123;0=ceph-node1=up:active&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">$ ceph -s</span><br><span class="line">    cluster 12d4f209-69ea-4ad9-9507-b00557b42815</span><br><span class="line">     health HEALTH_OK</span><br><span class="line">     monmap e1: 1 mons at &#123;ceph-node-1=172.16.0.100:6789/0,ceph-node-2=172.16.0.101:6789/0,ceph-node-3=172.16.0.102:6789/0&#125;</span><br><span class="line">            election epoch 2, quorum 0 ceph-node1</span><br><span class="line">     mdsmap e5: 1/1/1 up &#123;0=ceph-node1=up:active&#125;</span><br><span class="line">     osdmap e19: 3 osds: 3 up, 3 <span class="keyword">in</span></span><br><span class="line">      pgmap v37: 84 pgs, 3 pools, 1962 bytes data, 20 objects</span><br><span class="line">            15460 MB used, 45943 MB / 61404 MB avail</span><br><span class="line">                  84 active+clean</span><br><span class="line"></span><br><span class="line">$ ceph osd tree</span><br><span class="line">ID WEIGHT  TYPE NAME      UP/DOWN REWEIGHT PRIMARY-AFFINITY </span><br><span class="line">-1 0.29279 root default                                     </span><br><span class="line">-2 0.09760     host ceph6                                   </span><br><span class="line"> 2 0.09760         osd.2       up  1.00000          1.00000 </span><br><span class="line">-3 0.09760     host ceph7                                   </span><br><span class="line"> 3 0.09760         osd.3       up  1.00000          1.00000 </span><br><span class="line">-4 0.09760     host ceph8                                   </span><br><span class="line"> 4 0.09760         osd.4       up  1.00000          1.00000</span><br></pre></td></tr></table></figure></p>
+
+    </article>
+    <!-- 前后页  -->
+    <ul class="post-paginator">
+        <li class="next">
+            
+                <div class="nextSlogan">Next Post</div>
+                <a href= "/2018/03/14/ceph-client-mount/" title= Ceph Client挂载方法 >
+                    <div class="nextTitle">Ceph Client挂载方法</div>
+                </a>
+            
+        </li>
+        <li class="previous">
+            
+                <div class="prevSlogan">Previous Post</div>
+                <a href= "/2018/03/13/ceph-introduction/" title= 分布式存储系统Ceph原理 >
+                    <div class="prevTitle">分布式存储系统Ceph原理</div>
+                </a>
+            
+        </li>
+    </ul>
+    <!-- 评论插件 -->
+    <!-- 来必力City版安装代码 -->
+
+<!-- City版安装代码已完成 -->
+    
+    
+    <!--PC版-->
+
+    <!--PC版-->
+
+
+    
+    <!-- 评论 -->
+</main>
+            <!-- profile -->
+            
+        </div>
+        <footer class="footer footer-unloaded">
+    <!-- social  -->
+    
+    <div class="social">
+        
+    
+        
+            
+                <a href="mailto:jjc27017@gmail.com" class="iconfont-archer email" title=email ></a>
+            
+        
+    
+        
+            
+                <a href="//github.com/Polaris0112" class="iconfont-archer github" target="_blank" title=github></a>
+            
+        
+    
+        
+            
+                <span class="iconfont-archer wechat" title=wechat>
+                  
+                  <img class="profile-qr" src="/assets/wechat_qr.png" />
+                </span>
+            
+        
+    
+        
+            
+                <span class="iconfont-archer qq" title=qq>
+                  
+                  <img class="profile-qr" src="/assets/qq_qr.jpg" />
+                </span>
+            
+        
+    
+        
+            
+                <a href="//weibo.com/__Tk__" class="iconfont-archer weibo" target="_blank" title=weibo></a>
+            
+        
+    
+        
+            
+                <a href="//www.zhihu.com/people/chen-jia-jian-62" class="iconfont-archer zhihu" target="_blank" title=zhihu></a>
+            
+        
+    
+        
+            
+                <a href="//www.douban.com/people/170240662/" class="iconfont-archer douban" target="_blank" title=douban></a>
+            
+        
+    
+        
+            
+                <a href="//www.facebook.com/jiajian.chen.79" class="iconfont-archer facebook" target="_blank" title=facebook></a>
+            
+        
+    
+        
+            
+                <a href="//twitter.com/Jayden_0112" class="iconfont-archer twitter" target="_blank" title=twitter></a>
+            
+        
+    
+        
+    
+        
+    
+        
+            
+                <a href="//www.linkedin.com/in/嘉健-陈-3a0a20157/" class="iconfont-archer linkedin" target="_blank" title=linkedin></a>
+            
+        
+    
+        
+    
+        
+    
+
+    </div>
+    
+    <!-- powered by Hexo  -->
+    <div class="copyright">
+        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank">Archer</a></span>
+    </div>
+    <!-- 不蒜子  -->
+    
+    <div class="busuanzi-container">
+        <span id="busuanzi_container_site_pv">PV: <span id="busuanzi_value_site_pv"></span>
+        </span>
+    </div>
+    
+</footer>
+    </div>
+    <!-- toc -->
+    
+    <div class="toc-wrapper">
+        <div class="toc-catalog">
+            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+        </div>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#环境准备"><span class="toc-number">1.</span> <span class="toc-text">环境准备</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安装前准备-每个节点都需要做以下操作"><span class="toc-number">2.</span> <span class="toc-text">安装前准备(每个节点都需要做以下操作)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#关闭防火墙和selinux"><span class="toc-number">2.1.</span> <span class="toc-text">关闭防火墙和selinux</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#创建用户ceph"><span class="toc-number">2.2.</span> <span class="toc-text">创建用户ceph</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#配置NTP服务"><span class="toc-number">2.3.</span> <span class="toc-text">配置NTP服务</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安装并配置"><span class="toc-number">3.</span> <span class="toc-text">安装并配置</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#更换系统源"><span class="toc-number">3.1.</span> <span class="toc-text">更换系统源</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安装Ceph-Deploy-主节点-管理节点"><span class="toc-number">4.</span> <span class="toc-text">安装Ceph-Deploy(主节点/管理节点)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#创建CEPH集群"><span class="toc-number">4.1.</span> <span class="toc-text">创建CEPH集群</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#编辑CEPH配置文件"><span class="toc-number">4.2.</span> <span class="toc-text">编辑CEPH配置文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#安装CEPH-所有节点都需要安装"><span class="toc-number">4.3.</span> <span class="toc-text">安装CEPH(所有节点都需要安装)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#初始化MOM节点-主节点-管理节点"><span class="toc-number">4.4.</span> <span class="toc-text">初始化MOM节点(主节点/管理节点)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#查看集群状态（在OSD节点上查看）"><span class="toc-number">4.5.</span> <span class="toc-text">查看集群状态（在OSD节点上查看）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#配置管理节点ceph-master"><span class="toc-number">4.6.</span> <span class="toc-text">配置管理节点ceph-master</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#添加数据节点-在节点上用root进行操作"><span class="toc-number">4.7.</span> <span class="toc-text">添加数据节点(在节点上用root进行操作)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#在主节点-管理节点准备OSD"><span class="toc-number">4.8.</span> <span class="toc-text">在主节点/管理节点准备OSD</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#激活OSD（仍然在主节点-管理节点上操作）"><span class="toc-number">4.9.</span> <span class="toc-text">激活OSD（仍然在主节点/管理节点上操作）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#开机挂载磁盘（所有OSD节点都要操作）"><span class="toc-number">4.10.</span> <span class="toc-text">开机挂载磁盘（所有OSD节点都要操作）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#分发配置和密钥（主节点-管理节点上执行）"><span class="toc-number">4.11.</span> <span class="toc-text">分发配置和密钥（主节点/管理节点上执行）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#查看集群状态"><span class="toc-number">4.12.</span> <span class="toc-text">查看集群状态</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#重新部署（温馨提示）"><span class="toc-number">4.13.</span> <span class="toc-text">重新部署（温馨提示）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#创建文件系统"><span class="toc-number">4.14.</span> <span class="toc-text">创建文件系统</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#创建pool"><span class="toc-number">4.15.</span> <span class="toc-text">创建pool</span></a></li></ol></li></ol>
+    </div>
+    
+    <div class="back-top iconfont-archer">&#xe639;</div>
+    <div class="sidebar sidebar-hide">
+    <ul class="sidebar-tabs sidebar-tabs-active-0">
+        <li class="sidebar-tab-archives"><span class="iconfont-archer">&#xe67d;</span><span class="tab-name">Archive</span></li>
+        <li class="sidebar-tab-tags"><span class="iconfont-archer">&#xe61b;</span><span class="tab-name">Tag</span></li>
+        <li class="sidebar-tab-categories"><span class="iconfont-archer">&#xe666;</span><span class="tab-name">Cate</span></li>
+    </ul>
+    <div class="sidebar-content sidebar-content-show-archive">
+          <div class="sidebar-panel-archives">
+    <!-- 在ejs中将archive按照时间排序 -->
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="total-archive"> Total : 34 </div>
+    
+    <div class="post-archive">
+    
+    
+    
+    
+    <div class="archive-year"> 2018 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/16</span><a class="archive-post-title" href= "/2018/03/16/ceph-commands/" >Ceph日常命令使用</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/15</span><a class="archive-post-title" href= "/2018/03/15/ceph-optimization-summary/" >Ceph 优化总结</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/14</span><a class="archive-post-title" href= "/2018/03/14/ceph-installation/" >分布式存储系统Ceph部署过程</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/14</span><a class="archive-post-title" href= "/2018/03/14/ceph-client-mount/" >Ceph Client挂载方法</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/13</span><a class="archive-post-title" href= "/2018/03/13/ceph-introduction/" >分布式存储系统Ceph原理</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/12</span><a class="archive-post-title" href= "/2018/03/12/harbor-installation/" >Docker镜像仓库Harbor搭建</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/11</span><a class="archive-post-title" href= "/2018/03/11/docker-install/" >Docker安装部署教程</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/10</span><a class="archive-post-title" href= "/2018/03/10/openstack-packstack-installation/" >通过packstack快速安装openstack</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/10</span><a class="archive-post-title" href= "/2018/03/10/openstack-devstack-installation/" >通过devstack安装部署OpenStack</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/09</span><a class="archive-post-title" href= "/2018/03/09/open-falcon-install/" >open-falcon安装部署教程</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/09</span><a class="archive-post-title" href= "/2018/03/09/openstack-install-introduction/" >OpenStack安装部署</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/08</span><a class="archive-post-title" href= "/2018/03/08/supervisor/" >supervisor 安装、配置、常用命令</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/03</span><a class="archive-post-title" href= "/2018/03/03/blockchain-merkle/" >比特币区块结构 Merkle 树及简单支付验证分析</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/03</span><a class="archive-post-title" href= "/2018/03/03/blockchain-selection/" >比特币如何达成共识 - 最长链的选择</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/03</span><a class="archive-post-title" href= "/2018/03/03/blockchain-pow/" >比特币如何挖矿（挖矿原理）-工作量证明</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/02</span><a class="archive-post-title" href= "/2018/03/02/blockchain-accounting/" >区块链记账原理</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/02</span><a class="archive-post-title" href= "/2018/03/02/blockchain-python/" >用Python从0开始创建一个区块链</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/01</span><a class="archive-post-title" href= "/2018/03/01/gitlab-update/" >Gitlab踩坑升级过程</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/28</span><a class="archive-post-title" href= "/2018/02/28/zombie-process-and-orphaned-process/" >浅析僵尸进程与孤儿进程</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/28</span><a class="archive-post-title" href= "/2018/02/28/zabbix-fonts/" >Zabbix汉化字体修改</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/27</span><a class="archive-post-title" href= "/2018/02/27/nfs-installation/" >NFS安装部署</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/26</span><a class="archive-post-title" href= "/2018/02/26/zabbix-optimization/" >Zabbix性能优化</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/26</span><a class="archive-post-title" href= "/2018/02/26/myisam-innodb/" >MyISAM和InnoDB区别详解</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/25</span><a class="archive-post-title" href= "/2018/02/25/zabbix-yum-installation/" >Zabbix YUM方式部署</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/25</span><a class="archive-post-title" href= "/2018/02/25/zabbix-source-installation/" >Zabbix 编译安装部署</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/24</span><a class="archive-post-title" href= "/2018/02/24/mongodb-replset/" >MongoDB复制集部署</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/24</span><a class="archive-post-title" href= "/2018/02/24/mongodb-single/" >MongoDB单实例部署</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/24</span><a class="archive-post-title" href= "/2018/02/24/mongodb-shard/" >MongoDB Sharding集群部署</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/23</span><a class="archive-post-title" href= "/2018/02/23/haproxy/" >HAProxy日常使用说明</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/22</span><a class="archive-post-title" href= "/2018/02/22/certbot/" >Certbot安装/部分问题解决方案</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/21</span><a class="archive-post-title" href= "/2018/02/21/nginx/" >Nginx正反向代理/负载均衡</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/20</span><a class="archive-post-title" href= "/2018/02/20/lvm/" >LVM创建/扩容/常用操作</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/12</span><a class="archive-post-title" href= "/2018/02/12/hexo/" >Hexo+Github搭建博客</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/20</span><a class="archive-post-title" href= "/2018/01/20/shadowsocks/" >小灰机-4.0.8下载</a>
+        </li>
+    
+    </div>
+  </div>
+        <div class="sidebar-panel-tags">
+    <div class="sidebar-tags-name">
+    
+        <span class="sidebar-tag-name" data-tags="Blockchain"><span class="iconfont-archer">&#xe606;</span>Blockchain</span>
+    
+        <span class="sidebar-tag-name" data-tags="Python"><span class="iconfont-archer">&#xe606;</span>Python</span>
+    
+        <span class="sidebar-tag-name" data-tags="Flask"><span class="iconfont-archer">&#xe606;</span>Flask</span>
+    
+        <span class="sidebar-tag-name" data-tags="Ceph"><span class="iconfont-archer">&#xe606;</span>Ceph</span>
+    
+        <span class="sidebar-tag-name" data-tags="Certbot"><span class="iconfont-archer">&#xe606;</span>Certbot</span>
+    
+        <span class="sidebar-tag-name" data-tags="https"><span class="iconfont-archer">&#xe606;</span>https</span>
+    
+        <span class="sidebar-tag-name" data-tags="Docker"><span class="iconfont-archer">&#xe606;</span>Docker</span>
+    
+        <span class="sidebar-tag-name" data-tags="CentOS"><span class="iconfont-archer">&#xe606;</span>CentOS</span>
+    
+        <span class="sidebar-tag-name" data-tags="Gitlab"><span class="iconfont-archer">&#xe606;</span>Gitlab</span>
+    
+        <span class="sidebar-tag-name" data-tags="Update"><span class="iconfont-archer">&#xe606;</span>Update</span>
+    
+        <span class="sidebar-tag-name" data-tags="Migration"><span class="iconfont-archer">&#xe606;</span>Migration</span>
+    
+        <span class="sidebar-tag-name" data-tags="Registry"><span class="iconfont-archer">&#xe606;</span>Registry</span>
+    
+        <span class="sidebar-tag-name" data-tags="Harbor"><span class="iconfont-archer">&#xe606;</span>Harbor</span>
+    
+        <span class="sidebar-tag-name" data-tags="haproxy"><span class="iconfont-archer">&#xe606;</span>haproxy</span>
+    
+        <span class="sidebar-tag-name" data-tags="github"><span class="iconfont-archer">&#xe606;</span>github</span>
+    
+        <span class="sidebar-tag-name" data-tags="hexo"><span class="iconfont-archer">&#xe606;</span>hexo</span>
+    
+        <span class="sidebar-tag-name" data-tags="blog"><span class="iconfont-archer">&#xe606;</span>blog</span>
+    
+        <span class="sidebar-tag-name" data-tags="centos"><span class="iconfont-archer">&#xe606;</span>centos</span>
+    
+        <span class="sidebar-tag-name" data-tags="lvm"><span class="iconfont-archer">&#xe606;</span>lvm</span>
+    
+        <span class="sidebar-tag-name" data-tags="NoSql"><span class="iconfont-archer">&#xe606;</span>NoSql</span>
+    
+        <span class="sidebar-tag-name" data-tags="MongoDB"><span class="iconfont-archer">&#xe606;</span>MongoDB</span>
+    
+        <span class="sidebar-tag-name" data-tags="ReplSet"><span class="iconfont-archer">&#xe606;</span>ReplSet</span>
+    
+        <span class="sidebar-tag-name" data-tags="Sharding"><span class="iconfont-archer">&#xe606;</span>Sharding</span>
+    
+        <span class="sidebar-tag-name" data-tags="replSet"><span class="iconfont-archer">&#xe606;</span>replSet</span>
+    
+        <span class="sidebar-tag-name" data-tags="NFS"><span class="iconfont-archer">&#xe606;</span>NFS</span>
+    
+        <span class="sidebar-tag-name" data-tags="MySQL"><span class="iconfont-archer">&#xe606;</span>MySQL</span>
+    
+        <span class="sidebar-tag-name" data-tags="MyISAM"><span class="iconfont-archer">&#xe606;</span>MyISAM</span>
+    
+        <span class="sidebar-tag-name" data-tags="InnoDB"><span class="iconfont-archer">&#xe606;</span>InnoDB</span>
+    
+        <span class="sidebar-tag-name" data-tags="nginx"><span class="iconfont-archer">&#xe606;</span>nginx</span>
+    
+        <span class="sidebar-tag-name" data-tags="proxy"><span class="iconfont-archer">&#xe606;</span>proxy</span>
+    
+        <span class="sidebar-tag-name" data-tags="load-balance"><span class="iconfont-archer">&#xe606;</span>load-balance</span>
+    
+        <span class="sidebar-tag-name" data-tags="open-falcon"><span class="iconfont-archer">&#xe606;</span>open-falcon</span>
+    
+        <span class="sidebar-tag-name" data-tags="OpenStack"><span class="iconfont-archer">&#xe606;</span>OpenStack</span>
+    
+        <span class="sidebar-tag-name" data-tags="DevStack"><span class="iconfont-archer">&#xe606;</span>DevStack</span>
+    
+        <span class="sidebar-tag-name" data-tags="Installation"><span class="iconfont-archer">&#xe606;</span>Installation</span>
+    
+        <span class="sidebar-tag-name" data-tags="PackStack"><span class="iconfont-archer">&#xe606;</span>PackStack</span>
+    
+        <span class="sidebar-tag-name" data-tags="$$"><span class="iconfont-archer">&#xe606;</span>$$</span>
+    
+        <span class="sidebar-tag-name" data-tags="GFW"><span class="iconfont-archer">&#xe606;</span>GFW</span>
+    
+        <span class="sidebar-tag-name" data-tags="supervisor"><span class="iconfont-archer">&#xe606;</span>supervisor</span>
+    
+        <span class="sidebar-tag-name" data-tags="Zabbix"><span class="iconfont-archer">&#xe606;</span>Zabbix</span>
+    
+        <span class="sidebar-tag-name" data-tags="Font"><span class="iconfont-archer">&#xe606;</span>Font</span>
+    
+        <span class="sidebar-tag-name" data-tags="Yum"><span class="iconfont-archer">&#xe606;</span>Yum</span>
+    
+        <span class="sidebar-tag-name" data-tags="Source"><span class="iconfont-archer">&#xe606;</span>Source</span>
+    
+        <span class="sidebar-tag-name" data-tags="Optimization"><span class="iconfont-archer">&#xe606;</span>Optimization</span>
+    
+        <span class="sidebar-tag-name" data-tags="Zombie Process"><span class="iconfont-archer">&#xe606;</span>Zombie Process</span>
+    
+        <span class="sidebar-tag-name" data-tags="Orphaned Process"><span class="iconfont-archer">&#xe606;</span>Orphaned Process</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
+    <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
+    缺失模块。<br/>
+    1、请确保node版本大于6.2<br/>
+    2、在博客根目录（注意不是archer根目录）执行以下命令：<br/>
+    <span style="color: #f75357; font-size: 1rem; line-height: 2rem;">npm i hexo-generator-json-content --save</span><br/>
+    3、在根目录_config.yml里添加配置：
+    <pre style="color: #787878; font-size: 0.6rem;">
+jsonContent:
+  meta: false
+  pages: false
+  posts:
+    title: true
+    date: true
+    path: true
+    text: false
+    raw: false
+    content: false
+    slug: false
+    updated: false
+    comments: false
+    link: false
+    permalink: false
+    excerpt: false
+    categories: true
+    tags: true</pre>
+    </div> 
+    <div class="sidebar-tags-list"></div>
+</div>
+        <div class="sidebar-panel-categories">
+    <div class="sidebar-categories-name">
+    
+        <span class="sidebar-category-name" data-categories="区块链记账原理"><span class="iconfont-archer">&#xe60a;</span>区块链记账原理</span>
+    
+        <span class="sidebar-category-name" data-categories="比特币区块结构-Merkle-树及简单支付验证分析"><span class="iconfont-archer">&#xe60a;</span>比特币区块结构-Merkle-树及简单支付验证分析</span>
+    
+        <span class="sidebar-category-name" data-categories="比特币如何挖矿（挖矿原理）-工作量证明"><span class="iconfont-archer">&#xe60a;</span>比特币如何挖矿（挖矿原理）-工作量证明</span>
+    
+        <span class="sidebar-category-name" data-categories="用Python从0开始创建一个区块链"><span class="iconfont-archer">&#xe60a;</span>用Python从0开始创建一个区块链</span>
+    
+        <span class="sidebar-category-name" data-categories="比特币如何达成共识-最长链的选择"><span class="iconfont-archer">&#xe60a;</span>比特币如何达成共识-最长链的选择</span>
+    
+        <span class="sidebar-category-name" data-categories="Ceph-Client挂载方法"><span class="iconfont-archer">&#xe60a;</span>Ceph-Client挂载方法</span>
+    
+        <span class="sidebar-category-name" data-categories="分布式存储系统Ceph部署过程记录"><span class="iconfont-archer">&#xe60a;</span>分布式存储系统Ceph部署过程记录</span>
+    
+        <span class="sidebar-category-name" data-categories="Ceph日常命令使用"><span class="iconfont-archer">&#xe60a;</span>Ceph日常命令使用</span>
+    
+        <span class="sidebar-category-name" data-categories="分布式存储系统Ceph原理介绍"><span class="iconfont-archer">&#xe60a;</span>分布式存储系统Ceph原理介绍</span>
+    
+        <span class="sidebar-category-name" data-categories="Ceph-优化总结"><span class="iconfont-archer">&#xe60a;</span>Ceph-优化总结</span>
+    
+        <span class="sidebar-category-name" data-categories="Certbot安装-部分问题解决方案"><span class="iconfont-archer">&#xe60a;</span>Certbot安装-部分问题解决方案</span>
+    
+        <span class="sidebar-category-name" data-categories="Docker安装部署教程"><span class="iconfont-archer">&#xe60a;</span>Docker安装部署教程</span>
+    
+        <span class="sidebar-category-name" data-categories="Gitlab升级"><span class="iconfont-archer">&#xe60a;</span>Gitlab升级</span>
+    
+        <span class="sidebar-category-name" data-categories="Docker镜像仓库Harbor搭建"><span class="iconfont-archer">&#xe60a;</span>Docker镜像仓库Harbor搭建</span>
+    
+        <span class="sidebar-category-name" data-categories="HAProxy使用"><span class="iconfont-archer">&#xe60a;</span>HAProxy使用</span>
+    
+        <span class="sidebar-category-name" data-categories="Hexo-Github搭建博客"><span class="iconfont-archer">&#xe60a;</span>Hexo-Github搭建博客</span>
+    
+        <span class="sidebar-category-name" data-categories="LVM使用"><span class="iconfont-archer">&#xe60a;</span>LVM使用</span>
+    
+        <span class="sidebar-category-name" data-categories="MongoDB复制集部署"><span class="iconfont-archer">&#xe60a;</span>MongoDB复制集部署</span>
+    
+        <span class="sidebar-category-name" data-categories="MongoDB分片集群部署"><span class="iconfont-archer">&#xe60a;</span>MongoDB分片集群部署</span>
+    
+        <span class="sidebar-category-name" data-categories="MongoDB单实例部署"><span class="iconfont-archer">&#xe60a;</span>MongoDB单实例部署</span>
+    
+        <span class="sidebar-category-name" data-categories="NFS安装部署"><span class="iconfont-archer">&#xe60a;</span>NFS安装部署</span>
+    
+        <span class="sidebar-category-name" data-categories="MySQL存储引擎中的MyISAM和InnoDB区别详解"><span class="iconfont-archer">&#xe60a;</span>MySQL存储引擎中的MyISAM和InnoDB区别详解</span>
+    
+        <span class="sidebar-category-name" data-categories="Nginx正反向代理-负载均衡"><span class="iconfont-archer">&#xe60a;</span>Nginx正反向代理-负载均衡</span>
+    
+        <span class="sidebar-category-name" data-categories="open-falcon安装部署教程"><span class="iconfont-archer">&#xe60a;</span>open-falcon安装部署教程</span>
+    
+        <span class="sidebar-category-name" data-categories="通过devstack安装部署OpenStack"><span class="iconfont-archer">&#xe60a;</span>通过devstack安装部署OpenStack</span>
+    
+        <span class="sidebar-category-name" data-categories="OpenStack安装部署教程"><span class="iconfont-archer">&#xe60a;</span>OpenStack安装部署教程</span>
+    
+        <span class="sidebar-category-name" data-categories="通过packstack快速安装openstack"><span class="iconfont-archer">&#xe60a;</span>通过packstack快速安装openstack</span>
+    
+        <span class="sidebar-category-name" data-categories="4-0-8"><span class="iconfont-archer">&#xe60a;</span>4-0-8</span>
+    
+        <span class="sidebar-category-name" data-categories="supervisor-安装、配置、常用命令"><span class="iconfont-archer">&#xe60a;</span>supervisor-安装、配置、常用命令</span>
+    
+        <span class="sidebar-category-name" data-categories="Zabbix汉化字体修改"><span class="iconfont-archer">&#xe60a;</span>Zabbix汉化字体修改</span>
+    
+        <span class="sidebar-category-name" data-categories="Zabbix-YUM安装"><span class="iconfont-archer">&#xe60a;</span>Zabbix-YUM安装</span>
+    
+        <span class="sidebar-category-name" data-categories="Zabbix-编译安装"><span class="iconfont-archer">&#xe60a;</span>Zabbix-编译安装</span>
+    
+        <span class="sidebar-category-name" data-categories="Zabbix性能优化"><span class="iconfont-archer">&#xe60a;</span>Zabbix性能优化</span>
+    
+        <span class="sidebar-category-name" data-categories="浅析僵尸进程与孤儿进程"><span class="iconfont-archer">&#xe60a;</span>浅析僵尸进程与孤儿进程</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
+    <div class="sidebar-categories-list"></div>
+</div>
+    </div>
+</div> 
+    <script>
+    var siteMeta = {
+        root: '/',
+        author: 'Jayden'
+    }
+</script>
+    <!-- busuanzi  -->
+    
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+    <!-- CNZZ  -->
+    
+    </div>
+    <!-- async load share.js -->
+    
+        <script src="/scripts/share.js" async></script>    
+    
+    </body>
+</html>
+
+

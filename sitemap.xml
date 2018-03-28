@@ -2,6 +2,27 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://yoursite.com/2018/03/16/ceph-commands/</loc>
+    
+    <lastmod>2018-03-28T06:53:55.263Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2018/03/14/ceph-client-mount/</loc>
+    
+    <lastmod>2018-03-28T06:37:05.059Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2018/03/14/ceph-installation/</loc>
+    
+    <lastmod>2018-03-28T05:09:56.250Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://yoursite.com/2018/03/15/ceph-optimization-summary/</loc>
     
     <lastmod>2018-03-27T07:47:33.558Z</lastmod>
