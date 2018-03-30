@@ -345,6 +345,39 @@ CPU：2+
     
     
         <article class="index-post">
+            <a class="abstract-title" href = "/2018/03/10/openstack-devstack-installation/" >
+                
+                    <span>通过devstack安装部署OpenStack</span>
+            </a>
+            <div class="abstract-content">
+                本帖子记录的是通过devstack安装部署OpenStack
+环境准备
+系统：CentOS 7 最小安装版
+
+123456$ vi /etc/selinux/config  #SELINUX=enforcing       //注释掉  SELINUX=disabled         //增加  $ cd /home  $ git clone http://git.trystack.cn/openstack-dev/devstack.git -b stable/ocata
+注意一定要使用 -b stable/ocata 指定devstack版本（与要安装的openstack版本一致），...
+            </div>
+            <div class="abstract-post-meta">
+                <!-- date  -->
+                <div class="abstract-date">
+                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/03/10</span>
+                </div>
+                <!-- tags  -->
+                
+                <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = OpenStack>OpenStack</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = DevStack>DevStack</a>
+    
+</div>
+                
+            </div>
+        </article>
+    
+    
+    
+        <article class="index-post">
             <a class="abstract-title" href = "/2018/03/09/open-falcon-install/" >
                 
                     <span>open-falcon安装部署教程</span>
@@ -438,6 +471,39 @@ Supervisor只能运行于Python 2.x的环境，但子进程可以为其他任意
     
     
         <article class="index-post">
+            <a class="abstract-title" href = "/2018/03/03/blockchain-merkle/" >
+                
+                    <span>比特币区块结构 Merkle 树及简单支付验证分析</span>
+            </a>
+            <div class="abstract-content">
+                本帖子记录的是比特币区块结构 Merkle 树及简单支付验证分析
+在比特币网络中，不是每个节点都有能力储存完整的区块链数据，受限于存储空间的的限制，很多节点是以SPV（Simplified Payment Verification简单支付验证）钱包接入比特币网络，通过简单支付验证可以在不必存储完整区块链下对交易进行验证，本文将分析区块结构Merkle树及如何进行交易验证。
+区块结构在工作量证明中出现过一个区块信息截图：
+
+细心的同学一定已经在里面发现了很多未讲的其他信息，如：时间戳，版本号，交易次数，二进制哈希树根(Merkle根)等。
+我们来看看一个区块结构到底是怎样的：
+
+如上图（下...
+            </div>
+            <div class="abstract-post-meta">
+                <!-- date  -->
+                <div class="abstract-date">
+                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/03/03</span>
+                </div>
+                <!-- tags  -->
+                
+                <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = Blockchain>Blockchain</a>
+    
+</div>
+                
+            </div>
+        </article>
+    
+    
+    
+        <article class="index-post">
             <a class="abstract-title" href = "/2018/03/03/blockchain-pow/" >
                 
                     <span>比特币如何挖矿（挖矿原理）-工作量证明</span>
@@ -498,68 +564,6 @@ Supervisor只能运行于Python 2.x的环境，但子进程可以为其他任意
     
     
         <article class="index-post">
-            <a class="abstract-title" href = "/2018/03/03/blockchain-merkle/" >
-                
-                    <span>比特币区块结构 Merkle 树及简单支付验证分析</span>
-            </a>
-            <div class="abstract-content">
-                本帖子记录的是比特币区块结构 Merkle 树及简单支付验证分析
-在比特币网络中，不是每个节点都有能力储存完整的区块链数据，受限于存储空间的的限制，很多节点是以SPV（Simplified Payment Verification简单支付验证）钱包接入比特币网络，通过简单支付验证可以在不必存储完整区块链下对交易进行验证，本文将分析区块结构Merkle树及如何进行交易验证。
-区块结构在工作量证明中出现过一个区块信息截图：
-
-细心的同学一定已经在里面发现了很多未讲的其他信息，如：时间戳，版本号，交易次数，二进制哈希树根(Merkle根)等。
-我们来看看一个区块结构到底是怎样的：
-
-如上图（下...
-            </div>
-            <div class="abstract-post-meta">
-                <!-- date  -->
-                <div class="abstract-date">
-                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/03/03</span>
-                </div>
-                <!-- tags  -->
-                
-                <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = Blockchain>Blockchain</a>
-    
-</div>
-                
-            </div>
-        </article>
-    
-    
-    
-        <article class="index-post">
-            <a class="abstract-title" href = "/2018/03/02/blockchain-accounting/" >
-                
-                    <span>区块链记账原理</span>
-            </a>
-            <div class="abstract-content">
-                本帖子记录的是区块链记账原理
-概念区块链(1.0)是一个基于密码学安全的分布式账本，是一个方便验证，不可篡改的账本。通常认为与智能合约相结合的区块链为区块链2.0, 如以太坊是典型的区块链2.0很多人只了解过比特币，不知道区块链，比特币实际是一个使用了区块链技术的应用，只是比特币当前太热，把区块链技术的光芒给掩盖了。区块链才是未来，期望各位开发人员少关心币价，多关心技术。本文将讲解区块链1.0技术是如何实现的。
-哈希函数在讲区块链记账之前，先说明一下哈希函数。哈希函数：Hash(原始信息) = 摘要信息原始信息可以是任意的信息, hash之后会得到一个简短的摘要信息
-哈希函数有几个特点:...
-            </div>
-            <div class="abstract-post-meta">
-                <!-- date  -->
-                <div class="abstract-date">
-                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/03/02</span>
-                </div>
-                <!-- tags  -->
-                
-                <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = Blockchain>Blockchain</a>
-    
-</div>
-                
-            </div>
-        </article>
-    
-    
-    
-        <article class="index-post">
             <a class="abstract-title" href = "/2018/03/02/blockchain-python/" >
                 
                     <span>用Python从0开始创建一个区块链</span>
@@ -596,34 +600,26 @@ Supervisor只能运行于Python 2.x的环境，但子进程可以为其他任意
     
     
         <article class="index-post">
-            <a class="abstract-title" href = "/2018/03/01/gitlab-update/" >
+            <a class="abstract-title" href = "/2018/03/02/blockchain-accounting/" >
                 
-                    <span>Gitlab踩坑升级过程</span>
+                    <span>区块链记账原理</span>
             </a>
             <div class="abstract-content">
-                本帖子记录的是Gitlab跨大版本更新，数据迁移备份过程记录
-背景简述由于各个项目迭代次数较多，Gitlab的服务器硬件相对较低，而且也出现过遇到当前Gitlab版本Bug的情况，所以最近就打算一次性把Gitlab迁移到配置较好的企业服务器并升级到最新版本。
-目前原来版本是gitlab-ce-8.8.0.ce.0，现在最新的版本是gitlab-ce-10.5.2.ce.0，这次过程就是从8.8.0升级到10.5.2。
-Gitlab部署
-系统以CentOS7为例
-
-下载RPM包地址：Gitlab-CE清华大学镜像站
-先安装依赖参考官方说明中的Install and configure th...
+                本帖子记录的是区块链记账原理
+概念区块链(1.0)是一个基于密码学安全的分布式账本，是一个方便验证，不可篡改的账本。通常认为与智能合约相结合的区块链为区块链2.0, 如以太坊是典型的区块链2.0很多人只了解过比特币，不知道区块链，比特币实际是一个使用了区块链技术的应用，只是比特币当前太热，把区块链技术的光芒给掩盖了。区块链才是未来，期望各位开发人员少关心币价，多关心技术。本文将讲解区块链1.0技术是如何实现的。
+哈希函数在讲区块链记账之前，先说明一下哈希函数。哈希函数：Hash(原始信息) = 摘要信息原始信息可以是任意的信息, hash之后会得到一个简短的摘要信息
+哈希函数有几个特点:...
             </div>
             <div class="abstract-post-meta">
                 <!-- date  -->
                 <div class="abstract-date">
-                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/03/01</span>
+                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/03/02</span>
                 </div>
                 <!-- tags  -->
                 
                 <div class= abstract-tags >
     
-        <a class="post-tag" href="javascript:void(0);" data-tags = Gitlab>Gitlab</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = Update>Update</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = Migration>Migration</a>
+        <a class="post-tag" href="javascript:void(0);" data-tags = Blockchain>Blockchain</a>
     
 </div>
                 
@@ -1407,10 +1403,7 @@ Gitlab部署
     
     
     
-    
-    
-    
-    <div class="total-archive"> Total : 36 </div>
+    <div class="total-archive"> Total : 37 </div>
     
     <div class="post-archive">
     
@@ -1419,6 +1412,11 @@ Gitlab部署
     
     <div class="archive-year"> 2018 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/19</span><a class="archive-post-title" href= "/2018/03/19/docker-network/" >Docker容器网络通信原理分析</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -1477,12 +1475,12 @@ Gitlab部署
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">03/09</span><a class="archive-post-title" href= "/2018/03/09/openstack-install-introduction/" >OpenStack安装部署</a>
+            <span class="archive-post-date">03/09</span><a class="archive-post-title" href= "/2018/03/09/open-falcon-install/" >open-falcon安装部署教程</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">03/09</span><a class="archive-post-title" href= "/2018/03/09/open-falcon-install/" >open-falcon安装部署教程</a>
+            <span class="archive-post-date">03/09</span><a class="archive-post-title" href= "/2018/03/09/openstack-install-introduction/" >OpenStack安装部署</a>
         </li>
     
     
@@ -1492,12 +1490,12 @@ Gitlab部署
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">03/03</span><a class="archive-post-title" href= "/2018/03/03/blockchain-merkle/" >比特币区块结构 Merkle 树及简单支付验证分析</a>
+            <span class="archive-post-date">03/03</span><a class="archive-post-title" href= "/2018/03/03/blockchain-selection/" >比特币如何达成共识 - 最长链的选择</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">03/03</span><a class="archive-post-title" href= "/2018/03/03/blockchain-selection/" >比特币如何达成共识 - 最长链的选择</a>
+            <span class="archive-post-date">03/03</span><a class="archive-post-title" href= "/2018/03/03/blockchain-merkle/" >比特币区块结构 Merkle 树及简单支付验证分析</a>
         </li>
     
     
@@ -1547,12 +1545,12 @@ Gitlab部署
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">02/25</span><a class="archive-post-title" href= "/2018/02/25/zabbix-yum-installation/" >Zabbix YUM方式部署</a>
+            <span class="archive-post-date">02/25</span><a class="archive-post-title" href= "/2018/02/25/zabbix-source-installation/" >Zabbix 编译安装部署</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">02/25</span><a class="archive-post-title" href= "/2018/02/25/zabbix-source-installation/" >Zabbix 编译安装部署</a>
+            <span class="archive-post-date">02/25</span><a class="archive-post-title" href= "/2018/02/25/zabbix-yum-installation/" >Zabbix YUM方式部署</a>
         </li>
     
     
@@ -1627,11 +1625,11 @@ Gitlab部署
     
         <span class="sidebar-tag-name" data-tags="Migration"><span class="iconfont-archer">&#xe606;</span>Migration</span>
     
-        <span class="sidebar-tag-name" data-tags="haproxy"><span class="iconfont-archer">&#xe606;</span>haproxy</span>
-    
         <span class="sidebar-tag-name" data-tags="Registry"><span class="iconfont-archer">&#xe606;</span>Registry</span>
     
         <span class="sidebar-tag-name" data-tags="Harbor"><span class="iconfont-archer">&#xe606;</span>Harbor</span>
+    
+        <span class="sidebar-tag-name" data-tags="haproxy"><span class="iconfont-archer">&#xe606;</span>haproxy</span>
     
         <span class="sidebar-tag-name" data-tags="github"><span class="iconfont-archer">&#xe606;</span>github</span>
     
@@ -1673,9 +1671,9 @@ Gitlab部署
     
         <span class="sidebar-tag-name" data-tags="DevStack"><span class="iconfont-archer">&#xe606;</span>DevStack</span>
     
-        <span class="sidebar-tag-name" data-tags="PackStack"><span class="iconfont-archer">&#xe606;</span>PackStack</span>
-    
         <span class="sidebar-tag-name" data-tags="Installation"><span class="iconfont-archer">&#xe606;</span>Installation</span>
+    
+        <span class="sidebar-tag-name" data-tags="PackStack"><span class="iconfont-archer">&#xe606;</span>PackStack</span>
     
         <span class="sidebar-tag-name" data-tags="$$"><span class="iconfont-archer">&#xe606;</span>$$</span>
     
@@ -1689,9 +1687,9 @@ Gitlab部署
     
         <span class="sidebar-tag-name" data-tags="Optimization"><span class="iconfont-archer">&#xe606;</span>Optimization</span>
     
-        <span class="sidebar-tag-name" data-tags="Yum"><span class="iconfont-archer">&#xe606;</span>Yum</span>
-    
         <span class="sidebar-tag-name" data-tags="Source"><span class="iconfont-archer">&#xe606;</span>Source</span>
+    
+        <span class="sidebar-tag-name" data-tags="Yum"><span class="iconfont-archer">&#xe606;</span>Yum</span>
     
         <span class="sidebar-tag-name" data-tags="Zombie Process"><span class="iconfont-archer">&#xe606;</span>Zombie Process</span>
     
@@ -1730,15 +1728,15 @@ jsonContent:
         <div class="sidebar-panel-categories">
     <div class="sidebar-categories-name">
     
-        <span class="sidebar-category-name" data-categories="比特币区块结构-Merkle-树及简单支付验证分析"><span class="iconfont-archer">&#xe60a;</span>比特币区块结构-Merkle-树及简单支付验证分析</span>
-    
         <span class="sidebar-category-name" data-categories="区块链记账原理"><span class="iconfont-archer">&#xe60a;</span>区块链记账原理</span>
+    
+        <span class="sidebar-category-name" data-categories="比特币区块结构-Merkle-树及简单支付验证分析"><span class="iconfont-archer">&#xe60a;</span>比特币区块结构-Merkle-树及简单支付验证分析</span>
     
         <span class="sidebar-category-name" data-categories="比特币如何挖矿（挖矿原理）-工作量证明"><span class="iconfont-archer">&#xe60a;</span>比特币如何挖矿（挖矿原理）-工作量证明</span>
     
-        <span class="sidebar-category-name" data-categories="比特币如何达成共识-最长链的选择"><span class="iconfont-archer">&#xe60a;</span>比特币如何达成共识-最长链的选择</span>
-    
         <span class="sidebar-category-name" data-categories="用Python从0开始创建一个区块链"><span class="iconfont-archer">&#xe60a;</span>用Python从0开始创建一个区块链</span>
+    
+        <span class="sidebar-category-name" data-categories="比特币如何达成共识-最长链的选择"><span class="iconfont-archer">&#xe60a;</span>比特币如何达成共识-最长链的选择</span>
     
         <span class="sidebar-category-name" data-categories="Ceph修改OSD和Monitor的网络"><span class="iconfont-archer">&#xe60a;</span>Ceph修改OSD和Monitor的网络</span>
     
@@ -1748,21 +1746,23 @@ jsonContent:
     
         <span class="sidebar-category-name" data-categories="分布式存储系统Ceph部署过程记录"><span class="iconfont-archer">&#xe60a;</span>分布式存储系统Ceph部署过程记录</span>
     
-        <span class="sidebar-category-name" data-categories="分布式存储系统Ceph原理介绍"><span class="iconfont-archer">&#xe60a;</span>分布式存储系统Ceph原理介绍</span>
-    
         <span class="sidebar-category-name" data-categories="Ceph-优化总结"><span class="iconfont-archer">&#xe60a;</span>Ceph-优化总结</span>
+    
+        <span class="sidebar-category-name" data-categories="分布式存储系统Ceph原理介绍"><span class="iconfont-archer">&#xe60a;</span>分布式存储系统Ceph原理介绍</span>
     
         <span class="sidebar-category-name" data-categories="Certbot安装-部分问题解决方案"><span class="iconfont-archer">&#xe60a;</span>Certbot安装-部分问题解决方案</span>
     
         <span class="sidebar-category-name" data-categories="Docker安装部署教程"><span class="iconfont-archer">&#xe60a;</span>Docker安装部署教程</span>
     
+        <span class="sidebar-category-name" data-categories="Docker容器网络通信原理分析"><span class="iconfont-archer">&#xe60a;</span>Docker容器网络通信原理分析</span>
+    
         <span class="sidebar-category-name" data-categories="Docker核心技术与实现原理"><span class="iconfont-archer">&#xe60a;</span>Docker核心技术与实现原理</span>
     
         <span class="sidebar-category-name" data-categories="Gitlab升级"><span class="iconfont-archer">&#xe60a;</span>Gitlab升级</span>
     
-        <span class="sidebar-category-name" data-categories="HAProxy使用"><span class="iconfont-archer">&#xe60a;</span>HAProxy使用</span>
-    
         <span class="sidebar-category-name" data-categories="Docker镜像仓库Harbor搭建"><span class="iconfont-archer">&#xe60a;</span>Docker镜像仓库Harbor搭建</span>
+    
+        <span class="sidebar-category-name" data-categories="HAProxy使用"><span class="iconfont-archer">&#xe60a;</span>HAProxy使用</span>
     
         <span class="sidebar-category-name" data-categories="Hexo-Github搭建博客"><span class="iconfont-archer">&#xe60a;</span>Hexo-Github搭建博客</span>
     
@@ -1784,9 +1784,9 @@ jsonContent:
     
         <span class="sidebar-category-name" data-categories="通过devstack安装部署OpenStack"><span class="iconfont-archer">&#xe60a;</span>通过devstack安装部署OpenStack</span>
     
-        <span class="sidebar-category-name" data-categories="通过packstack快速安装openstack"><span class="iconfont-archer">&#xe60a;</span>通过packstack快速安装openstack</span>
-    
         <span class="sidebar-category-name" data-categories="OpenStack安装部署教程"><span class="iconfont-archer">&#xe60a;</span>OpenStack安装部署教程</span>
+    
+        <span class="sidebar-category-name" data-categories="通过packstack快速安装openstack"><span class="iconfont-archer">&#xe60a;</span>通过packstack快速安装openstack</span>
     
         <span class="sidebar-category-name" data-categories="4-0-8"><span class="iconfont-archer">&#xe60a;</span>4-0-8</span>
     
@@ -1796,9 +1796,9 @@ jsonContent:
     
         <span class="sidebar-category-name" data-categories="Zabbix性能优化"><span class="iconfont-archer">&#xe60a;</span>Zabbix性能优化</span>
     
-        <span class="sidebar-category-name" data-categories="Zabbix-YUM安装"><span class="iconfont-archer">&#xe60a;</span>Zabbix-YUM安装</span>
-    
         <span class="sidebar-category-name" data-categories="Zabbix-编译安装"><span class="iconfont-archer">&#xe60a;</span>Zabbix-编译安装</span>
+    
+        <span class="sidebar-category-name" data-categories="Zabbix-YUM安装"><span class="iconfont-archer">&#xe60a;</span>Zabbix-YUM安装</span>
     
         <span class="sidebar-category-name" data-categories="浅析僵尸进程与孤儿进程"><span class="iconfont-archer">&#xe60a;</span>浅析僵尸进程与孤儿进程</span>
     
