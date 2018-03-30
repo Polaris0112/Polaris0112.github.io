@@ -9,7 +9,7 @@
 <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" >
-    <title>Nginx正反向代理/负载均衡 · Jayden&#39;s Blog</title>
+    <title>Jayden&#39;s Blog</title>
     <style type="text/css">
     @font-face {
         font-family: 'Oswald-Regular';
@@ -251,8 +251,6 @@
 </head>
 
     
-        <body class="post-body">
-    
     
 <header class="header">
 
@@ -260,259 +258,66 @@
     <div class="header-sidebar-menu">&#xe775;</div>
     <!-- post页的toggle banner  -->
     
-    <div class="banner">
-            <div class="blog-title">
-                <a href="/" >Jayden&#39;s Website.</a>
-            </div>
-            <div class="post-title">
-                <a href="#" class="post-name">Nginx正反向代理/负载均衡</a>
-            </div>
-    </div>
-    
     <a class="home-link" href=/>Jayden's Website.</a>
 </header>
     <div class="wrapper">
         <div class="site-intro">
     
     <!-- 主页  -->
-    
-    
-    <!-- 404页  -->
             
-    <div class="site-intro-img" style="background-image: url(/intro/post-bg.jpg)"></div>
+    <div class="site-intro-img" style="background-image: url(/)"></div>
     <div class="site-intro-placeholder"></div>
     <div class="site-intro-meta">
         <!-- 标题  -->
         <h1 class="intro-title">
             <!-- 主页  -->
             
-            Nginx正反向代理/负载均衡
-            <!-- 404 -->
-            
         </h1>
         <!-- 副标题 -->
         <p class="intro-subtitle">
             <!-- 主页副标题  -->
             
-            
-            <!-- 404 -->
-            
         </p>
         <!-- 文章页meta -->
-        
-            <!-- 文章页标签  -->
-            
-                <div class= post-intro-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = nginx>nginx</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = proxy>proxy</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = load-balance>load-balance</a>
-    
-</div>
-            
-            <div class="post-intro-meta">
-                <span class="post-intro-calander iconfont-archer">&#xe676;</span>
-                <span class="post-intro-time">2018/02/21</span>
-                
-                <span id="busuanzi_container_page_pv" class="busuanzi-pv">
-                    <span class="iconfont-archer">&#xe602;</span>
-                    <span id="busuanzi_value_page_pv"></span>
-                </span>
-                
-                <span class="shareWrapper">
-                    <span class="iconfont-archer shareIcon">&#xe71d;</span>
-                    <span class="shareText">Share</span>
-                    <ul class="shareList">
-                        <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
-                            <div class="share-qrcode"></div>
-                        </li>
-                        <li class="iconfont-archer" data-type="weibo">&#xe619;</li>
-                        <li class="iconfont-archer" data-type="qzone">&#xe62e;</li>
-                        <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
-                        <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
-                    </ul>
-                </span>
-            </div>
         
     </div>
 </div>
         <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
 
         <div class="container container-unloaded">
-            <main class="main post-page">
-    <article class="article-entry">
-        <p>本帖子记录的是Nginx配置正向代理、反向代理和负载均衡相关参数。</p>
-<h2 id="相关概念"><a href="#相关概念" class="headerlink" title="相关概念"></a>相关概念</h2><ul>
-<li>正向代理是一个位于客户端和目标服务器之间的代理服务器(中间服务器)。为了从原始服务器取得内容，客户端向代理服务器发送一个请求，并且指定目标服务器，之后代理向目标服务器转交并且将获得的内容返回给客户端。正向代理的情况下客户端必须要进行一些特别的设置才能使用。</li>
-</ul>
-<p><img src="/images/nginx-forward-proxy.png" alt="nginx-forward-proxy"></p>
-<ul>
-<li>反向代理正好相反。对于客户端来说，反向代理就好像目标服务器。并且客户端不需要进行任何设置。客户端向反向代理发送请求，接着反向代理判断请求走向何处，并将请求转交给客户端，使得这些内容就好似他自己一样，一次客户端并不会感知到反向代理后面的服务，也因此不需要客户端做任何设置，只需要把反向代理服务器当成真正的服务器就好了。</li>
-</ul>
-<p><img src="/images/nginx-reverse-proxy.png" alt="nginx-reverse-proxy"></p>
-<ul>
-<li>负载均衡：当反向代理服务器不止一个的时候，我们甚至可以把它们做成集群，当更多的用户访问资源服务器B的时候，让不同的代理服务器Z（x）去应答不同的用户，然后发送不同用户需要的资源。</li>
-</ul>
-<p><img src="/images/nginx-balance.png" alt="nginx-balance.png"></p>
-<h3 id="正向代理和反向代理区别"><a href="#正向代理和反向代理区别" class="headerlink" title="正向代理和反向代理区别"></a>正向代理和反向代理区别</h3><p>正向代理需要你主动设置代理服务器ip或者域名进行访问，由设置的服务器ip或者域名去获取访问内容并返回；而反向代理不需要你做任何设置，直接访问服务器真实ip或者域名，但是服务器内部会自动根据访问内容进行跳转及内容返回，你不知道它最终访问的是哪些机器。</p>
-<p>正向代理是代理客户端，为客户端收发请求，使真实客户端对服务器不可见；而反向代理是代理服务器端，为服务器收发请求，使真实服务器对客户端不可见。</p>
-<p>从上面的描述也能看得出来正向代理和反向代理最关键的两点区别：</p>
-<ul>
-<li><p>是否指定目标服务器</p>
-</li>
-<li><p>客户端是否要做设置</p>
-</li>
-</ul>
-<p>下面用一张图来表示两者的差异：</p>
-<p><img src="/images/nginx-proxy.png" alt="nginx-proxy"></p>
-<p>正向代理中，proxy和client同属一个LAN，对server透明； 反向代理中，proxy和server同属一个LAN，对client透明。 实际上proxy在两种代理中做的事都是代为收发请求和响应，不过从结构上来看正好左右互换了下，所以把前者那种代理方式叫做正向代理，后者叫做反向代理。</p>
-<p><strong>从用途上来区分：</strong></p>
-<p>正向代理：正向代理用途是为了在防火墙内的局域网提供访问internet的途径。另外还可以使用缓冲特性减少网络使用率</p>
-<p>反向代理：反向代理的用途是将防火墙后面的服务器提供给internet用户访问。同时还可以完成诸如负载均衡等功能</p>
-<p><strong>从安全性来讲：</strong></p>
-<p>正向代理：正向代理允许客户端通过它访问任意网站并且隐蔽客户端自身，因此你必须采取安全措施来确保仅为经过授权的客户端提供服务</p>
-<p>反向代理：对外是透明的，访问者并不知道自己访问的是代理。对访问者而言，他以为访问的就是原始服务器</p>
-<h2 id="Nginx-配置"><a href="#Nginx-配置" class="headerlink" title="Nginx 配置"></a>Nginx 配置</h2><h2 id="正向代理"><a href="#正向代理" class="headerlink" title="正向代理"></a>正向代理</h2><p>nginx.conf 文件：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    <span class="comment"># 配置DNS解析IP地址，比如 Google Public DNS，以及超时时间（5秒）</span></span><br><span class="line">    resolver 8.8.8.8;    <span class="comment"># 必需</span></span><br><span class="line">    resolver_timeout 5s;</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 监听端口</span></span><br><span class="line">    listen 8080;</span><br><span class="line"></span><br><span class="line">    access_log  /home/reistlin/logs/proxy.access.log;</span><br><span class="line">    error_log   /home/reistlin/logs/proxy.error.log;</span><br><span class="line"></span><br><span class="line">    location / &#123;</span><br><span class="line">        <span class="comment"># 配置正向代理参数</span></span><br><span class="line">        proxy_pass <span class="variable">$scheme</span>://<span class="variable">$host</span><span class="variable">$request_uri</span>;</span><br><span class="line">        <span class="comment"># 解决如果URL中带"."后Nginx 503错误</span></span><br><span class="line">        proxy_set_header Host <span class="variable">$http_host</span>;</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 配置缓存大小</span></span><br><span class="line">        proxy_buffers 256 4k;</span><br><span class="line">        <span class="comment"># 关闭磁盘缓存读写减少I/O</span></span><br><span class="line">        proxy_max_temp_file_size 0;</span><br><span class="line">         <span class="comment"># 代理连接超时时间</span></span><br><span class="line">        proxy_connect_timeout 30;</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 配置代理服务器HTTP状态缓存时间</span></span><br><span class="line">        proxy_cache_valid 200 302 10m;</span><br><span class="line">        proxy_cache_valid 301 1h;</span><br><span class="line">        proxy_cache_valid any 1m;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>备注：</p>
-<ul>
-<li><p>配置 nginx 正向代理服务，一般是配置到一个 server 块中。注意，在该 server 块中，不要出现 server_name 指令，即不要设置虚拟主机的名称和 IP；</p>
-</li>
-<li><p>resolver 是必需的，如果没有该指令， nginx 无法处理接收到的域名；</p>
-</li>
-<li><p>nginx 代理服务不支持正向代理 HTTPS 站点；</p>
-</li>
-</ul>
-<h2 id="反向代理"><a href="#反向代理" class="headerlink" title="反向代理"></a>反向代理</h2><p>nginx.conf 文件：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">upstream webServer01 &#123;</span><br><span class="line">    server 127.0.0.1:3001;</span><br><span class="line">    keepalive 64;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">upstream webServer02 &#123;</span><br><span class="line">    server 127.0.0.1:3002;</span><br><span class="line">    keepalive 64;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">server &#123;</span><br><span class="line">    listen 80;</span><br><span class="line">    server_name www.test01.com;</span><br><span class="line">    <span class="comment">#access_log /var/log/nginx/test01.log;</span></span><br><span class="line">    location / &#123;</span><br><span class="line">        proxy_set_header X-Real-IP <span class="variable">$remote_addr</span>;</span><br><span class="line">        proxy_set_header X-Forwarded-For <span class="variable">$proxy_add_x_forwarded_for</span>;</span><br><span class="line">        proxy_set_header Host  <span class="variable">$http_host</span>;</span><br><span class="line">        proxy_set_header X-Nginx-Proxy <span class="literal">true</span>;</span><br><span class="line">        proxy_set_header Connection <span class="string">""</span>;</span><br><span class="line">        proxy_pass       http://webServer01;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">server &#123;</span><br><span class="line">    listen 80;</span><br><span class="line">    server_name www.test02.com;</span><br><span class="line">    <span class="comment">#access_log /var/log/nginx/test02.log;</span></span><br><span class="line">    location / &#123;</span><br><span class="line">        proxy_set_header X-Real-IP <span class="variable">$remote_addr</span>;</span><br><span class="line">        proxy_set_header X-Forwarded-For <span class="variable">$proxy_add_x_forwarded_for</span>;</span><br><span class="line">        proxy_set_header Host  <span class="variable">$http_host</span>;</span><br><span class="line">        proxy_set_header X-Nginx-Proxy <span class="literal">true</span>;</span><br><span class="line">        proxy_set_header Connection <span class="string">""</span>;</span><br><span class="line">        proxy_pass       http://webServer02;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="负载均衡"><a href="#负载均衡" class="headerlink" title="负载均衡"></a>负载均衡</h2><p>Nginx负载均衡是通过upstream模块来实现的，内置实现了三种负载策略，配置还是比较简单的。<a href="http://nginx.org/en/docs/http/load_balancing.html" target="_blank" rel="noopener">官网负载均衡配置说明</a></p>
-<ul>
-<li>轮循（默认）<br>Nginx根据请求次数，将每个请求均匀分配到每台服务器</li>
-</ul>
-<ul>
-<li>最少连接<br>将请求分配给连接数最少的服务器。Nginx会统计哪些服务器的连接数最少。</li>
-</ul>
-<ul>
-<li>IP Hash<br>绑定处理请求的服务器。第一次请求时，根据该客户端的IP算出一个HASH值，将请求分配到集群中的某一台服务器上。后面该客户端的所有请求，都将通过HASH算法，找到之前处理这台客户端请求的服务器，然后将请求交给它来处理。</li>
-</ul>
-<h3 id="轮循"><a href="#轮循" class="headerlink" title="轮循"></a>轮循</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">http &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment"># ... 省略其它配置</span></span><br><span class="line"></span><br><span class="line">    upstream tomcats &#123;</span><br><span class="line">        server 192.168.0.100:8080;</span><br><span class="line">        server 192.168.0.101:8080;</span><br><span class="line">        server example.com:8080;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    server &#123;</span><br><span class="line">        listen 80;</span><br><span class="line"></span><br><span class="line">        location / &#123;</span><br><span class="line">            proxy_pass http://tomcats;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment"># ... 省略其它配置</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ul>
-<li><p>proxy_pass <a href="http://tomcats：表示将所有请求转发到tomcats服务器组中配置的某一台服务器上。" target="_blank" rel="noopener">http://tomcats：表示将所有请求转发到tomcats服务器组中配置的某一台服务器上。</a></p>
-</li>
-<li><p>upstream模块：配置反向代理服务器组，Nginx会根据配置，将请求分发给组里的某一台服务器。tomcats是服务器组的名称。</p>
-</li>
-<li><p>upstream模块下的server指令：配置处理请求的服务器IP或域名，端口可选，不配置默认使用80端口。通过上面的配置，Nginx默认将请求依次分配给100，101，102来处理，可以通过修改下面这些参数来改变默认的分配策略：</p>
-<ul>
-<li><p>weight </p>
-<p>默认为1，将请求平均分配给每台server</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">upstream tomcats &#123;</span><br><span class="line">    server 192.168.0.100:8080 weight=2;  <span class="comment"># 2/6次</span></span><br><span class="line">    server 192.168.0.101:8080 weight=3;  <span class="comment"># 3/6次</span></span><br><span class="line">    server 192.168.0.102:8080 weight=1;  <span class="comment"># 1/6次</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>上例配置，表示6次请求中，100分配2次，101分配3次，102分配1次</p>
-</li>
-<li><p>max_fails </p>
-<p>默认为1。某台Server允许请求失败的次数，超过最大次数后，在fail_timeout时间内，新的请求将不会分配给这台机器。如果设置为0，Nginx会将这台Server置为永久无效状态，然后将请求发给定义了proxy_next_upstream, fastcgi_next_upstream, uwsgi_next_upstream, scgi_next_upstream, and memcached_next_upstream指令来处理这次错误的请求。</p>
-</li>
-<li><p>fail_timeout </p>
-<p>默认为10秒。某台Server达到max_fails次失败请求后，在fail_timeout期间内，nginx会认为这台Server暂时不可用，不会将请求分配给它</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">upstream tomcats &#123;</span><br><span class="line">    server 192.168.0.100:8080 weight=2 max_fails=3 fail_timeout=15;</span><br><span class="line">    server 192.168.0.101:8080 weight=3;</span><br><span class="line">    server 192.168.0.102:8080 weight=1;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-</li>
-</ul>
-<p>   192.168.0.100这台机器，如果有3次请求失败，nginx在15秒内，不会将新的请求分配给它。</p>
-<ul>
-<li><p>backup </p>
-<p>备份机，所有服务器挂了之后才会生效</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">upstream tomcats &#123;</span><br><span class="line">    server 192.168.0.100:8080 weight=2 max_fails=3 fail_timeout=15;</span><br><span class="line">    server 192.168.0.101:8080 weight=3;</span><br><span class="line"></span><br><span class="line">    server 192.168.0.102:8080 backup;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>在100和101都挂了之前，102为不可用状态，不会将请求分配给它。只有当100和101都挂了，102才会被启用。</p>
-</li>
-<li><p>down </p>
-<p>标识某一台server不可用。可能能通过某些参数动态的激活它吧，要不真没啥用。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">upstream tomcats &#123;</span><br><span class="line">    server 192.168.0.100:8080 weight=2 max_fails=3 fail_timeout=15;</span><br><span class="line"></span><br><span class="line">    server 192.168.0.101:8080 down;</span><br><span class="line"></span><br><span class="line">    server 192.168.0.102:8080 backup;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<p>   表示101这台Server为无效状态，不会将请求分配给它。</p>
-<ul>
-<li><p>max_conns </p>
-<p>限制分配给某台Server处理的最大连接数量，超过这个数量，将不会分配新的连接给它。默认为0，表示不限制。注意：1.5.9之后的版本才有这个配置</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">upstream tomcats &#123;</span><br><span class="line">    server 192.168.0.100:8080 max_conns=1000;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<p>   表示最多给100这台Server分配1000个请求，如果这台Server正在处理1000个请求，nginx将不会分配新的请求给到它。假如有一个请求处理完了，还剩下999个请求在处理，这时nginx也会将新的请求分配给它。</p>
-<ul>
-<li><p>resolve </p>
-<p>将server指令配置的域名，指定域名解析服务器。需要在http模块下配置resolver指令，指定域名解析服务</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">http &#123;</span><br><span class="line">    resolver 10.0.0.1;</span><br><span class="line"></span><br><span class="line">    upstream u &#123;</span><br><span class="line">        zone ...;</span><br><span class="line">        ...</span><br><span class="line">        server example.com resolve;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>表示example.com域名，由10.0.0.1服务器来负责解析。 </p>
-<p>upstream模块server指令的其它参数和详细配置说明，请参考<a href="http://nginx.org/en/docs/http/ngx_http_upstream_module.html#server" target="_blank" rel="noopener">官方文档</a>。</p>
-</li>
-</ul>
-<h2 id="第三方负载策略"><a href="#第三方负载策略" class="headerlink" title="第三方负载策略"></a>第三方负载策略</h2><ul>
-<li><p>fair</p>
-<p>根据服务器的响应时间来分配请求，响应时间短的优先分配，即负载压力小的优先会分配。</p>
-<p>由于fair模块是第三方提供的，所以在编译nginx源码的时候，需要将fair添加到nginx模块中。</p>
-<ul>
-<li><p>下载fair模块源码 </p>
-<p><a href="https://github.com/xyang0917/nginx-upstream-fair" target="_blank" rel="noopener">下载地址</a></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">cd</span> /opt</span><br><span class="line">$ wget https://github.com/xyang0917/nginx-upstream-fair/archive/master.zip</span><br><span class="line">$ unzip master.zip</span><br></pre></td></tr></table></figure>
-<p>解压后的目录名为：nginx-upstream-fair-master</p>
-</li>
-<li><p>重新编译nginx，将fair模块添加到编译参数 </p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">cd</span> /opt/nginx-nginx-1.10.0</span><br><span class="line">$ ./configure --prefix=/opt/nginx --add-module=/opt/nginx-upstream-fair-master</span><br><span class="line">$ make</span><br></pre></td></tr></table></figure>
-<p><strong>注意：</strong>不要执行make install，这样会覆盖之前nginx的配置 </p>
-</li>
-<li><p>将新编译的nginx可执行程序拷贝到/opt/nginx/sbin/目录下，覆盖之前安装的nginx编译后的nginx执行程序，放在nginx源码的objs目录下</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ ps -aux | grep nginx</span><br><span class="line">$ <span class="built_in">kill</span> -9 nginx进程ID  <span class="comment"># 停止nginx服务</span></span><br><span class="line">$ cp /opt/nginx-1.10.0/objs/nginx /opt/nginx/sbin/  <span class="comment"># 覆盖旧的nginx</span></span><br><span class="line">$ nginx <span class="comment"># 启动服务</span></span><br></pre></td></tr></table></figure>
-<p>配置使用fair负载策略模块：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">upstream tomcats &#123;</span><br><span class="line">    fair;</span><br><span class="line">    server 192.168.0.100:8080;</span><br><span class="line">    server 192.168.0.101:8080;</span><br><span class="line">    server 192.168.0.102:8080;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>由于采用fair负载策略，配置weigth参数改变负载权重将无效。</p>
-</li>
-</ul>
-</li>
-</ul>
-<ul>
-<li><p>url_hash</p>
-<p>按请求url的hash结果来分配请求，使每个url定向到同一个后端服务器，服务器做缓存时比较有效。</p>
-</li>
-</ul>
-<p>  1.7.2版本以后，url_hash模块已经集成到了nginx源码当中，不需要单独安装。之前的版本仍需要单独安装，<a href="https://github.com/evanmiller/nginx_upstream_hash" target="_blank" rel="noopener">下载地址</a></p>
-<p>  安装方法和fair模块一样，先下载url_hash源码，然后重新编译nginx源码，将url_hash模块添加到编译配置参数当中，最后将编译后生成的nginx二进制文件替换之前安装的nginx二进制文件即可。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">upstream tomcats &#123;</span><br><span class="line">    server 192.168.0.100:8080;</span><br><span class="line">    server 192.168.0.101:8080;</span><br><span class="line">    server 192.168.0.102:8080;</span><br><span class="line">    <span class="built_in">hash</span> <span class="variable">$request_uri</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-    </article>
-    <!-- 前后页  -->
-    <ul class="post-paginator">
-        <li class="next">
-            
-                <div class="nextSlogan">Next Post</div>
-                <a href= "/2018/02/22/certbot/" title= Certbot安装/部分问题解决方案 >
-                    <div class="nextTitle">Certbot安装/部分问题解决方案</div>
-                </a>
-            
-        </li>
-        <li class="previous">
-            
-                <div class="prevSlogan">Previous Post</div>
-                <a href= "/2018/02/20/lvm/" title= LVM创建/扩容/常用操作 >
-                    <div class="prevTitle">LVM创建/扩容/常用操作</div>
-                </a>
-            
-        </li>
-    </ul>
-    <!-- 评论插件 -->
-    <!-- 来必力City版安装代码 -->
-
-<!-- City版安装代码已完成 -->
+            <main class="main index-page">
     
     
-    <!--PC版-->
-
-    <!--PC版-->
-
-
     
-    <!-- 评论 -->
+        <article class="index-post">
+            <a class="abstract-title" href = "/2018/03/17/ceph-change-subnet/" >
+                
+                    <span>Ceph修改OSD和Monitor的网络</span>
+            </a>
+            <div class="abstract-content">
+                本帖子记录的是分布式存储系统Ceph修改OSD和Monitor的网络过程记录。
+背景随着Ceph的应用越来越深入，我们也遇到了越来越多的需求，本次我们将讲一下如何修改OSD和Monitor的网络。
+Ceph应用中，在部署完ceph集群并运行一段时间后，我们很可能会遇到机房网络变动，或集群网络升级的情况，这时我们都期望能在尽量减少对现有Ceph集群影响的情况下，修改Ceph的OSD和Monitor网络，而不是简单粗暴的重新部署Ceph集群。本文基于Ceph的官方文档和作者的实践，给出了正确修改Ceph OSD和Monitor网络的方法。
+Ceph版本：Hammer 0.94.5测试系统环境...
+            </div>
+            <div class="abstract-post-meta">
+                <!-- date  -->
+                <div class="abstract-date">
+                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/03/17</span>
+                </div>
+                <!-- tags  -->
+                
+                <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = Ceph>Ceph</a>
+    
+</div>
+                
+            </div>
+        </article>
+    
+    <!-- paginator  -->
+    
 </main>
             <!-- profile -->
             
@@ -614,13 +419,6 @@
 </footer>
     </div>
     <!-- toc -->
-    
-    <div class="toc-wrapper">
-        <div class="toc-catalog">
-            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
-        </div>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#相关概念"><span class="toc-number">1.</span> <span class="toc-text">相关概念</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#正向代理和反向代理区别"><span class="toc-number">1.1.</span> <span class="toc-text">正向代理和反向代理区别</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Nginx-配置"><span class="toc-number">2.</span> <span class="toc-text">Nginx 配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#正向代理"><span class="toc-number">3.</span> <span class="toc-text">正向代理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#反向代理"><span class="toc-number">4.</span> <span class="toc-text">反向代理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#负载均衡"><span class="toc-number">5.</span> <span class="toc-text">负载均衡</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#轮循"><span class="toc-number">5.1.</span> <span class="toc-text">轮循</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第三方负载策略"><span class="toc-number">6.</span> <span class="toc-text">第三方负载策略</span></a></li></ol>
-    </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>
     <div class="sidebar sidebar-hide">
@@ -1530,8 +1328,6 @@ jsonContent:
     
     </div>
     <!-- async load share.js -->
-    
-        <script src="/scripts/share.js" async></script>    
     
     </body>
 </html>

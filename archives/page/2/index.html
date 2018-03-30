@@ -325,6 +325,36 @@
     
     
         <article class="index-post">
+            <a class="abstract-title" href = "/2018/03/09/openstack-install-introduction/" >
+                
+                    <span>OpenStack安装部署</span>
+            </a>
+            <div class="abstract-content">
+                本帖子记录的是openstack安装部署私有云详细图文教程
+本文主要分享的是云计算、openstack的使用、私有云平台建设、云服务器云硬盘的构建和使用。从基本概念入手到私有云建设，信息量非常大。对于openstack的安装部署都是从官方文档中一步步的介绍，内容非常详细。
+云计算基本概念云计算（cloud computing）是基于互联网的相关服务的增加、使用和交付模式，通常涉及通过互联网来提供动态易扩展且经常是虚拟化的资源。云是网络、互联网的一种比喻说法。过去在图中往往用云来表示电信网，后来也用来表示互联网和底层基础设施的抽象。因此，云计算甚至可以让你体验每秒10万亿次的运算能力，拥有...
+            </div>
+            <div class="abstract-post-meta">
+                <!-- date  -->
+                <div class="abstract-date">
+                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/03/09</span>
+                </div>
+                <!-- tags  -->
+                
+                <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = OpenStack>OpenStack</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = Installation>Installation</a>
+    
+</div>
+                
+            </div>
+        </article>
+    
+    
+    
+        <article class="index-post">
             <a class="abstract-title" href = "/2018/03/08/supervisor/" >
                 
                     <span>supervisor 安装、配置、常用命令</span>
@@ -381,18 +411,19 @@ Supervisor只能运行于Python 2.x的环境，但子进程可以为其他任意
     
     
         <article class="index-post">
-            <a class="abstract-title" href = "/2018/03/03/blockchain-selection/" >
+            <a class="abstract-title" href = "/2018/03/03/blockchain-merkle/" >
                 
-                    <span>比特币如何达成共识 - 最长链的选择</span>
+                    <span>比特币区块结构 Merkle 树及简单支付验证分析</span>
             </a>
             <div class="abstract-content">
-                本帖子记录的是比特币如何达成共识 - 最长链的选择
-比特币没有中心机构，几乎所有的完整节点都有一份公共总帐本，那么大家如何达成共识：确认哪一份才是公认权威的总账本呢？
-为什么要遵守协议这其实是一个经济问题，在经济活动中的每个人都是自私自利的，追求的是利益的最大化，一个节点工作量只有在其他的节点认同其是有效的（打包的新区块，其他的节点只有验证通过才会加入到区块链中，并在网络上传播），才能够过得收益，而只有遵守规则才会得到其他的节点认同。因此，基于逐利，节点就会自发的遵守协议。共识就是数以万计的独立节点遵守了简单的规则（通过异步交互）自发形成的。
+                本帖子记录的是比特币区块结构 Merkle 树及简单支付验证分析
+在比特币网络中，不是每个节点都有能力储存完整的区块链数据，受限于存储空间的的限制，很多节点是以SPV（Simplified Payment Verification简单支付验证）钱包接入比特币网络，通过简单支付验证可以在不必存储完整区块链下对交易进行验证，本文将分析区块结构Merkle树及如何进行交易验证。
+区块结构在工作量证明中出现过一个区块信息截图：
 
-共识：共同遵守的协议规范
+细心的同学一定已经在里面发现了很多未讲的其他信息，如：时间戳，版本号，交易次数，二进制哈希树根(Merkle根)等。
+我们来看看一个区块结构到底是怎样的：
 
-去中心化共识在...
+如上图（下...
             </div>
             <div class="abstract-post-meta">
                 <!-- date  -->
@@ -413,19 +444,18 @@ Supervisor只能运行于Python 2.x的环境，但子进程可以为其他任意
     
     
         <article class="index-post">
-            <a class="abstract-title" href = "/2018/03/03/blockchain-merkle/" >
+            <a class="abstract-title" href = "/2018/03/03/blockchain-selection/" >
                 
-                    <span>比特币区块结构 Merkle 树及简单支付验证分析</span>
+                    <span>比特币如何达成共识 - 最长链的选择</span>
             </a>
             <div class="abstract-content">
-                本帖子记录的是比特币区块结构 Merkle 树及简单支付验证分析
-在比特币网络中，不是每个节点都有能力储存完整的区块链数据，受限于存储空间的的限制，很多节点是以SPV（Simplified Payment Verification简单支付验证）钱包接入比特币网络，通过简单支付验证可以在不必存储完整区块链下对交易进行验证，本文将分析区块结构Merkle树及如何进行交易验证。
-区块结构在工作量证明中出现过一个区块信息截图：
+                本帖子记录的是比特币如何达成共识 - 最长链的选择
+比特币没有中心机构，几乎所有的完整节点都有一份公共总帐本，那么大家如何达成共识：确认哪一份才是公认权威的总账本呢？
+为什么要遵守协议这其实是一个经济问题，在经济活动中的每个人都是自私自利的，追求的是利益的最大化，一个节点工作量只有在其他的节点认同其是有效的（打包的新区块，其他的节点只有验证通过才会加入到区块链中，并在网络上传播），才能够过得收益，而只有遵守规则才会得到其他的节点认同。因此，基于逐利，节点就会自发的遵守协议。共识就是数以万计的独立节点遵守了简单的规则（通过异步交互）自发形成的。
 
-细心的同学一定已经在里面发现了很多未讲的其他信息，如：时间戳，版本号，交易次数，二进制哈希树根(Merkle根)等。
-我们来看看一个区块结构到底是怎样的：
+共识：共同遵守的协议规范
 
-如上图（下...
+去中心化共识在...
             </div>
             <div class="abstract-post-meta">
                 <!-- date  -->
@@ -576,37 +606,6 @@ apache：使用这个Web服务的路径在(默认路径)/var/www/html/目录下�
         <a class="post-tag" href="javascript:void(0);" data-tags = Zabbix>Zabbix</a>
     
         <a class="post-tag" href="javascript:void(0);" data-tags = Font>Font</a>
-    
-</div>
-                
-            </div>
-        </article>
-    
-    
-    
-        <article class="index-post">
-            <a class="abstract-title" href = "/2018/02/28/zombie-process-and-orphaned-process/" >
-                
-                    <span>浅析僵尸进程与孤儿进程</span>
-            </a>
-            <div class="abstract-content">
-                本帖子记录的是理解僵尸进程和孤儿进程的产生原因
-知识背景在被誉为UNIX编程“圣经”的一书《unix环境高级编程》中有提到僵尸进程和孤儿进程。不少同学对这两个概念会混淆，这篇文章总结一下。
-在unix/linux系统中，大多情况下，子进程是通过父进程fork创建的，注：系统调用fork，是一个比较有意思系统调用，它调用一次，返回两个值，失败返回-1,成功时在子进程返回0，父进程返回所创建子进程的pid。本文暂时只需了解这些就够了，有兴趣的同学可以查阅man文档，描述的非常清楚。
-子进程创建后，子进程的结束和父进程的运行是一个异步过程,也就是说父进程没办法预测子进程什么时候结束。 当一个子...
-            </div>
-            <div class="abstract-post-meta">
-                <!-- date  -->
-                <div class="abstract-date">
-                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/02/28</span>
-                </div>
-                <!-- tags  -->
-                
-                <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = Zombie Process>Zombie Process</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = Orphaned Process>Orphaned Process</a>
     
 </div>
                 
@@ -1189,7 +1188,42 @@ apache：使用这个Web服务的路径在(默认路径)/var/www/html/目录下�
     
     
     
-    <div class="total-archive"> Total : 34 </div>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="total-archive"> Total : 35 </div>
     
     <div class="post-archive">
     
@@ -1198,6 +1232,11 @@ apache：使用这个Web服务的路径在(默认路径)/var/www/html/目录下�
     
     <div class="archive-year"> 2018 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/17</span><a class="archive-post-title" href= "/2018/03/17/ceph-change-subnet/" >Ceph修改OSD和Monitor的网络</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -1316,12 +1355,12 @@ apache：使用这个Web服务的路径在(默认路径)/var/www/html/目录下�
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">02/25</span><a class="archive-post-title" href= "/2018/02/25/zabbix-yum-installation/" >Zabbix YUM方式部署</a>
+            <span class="archive-post-date">02/25</span><a class="archive-post-title" href= "/2018/02/25/zabbix-source-installation/" >Zabbix 编译安装部署</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">02/25</span><a class="archive-post-title" href= "/2018/02/25/zabbix-source-installation/" >Zabbix 编译安装部署</a>
+            <span class="archive-post-date">02/25</span><a class="archive-post-title" href= "/2018/02/25/zabbix-yum-installation/" >Zabbix YUM方式部署</a>
         </li>
     
     
@@ -1331,12 +1370,12 @@ apache：使用这个Web服务的路径在(默认路径)/var/www/html/目录下�
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">02/24</span><a class="archive-post-title" href= "/2018/02/24/mongodb-single/" >MongoDB单实例部署</a>
+            <span class="archive-post-date">02/24</span><a class="archive-post-title" href= "/2018/02/24/mongodb-shard/" >MongoDB Sharding集群部署</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">02/24</span><a class="archive-post-title" href= "/2018/02/24/mongodb-shard/" >MongoDB Sharding集群部署</a>
+            <span class="archive-post-date">02/24</span><a class="archive-post-title" href= "/2018/02/24/mongodb-single/" >MongoDB单实例部署</a>
         </li>
     
     
@@ -1396,11 +1435,11 @@ apache：使用这个Web服务的路径在(默认路径)/var/www/html/目录下�
     
         <span class="sidebar-tag-name" data-tags="Migration"><span class="iconfont-archer">&#xe606;</span>Migration</span>
     
+        <span class="sidebar-tag-name" data-tags="haproxy"><span class="iconfont-archer">&#xe606;</span>haproxy</span>
+    
         <span class="sidebar-tag-name" data-tags="Registry"><span class="iconfont-archer">&#xe606;</span>Registry</span>
     
         <span class="sidebar-tag-name" data-tags="Harbor"><span class="iconfont-archer">&#xe606;</span>Harbor</span>
-    
-        <span class="sidebar-tag-name" data-tags="haproxy"><span class="iconfont-archer">&#xe606;</span>haproxy</span>
     
         <span class="sidebar-tag-name" data-tags="github"><span class="iconfont-archer">&#xe606;</span>github</span>
     
@@ -1422,13 +1461,13 @@ apache：使用这个Web服务的路径在(默认路径)/var/www/html/目录下�
     
         <span class="sidebar-tag-name" data-tags="replSet"><span class="iconfont-archer">&#xe606;</span>replSet</span>
     
-        <span class="sidebar-tag-name" data-tags="NFS"><span class="iconfont-archer">&#xe606;</span>NFS</span>
-    
         <span class="sidebar-tag-name" data-tags="MySQL"><span class="iconfont-archer">&#xe606;</span>MySQL</span>
     
         <span class="sidebar-tag-name" data-tags="MyISAM"><span class="iconfont-archer">&#xe606;</span>MyISAM</span>
     
         <span class="sidebar-tag-name" data-tags="InnoDB"><span class="iconfont-archer">&#xe606;</span>InnoDB</span>
+    
+        <span class="sidebar-tag-name" data-tags="NFS"><span class="iconfont-archer">&#xe606;</span>NFS</span>
     
         <span class="sidebar-tag-name" data-tags="nginx"><span class="iconfont-archer">&#xe606;</span>nginx</span>
     
@@ -1456,11 +1495,11 @@ apache：使用这个Web服务的路径在(默认路径)/var/www/html/目录下�
     
         <span class="sidebar-tag-name" data-tags="Font"><span class="iconfont-archer">&#xe606;</span>Font</span>
     
-        <span class="sidebar-tag-name" data-tags="Yum"><span class="iconfont-archer">&#xe606;</span>Yum</span>
+        <span class="sidebar-tag-name" data-tags="Optimization"><span class="iconfont-archer">&#xe606;</span>Optimization</span>
     
         <span class="sidebar-tag-name" data-tags="Source"><span class="iconfont-archer">&#xe606;</span>Source</span>
     
-        <span class="sidebar-tag-name" data-tags="Optimization"><span class="iconfont-archer">&#xe606;</span>Optimization</span>
+        <span class="sidebar-tag-name" data-tags="Yum"><span class="iconfont-archer">&#xe606;</span>Yum</span>
     
         <span class="sidebar-tag-name" data-tags="Zombie Process"><span class="iconfont-archer">&#xe606;</span>Zombie Process</span>
     
@@ -1509,11 +1548,13 @@ jsonContent:
     
         <span class="sidebar-category-name" data-categories="比特币如何达成共识-最长链的选择"><span class="iconfont-archer">&#xe60a;</span>比特币如何达成共识-最长链的选择</span>
     
+        <span class="sidebar-category-name" data-categories="Ceph修改OSD和Monitor的网络"><span class="iconfont-archer">&#xe60a;</span>Ceph修改OSD和Monitor的网络</span>
+    
         <span class="sidebar-category-name" data-categories="Ceph-Client挂载方法"><span class="iconfont-archer">&#xe60a;</span>Ceph-Client挂载方法</span>
     
-        <span class="sidebar-category-name" data-categories="分布式存储系统Ceph部署过程记录"><span class="iconfont-archer">&#xe60a;</span>分布式存储系统Ceph部署过程记录</span>
-    
         <span class="sidebar-category-name" data-categories="Ceph日常命令使用"><span class="iconfont-archer">&#xe60a;</span>Ceph日常命令使用</span>
+    
+        <span class="sidebar-category-name" data-categories="分布式存储系统Ceph部署过程记录"><span class="iconfont-archer">&#xe60a;</span>分布式存储系统Ceph部署过程记录</span>
     
         <span class="sidebar-category-name" data-categories="分布式存储系统Ceph原理介绍"><span class="iconfont-archer">&#xe60a;</span>分布式存储系统Ceph原理介绍</span>
     
@@ -1525,9 +1566,9 @@ jsonContent:
     
         <span class="sidebar-category-name" data-categories="Gitlab升级"><span class="iconfont-archer">&#xe60a;</span>Gitlab升级</span>
     
-        <span class="sidebar-category-name" data-categories="Docker镜像仓库Harbor搭建"><span class="iconfont-archer">&#xe60a;</span>Docker镜像仓库Harbor搭建</span>
-    
         <span class="sidebar-category-name" data-categories="HAProxy使用"><span class="iconfont-archer">&#xe60a;</span>HAProxy使用</span>
+    
+        <span class="sidebar-category-name" data-categories="Docker镜像仓库Harbor搭建"><span class="iconfont-archer">&#xe60a;</span>Docker镜像仓库Harbor搭建</span>
     
         <span class="sidebar-category-name" data-categories="Hexo-Github搭建博客"><span class="iconfont-archer">&#xe60a;</span>Hexo-Github搭建博客</span>
     
@@ -1539,9 +1580,9 @@ jsonContent:
     
         <span class="sidebar-category-name" data-categories="MongoDB单实例部署"><span class="iconfont-archer">&#xe60a;</span>MongoDB单实例部署</span>
     
-        <span class="sidebar-category-name" data-categories="NFS安装部署"><span class="iconfont-archer">&#xe60a;</span>NFS安装部署</span>
-    
         <span class="sidebar-category-name" data-categories="MySQL存储引擎中的MyISAM和InnoDB区别详解"><span class="iconfont-archer">&#xe60a;</span>MySQL存储引擎中的MyISAM和InnoDB区别详解</span>
+    
+        <span class="sidebar-category-name" data-categories="NFS安装部署"><span class="iconfont-archer">&#xe60a;</span>NFS安装部署</span>
     
         <span class="sidebar-category-name" data-categories="Nginx正反向代理-负载均衡"><span class="iconfont-archer">&#xe60a;</span>Nginx正反向代理-负载均衡</span>
     
@@ -1559,11 +1600,11 @@ jsonContent:
     
         <span class="sidebar-category-name" data-categories="Zabbix汉化字体修改"><span class="iconfont-archer">&#xe60a;</span>Zabbix汉化字体修改</span>
     
-        <span class="sidebar-category-name" data-categories="Zabbix-YUM安装"><span class="iconfont-archer">&#xe60a;</span>Zabbix-YUM安装</span>
+        <span class="sidebar-category-name" data-categories="Zabbix性能优化"><span class="iconfont-archer">&#xe60a;</span>Zabbix性能优化</span>
     
         <span class="sidebar-category-name" data-categories="Zabbix-编译安装"><span class="iconfont-archer">&#xe60a;</span>Zabbix-编译安装</span>
     
-        <span class="sidebar-category-name" data-categories="Zabbix性能优化"><span class="iconfont-archer">&#xe60a;</span>Zabbix性能优化</span>
+        <span class="sidebar-category-name" data-categories="Zabbix-YUM安装"><span class="iconfont-archer">&#xe60a;</span>Zabbix-YUM安装</span>
     
         <span class="sidebar-category-name" data-categories="浅析僵尸进程与孤儿进程"><span class="iconfont-archer">&#xe60a;</span>浅析僵尸进程与孤儿进程</span>
     

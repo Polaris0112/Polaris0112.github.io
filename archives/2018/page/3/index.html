@@ -290,6 +290,37 @@
     
     
         <article class="index-post">
+            <a class="abstract-title" href = "/2018/02/28/zombie-process-and-orphaned-process/" >
+                
+                    <span>浅析僵尸进程与孤儿进程</span>
+            </a>
+            <div class="abstract-content">
+                本帖子记录的是理解僵尸进程和孤儿进程的产生原因
+知识背景在被誉为UNIX编程“圣经”的一书《unix环境高级编程》中有提到僵尸进程和孤儿进程。不少同学对这两个概念会混淆，这篇文章总结一下。
+在unix/linux系统中，大多情况下，子进程是通过父进程fork创建的，注：系统调用fork，是一个比较有意思系统调用，它调用一次，返回两个值，失败返回-1,成功时在子进程返回0，父进程返回所创建子进程的pid。本文暂时只需了解这些就够了，有兴趣的同学可以查阅man文档，描述的非常清楚。
+子进程创建后，子进程的结束和父进程的运行是一个异步过程,也就是说父进程没办法预测子进程什么时候结束。 当一个子...
+            </div>
+            <div class="abstract-post-meta">
+                <!-- date  -->
+                <div class="abstract-date">
+                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/02/28</span>
+                </div>
+                <!-- tags  -->
+                
+                <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = Zombie Process>Zombie Process</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = Orphaned Process>Orphaned Process</a>
+    
+</div>
+                
+            </div>
+        </article>
+    
+    
+    
+        <article class="index-post">
             <a class="abstract-title" href = "/2018/02/27/nfs-installation/" >
                 
                     <span>NFS安装部署</span>
@@ -313,37 +344,6 @@ CentOS7
         <a class="post-tag" href="javascript:void(0);" data-tags = CentOS>CentOS</a>
     
         <a class="post-tag" href="javascript:void(0);" data-tags = NFS>NFS</a>
-    
-</div>
-                
-            </div>
-        </article>
-    
-    
-    
-        <article class="index-post">
-            <a class="abstract-title" href = "/2018/02/26/zabbix-optimization/" >
-                
-                    <span>Zabbix性能优化</span>
-            </a>
-            <div class="abstract-content">
-                本帖子记录的是从多个方面优化Zabbix性能，使其能监控大量服务器。
-背景由于计划日益增加的服务器数量，所以需要监控系统的性能可以跟上处理数量庞大的服务器数据。因此需要对Zabbix服务端进行性能优化。
-主要优化有几方面：
-一、从软件设置层面来看，Zabbix的C-S模式收集数据主要分为被动模式和主动模式，当选择被动模式的时候，是服务端根据主机列表来逐个请求数据，这样的话当客户端数量越来越大，那么服务端接受对应数据的间隔也会越来越长从而导致数据延迟。另一个模式是主动模式，在这个模式下，服务端设置好监控项之后，客户端（配置文件中设置好开启主动模式）就会请求服务端的监控列表，然后客户端会对应...
-            </div>
-            <div class="abstract-post-meta">
-                <!-- date  -->
-                <div class="abstract-date">
-                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/02/26</span>
-                </div>
-                <!-- tags  -->
-                
-                <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = Zabbix>Zabbix</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = Optimization>Optimization</a>
     
 </div>
                 
@@ -379,6 +379,37 @@ I...
         <a class="post-tag" href="javascript:void(0);" data-tags = MyISAM>MyISAM</a>
     
         <a class="post-tag" href="javascript:void(0);" data-tags = InnoDB>InnoDB</a>
+    
+</div>
+                
+            </div>
+        </article>
+    
+    
+    
+        <article class="index-post">
+            <a class="abstract-title" href = "/2018/02/26/zabbix-optimization/" >
+                
+                    <span>Zabbix性能优化</span>
+            </a>
+            <div class="abstract-content">
+                本帖子记录的是从多个方面优化Zabbix性能，使其能监控大量服务器。
+背景由于计划日益增加的服务器数量，所以需要监控系统的性能可以跟上处理数量庞大的服务器数据。因此需要对Zabbix服务端进行性能优化。
+主要优化有几方面：
+一、从软件设置层面来看，Zabbix的C-S模式收集数据主要分为被动模式和主动模式，当选择被动模式的时候，是服务端根据主机列表来逐个请求数据，这样的话当客户端数量越来越大，那么服务端接受对应数据的间隔也会越来越长从而导致数据延迟。另一个模式是主动模式，在这个模式下，服务端设置好监控项之后，客户端（配置文件中设置好开启主动模式）就会请求服务端的监控列表，然后客户端会对应...
+            </div>
+            <div class="abstract-post-meta">
+                <!-- date  -->
+                <div class="abstract-date">
+                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/02/26</span>
+                </div>
+                <!-- tags  -->
+                
+                <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = Zabbix>Zabbix</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = Optimization>Optimization</a>
     
 </div>
                 
@@ -489,6 +520,40 @@ MongoDB复制集简介   Mongodb复制集由一组Mongod实例（进程）组成
     
     
         <article class="index-post">
+            <a class="abstract-title" href = "/2018/02/24/mongodb-shard/" >
+                
+                    <span>MongoDB Sharding集群部署</span>
+            </a>
+            <div class="abstract-content">
+                本帖子记录的是MongoDB分片+副本集集群部署
+MongoDB Sharding简介  分片（sharding）是MongoDB用来将大型集合分割到不同服务器（或者说一个集群）上所采用的方法。尽管分片起源于关系型数据库分区，但MongoDB分片完全又是另一回事。和MySQL分区方案相比，MongoDB的最大区别在于它几乎能自动完成所有事情，只要告诉MongoDB要分配数据，它就能自动维护数据在不同服务器之间的均衡。 
+分片的目的  高数据量和吞吐量的数据库应用会对单机的性能造成较大压力,大的查询量会将单机的CPU耗尽,大的数据量对单机的存储压力较大,最终会耗尽系统的内存而将压力转移到磁...
+            </div>
+            <div class="abstract-post-meta">
+                <!-- date  -->
+                <div class="abstract-date">
+                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/02/24</span>
+                </div>
+                <!-- tags  -->
+                
+                <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = NoSql>NoSql</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = MongoDB>MongoDB</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = Sharding>Sharding</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = replSet>replSet</a>
+    
+</div>
+                
+            </div>
+        </article>
+    
+    
+    
+        <article class="index-post">
             <a class="abstract-title" href = "/2018/02/24/mongodb-single/" >
                 
                     <span>MongoDB单实例部署</span>
@@ -540,40 +605,6 @@ yum安装方式123456789101112131415## 以3.4.x为例## 创建yum源文件$ vim 
     
     
         <article class="index-post">
-            <a class="abstract-title" href = "/2018/02/24/mongodb-shard/" >
-                
-                    <span>MongoDB Sharding集群部署</span>
-            </a>
-            <div class="abstract-content">
-                本帖子记录的是MongoDB分片+副本集集群部署
-MongoDB Sharding简介  分片（sharding）是MongoDB用来将大型集合分割到不同服务器（或者说一个集群）上所采用的方法。尽管分片起源于关系型数据库分区，但MongoDB分片完全又是另一回事。和MySQL分区方案相比，MongoDB的最大区别在于它几乎能自动完成所有事情，只要告诉MongoDB要分配数据，它就能自动维护数据在不同服务器之间的均衡。 
-分片的目的  高数据量和吞吐量的数据库应用会对单机的性能造成较大压力,大的查询量会将单机的CPU耗尽,大的数据量对单机的存储压力较大,最终会耗尽系统的内存而将压力转移到磁...
-            </div>
-            <div class="abstract-post-meta">
-                <!-- date  -->
-                <div class="abstract-date">
-                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/02/24</span>
-                </div>
-                <!-- tags  -->
-                
-                <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = NoSql>NoSql</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = MongoDB>MongoDB</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = Sharding>Sharding</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = replSet>replSet</a>
-    
-</div>
-                
-            </div>
-        </article>
-    
-    
-    
-        <article class="index-post">
             <a class="abstract-title" href = "/2018/02/23/haproxy/" >
                 
                     <span>HAProxy日常使用说明</span>
@@ -595,36 +626,6 @@ HAProxy实现了一种事件驱动, 单一进程模型，此模型支持非常�
                 <div class= abstract-tags >
     
         <a class="post-tag" href="javascript:void(0);" data-tags = haproxy>haproxy</a>
-    
-</div>
-                
-            </div>
-        </article>
-    
-    
-    
-        <article class="index-post">
-            <a class="abstract-title" href = "/2018/02/22/certbot/" >
-                
-                    <span>Certbot安装/部分问题解决方案</span>
-            </a>
-            <div class="abstract-content">
-                本帖子记录的是Nginx + Certbot的安装过程以及在阿里云CentOS7上部署Certbot遇到的问题以及解决方法
-Using CentOS 7/RHEL 7安装Certbot安装包已经包含在EPEL(Extra Packages for Enterprise Linux)源中，所以如果安装Certbot需要先安装EPEL源。
-12345## 在CentOS/RHEL 7中使用$ yum -y install yum-utils$ yum-config-manager --enable rhui-REGION-rhel-server-extras rhui-REGION-rhel...
-            </div>
-            <div class="abstract-post-meta">
-                <!-- date  -->
-                <div class="abstract-date">
-                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/02/22</span>
-                </div>
-                <!-- tags  -->
-                
-                <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = Certbot>Certbot</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = https>https</a>
     
 </div>
                 
@@ -1207,7 +1208,42 @@ Using CentOS 7/RHEL 7安装Certbot安装包已经包含在EPEL(Extra Packages fo
     
     
     
-    <div class="total-archive"> Total : 34 </div>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="total-archive"> Total : 35 </div>
     
     <div class="post-archive">
     
@@ -1216,6 +1252,11 @@ Using CentOS 7/RHEL 7安装Certbot安装包已经包含在EPEL(Extra Packages fo
     
     <div class="archive-year"> 2018 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/17</span><a class="archive-post-title" href= "/2018/03/17/ceph-change-subnet/" >Ceph修改OSD和Monitor的网络</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -1334,12 +1375,12 @@ Using CentOS 7/RHEL 7安装Certbot安装包已经包含在EPEL(Extra Packages fo
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">02/25</span><a class="archive-post-title" href= "/2018/02/25/zabbix-yum-installation/" >Zabbix YUM方式部署</a>
+            <span class="archive-post-date">02/25</span><a class="archive-post-title" href= "/2018/02/25/zabbix-source-installation/" >Zabbix 编译安装部署</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">02/25</span><a class="archive-post-title" href= "/2018/02/25/zabbix-source-installation/" >Zabbix 编译安装部署</a>
+            <span class="archive-post-date">02/25</span><a class="archive-post-title" href= "/2018/02/25/zabbix-yum-installation/" >Zabbix YUM方式部署</a>
         </li>
     
     
@@ -1349,12 +1390,12 @@ Using CentOS 7/RHEL 7安装Certbot安装包已经包含在EPEL(Extra Packages fo
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">02/24</span><a class="archive-post-title" href= "/2018/02/24/mongodb-single/" >MongoDB单实例部署</a>
+            <span class="archive-post-date">02/24</span><a class="archive-post-title" href= "/2018/02/24/mongodb-shard/" >MongoDB Sharding集群部署</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">02/24</span><a class="archive-post-title" href= "/2018/02/24/mongodb-shard/" >MongoDB Sharding集群部署</a>
+            <span class="archive-post-date">02/24</span><a class="archive-post-title" href= "/2018/02/24/mongodb-single/" >MongoDB单实例部署</a>
         </li>
     
     
@@ -1414,11 +1455,11 @@ Using CentOS 7/RHEL 7安装Certbot安装包已经包含在EPEL(Extra Packages fo
     
         <span class="sidebar-tag-name" data-tags="Migration"><span class="iconfont-archer">&#xe606;</span>Migration</span>
     
+        <span class="sidebar-tag-name" data-tags="haproxy"><span class="iconfont-archer">&#xe606;</span>haproxy</span>
+    
         <span class="sidebar-tag-name" data-tags="Registry"><span class="iconfont-archer">&#xe606;</span>Registry</span>
     
         <span class="sidebar-tag-name" data-tags="Harbor"><span class="iconfont-archer">&#xe606;</span>Harbor</span>
-    
-        <span class="sidebar-tag-name" data-tags="haproxy"><span class="iconfont-archer">&#xe606;</span>haproxy</span>
     
         <span class="sidebar-tag-name" data-tags="github"><span class="iconfont-archer">&#xe606;</span>github</span>
     
@@ -1440,13 +1481,13 @@ Using CentOS 7/RHEL 7安装Certbot安装包已经包含在EPEL(Extra Packages fo
     
         <span class="sidebar-tag-name" data-tags="replSet"><span class="iconfont-archer">&#xe606;</span>replSet</span>
     
-        <span class="sidebar-tag-name" data-tags="NFS"><span class="iconfont-archer">&#xe606;</span>NFS</span>
-    
         <span class="sidebar-tag-name" data-tags="MySQL"><span class="iconfont-archer">&#xe606;</span>MySQL</span>
     
         <span class="sidebar-tag-name" data-tags="MyISAM"><span class="iconfont-archer">&#xe606;</span>MyISAM</span>
     
         <span class="sidebar-tag-name" data-tags="InnoDB"><span class="iconfont-archer">&#xe606;</span>InnoDB</span>
+    
+        <span class="sidebar-tag-name" data-tags="NFS"><span class="iconfont-archer">&#xe606;</span>NFS</span>
     
         <span class="sidebar-tag-name" data-tags="nginx"><span class="iconfont-archer">&#xe606;</span>nginx</span>
     
@@ -1474,11 +1515,11 @@ Using CentOS 7/RHEL 7安装Certbot安装包已经包含在EPEL(Extra Packages fo
     
         <span class="sidebar-tag-name" data-tags="Font"><span class="iconfont-archer">&#xe606;</span>Font</span>
     
-        <span class="sidebar-tag-name" data-tags="Yum"><span class="iconfont-archer">&#xe606;</span>Yum</span>
+        <span class="sidebar-tag-name" data-tags="Optimization"><span class="iconfont-archer">&#xe606;</span>Optimization</span>
     
         <span class="sidebar-tag-name" data-tags="Source"><span class="iconfont-archer">&#xe606;</span>Source</span>
     
-        <span class="sidebar-tag-name" data-tags="Optimization"><span class="iconfont-archer">&#xe606;</span>Optimization</span>
+        <span class="sidebar-tag-name" data-tags="Yum"><span class="iconfont-archer">&#xe606;</span>Yum</span>
     
         <span class="sidebar-tag-name" data-tags="Zombie Process"><span class="iconfont-archer">&#xe606;</span>Zombie Process</span>
     
@@ -1527,11 +1568,13 @@ jsonContent:
     
         <span class="sidebar-category-name" data-categories="比特币如何达成共识-最长链的选择"><span class="iconfont-archer">&#xe60a;</span>比特币如何达成共识-最长链的选择</span>
     
+        <span class="sidebar-category-name" data-categories="Ceph修改OSD和Monitor的网络"><span class="iconfont-archer">&#xe60a;</span>Ceph修改OSD和Monitor的网络</span>
+    
         <span class="sidebar-category-name" data-categories="Ceph-Client挂载方法"><span class="iconfont-archer">&#xe60a;</span>Ceph-Client挂载方法</span>
     
-        <span class="sidebar-category-name" data-categories="分布式存储系统Ceph部署过程记录"><span class="iconfont-archer">&#xe60a;</span>分布式存储系统Ceph部署过程记录</span>
-    
         <span class="sidebar-category-name" data-categories="Ceph日常命令使用"><span class="iconfont-archer">&#xe60a;</span>Ceph日常命令使用</span>
+    
+        <span class="sidebar-category-name" data-categories="分布式存储系统Ceph部署过程记录"><span class="iconfont-archer">&#xe60a;</span>分布式存储系统Ceph部署过程记录</span>
     
         <span class="sidebar-category-name" data-categories="分布式存储系统Ceph原理介绍"><span class="iconfont-archer">&#xe60a;</span>分布式存储系统Ceph原理介绍</span>
     
@@ -1543,9 +1586,9 @@ jsonContent:
     
         <span class="sidebar-category-name" data-categories="Gitlab升级"><span class="iconfont-archer">&#xe60a;</span>Gitlab升级</span>
     
-        <span class="sidebar-category-name" data-categories="Docker镜像仓库Harbor搭建"><span class="iconfont-archer">&#xe60a;</span>Docker镜像仓库Harbor搭建</span>
-    
         <span class="sidebar-category-name" data-categories="HAProxy使用"><span class="iconfont-archer">&#xe60a;</span>HAProxy使用</span>
+    
+        <span class="sidebar-category-name" data-categories="Docker镜像仓库Harbor搭建"><span class="iconfont-archer">&#xe60a;</span>Docker镜像仓库Harbor搭建</span>
     
         <span class="sidebar-category-name" data-categories="Hexo-Github搭建博客"><span class="iconfont-archer">&#xe60a;</span>Hexo-Github搭建博客</span>
     
@@ -1557,9 +1600,9 @@ jsonContent:
     
         <span class="sidebar-category-name" data-categories="MongoDB单实例部署"><span class="iconfont-archer">&#xe60a;</span>MongoDB单实例部署</span>
     
-        <span class="sidebar-category-name" data-categories="NFS安装部署"><span class="iconfont-archer">&#xe60a;</span>NFS安装部署</span>
-    
         <span class="sidebar-category-name" data-categories="MySQL存储引擎中的MyISAM和InnoDB区别详解"><span class="iconfont-archer">&#xe60a;</span>MySQL存储引擎中的MyISAM和InnoDB区别详解</span>
+    
+        <span class="sidebar-category-name" data-categories="NFS安装部署"><span class="iconfont-archer">&#xe60a;</span>NFS安装部署</span>
     
         <span class="sidebar-category-name" data-categories="Nginx正反向代理-负载均衡"><span class="iconfont-archer">&#xe60a;</span>Nginx正反向代理-负载均衡</span>
     
@@ -1577,11 +1620,11 @@ jsonContent:
     
         <span class="sidebar-category-name" data-categories="Zabbix汉化字体修改"><span class="iconfont-archer">&#xe60a;</span>Zabbix汉化字体修改</span>
     
-        <span class="sidebar-category-name" data-categories="Zabbix-YUM安装"><span class="iconfont-archer">&#xe60a;</span>Zabbix-YUM安装</span>
+        <span class="sidebar-category-name" data-categories="Zabbix性能优化"><span class="iconfont-archer">&#xe60a;</span>Zabbix性能优化</span>
     
         <span class="sidebar-category-name" data-categories="Zabbix-编译安装"><span class="iconfont-archer">&#xe60a;</span>Zabbix-编译安装</span>
     
-        <span class="sidebar-category-name" data-categories="Zabbix性能优化"><span class="iconfont-archer">&#xe60a;</span>Zabbix性能优化</span>
+        <span class="sidebar-category-name" data-categories="Zabbix-YUM安装"><span class="iconfont-archer">&#xe60a;</span>Zabbix-YUM安装</span>
     
         <span class="sidebar-category-name" data-categories="浅析僵尸进程与孤儿进程"><span class="iconfont-archer">&#xe60a;</span>浅析僵尸进程与孤儿进程</span>
     
