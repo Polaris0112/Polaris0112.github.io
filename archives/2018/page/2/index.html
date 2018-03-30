@@ -290,6 +290,48 @@
     
     
         <article class="index-post">
+            <a class="abstract-title" href = "/2018/03/10/openstack-packstack-installation/" >
+                
+                    <span>通过packstack快速安装openstack</span>
+            </a>
+            <div class="abstract-content">
+                本帖子记录的是通过packstack快速安装openstack
+环境准备
+系统：CentOS 7 最小安装版
+
+CPU：2+
+
+内存：6GB+
+
+硬盘：50GB+
+
+网卡：2个
+
+
+配置pike版本openstack源（此处采用阿里源）1234567$ cat &lt;&lt;END &gt;/etc/yum.repos.d/pike.repo[pike]name=pikebaseurl=http://mirrors.aliyun.com/centos/7.4.1708/cloud/x86_64/openstack-pike/enabled=1gpgcheck=0END
+安装epel源1...
+            </div>
+            <div class="abstract-post-meta">
+                <!-- date  -->
+                <div class="abstract-date">
+                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/03/10</span>
+                </div>
+                <!-- tags  -->
+                
+                <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = OpenStack>OpenStack</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = PackStack>PackStack</a>
+    
+</div>
+                
+            </div>
+        </article>
+    
+    
+    
+        <article class="index-post">
             <a class="abstract-title" href = "/2018/03/09/open-falcon-install/" >
                 
                     <span>open-falcon安装部署教程</span>
@@ -411,6 +453,38 @@ Supervisor只能运行于Python 2.x的环境，但子进程可以为其他任意
     
     
         <article class="index-post">
+            <a class="abstract-title" href = "/2018/03/03/blockchain-selection/" >
+                
+                    <span>比特币如何达成共识 - 最长链的选择</span>
+            </a>
+            <div class="abstract-content">
+                本帖子记录的是比特币如何达成共识 - 最长链的选择
+比特币没有中心机构，几乎所有的完整节点都有一份公共总帐本，那么大家如何达成共识：确认哪一份才是公认权威的总账本呢？
+为什么要遵守协议这其实是一个经济问题，在经济活动中的每个人都是自私自利的，追求的是利益的最大化，一个节点工作量只有在其他的节点认同其是有效的（打包的新区块，其他的节点只有验证通过才会加入到区块链中，并在网络上传播），才能够过得收益，而只有遵守规则才会得到其他的节点认同。因此，基于逐利，节点就会自发的遵守协议。共识就是数以万计的独立节点遵守了简单的规则（通过异步交互）自发形成的。
+
+共识：共同遵守的协议规范
+
+去中心化共识在...
+            </div>
+            <div class="abstract-post-meta">
+                <!-- date  -->
+                <div class="abstract-date">
+                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/03/03</span>
+                </div>
+                <!-- tags  -->
+                
+                <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = Blockchain>Blockchain</a>
+    
+</div>
+                
+            </div>
+        </article>
+    
+    
+    
+        <article class="index-post">
             <a class="abstract-title" href = "/2018/03/03/blockchain-merkle/" >
                 
                     <span>比特币区块结构 Merkle 树及简单支付验证分析</span>
@@ -444,23 +518,20 @@ Supervisor只能运行于Python 2.x的环境，但子进程可以为其他任意
     
     
         <article class="index-post">
-            <a class="abstract-title" href = "/2018/03/03/blockchain-selection/" >
+            <a class="abstract-title" href = "/2018/03/02/blockchain-accounting/" >
                 
-                    <span>比特币如何达成共识 - 最长链的选择</span>
+                    <span>区块链记账原理</span>
             </a>
             <div class="abstract-content">
-                本帖子记录的是比特币如何达成共识 - 最长链的选择
-比特币没有中心机构，几乎所有的完整节点都有一份公共总帐本，那么大家如何达成共识：确认哪一份才是公认权威的总账本呢？
-为什么要遵守协议这其实是一个经济问题，在经济活动中的每个人都是自私自利的，追求的是利益的最大化，一个节点工作量只有在其他的节点认同其是有效的（打包的新区块，其他的节点只有验证通过才会加入到区块链中，并在网络上传播），才能够过得收益，而只有遵守规则才会得到其他的节点认同。因此，基于逐利，节点就会自发的遵守协议。共识就是数以万计的独立节点遵守了简单的规则（通过异步交互）自发形成的。
-
-共识：共同遵守的协议规范
-
-去中心化共识在...
+                本帖子记录的是区块链记账原理
+概念区块链(1.0)是一个基于密码学安全的分布式账本，是一个方便验证，不可篡改的账本。通常认为与智能合约相结合的区块链为区块链2.0, 如以太坊是典型的区块链2.0很多人只了解过比特币，不知道区块链，比特币实际是一个使用了区块链技术的应用，只是比特币当前太热，把区块链技术的光芒给掩盖了。区块链才是未来，期望各位开发人员少关心币价，多关心技术。本文将讲解区块链1.0技术是如何实现的。
+哈希函数在讲区块链记账之前，先说明一下哈希函数。哈希函数：Hash(原始信息) = 摘要信息原始信息可以是任意的信息, hash之后会得到一个简短的摘要信息
+哈希函数有几个特点:...
             </div>
             <div class="abstract-post-meta">
                 <!-- date  -->
                 <div class="abstract-date">
-                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/03/03</span>
+                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/03/02</span>
                 </div>
                 <!-- tags  -->
                 
@@ -512,35 +583,6 @@ Supervisor只能运行于Python 2.x的环境，但子进程可以为其他任意
     
     
         <article class="index-post">
-            <a class="abstract-title" href = "/2018/03/02/blockchain-accounting/" >
-                
-                    <span>区块链记账原理</span>
-            </a>
-            <div class="abstract-content">
-                本帖子记录的是区块链记账原理
-概念区块链(1.0)是一个基于密码学安全的分布式账本，是一个方便验证，不可篡改的账本。通常认为与智能合约相结合的区块链为区块链2.0, 如以太坊是典型的区块链2.0很多人只了解过比特币，不知道区块链，比特币实际是一个使用了区块链技术的应用，只是比特币当前太热，把区块链技术的光芒给掩盖了。区块链才是未来，期望各位开发人员少关心币价，多关心技术。本文将讲解区块链1.0技术是如何实现的。
-哈希函数在讲区块链记账之前，先说明一下哈希函数。哈希函数：Hash(原始信息) = 摘要信息原始信息可以是任意的信息, hash之后会得到一个简短的摘要信息
-哈希函数有几个特点:...
-            </div>
-            <div class="abstract-post-meta">
-                <!-- date  -->
-                <div class="abstract-date">
-                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/03/02</span>
-                </div>
-                <!-- tags  -->
-                
-                <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = Blockchain>Blockchain</a>
-    
-</div>
-                
-            </div>
-        </article>
-    
-    
-    
-        <article class="index-post">
             <a class="abstract-title" href = "/2018/03/01/gitlab-update/" >
                 
                     <span>Gitlab踩坑升级过程</span>
@@ -569,43 +611,6 @@ Gitlab部署
         <a class="post-tag" href="javascript:void(0);" data-tags = Update>Update</a>
     
         <a class="post-tag" href="javascript:void(0);" data-tags = Migration>Migration</a>
-    
-</div>
-                
-            </div>
-        </article>
-    
-    
-    
-        <article class="index-post">
-            <a class="abstract-title" href = "/2018/02/28/zabbix-fonts/" >
-                
-                    <span>Zabbix汉化字体修改</span>
-            </a>
-            <div class="abstract-content">
-                本帖子记录的是Zabbix3.4安装后，设置为中文环境，但是查看”图形”监控的时候图形下方的图例中文也会出现乱码（方块），所以需要修改字体文件来显示正常中文。
-原因Zabbix的图形显示用的字体是dejavu，不支持中文。
-解决方法Zabbix3.2.x以及之前的解决方法这个版本之前的都是放在Web服务的文件夹中，比如
-
-nginx：使用这个Web服务的路径在(yum安装)/usr/share/nginx/html/目录下，(编译安装)自定义目录路径下。
-
-apache：使用这个Web服务的路径在(默认路径)/var/www/html/目录下。
-
-
-这两个Web服务的文件下一般都会有一个...
-            </div>
-            <div class="abstract-post-meta">
-                <!-- date  -->
-                <div class="abstract-date">
-                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/02/28</span>
-                </div>
-                <!-- tags  -->
-                
-                <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = Zabbix>Zabbix</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = Font>Font</a>
     
 </div>
                 
@@ -1223,7 +1228,30 @@ apache：使用这个Web服务的路径在(默认路径)/var/www/html/目录下�
     
     
     
-    <div class="total-archive"> Total : 35 </div>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="total-archive"> Total : 36 </div>
     
     <div class="post-archive">
     
@@ -1232,6 +1260,11 @@ apache：使用这个Web服务的路径在(默认路径)/var/www/html/目录下�
     
     <div class="archive-year"> 2018 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/18</span><a class="archive-post-title" href= "/2018/03/18/docker-tech/" >Docker核心技术与实现原理</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -1275,22 +1308,22 @@ apache：使用这个Web服务的路径在(默认路径)/var/www/html/目录下�
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">03/10</span><a class="archive-post-title" href= "/2018/03/10/openstack-packstack-installation/" >通过packstack快速安装openstack</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
             <span class="archive-post-date">03/10</span><a class="archive-post-title" href= "/2018/03/10/openstack-devstack-installation/" >通过devstack安装部署OpenStack</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">03/09</span><a class="archive-post-title" href= "/2018/03/09/open-falcon-install/" >open-falcon安装部署教程</a>
+            <span class="archive-post-date">03/10</span><a class="archive-post-title" href= "/2018/03/10/openstack-packstack-installation/" >通过packstack快速安装openstack</a>
         </li>
     
     
         <li class="archive-post-item">
             <span class="archive-post-date">03/09</span><a class="archive-post-title" href= "/2018/03/09/openstack-install-introduction/" >OpenStack安装部署</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/09</span><a class="archive-post-title" href= "/2018/03/09/open-falcon-install/" >open-falcon安装部署教程</a>
         </li>
     
     
@@ -1355,12 +1388,12 @@ apache：使用这个Web服务的路径在(默认路径)/var/www/html/目录下�
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">02/25</span><a class="archive-post-title" href= "/2018/02/25/zabbix-source-installation/" >Zabbix 编译安装部署</a>
+            <span class="archive-post-date">02/25</span><a class="archive-post-title" href= "/2018/02/25/zabbix-yum-installation/" >Zabbix YUM方式部署</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">02/25</span><a class="archive-post-title" href= "/2018/02/25/zabbix-yum-installation/" >Zabbix YUM方式部署</a>
+            <span class="archive-post-date">02/25</span><a class="archive-post-title" href= "/2018/02/25/zabbix-source-installation/" >Zabbix 编译安装部署</a>
         </li>
     
     
@@ -1481,9 +1514,9 @@ apache：使用这个Web服务的路径在(默认路径)/var/www/html/目录下�
     
         <span class="sidebar-tag-name" data-tags="DevStack"><span class="iconfont-archer">&#xe606;</span>DevStack</span>
     
-        <span class="sidebar-tag-name" data-tags="Installation"><span class="iconfont-archer">&#xe606;</span>Installation</span>
-    
         <span class="sidebar-tag-name" data-tags="PackStack"><span class="iconfont-archer">&#xe606;</span>PackStack</span>
+    
+        <span class="sidebar-tag-name" data-tags="Installation"><span class="iconfont-archer">&#xe606;</span>Installation</span>
     
         <span class="sidebar-tag-name" data-tags="$$"><span class="iconfont-archer">&#xe606;</span>$$</span>
     
@@ -1497,9 +1530,9 @@ apache：使用这个Web服务的路径在(默认路径)/var/www/html/目录下�
     
         <span class="sidebar-tag-name" data-tags="Optimization"><span class="iconfont-archer">&#xe606;</span>Optimization</span>
     
-        <span class="sidebar-tag-name" data-tags="Source"><span class="iconfont-archer">&#xe606;</span>Source</span>
-    
         <span class="sidebar-tag-name" data-tags="Yum"><span class="iconfont-archer">&#xe606;</span>Yum</span>
+    
+        <span class="sidebar-tag-name" data-tags="Source"><span class="iconfont-archer">&#xe606;</span>Source</span>
     
         <span class="sidebar-tag-name" data-tags="Zombie Process"><span class="iconfont-archer">&#xe606;</span>Zombie Process</span>
     
@@ -1538,15 +1571,15 @@ jsonContent:
         <div class="sidebar-panel-categories">
     <div class="sidebar-categories-name">
     
-        <span class="sidebar-category-name" data-categories="区块链记账原理"><span class="iconfont-archer">&#xe60a;</span>区块链记账原理</span>
-    
         <span class="sidebar-category-name" data-categories="比特币区块结构-Merkle-树及简单支付验证分析"><span class="iconfont-archer">&#xe60a;</span>比特币区块结构-Merkle-树及简单支付验证分析</span>
+    
+        <span class="sidebar-category-name" data-categories="区块链记账原理"><span class="iconfont-archer">&#xe60a;</span>区块链记账原理</span>
     
         <span class="sidebar-category-name" data-categories="比特币如何挖矿（挖矿原理）-工作量证明"><span class="iconfont-archer">&#xe60a;</span>比特币如何挖矿（挖矿原理）-工作量证明</span>
     
-        <span class="sidebar-category-name" data-categories="用Python从0开始创建一个区块链"><span class="iconfont-archer">&#xe60a;</span>用Python从0开始创建一个区块链</span>
-    
         <span class="sidebar-category-name" data-categories="比特币如何达成共识-最长链的选择"><span class="iconfont-archer">&#xe60a;</span>比特币如何达成共识-最长链的选择</span>
+    
+        <span class="sidebar-category-name" data-categories="用Python从0开始创建一个区块链"><span class="iconfont-archer">&#xe60a;</span>用Python从0开始创建一个区块链</span>
     
         <span class="sidebar-category-name" data-categories="Ceph修改OSD和Monitor的网络"><span class="iconfont-archer">&#xe60a;</span>Ceph修改OSD和Monitor的网络</span>
     
@@ -1563,6 +1596,8 @@ jsonContent:
         <span class="sidebar-category-name" data-categories="Certbot安装-部分问题解决方案"><span class="iconfont-archer">&#xe60a;</span>Certbot安装-部分问题解决方案</span>
     
         <span class="sidebar-category-name" data-categories="Docker安装部署教程"><span class="iconfont-archer">&#xe60a;</span>Docker安装部署教程</span>
+    
+        <span class="sidebar-category-name" data-categories="Docker核心技术与实现原理"><span class="iconfont-archer">&#xe60a;</span>Docker核心技术与实现原理</span>
     
         <span class="sidebar-category-name" data-categories="Gitlab升级"><span class="iconfont-archer">&#xe60a;</span>Gitlab升级</span>
     
@@ -1590,9 +1625,9 @@ jsonContent:
     
         <span class="sidebar-category-name" data-categories="通过devstack安装部署OpenStack"><span class="iconfont-archer">&#xe60a;</span>通过devstack安装部署OpenStack</span>
     
-        <span class="sidebar-category-name" data-categories="OpenStack安装部署教程"><span class="iconfont-archer">&#xe60a;</span>OpenStack安装部署教程</span>
-    
         <span class="sidebar-category-name" data-categories="通过packstack快速安装openstack"><span class="iconfont-archer">&#xe60a;</span>通过packstack快速安装openstack</span>
+    
+        <span class="sidebar-category-name" data-categories="OpenStack安装部署教程"><span class="iconfont-archer">&#xe60a;</span>OpenStack安装部署教程</span>
     
         <span class="sidebar-category-name" data-categories="4-0-8"><span class="iconfont-archer">&#xe60a;</span>4-0-8</span>
     
@@ -1602,9 +1637,9 @@ jsonContent:
     
         <span class="sidebar-category-name" data-categories="Zabbix性能优化"><span class="iconfont-archer">&#xe60a;</span>Zabbix性能优化</span>
     
-        <span class="sidebar-category-name" data-categories="Zabbix-编译安装"><span class="iconfont-archer">&#xe60a;</span>Zabbix-编译安装</span>
-    
         <span class="sidebar-category-name" data-categories="Zabbix-YUM安装"><span class="iconfont-archer">&#xe60a;</span>Zabbix-YUM安装</span>
+    
+        <span class="sidebar-category-name" data-categories="Zabbix-编译安装"><span class="iconfont-archer">&#xe60a;</span>Zabbix-编译安装</span>
     
         <span class="sidebar-category-name" data-categories="浅析僵尸进程与孤儿进程"><span class="iconfont-archer">&#xe60a;</span>浅析僵尸进程与孤儿进程</span>
     

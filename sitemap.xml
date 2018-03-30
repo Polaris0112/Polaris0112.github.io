@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://yoursite.com/2018/03/18/docker-tech/</loc>
+    
+    <lastmod>2018-03-30T09:32:08.548Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://yoursite.com/2018/03/17/ceph-change-subnet/</loc>
     
     <lastmod>2018-03-29T07:16:42.976Z</lastmod>
