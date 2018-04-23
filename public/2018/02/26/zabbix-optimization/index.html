@@ -1,0 +1,1590 @@
+<!DOCTYPE html>
+<html>
+    <!-- title -->
+
+
+
+
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" >
+    <title>Zabbix性能优化 · Jayden&#39;s Blog</title>
+    <style type="text/css">
+    @font-face {
+        font-family: 'Oswald-Regular';
+        src: url("/font/Oswald-Regular.ttf");
+    }
+
+    body {
+        margin: 0;
+    }
+
+    header,
+    footer,
+    .back-top,
+    .sidebar,
+    .container,
+    .site-intro-meta,
+    .toc-wrapper {
+        display: none;
+    }
+
+    .site-intro {
+        position: relative;
+        z-index: 3;
+        width: 100%;
+        height: 50vh;
+        overflow: hidden;
+        box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.7);
+    }
+
+    .site-intro-placeholder {
+        position: absolute;
+        z-index: -2;
+        top: 0;
+        left: 0;
+        width: calc(100% + 300px);
+        height: 100%;
+        background: repeating-linear-gradient(-45deg, #444 0, #444 80px, #333 80px, #333 160px);
+        background-position: center center;
+        transform: translate3d(-226px, 0, 0);
+        animation: gradient-move 2.5s ease-out 0s 1;
+    }
+
+    @keyframes gradient-move {
+        0% {
+            transform: translate3d(-226px, 0, 0);
+        }
+        100% {
+            transform: translate3d(0, 0, 0);
+        }
+    }
+
+</style>
+
+    <link rel="preload" href= /css/style.css?v=20180228 as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="stylesheet" type="text/css" href= /css/mobile.css?v=20180228 media="(max-width: 980px)"/>
+    <link rel="icon" href= /assets/favicon.ico>
+    <script>
+  // load webfont-loader async, and add callback function
+  function async(u, c) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+  
+  // get user agent
+  var browser = {
+    versions: function () {
+      var u = window.navigator.userAgent;
+      return {
+        userAgent: u,
+        trident: u.indexOf('Trident') > -1, //IE内核
+        presto: u.indexOf('Presto') > -1, //opera内核
+        webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+        gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+        mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+        ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+        android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+        iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
+        iPad: u.indexOf('iPad') > -1, //是否为iPad
+        webApp: u.indexOf('Safari') == -1, //是否为web应用程序，没有头部与底部
+        weixin: u.indexOf('MicroMessenger') == -1, //是否为微信浏览器
+        uc: u.indexOf('UCBrowser') > -1 //是否为android下的UC浏览器
+      };
+    }()
+  }
+  console.log("userAgent:" + browser.versions.userAgent);
+
+  // callback
+  function fontLoaded() {
+    console.log('font loaded');
+    if (document.getElementsByClassName('site-intro-meta')) {
+      document.getElementsByClassName('intro-title')[0].classList.add('intro-fade-in');
+      document.getElementsByClassName('intro-subtitle')[0].classList.add('intro-fade-in');
+      var postIntroTags = document.getElementsByClassName('post-intro-tags')[0],
+        postIntroMeat = document.getElementsByClassName('post-intro-meta')[0];
+      if (postIntroTags) {
+        postIntroTags.classList.add('post-fade-in');
+      }
+      if (postIntroMeat) {
+        postIntroMeat.classList.add('post-fade-in');
+      }
+    }
+  }
+
+  // UC不支持跨域，所以直接显示
+  function asyncCb(){
+    if (browser.versions.uc) {
+      console.log("UCBrowser");
+      fontLoaded();
+    } else {
+      WebFont.load({
+        custom: {
+          families: ['Oswald-Regular']
+        },
+        loading: function () {  //所有字体开始加载
+          // console.log('loading');
+        },
+        active: function () {  //所有字体已渲染
+          fontLoaded();
+        },
+        inactive: function () { //字体预加载失败，无效字体或浏览器不支持加载
+          console.log('inactive: timeout');
+          fontLoaded();
+        },
+        timeout: 5000 // Set the timeout to two seconds
+      });
+    }
+  }
+
+  async("https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js", asyncCb)
+</script>
+    <script>
+        (function (w) {
+            "use strict";
+            // rel=preload support test
+            if (!w.loadCSS) {
+                w.loadCSS = function () { };
+            }
+            // define on the loadCSS obj
+            var rp = loadCSS.relpreload = {};
+            // rel=preload feature support test
+            // runs once and returns a function for compat purposes
+            rp.support = (function () {
+                var ret;
+                try {
+                    ret = w.document.createElement("link").relList.supports("preload");
+                } catch (e) {
+                    ret = false;
+                }
+                return function () {
+                    return ret;
+                };
+            })();
+
+            // if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+            // then change that media back to its intended value on load
+            rp.bindMediaToggle = function (link) {
+                // remember existing media attr for ultimate state, or default to 'all'
+                var finalMedia = link.media || "all";
+
+                function enableStylesheet() {
+                    link.media = finalMedia;
+                }
+
+                // bind load handlers to enable media
+                if (link.addEventListener) {
+                    link.addEventListener("load", enableStylesheet);
+                } else if (link.attachEvent) {
+                    link.attachEvent("onload", enableStylesheet);
+                }
+
+                // Set rel and non-applicable media type to start an async request
+                // note: timeout allows this to happen async to let rendering continue in IE
+                setTimeout(function () {
+                    link.rel = "stylesheet";
+                    link.media = "only x";
+                });
+                // also enable media after 3 seconds,
+                // which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+                setTimeout(enableStylesheet, 3000);
+            };
+
+            // loop through link elements in DOM
+            rp.poly = function () {
+                // double check this to prevent external calls from running
+                if (rp.support()) {
+                    return;
+                }
+                var links = w.document.getElementsByTagName("link");
+                for (var i = 0; i < links.length; i++) {
+                    var link = links[i];
+                    // qualify links to those with rel=preload and as=style attrs
+                    if (link.rel === "preload" && link.getAttribute("as") === "style" && !link.getAttribute("data-loadcss")) {
+                        // prevent rerunning on link
+                        link.setAttribute("data-loadcss", true);
+                        // bind listeners to toggle media back
+                        rp.bindMediaToggle(link);
+                    }
+                }
+            };
+
+            // if unsupported, run the polyfill
+            if (!rp.support()) {
+                // run once at least
+                rp.poly();
+
+                // rerun poly on an interval until onload
+                var run = w.setInterval(rp.poly, 500);
+                if (w.addEventListener) {
+                    w.addEventListener("load", function () {
+                        rp.poly();
+                        w.clearInterval(run);
+                    });
+                } else if (w.attachEvent) {
+                    w.attachEvent("onload", function () {
+                        rp.poly();
+                        w.clearInterval(run);
+                    });
+                }
+            }
+            // commonjs
+            if (typeof exports !== "undefined") {
+                exports.loadCSS = loadCSS;
+            }
+            else {
+                w.loadCSS = loadCSS;
+            }
+        }(typeof global !== "undefined" ? global : this));
+    </script>
+    <script src="//cdn.staticfile.org/jquery/3.2.1/jquery.min.js" defer></script>
+    <script src="/scripts/main.js" defer></script>
+    <!-- 百度统计  -->
+    
+    <!-- 谷歌统计  -->
+    
+</head>
+
+    
+        <body class="post-body">
+    
+    
+<header class="header">
+
+    <div class="read-progress"></div>
+    <div class="header-sidebar-menu">&#xe775;</div>
+    <!-- post页的toggle banner  -->
+    
+    <div class="banner">
+            <div class="blog-title">
+                <a href="/" >Jayden&#39;s Website.</a>
+            </div>
+            <div class="post-title">
+                <a href="#" class="post-name">Zabbix性能优化</a>
+            </div>
+    </div>
+    
+    <a class="home-link" href=/>Jayden's Website.</a>
+</header>
+    <div class="wrapper">
+        <div class="site-intro">
+    
+    <!-- 主页  -->
+    
+    
+    <!-- 404页  -->
+            
+    <div class="site-intro-img" style="background-image: url(/intro/post-bg.jpg)"></div>
+    <div class="site-intro-placeholder"></div>
+    <div class="site-intro-meta">
+        <!-- 标题  -->
+        <h1 class="intro-title">
+            <!-- 主页  -->
+            
+            Zabbix性能优化
+            <!-- 404 -->
+            
+        </h1>
+        <!-- 副标题 -->
+        <p class="intro-subtitle">
+            <!-- 主页副标题  -->
+            
+            
+            <!-- 404 -->
+            
+        </p>
+        <!-- 文章页meta -->
+        
+            <!-- 文章页标签  -->
+            
+                <div class= post-intro-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = Zabbix>Zabbix</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = Optimization>Optimization</a>
+    
+</div>
+            
+            <div class="post-intro-meta">
+                <span class="post-intro-calander iconfont-archer">&#xe676;</span>
+                <span class="post-intro-time">2018/02/26</span>
+                
+                <span id="busuanzi_container_page_pv" class="busuanzi-pv">
+                    <span class="iconfont-archer">&#xe602;</span>
+                    <span id="busuanzi_value_page_pv"></span>
+                </span>
+                
+                <span class="shareWrapper">
+                    <span class="iconfont-archer shareIcon">&#xe71d;</span>
+                    <span class="shareText">Share</span>
+                    <ul class="shareList">
+                        <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
+                            <div class="share-qrcode"></div>
+                        </li>
+                        <li class="iconfont-archer" data-type="weibo">&#xe619;</li>
+                        <li class="iconfont-archer" data-type="qzone">&#xe62e;</li>
+                        <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
+                        <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
+                    </ul>
+                </span>
+            </div>
+        
+    </div>
+</div>
+        <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
+
+        <div class="container container-unloaded">
+            <main class="main post-page">
+    <article class="article-entry">
+        <p>本帖子记录的是从多个方面优化Zabbix性能，使其能监控大量服务器。</p>
+<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>由于计划日益增加的服务器数量，所以需要监控系统的性能可以跟上处理数量庞大的服务器数据。因此需要对Zabbix服务端进行性能优化。</p>
+<p>主要优化有几方面：</p>
+<p>一、从软件设置层面来看，Zabbix的C-S模式收集数据主要分为被动模式和主动模式，当选择被动模式的时候，是服务端根据主机列表来逐个请求数据，这样的话当客户端数量越来越大，那么服务端接受对应数据的间隔也会越来越长从而导致数据延迟。另一个模式是主动模式，在这个模式下，服务端设置好监控项之后，客户端（配置文件中设置好开启主动模式）就会请求服务端的监控列表，然后客户端会对应这个监控列表上的监控项进行数据收集并主动发送给服务端。这样，服务端只需要提供一个监控列表，就可能让客户端自行提取，服务端不需要等待返回数据，而是客户端直接把数据发回服务端，这样可以大大减少服务端的网络请求的压力。</p>
+<p>二、从软件架构层面来看，对于大量的服务器，我们可以使用Zabbix-Proxy这个服务，这个服务本意是监控客户端与服务端在不同内网的情况使用的，不过用上Zabbix-Proxy之后，它也算是一个服务端，只不过它不会有前端界面，它只是负责统一接收客户端数据并发送给服务端，这样的话可以大大减少服务端处理数据的压力。</p>
+<p>三、从数据版本和引擎层面来看，本人会建议使用Percona+TokuDB的组合。MySQL 4和5使用默认的MyISAM存储引擎安装每个表。从5.5开始，MySQL已将默认存储引擎从MyISAM更改为InnoDB。MyISAM没有提供事务支持，而InnoDB提供了事务支持。与MyISAM相比，InnoDB提供了许多细微的性能改进，并且在处理潜在的数据丢失时提供了更高的可靠性和安全性。Percona XtraDB 是 InnoDB 存储引擎的增强版，被设计用来更好的使用更新计算机硬件系统的性能，同时还包含有一些在高性能环境下的新特性。XtraDB 存储引擎是完全的向下兼容，在 MariaDB 中，XtraDB 存储引擎被标识为”ENGINE=InnoDB”，这个与 InnoDB 是一样的，所以你可以直接用XtraDB 替换掉 InnoDB 而不会产生任何问题。Percona XtraDB 包含有所有 InnoDB 健壮性，可依赖的 ACID 兼容设计和高级 MVCC 架构。XtraDB 在 InnoDB 的坚实基础上构建，使 XtraDB 具有更多的特性，更好调用，更多的参数指标和更多的扩展。从实践的角度来看，XtraDB 被设计用来在多核心的条件下更有效的使用内存和更加方便，更加可用。新的特性被用来降低 InnoDB 的局限性。性能层面，XtraDB与内置的MySQL 5.1 InnoDB 引擎相比，它每分钟可处理2.7倍的事务。同时，按照官方的介绍，TokuDB 引擎是可扩展的，支持事务 ACID 特性，支持多版本控制(MVCC)，这几点等同 InnoDB 的特性，不过对基于索引的查询做了很好的改进，还提供了支持在线表更改的支持(不是所有字段都支持， 后面再说明)，在磁盘和缓存方面也做了很好的改进。TokuDB 结合 松散树索引(Fractal Tree indexing)，可以应用于高负载的大量写(write-intensive)的场景里。对于这个组合，本人觉得很适合运用在Zabbix这种若有大量数据刷新写入的场景里面使用。</p>
+<p>四、从数据库表层面来看，可以把Zabbix中的几个大表进行表分区。Zabbix的大表有：</p>
+<ul>
+<li>history</li>
+<li>history_log</li>
+<li>history_str</li>
+<li>history_text</li>
+<li>history_uint</li>
+<li>trends</li>
+<li>trends_uint</li>
+</ul>
+<p>第一个方案在客户端的配置文件找到<code>ServerActive</code>并填入服务器IP作为值，重启客户端则开启了主动模式，然后在Web端对应的监控项修改属性，改成主动模式即可</p>
+<p>第二个方案可以参考<a href="https://polaris0112.github.io/2018/02/25/zabbix-yum-installation/" target="_blank" rel="noopener">《Zabbix YUM方式部署》</a>最后有提及到Zabbix-Proxy的部署方式</p>
+<h2 id="安装部署Percona-TokuDB引擎"><a href="#安装部署Percona-TokuDB引擎" class="headerlink" title="安装部署Percona+TokuDB引擎"></a>安装部署Percona+TokuDB引擎</h2><p>关于Percona的安装教程可以参考<a href="https://polaris0112.github.io/2018/02/25/zabbix-source-installation/" target="_blank" rel="noopener">《Zabbix 编译安装部署》</a>中的<code>安装Percona Mysql数据库(比原生Mysql性能更优)</code>部分，对应安装即可。</p>
+<p>不过除了安装主要的Percona数据库以外，还要下载TokuDB插件以及其依赖jemalloc 3.3.0以上版本<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ yum install -y jemalloc-devel.x86_64</span><br><span class="line">$ yum install -y Percona-Server-tokudb-57</span><br></pre></td></tr></table></figure></p>
+<p>（弃用）关闭Transparent Huge Pages(THP)<br>Percona安装TokuDB已经默认配置，不需要单独配置<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> <span class="built_in">test</span> -f /sys/kernel/mm/transparent_hugepage/enabled; <span class="keyword">then</span></span><br><span class="line">    <span class="built_in">echo</span> never &gt; /sys/kernel/mm/transparent_hugepage/enabled</span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"><span class="keyword">if</span> <span class="built_in">test</span> -f /sys/kernel/mm/transparent_hugepage/defrag; <span class="keyword">then</span></span><br><span class="line">    <span class="built_in">echo</span> never &gt; /sys/kernel/mm/transparent_hugepage/defrag</span><br><span class="line"><span class="keyword">fi</span></span><br></pre></td></tr></table></figure></p>
+<p>假设你的Percona已经正常运行（并且设置好root密码），那么可以执行以下命令安装TokuDB插件<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">$ ps_tokudb_admin --<span class="built_in">enable</span> -uroot -p</span><br><span class="line"><span class="comment">#password</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#然后会出现一些日志信息，有可能会出现以下信息</span></span><br><span class="line"><span class="comment">#PLEASE RESTART MYSQL SERVICE AND RUN THIS SCRIPT AGAIN TO FINISH INSTALLATION!</span></span><br><span class="line"><span class="comment">#按照提示，重启mysql，然后再跑多一次这个命令</span></span><br><span class="line"></span><br><span class="line">$ systemctl restart mysql</span><br><span class="line">$ ps_tokudb_admin --<span class="built_in">enable</span> -uroot -p</span><br><span class="line"><span class="comment">#password</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#出现信息</span></span><br><span class="line"><span class="comment">#Installing TokuDB engine...</span></span><br><span class="line"><span class="comment">#INFO: Successfully installed TokuDB engine plugin.</span></span><br><span class="line"><span class="comment">#即为安装成功</span></span><br></pre></td></tr></table></figure></p>
+<p>查看是否已经安装成功<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">$ mysql -u root -p</span><br><span class="line"><span class="comment">#password</span></span><br><span class="line"></span><br><span class="line">mysql &gt; show engines;</span><br><span class="line">+--------------------+---------+----------------------------------------------------------------------------+--------------+------+------------+</span><br><span class="line">| Engine             | Support | Comment                                                                    | Transactions | XA   | Savepoints |</span><br><span class="line">+--------------------+---------+----------------------------------------------------------------------------+--------------+------+------------+</span><br><span class="line">| MEMORY             | YES     | Hash based, stored <span class="keyword">in</span> memory, useful <span class="keyword">for</span> temporary tables                  | NO           | NO   | NO         |</span><br><span class="line">| CSV                | YES     | CSV storage engine                                                         | NO           | NO   | NO         |</span><br><span class="line">| MyISAM             | YES     | MyISAM storage engine                                                      | NO           | NO   | NO         |</span><br><span class="line">| BLACKHOLE          | YES     | /dev/null storage engine (anything you write to it disappears)             | NO           | NO   | NO         |</span><br><span class="line">| PERFORMANCE_SCHEMA | YES     | Performance Schema                                                         | NO           | NO   | NO         |</span><br><span class="line">| TokuDB             | YES     | Percona TokuDB Storage Engine with Fractal Tree(tm) Technology             | YES          | YES  | YES        |</span><br><span class="line">| MRG_MYISAM         | YES     | Collection of identical MyISAM tables                                      | NO           | NO   | NO         |</span><br><span class="line">| ARCHIVE            | YES     | Archive storage engine                                                     | NO           | NO   | NO         |</span><br><span class="line">| InnoDB             | DEFAULT | Percona-XtraDB, Supports transactions, row-level locking, and foreign keys | YES          | YES  | YES        |</span><br><span class="line">| FEDERATED          | NO      | Federated MySQL storage engine                                             | NULL         | NULL | NULL       |</span><br><span class="line">+--------------------+---------+----------------------------------------------------------------------------+--------------+------+------------+</span><br><span class="line"></span><br><span class="line"><span class="comment">#见到Engine一列中有TokuDB则是安装成功</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="卸载TokuDB方法"><a href="#卸载TokuDB方法" class="headerlink" title="卸载TokuDB方法"></a>卸载TokuDB方法</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">$ ps_tokudb_admin --<span class="built_in">disable</span> -uroot -p</span><br><span class="line"><span class="comment">#password</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 手动卸载插件</span></span><br><span class="line">$ mysql -u root -p</span><br><span class="line"><span class="comment">#password</span></span><br><span class="line"></span><br><span class="line">mysql &gt; UNINSTALL PLUGIN tokudb;</span><br><span class="line">mysql &gt; UNINSTALL PLUGIN tokudb_file_map;</span><br><span class="line">mysql &gt; UNINSTALL PLUGIN tokudb_fractal_tree_info;</span><br><span class="line">mysql &gt; UNINSTALL PLUGIN tokudb_fractal_tree_block_map;</span><br><span class="line">mysql &gt; UNINSTALL PLUGIN tokudb_trx;</span><br><span class="line">mysql &gt; UNINSTALL PLUGIN tokudb_locks;</span><br><span class="line">mysql &gt; UNINSTALL PLUGIN tokudb_lock_waits;</span><br><span class="line">mysql &gt; UNINSTALL PLUGIN tokudb_background_job_status;</span><br></pre></td></tr></table></figure>
+<p>以上命令跑完即可卸载tokudb插件。</p>
+<h2 id="修改Zabbix部分表的引擎"><a href="#修改Zabbix部分表的引擎" class="headerlink" title="修改Zabbix部分表的引擎"></a>修改Zabbix部分表的引擎</h2><p>这步操作的前提是已经做好Zabbix数据库初始化的步骤，详细可以参考<a href="https://polaris0112.github.io/2018/02/25/zabbix-yum-installation/" target="_blank" rel="noopener">《Zabbix YUM方式部署》</a>或者<a href="https://polaris0112.github.io/2018/02/25/zabbix-source-installation/" target="_blank" rel="noopener">《Zabbix 编译安装部署》</a></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">$ mysql -u zabbix -p zabbix</span><br><span class="line"><span class="comment">#zabbix mysql password</span></span><br><span class="line"></span><br><span class="line">mysql &gt; alter table <span class="built_in">history</span> engine = <span class="string">'TOKUDB'</span>;</span><br><span class="line">mysql &gt; alter table history_log engine = <span class="string">'TOKUDB'</span>;</span><br><span class="line">mysql &gt; alter table history_str engine = <span class="string">'TOKUDB'</span>;</span><br><span class="line">mysql &gt; alter table history_text engine = <span class="string">'TOKUDB'</span>;</span><br><span class="line">mysql &gt; alter table history_uint engine = <span class="string">'TOKUDB'</span>;</span><br><span class="line">mysql &gt; alter table trends engine = <span class="string">'TOKUDB'</span>;</span><br><span class="line">mysql &gt; alter table trends_uint engine = <span class="string">'TOKUDB'</span>;</span><br></pre></td></tr></table></figure>
+<p>操作完成后，zabbix的数据库大表的引擎将会改用tokudb，性能更佳。</p>
+<h2 id="把Zabbix数据库中需要经常操作的大表进行表分区"><a href="#把Zabbix数据库中需要经常操作的大表进行表分区" class="headerlink" title="把Zabbix数据库中需要经常操作的大表进行表分区"></a>把Zabbix数据库中需要经常操作的大表进行表分区</h2><p><strong>分表前提</strong></p>
+<ul>
+<li><p>按时间范围分表（字段clock，字段无索引）</p>
+</li>
+<li><p>MySQL分区表要求范围字段是唯一索引或主键索引，或者是其中一部分，需要修改前核实clock是否在索引中</p>
+</li>
+</ul>
+<h3 id="创建4个存储过程"><a href="#创建4个存储过程" class="headerlink" title="创建4个存储过程"></a>创建4个存储过程</h3><p>存储过程1</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">DELIMITER $$</span><br><span class="line">CREATE PROCEDURE `partition_create`(SCHEMANAME varchar(64), TABLENAME varchar(64), PARTITIONNAME varchar(64), CLOCK int)</span><br><span class="line">BEGIN</span><br><span class="line">        /*</span><br><span class="line">           SCHEMANAME = The DB schema <span class="keyword">in</span> <span class="built_in">which</span> to make changes</span><br><span class="line">           TABLENAME = The table with partitions to potentially delete</span><br><span class="line">           PARTITIONNAME = The name of the partition to create</span><br><span class="line">        */</span><br><span class="line">        /*</span><br><span class="line">           Verify that the partition does not already exist</span><br><span class="line">        */</span><br><span class="line"></span><br><span class="line">        DECLARE RETROWS INT;</span><br><span class="line">        SELECT COUNT(1) INTO RETROWS</span><br><span class="line">        FROM information_schema.partitions</span><br><span class="line">        WHERE table_schema = SCHEMANAME AND table_name = TABLENAME AND partition_description &gt;= CLOCK;</span><br><span class="line"></span><br><span class="line">        IF RETROWS = 0 THEN</span><br><span class="line">        /*</span><br><span class="line">           1. Print a message indicating that a partition was created.</span><br><span class="line">           2. Create the SQL to create the partition.</span><br><span class="line">           3. Execute the SQL from <span class="comment">#2.</span></span><br><span class="line">        */</span><br><span class="line">        SELECT CONCAT( <span class="string">"partition_create("</span>, SCHEMANAME, <span class="string">","</span>, TABLENAME, <span class="string">","</span>, PARTITIONNAME, <span class="string">","</span>, CLOCK, <span class="string">")"</span> ) AS msg;</span><br><span class="line">        SET @sql = CONCAT( <span class="string">'ALTER TABLE '</span>, SCHEMANAME, <span class="string">'.'</span>, TABLENAME, <span class="string">' ADD PARTITION (PARTITION '</span>, PARTITIONNAME, <span class="string">' VALUES LESS THAN ('</span>, CLOCK, <span class="string">'));'</span> );</span><br><span class="line">        PREPARE STMT FROM @sql;</span><br><span class="line">        EXECUTE STMT;</span><br><span class="line">        DEALLOCATE PREPARE STMT;</span><br><span class="line">        END IF;</span><br><span class="line">END$$</span><br><span class="line">DELIMITER ;</span><br></pre></td></tr></table></figure>
+<p>存储过程2</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line">DELIMITER $$</span><br><span class="line">CREATE PROCEDURE `partition_drop`(SCHEMANAME VARCHAR(64), TABLENAME VARCHAR(64), DELETE_BELOW_PARTITION_DATE BIGINT)</span><br><span class="line">BEGIN</span><br><span class="line">        /*</span><br><span class="line">           SCHEMANAME = The DB schema <span class="keyword">in</span> <span class="built_in">which</span> to make changes</span><br><span class="line">           TABLENAME = The table with partitions to potentially delete</span><br><span class="line">           DELETE_BELOW_PARTITION_DATE = Delete any partitions with names that are dates older than this one (yyyy-mm-dd)</span><br><span class="line">        */</span><br><span class="line">        DECLARE <span class="keyword">done</span> INT DEFAULT FALSE;</span><br><span class="line">        DECLARE drop_part_name VARCHAR(16);</span><br><span class="line"></span><br><span class="line">        /*</span><br><span class="line">           Get a list of all the partitions that are older than the date</span><br><span class="line">           <span class="keyword">in</span> DELETE_BELOW_PARTITION_DATE.  All partitions are prefixed with</span><br><span class="line">           a <span class="string">"p"</span>, so use SUBSTRING TO get rid of that character.</span><br><span class="line">        */</span><br><span class="line">        DECLARE myCursor CURSOR FOR</span><br><span class="line">        SELECT partition_name</span><br><span class="line">        FROM information_schema.partitions</span><br><span class="line">        WHERE table_schema = SCHEMANAME AND table_name = TABLENAME AND CAST(SUBSTRING(partition_name FROM 2) AS UNSIGNED) &lt; DELETE_BELOW_PARTITION_DATE;</span><br><span class="line">        DECLARE CONTINUE HANDLER FOR NOT FOUND SET <span class="keyword">done</span> = TRUE;</span><br><span class="line"></span><br><span class="line">        /*</span><br><span class="line">           Create the basics <span class="keyword">for</span> when we need to drop the partition.  Also, create</span><br><span class="line">           @drop_partitions to hold a comma-delimited list of all partitions that</span><br><span class="line">           should be deleted.</span><br><span class="line">        */</span><br><span class="line">        SET @alter_header = CONCAT(<span class="string">"ALTER TABLE "</span>, SCHEMANAME, <span class="string">"."</span>, TABLENAME, <span class="string">" DROP PARTITION "</span>);</span><br><span class="line">        SET @drop_partitions = <span class="string">""</span>;</span><br><span class="line"></span><br><span class="line">        /*</span><br><span class="line">           Start looping through all the partitions that are too old.</span><br><span class="line">        */</span><br><span class="line">        OPEN myCursor;</span><br><span class="line">        read_loop: LOOP</span><br><span class="line">        FETCH myCursor INTO drop_part_name;</span><br><span class="line">        IF <span class="keyword">done</span> THEN</span><br><span class="line">    LEAVE read_loop;</span><br><span class="line">        END IF;</span><br><span class="line">        SET @drop_partitions = IF(@drop_partitions = <span class="string">""</span>, drop_part_name, CONCAT(@drop_partitions, <span class="string">","</span>, drop_part_name));</span><br><span class="line">        END LOOP;</span><br><span class="line">        IF @drop_partitions != <span class="string">""</span> THEN</span><br><span class="line">        /*</span><br><span class="line">           1. Build the SQL to drop all the necessary partitions.</span><br><span class="line">           2. Run the SQL to drop the partitions.</span><br><span class="line">           3. Print out the table partitions that were deleted.</span><br><span class="line">        */</span><br><span class="line">        SET @full_sql = CONCAT(@alter_header, @drop_partitions, <span class="string">";"</span>);</span><br><span class="line">        PREPARE STMT FROM @full_sql;</span><br><span class="line">        EXECUTE STMT;</span><br><span class="line">        DEALLOCATE PREPARE STMT;</span><br><span class="line"></span><br><span class="line">        SELECT CONCAT(SCHEMANAME, <span class="string">"."</span>, TABLENAME) AS `table`, @drop_partitions AS `partitions_deleted`;</span><br><span class="line">        ELSE</span><br><span class="line">        /*</span><br><span class="line">           No partitions are being deleted, so <span class="built_in">print</span> out <span class="string">"N/A"</span> (Not applicable) to indicate</span><br><span class="line">           that no changes were made.</span><br><span class="line">        */</span><br><span class="line">        SELECT CONCAT(SCHEMANAME, <span class="string">"."</span>, TABLENAME) AS `table`, <span class="string">"N/A"</span> AS `partitions_deleted`;</span><br><span class="line">        END IF;</span><br><span class="line">END$$</span><br><span class="line">DELIMITER ;</span><br></pre></td></tr></table></figure>
+<p>存储过程3</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">DELIMITER $$</span><br><span class="line">CREATE PROCEDURE `partition_maintenance`(SCHEMA_NAME VARCHAR(32), TABLE_NAME VARCHAR(32), KEEP_DATA_DAYS INT, HOURLY_INTERVAL INT, CREATE_NEXT_INTERVALS INT)</span><br><span class="line">BEGIN</span><br><span class="line">        DECLARE OLDER_THAN_PARTITION_DATE VARCHAR(16);</span><br><span class="line">        DECLARE PARTITION_NAME VARCHAR(16);</span><br><span class="line">        DECLARE OLD_PARTITION_NAME VARCHAR(16);</span><br><span class="line">        DECLARE LESS_THAN_TIMESTAMP INT;</span><br><span class="line">        DECLARE CUR_TIME INT;</span><br><span class="line"></span><br><span class="line">        CALL partition_verify(SCHEMA_NAME, TABLE_NAME, HOURLY_INTERVAL);</span><br><span class="line">        SET CUR_TIME = UNIX_TIMESTAMP(DATE_FORMAT(NOW(), <span class="string">'%Y-%m-%d 00:00:00'</span>));</span><br><span class="line"></span><br><span class="line">        SET @__interval = 1;</span><br><span class="line">        create_loop: LOOP</span><br><span class="line">        IF @__interval &gt; CREATE_NEXT_INTERVALS THEN</span><br><span class="line">    LEAVE create_loop;</span><br><span class="line">        END IF;</span><br><span class="line"></span><br><span class="line">        SET LESS_THAN_TIMESTAMP = CUR_TIME + (HOURLY_INTERVAL * @__interval * 3600);</span><br><span class="line">        SET PARTITION_NAME = FROM_UNIXTIME(CUR_TIME + HOURLY_INTERVAL * (@__interval - 1) * 3600, <span class="string">'p%Y%m%d%H00'</span>);</span><br><span class="line">        IF(PARTITION_NAME != OLD_PARTITION_NAME) THEN</span><br><span class="line">    CALL partition_create(SCHEMA_NAME, TABLE_NAME, PARTITION_NAME, LESS_THAN_TIMESTAMP);</span><br><span class="line">        END IF;</span><br><span class="line">        SET @__interval=@__interval+1;</span><br><span class="line">        SET OLD_PARTITION_NAME = PARTITION_NAME;</span><br><span class="line">        END LOOP;</span><br><span class="line"></span><br><span class="line">        SET OLDER_THAN_PARTITION_DATE=DATE_FORMAT(DATE_SUB(NOW(), INTERVAL KEEP_DATA_DAYS DAY), <span class="string">'%Y%m%d0000'</span>);</span><br><span class="line">        CALL partition_drop(SCHEMA_NAME, TABLE_NAME, OLDER_THAN_PARTITION_DATE);</span><br><span class="line"></span><br><span class="line">END$$</span><br><span class="line">DELIMITER ;</span><br></pre></td></tr></table></figure>
+<p>存储过程4</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">DELIMITER $$</span><br><span class="line">CREATE PROCEDURE `partition_verify`(SCHEMANAME VARCHAR(64), TABLENAME VARCHAR(64), HOURLYINTERVAL INT(11))</span><br><span class="line">BEGIN</span><br><span class="line">        DECLARE PARTITION_NAME VARCHAR(16);</span><br><span class="line">        DECLARE RETROWS INT(11);</span><br><span class="line">        DECLARE FUTURE_TIMESTAMP TIMESTAMP;</span><br><span class="line"></span><br><span class="line">        /*</span><br><span class="line">         * Check <span class="keyword">if</span> any partitions exist <span class="keyword">for</span> the given SCHEMANAME.TABLENAME.</span><br><span class="line">         */</span><br><span class="line">        SELECT COUNT(1) INTO RETROWS</span><br><span class="line">        FROM information_schema.partitions</span><br><span class="line">        WHERE table_schema = SCHEMANAME AND table_name = TABLENAME AND partition_name IS NULL;</span><br><span class="line"></span><br><span class="line">        /*</span><br><span class="line">         * If partitions <span class="keyword">do</span> not exist, go ahead and partition the table</span><br><span class="line">         */</span><br><span class="line">        IF RETROWS = 1 THEN</span><br><span class="line">        /*</span><br><span class="line">         * Take the current date at 00:00:00 and add HOURLYINTERVAL to it.  This is the timestamp below <span class="built_in">which</span> we will store values.</span><br><span class="line">         * We begin partitioning based on the beginning of a day.  This is because we don<span class="string">'t want to generate a random partition</span></span><br><span class="line"><span class="string">         * that won'</span>t necessarily fall <span class="keyword">in</span> line with the desired partition naming (ie: <span class="keyword">if</span> the hour interval is 24 hours, we could</span><br><span class="line">         * end up creating a partition now named <span class="string">"p201403270600"</span> when all other partitions will be like <span class="string">"p201403280000"</span>).</span><br><span class="line">         */</span><br><span class="line">        SET FUTURE_TIMESTAMP = TIMESTAMPADD(HOUR, HOURLYINTERVAL, CONCAT(CURDATE(), <span class="string">" "</span>, <span class="string">'00:00:00'</span>));</span><br><span class="line">        SET PARTITION_NAME = DATE_FORMAT(CURDATE(), <span class="string">'p%Y%m%d%H00'</span>);</span><br><span class="line"></span><br><span class="line">        -- Create the partitioning query</span><br><span class="line">        SET @__PARTITION_SQL = CONCAT(<span class="string">"ALTER TABLE "</span>, SCHEMANAME, <span class="string">"."</span>, TABLENAME, <span class="string">" PARTITION BY RANGE(`clock`)"</span>);</span><br><span class="line">        SET @__PARTITION_SQL = CONCAT(@__PARTITION_SQL, <span class="string">"(PARTITION "</span>, PARTITION_NAME, <span class="string">" VALUES LESS THAN ("</span>, UNIX_TIMESTAMP(FUTURE_TIMESTAMP), <span class="string">"));"</span>);</span><br><span class="line"></span><br><span class="line">        -- Run the partitioning query</span><br><span class="line">        PREPARE STMT FROM @__PARTITION_SQL;</span><br><span class="line">        EXECUTE STMT;</span><br><span class="line">        DEALLOCATE PREPARE STMT;</span><br><span class="line">        END IF;</span><br><span class="line">END$$</span><br><span class="line">DELIMITER ;</span><br></pre></td></tr></table></figure>
+<h3 id="存储过程中有四个功能："><a href="#存储过程中有四个功能：" class="headerlink" title="存储过程中有四个功能："></a>存储过程中有四个功能：</h3><ul>
+<li><p>partition_create - 这将在给定模式中的给定表上创建一个分区。</p>
+</li>
+<li><p>partition_drop - 这将删除给定模式中给定表上给定时间戳的分区。</p>
+</li>
+<li><p>partition_maintenance - 此功能是用户调用的。它负责解析给定的参数，然后根据需要创建/删除分区。</p>
+</li>
+<li><p>partition_verify - 检查给定模式中给定表上是否启用了分区。如果没有启用，它将创建一个单独的分区。</p>
+</li>
+</ul>
+<p><strong>partition_create</strong><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">程序定义：partition_create（SCHEMANAME varchar（64），TABLENAME varchar（64），PARTITIONNAME varchar（64），CLOCK int）</span><br><span class="line">示例：CALL partition_create（“zabbix”，“<span class="built_in">history</span>”，“p20131216”，1387267200）;</span><br><span class="line">SCHEMANAME =要在其中进行更改的DB模式</span><br><span class="line">TABLENAME =要在其上创建PARTITIONNAME的表</span><br><span class="line">PARTITIONNAME =要创建的分区的名称</span><br><span class="line">将创建CLOCK = PARTITIONNAME以保存“clock”列值小于此值的值</span><br></pre></td></tr></table></figure></p>
+<p><strong>partition_drop</strong><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">过程定义：partition_drop（SCHEMANAME VARCHAR（64），TABLENAME VARCHAR（64），DELETE_BELOW_PARTITION_DATE VARCHAR（64））</span><br><span class="line">示例：CALL partition_drop（“zabbix”，“<span class="built_in">history</span>”，“20131216”）;</span><br><span class="line">SCHEMANAME =要在其中进行更改的DB模式</span><br><span class="line">TABLENAME =要删除PARTITIONNAME的表</span><br><span class="line">DELETE_BELOW_PARTITION_DATE =允许的最旧分区日期。所有旧版本的分区将被删除。格式为yyyymmdd。</span><br></pre></td></tr></table></figure></p>
+<p><strong>partition_maintenance</strong><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">过程定义：partition_maintenance（SCHEMA_NAME VARCHAR（32），TABLE_NAME VARCHAR（32），KEEP_DATA_DAYS INT，HOURLY_INTERVAL INT，CREATE_NEXT_INTERVALS INT）</span><br><span class="line">示例：CALL partition_maintenance（<span class="string">'zabbix'</span>，<span class="string">'history'</span>，28，24，14 ）;</span><br><span class="line">SCHEMA_NAME =要在其中进行更改的DB模式</span><br><span class="line">TABLE_NAME =要进行更改的表</span><br><span class="line">KEEP_DATA_DAYS =要保留的分区的最大天数。所有超过此天数的分区将被删除。</span><br><span class="line">HOURLY_INTERVAL =分区之间的小时间隔。例如，每日分区的值为24，小时分区的值为1。</span><br><span class="line">CREATE_NEXT_INTERVALS =提前创建的值的分区数。</span><br></pre></td></tr></table></figure></p>
+<p><strong>partition_verify</strong><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">过程定义：partition_verify（SCHEMANAME VARCHAR（64），TABLENAME VARCHAR（64），HOURLYINTERVAL INT（11））</span><br><span class="line">示例：CALL partition_verify（“zabbix”，“<span class="built_in">history</span>”）;</span><br><span class="line">SCHEMANAME =要在其中进行更改的DB模式</span><br><span class="line">TABLENAME =要检查分区的表</span><br><span class="line">HOURLY_INTERVAL =分区之间的小时间隔。例如，每日分区的值为24，小时分区的值为1。</span><br></pre></td></tr></table></figure></p>
+<h3 id="分区表需求"><a href="#分区表需求" class="headerlink" title="分区表需求"></a>分区表需求</h3><ul>
+<li><p>每月一个分区（24小时*31约等于720小时）</p>
+</li>
+<li><p>历史保存1年数据（12个月）</p>
+</li>
+<li><p>趋势保存2年数据（24个月）</p>
+</li>
+<li><p>未来周期12个（未来12个月）</p>
+</li>
+</ul>
+<p>单独语句：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mysql &gt; CALL partition_maintenance(<span class="string">'zabbix'</span>, <span class="string">'history'</span>, 24, 720, 12);</span><br><span class="line">mysql &gt; CALL partition_maintenance(zabbix, <span class="string">'trends'</span>, 48, 720, 12);</span><br></pre></td></tr></table></figure></p>
+<p>解释：创建24个分区，其中未来月份12个，每个周期存储720小时数据</p>
+<h3 id="添加以下存储过程，用来增加新的分区和删除旧的分区"><a href="#添加以下存储过程，用来增加新的分区和删除旧的分区" class="headerlink" title="添加以下存储过程，用来增加新的分区和删除旧的分区"></a>添加以下存储过程，用来增加新的分区和删除旧的分区</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">DELIMITER $$</span><br><span class="line">CREATE PROCEDURE `partition_maintenance_all`(SCHEMA_NAME VARCHAR(32))</span><br><span class="line">BEGIN</span><br><span class="line">    CALL partition_maintenance(SCHEMA_NAME, <span class="string">'history'</span>, 24, 720, 12);</span><br><span class="line">    CALL partition_maintenance(SCHEMA_NAME, <span class="string">'history_log'</span>, 24, 720, 12);</span><br><span class="line">    CALL partition_maintenance(SCHEMA_NAME, <span class="string">'history_str'</span>, 24, 720, 12);</span><br><span class="line">    CALL partition_maintenance(SCHEMA_NAME, <span class="string">'history_text'</span>, 24, 720, 12);</span><br><span class="line">    CALL partition_maintenance(SCHEMA_NAME, <span class="string">'history_uint'</span>, 24, 720, 12);</span><br><span class="line">    CALL partition_maintenance(SCHEMA_NAME, <span class="string">'trends'</span>, 48, 720, 12);</span><br><span class="line">    CALL partition_maintenance(SCHEMA_NAME, <span class="string">'trends_uint'</span>, 48, 720, 12);</span><br><span class="line">END$$</span><br><span class="line">DELIMITER ;</span><br></pre></td></tr></table></figure>
+<p>存储过程文件下载：<br><a href="https://raw.githubusercontent.com/Polaris0112/Ops-Tools/master/zabbix_installation/partition_call.sql" target="_blank" rel="noopener">partition_call.sql</a></p>
+<p><a href="https://raw.githubusercontent.com/Polaris0112/Ops-Tools/master/zabbix_installation/partition_all.sql" target="_blank" rel="noopener">partition_all.sql</a></p>
+<p>导入mysql数据库中<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ mysql -u zabbix -p zabbix &lt; partition_call.sql</span><br><span class="line"><span class="comment">#zabbix mysql password</span></span><br><span class="line"></span><br><span class="line">$ mysql -u zabbix -p zabbix &lt; partition_all.sql</span><br><span class="line"><span class="comment">#zabbix mysql password</span></span><br></pre></td></tr></table></figure></p>
+<p>直接执行<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ mysql -u zabbix -p zabbix -e <span class="string">"call partition_maintenance_all('zabbix');"</span></span><br><span class="line"><span class="comment">#zabbix mysql password</span></span><br></pre></td></tr></table></figure></p>
+<p>执行后，观察分区表状态是否建立</p>
+<h3 id="定时调用此存储过程"><a href="#定时调用此存储过程" class="headerlink" title="定时调用此存储过程"></a>定时调用此存储过程</h3><p>用来增加新的分区和删除旧的分区，注意定时调用的间隔不能小于每次创建的未来的分区周期，如上情况，<strong>最少12个月调用一次</strong></p>
+<p>创建调用脚本：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ vim /root/shell/create_partition.sh</span><br><span class="line">/opt/tokudb/mysql/bin/mysql -uzabbix -pzabbix zabbix -e <span class="string">"call partition_maintenance_all('zabbix');"</span></span><br></pre></td></tr></table></figure></p>
+<p>crontab -e 加入以下：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">0 3 * */10 * sh /root/shell/create_partition.sh</span><br></pre></td></tr></table></figure></p>
+<h3 id="关闭housekeeper功能"><a href="#关闭housekeeper功能" class="headerlink" title="关闭housekeeper功能"></a>关闭housekeeper功能</h3><p>在网页端的<strong>管理</strong> –&gt; <strong>一般</strong> ，页面右上下拉菜单选择<strong>管家</strong>，然后把开启内部管家的勾选去掉，再点击<strong>更新</strong>。</p>
+
+    </article>
+    <!-- 前后页  -->
+    <ul class="post-paginator">
+        <li class="next">
+            
+                <div class="nextSlogan">Next Post</div>
+                <a href= "/2018/02/26/myisam-innodb/" title= MyISAM和InnoDB区别详解 >
+                    <div class="nextTitle">MyISAM和InnoDB区别详解</div>
+                </a>
+            
+        </li>
+        <li class="previous">
+            
+                <div class="prevSlogan">Previous Post</div>
+                <a href= "/2018/02/25/zabbix-yum-installation/" title= Zabbix YUM方式部署 >
+                    <div class="prevTitle">Zabbix YUM方式部署</div>
+                </a>
+            
+        </li>
+    </ul>
+    <!-- 评论插件 -->
+    <!-- 来必力City版安装代码 -->
+
+<!-- City版安装代码已完成 -->
+    
+    
+    <!--PC版-->
+
+    <!--PC版-->
+
+
+    
+    <!-- 评论 -->
+</main>
+            <!-- profile -->
+            
+        </div>
+        <footer class="footer footer-unloaded">
+    <!-- social  -->
+    
+    <div class="social">
+        
+    
+        
+            
+                <a href="mailto:jjc27017@gmail.com" class="iconfont-archer email" title=email ></a>
+            
+        
+    
+        
+            
+                <a href="//github.com/Polaris0112" class="iconfont-archer github" target="_blank" title=github></a>
+            
+        
+    
+        
+            
+                <span class="iconfont-archer wechat" title=wechat>
+                  
+                  <img class="profile-qr" src="/assets/wechat_qr.png" />
+                </span>
+            
+        
+    
+        
+            
+                <span class="iconfont-archer qq" title=qq>
+                  
+                  <img class="profile-qr" src="/assets/qq_qr.jpg" />
+                </span>
+            
+        
+    
+        
+            
+                <a href="//weibo.com/__Tk__" class="iconfont-archer weibo" target="_blank" title=weibo></a>
+            
+        
+    
+        
+            
+                <a href="//www.zhihu.com/people/chen-jia-jian-62" class="iconfont-archer zhihu" target="_blank" title=zhihu></a>
+            
+        
+    
+        
+            
+                <a href="//www.douban.com/people/170240662/" class="iconfont-archer douban" target="_blank" title=douban></a>
+            
+        
+    
+        
+            
+                <a href="//www.facebook.com/jiajian.chen.79" class="iconfont-archer facebook" target="_blank" title=facebook></a>
+            
+        
+    
+        
+            
+                <a href="//twitter.com/Jayden_0112" class="iconfont-archer twitter" target="_blank" title=twitter></a>
+            
+        
+    
+        
+    
+        
+    
+        
+            
+                <a href="//www.linkedin.com/in/嘉健-陈-3a0a20157/" class="iconfont-archer linkedin" target="_blank" title=linkedin></a>
+            
+        
+    
+        
+    
+        
+    
+
+    </div>
+    
+    <!-- powered by Hexo  -->
+    <div class="copyright">
+        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank">Archer</a></span>
+    </div>
+    <!-- 不蒜子  -->
+    
+    <div class="busuanzi-container">
+        <span id="busuanzi_container_site_pv">PV: <span id="busuanzi_value_site_pv"></span>
+        </span>
+    </div>
+    
+</footer>
+    </div>
+    <!-- toc -->
+    
+    <div class="toc-wrapper">
+        <div class="toc-catalog">
+            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+        </div>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#背景"><span class="toc-number">1.</span> <span class="toc-text">背景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安装部署Percona-TokuDB引擎"><span class="toc-number">2.</span> <span class="toc-text">安装部署Percona+TokuDB引擎</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#卸载TokuDB方法"><span class="toc-number">3.</span> <span class="toc-text">卸载TokuDB方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#修改Zabbix部分表的引擎"><span class="toc-number">4.</span> <span class="toc-text">修改Zabbix部分表的引擎</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#把Zabbix数据库中需要经常操作的大表进行表分区"><span class="toc-number">5.</span> <span class="toc-text">把Zabbix数据库中需要经常操作的大表进行表分区</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#创建4个存储过程"><span class="toc-number">5.1.</span> <span class="toc-text">创建4个存储过程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#存储过程中有四个功能："><span class="toc-number">5.2.</span> <span class="toc-text">存储过程中有四个功能：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#分区表需求"><span class="toc-number">5.3.</span> <span class="toc-text">分区表需求</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#添加以下存储过程，用来增加新的分区和删除旧的分区"><span class="toc-number">5.4.</span> <span class="toc-text">添加以下存储过程，用来增加新的分区和删除旧的分区</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#定时调用此存储过程"><span class="toc-number">5.5.</span> <span class="toc-text">定时调用此存储过程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#关闭housekeeper功能"><span class="toc-number">5.6.</span> <span class="toc-text">关闭housekeeper功能</span></a></li></ol></li></ol>
+    </div>
+    
+    <div class="back-top iconfont-archer">&#xe639;</div>
+    <div class="sidebar sidebar-hide">
+    <ul class="sidebar-tabs sidebar-tabs-active-0">
+        <li class="sidebar-tab-archives"><span class="iconfont-archer">&#xe67d;</span><span class="tab-name">Archive</span></li>
+        <li class="sidebar-tab-tags"><span class="iconfont-archer">&#xe61b;</span><span class="tab-name">Tag</span></li>
+        <li class="sidebar-tab-categories"><span class="iconfont-archer">&#xe666;</span><span class="tab-name">Cate</span></li>
+    </ul>
+    <div class="sidebar-content sidebar-content-show-archive">
+          <div class="sidebar-panel-archives">
+    <!-- 在ejs中将archive按照时间排序 -->
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="total-archive"> Total : 40 </div>
+    
+    <div class="post-archive">
+    
+    
+    
+    
+    <div class="archive-year"> 2018 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/21</span><a class="archive-post-title" href= "/2018/03/21/docker-data-volume-improve/" >Docker数据卷之进阶篇</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/20</span><a class="archive-post-title" href= "/2018/03/20/docker-data-volume/" >浅谈Docker基础之数据管理</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/19</span><a class="archive-post-title" href= "/2018/03/19/docker-network-improve/" >“深入浅出”来解读Docker网络核心原理</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/19</span><a class="archive-post-title" href= "/2018/03/19/docker-network/" >Docker容器网络通信原理分析</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/18</span><a class="archive-post-title" href= "/2018/03/18/docker-tech/" >Docker核心技术与实现原理</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/17</span><a class="archive-post-title" href= "/2018/03/17/ceph-change-subnet/" >Ceph修改OSD和Monitor的网络</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/16</span><a class="archive-post-title" href= "/2018/03/16/ceph-commands/" >Ceph日常命令使用</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/15</span><a class="archive-post-title" href= "/2018/03/15/ceph-optimization-summary/" >Ceph 优化总结</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/14</span><a class="archive-post-title" href= "/2018/03/14/ceph-client-mount/" >Ceph Client挂载方法</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/14</span><a class="archive-post-title" href= "/2018/03/14/ceph-installation/" >分布式存储系统Ceph部署过程</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/13</span><a class="archive-post-title" href= "/2018/03/13/ceph-introduction/" >分布式存储系统Ceph原理</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/12</span><a class="archive-post-title" href= "/2018/03/12/harbor-installation/" >Docker镜像仓库Harbor搭建</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/11</span><a class="archive-post-title" href= "/2018/03/11/docker-install/" >Docker安装部署教程</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/10</span><a class="archive-post-title" href= "/2018/03/10/openstack-devstack-installation/" >通过devstack安装部署OpenStack</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/10</span><a class="archive-post-title" href= "/2018/03/10/openstack-packstack-installation/" >通过packstack快速安装openstack</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/09</span><a class="archive-post-title" href= "/2018/03/09/open-falcon-install/" >open-falcon安装部署教程</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/09</span><a class="archive-post-title" href= "/2018/03/09/openstack-install-introduction/" >OpenStack安装部署</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/08</span><a class="archive-post-title" href= "/2018/03/08/supervisor/" >supervisor 安装、配置、常用命令</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/03</span><a class="archive-post-title" href= "/2018/03/03/blockchain-merkle/" >比特币区块结构 Merkle 树及简单支付验证分析</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/03</span><a class="archive-post-title" href= "/2018/03/03/blockchain-selection/" >比特币如何达成共识 - 最长链的选择</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/03</span><a class="archive-post-title" href= "/2018/03/03/blockchain-pow/" >比特币如何挖矿（挖矿原理）-工作量证明</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/02</span><a class="archive-post-title" href= "/2018/03/02/blockchain-accounting/" >区块链记账原理</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/02</span><a class="archive-post-title" href= "/2018/03/02/blockchain-python/" >用Python从0开始创建一个区块链</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/01</span><a class="archive-post-title" href= "/2018/03/01/gitlab-update/" >Gitlab踩坑升级过程</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/28</span><a class="archive-post-title" href= "/2018/02/28/zombie-process-and-orphaned-process/" >浅析僵尸进程与孤儿进程</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/28</span><a class="archive-post-title" href= "/2018/02/28/zabbix-fonts/" >Zabbix汉化字体修改</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/27</span><a class="archive-post-title" href= "/2018/02/27/nfs-installation/" >NFS安装部署</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/26</span><a class="archive-post-title" href= "/2018/02/26/zabbix-optimization/" >Zabbix性能优化</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/26</span><a class="archive-post-title" href= "/2018/02/26/myisam-innodb/" >MyISAM和InnoDB区别详解</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/25</span><a class="archive-post-title" href= "/2018/02/25/zabbix-source-installation/" >Zabbix 编译安装部署</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/25</span><a class="archive-post-title" href= "/2018/02/25/zabbix-yum-installation/" >Zabbix YUM方式部署</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/24</span><a class="archive-post-title" href= "/2018/02/24/mongodb-single/" >MongoDB单实例部署</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/24</span><a class="archive-post-title" href= "/2018/02/24/mongodb-shard/" >MongoDB Sharding集群部署</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/24</span><a class="archive-post-title" href= "/2018/02/24/mongodb-replset/" >MongoDB复制集部署</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/23</span><a class="archive-post-title" href= "/2018/02/23/haproxy/" >HAProxy日常使用说明</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/22</span><a class="archive-post-title" href= "/2018/02/22/certbot/" >Certbot安装/部分问题解决方案</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/21</span><a class="archive-post-title" href= "/2018/02/21/nginx/" >Nginx正反向代理/负载均衡</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/20</span><a class="archive-post-title" href= "/2018/02/20/lvm/" >LVM创建/扩容/常用操作</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/12</span><a class="archive-post-title" href= "/2018/02/12/hexo/" >Hexo+Github搭建博客</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/20</span><a class="archive-post-title" href= "/2018/01/20/shadowsocks/" >小灰机-4.0.8下载</a>
+        </li>
+    
+    </div>
+  </div>
+        <div class="sidebar-panel-tags">
+    <div class="sidebar-tags-name">
+    
+        <span class="sidebar-tag-name" data-tags="Blockchain"><span class="iconfont-archer">&#xe606;</span>Blockchain</span>
+    
+        <span class="sidebar-tag-name" data-tags="Python"><span class="iconfont-archer">&#xe606;</span>Python</span>
+    
+        <span class="sidebar-tag-name" data-tags="Flask"><span class="iconfont-archer">&#xe606;</span>Flask</span>
+    
+        <span class="sidebar-tag-name" data-tags="Ceph"><span class="iconfont-archer">&#xe606;</span>Ceph</span>
+    
+        <span class="sidebar-tag-name" data-tags="Certbot"><span class="iconfont-archer">&#xe606;</span>Certbot</span>
+    
+        <span class="sidebar-tag-name" data-tags="https"><span class="iconfont-archer">&#xe606;</span>https</span>
+    
+        <span class="sidebar-tag-name" data-tags="Docker"><span class="iconfont-archer">&#xe606;</span>Docker</span>
+    
+        <span class="sidebar-tag-name" data-tags="CentOS"><span class="iconfont-archer">&#xe606;</span>CentOS</span>
+    
+        <span class="sidebar-tag-name" data-tags="Gitlab"><span class="iconfont-archer">&#xe606;</span>Gitlab</span>
+    
+        <span class="sidebar-tag-name" data-tags="Update"><span class="iconfont-archer">&#xe606;</span>Update</span>
+    
+        <span class="sidebar-tag-name" data-tags="Migration"><span class="iconfont-archer">&#xe606;</span>Migration</span>
+    
+        <span class="sidebar-tag-name" data-tags="haproxy"><span class="iconfont-archer">&#xe606;</span>haproxy</span>
+    
+        <span class="sidebar-tag-name" data-tags="Registry"><span class="iconfont-archer">&#xe606;</span>Registry</span>
+    
+        <span class="sidebar-tag-name" data-tags="Harbor"><span class="iconfont-archer">&#xe606;</span>Harbor</span>
+    
+        <span class="sidebar-tag-name" data-tags="github"><span class="iconfont-archer">&#xe606;</span>github</span>
+    
+        <span class="sidebar-tag-name" data-tags="hexo"><span class="iconfont-archer">&#xe606;</span>hexo</span>
+    
+        <span class="sidebar-tag-name" data-tags="blog"><span class="iconfont-archer">&#xe606;</span>blog</span>
+    
+        <span class="sidebar-tag-name" data-tags="centos"><span class="iconfont-archer">&#xe606;</span>centos</span>
+    
+        <span class="sidebar-tag-name" data-tags="lvm"><span class="iconfont-archer">&#xe606;</span>lvm</span>
+    
+        <span class="sidebar-tag-name" data-tags="NoSql"><span class="iconfont-archer">&#xe606;</span>NoSql</span>
+    
+        <span class="sidebar-tag-name" data-tags="MongoDB"><span class="iconfont-archer">&#xe606;</span>MongoDB</span>
+    
+        <span class="sidebar-tag-name" data-tags="ReplSet"><span class="iconfont-archer">&#xe606;</span>ReplSet</span>
+    
+        <span class="sidebar-tag-name" data-tags="Sharding"><span class="iconfont-archer">&#xe606;</span>Sharding</span>
+    
+        <span class="sidebar-tag-name" data-tags="replSet"><span class="iconfont-archer">&#xe606;</span>replSet</span>
+    
+        <span class="sidebar-tag-name" data-tags="MySQL"><span class="iconfont-archer">&#xe606;</span>MySQL</span>
+    
+        <span class="sidebar-tag-name" data-tags="MyISAM"><span class="iconfont-archer">&#xe606;</span>MyISAM</span>
+    
+        <span class="sidebar-tag-name" data-tags="InnoDB"><span class="iconfont-archer">&#xe606;</span>InnoDB</span>
+    
+        <span class="sidebar-tag-name" data-tags="NFS"><span class="iconfont-archer">&#xe606;</span>NFS</span>
+    
+        <span class="sidebar-tag-name" data-tags="open-falcon"><span class="iconfont-archer">&#xe606;</span>open-falcon</span>
+    
+        <span class="sidebar-tag-name" data-tags="OpenStack"><span class="iconfont-archer">&#xe606;</span>OpenStack</span>
+    
+        <span class="sidebar-tag-name" data-tags="DevStack"><span class="iconfont-archer">&#xe606;</span>DevStack</span>
+    
+        <span class="sidebar-tag-name" data-tags="nginx"><span class="iconfont-archer">&#xe606;</span>nginx</span>
+    
+        <span class="sidebar-tag-name" data-tags="proxy"><span class="iconfont-archer">&#xe606;</span>proxy</span>
+    
+        <span class="sidebar-tag-name" data-tags="load-balance"><span class="iconfont-archer">&#xe606;</span>load-balance</span>
+    
+        <span class="sidebar-tag-name" data-tags="PackStack"><span class="iconfont-archer">&#xe606;</span>PackStack</span>
+    
+        <span class="sidebar-tag-name" data-tags="$$"><span class="iconfont-archer">&#xe606;</span>$$</span>
+    
+        <span class="sidebar-tag-name" data-tags="GFW"><span class="iconfont-archer">&#xe606;</span>GFW</span>
+    
+        <span class="sidebar-tag-name" data-tags="Installation"><span class="iconfont-archer">&#xe606;</span>Installation</span>
+    
+        <span class="sidebar-tag-name" data-tags="supervisor"><span class="iconfont-archer">&#xe606;</span>supervisor</span>
+    
+        <span class="sidebar-tag-name" data-tags="Zabbix"><span class="iconfont-archer">&#xe606;</span>Zabbix</span>
+    
+        <span class="sidebar-tag-name" data-tags="Font"><span class="iconfont-archer">&#xe606;</span>Font</span>
+    
+        <span class="sidebar-tag-name" data-tags="Optimization"><span class="iconfont-archer">&#xe606;</span>Optimization</span>
+    
+        <span class="sidebar-tag-name" data-tags="Source"><span class="iconfont-archer">&#xe606;</span>Source</span>
+    
+        <span class="sidebar-tag-name" data-tags="Yum"><span class="iconfont-archer">&#xe606;</span>Yum</span>
+    
+        <span class="sidebar-tag-name" data-tags="Zombie Process"><span class="iconfont-archer">&#xe606;</span>Zombie Process</span>
+    
+        <span class="sidebar-tag-name" data-tags="Orphaned Process"><span class="iconfont-archer">&#xe606;</span>Orphaned Process</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
+    <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
+    缺失模块。<br/>
+    1、请确保node版本大于6.2<br/>
+    2、在博客根目录（注意不是archer根目录）执行以下命令：<br/>
+    <span style="color: #f75357; font-size: 1rem; line-height: 2rem;">npm i hexo-generator-json-content --save</span><br/>
+    3、在根目录_config.yml里添加配置：
+    <pre style="color: #787878; font-size: 0.6rem;">
+jsonContent:
+  meta: false
+  pages: false
+  posts:
+    title: true
+    date: true
+    path: true
+    text: false
+    raw: false
+    content: false
+    slug: false
+    updated: false
+    comments: false
+    link: false
+    permalink: false
+    excerpt: false
+    categories: true
+    tags: true</pre>
+    </div> 
+    <div class="sidebar-tags-list"></div>
+</div>
+        <div class="sidebar-panel-categories">
+    <div class="sidebar-categories-name">
+    
+        <span class="sidebar-category-name" data-categories="区块链记账原理"><span class="iconfont-archer">&#xe60a;</span>区块链记账原理</span>
+    
+        <span class="sidebar-category-name" data-categories="比特币区块结构-Merkle-树及简单支付验证分析"><span class="iconfont-archer">&#xe60a;</span>比特币区块结构-Merkle-树及简单支付验证分析</span>
+    
+        <span class="sidebar-category-name" data-categories="比特币如何挖矿（挖矿原理）-工作量证明"><span class="iconfont-archer">&#xe60a;</span>比特币如何挖矿（挖矿原理）-工作量证明</span>
+    
+        <span class="sidebar-category-name" data-categories="比特币如何达成共识-最长链的选择"><span class="iconfont-archer">&#xe60a;</span>比特币如何达成共识-最长链的选择</span>
+    
+        <span class="sidebar-category-name" data-categories="用Python从0开始创建一个区块链"><span class="iconfont-archer">&#xe60a;</span>用Python从0开始创建一个区块链</span>
+    
+        <span class="sidebar-category-name" data-categories="Ceph修改OSD和Monitor的网络"><span class="iconfont-archer">&#xe60a;</span>Ceph修改OSD和Monitor的网络</span>
+    
+        <span class="sidebar-category-name" data-categories="Ceph-Client挂载方法"><span class="iconfont-archer">&#xe60a;</span>Ceph-Client挂载方法</span>
+    
+        <span class="sidebar-category-name" data-categories="Ceph日常命令使用"><span class="iconfont-archer">&#xe60a;</span>Ceph日常命令使用</span>
+    
+        <span class="sidebar-category-name" data-categories="分布式存储系统Ceph部署过程记录"><span class="iconfont-archer">&#xe60a;</span>分布式存储系统Ceph部署过程记录</span>
+    
+        <span class="sidebar-category-name" data-categories="Ceph-优化总结"><span class="iconfont-archer">&#xe60a;</span>Ceph-优化总结</span>
+    
+        <span class="sidebar-category-name" data-categories="Certbot安装-部分问题解决方案"><span class="iconfont-archer">&#xe60a;</span>Certbot安装-部分问题解决方案</span>
+    
+        <span class="sidebar-category-name" data-categories="分布式存储系统Ceph原理介绍"><span class="iconfont-archer">&#xe60a;</span>分布式存储系统Ceph原理介绍</span>
+    
+        <span class="sidebar-category-name" data-categories="Docker数据卷"><span class="iconfont-archer">&#xe60a;</span>Docker数据卷</span>
+    
+        <span class="sidebar-category-name" data-categories="Docker安装部署教程"><span class="iconfont-archer">&#xe60a;</span>Docker安装部署教程</span>
+    
+        <span class="sidebar-category-name" data-categories="Docker网络"><span class="iconfont-archer">&#xe60a;</span>Docker网络</span>
+    
+        <span class="sidebar-category-name" data-categories="Gitlab升级"><span class="iconfont-archer">&#xe60a;</span>Gitlab升级</span>
+    
+        <span class="sidebar-category-name" data-categories="Docker核心技术与实现原理"><span class="iconfont-archer">&#xe60a;</span>Docker核心技术与实现原理</span>
+    
+        <span class="sidebar-category-name" data-categories="HAProxy使用"><span class="iconfont-archer">&#xe60a;</span>HAProxy使用</span>
+    
+        <span class="sidebar-category-name" data-categories="Docker镜像仓库Harbor搭建"><span class="iconfont-archer">&#xe60a;</span>Docker镜像仓库Harbor搭建</span>
+    
+        <span class="sidebar-category-name" data-categories="Hexo-Github搭建博客"><span class="iconfont-archer">&#xe60a;</span>Hexo-Github搭建博客</span>
+    
+        <span class="sidebar-category-name" data-categories="LVM使用"><span class="iconfont-archer">&#xe60a;</span>LVM使用</span>
+    
+        <span class="sidebar-category-name" data-categories="MongoDB复制集部署"><span class="iconfont-archer">&#xe60a;</span>MongoDB复制集部署</span>
+    
+        <span class="sidebar-category-name" data-categories="MongoDB分片集群部署"><span class="iconfont-archer">&#xe60a;</span>MongoDB分片集群部署</span>
+    
+        <span class="sidebar-category-name" data-categories="MySQL存储引擎中的MyISAM和InnoDB区别详解"><span class="iconfont-archer">&#xe60a;</span>MySQL存储引擎中的MyISAM和InnoDB区别详解</span>
+    
+        <span class="sidebar-category-name" data-categories="MongoDB单实例部署"><span class="iconfont-archer">&#xe60a;</span>MongoDB单实例部署</span>
+    
+        <span class="sidebar-category-name" data-categories="NFS安装部署"><span class="iconfont-archer">&#xe60a;</span>NFS安装部署</span>
+    
+        <span class="sidebar-category-name" data-categories="open-falcon安装部署教程"><span class="iconfont-archer">&#xe60a;</span>open-falcon安装部署教程</span>
+    
+        <span class="sidebar-category-name" data-categories="通过devstack安装部署OpenStack"><span class="iconfont-archer">&#xe60a;</span>通过devstack安装部署OpenStack</span>
+    
+        <span class="sidebar-category-name" data-categories="Nginx正反向代理-负载均衡"><span class="iconfont-archer">&#xe60a;</span>Nginx正反向代理-负载均衡</span>
+    
+        <span class="sidebar-category-name" data-categories="通过packstack快速安装openstack"><span class="iconfont-archer">&#xe60a;</span>通过packstack快速安装openstack</span>
+    
+        <span class="sidebar-category-name" data-categories="4-0-8"><span class="iconfont-archer">&#xe60a;</span>4-0-8</span>
+    
+        <span class="sidebar-category-name" data-categories="OpenStack安装部署教程"><span class="iconfont-archer">&#xe60a;</span>OpenStack安装部署教程</span>
+    
+        <span class="sidebar-category-name" data-categories="supervisor-安装、配置、常用命令"><span class="iconfont-archer">&#xe60a;</span>supervisor-安装、配置、常用命令</span>
+    
+        <span class="sidebar-category-name" data-categories="Zabbix汉化字体修改"><span class="iconfont-archer">&#xe60a;</span>Zabbix汉化字体修改</span>
+    
+        <span class="sidebar-category-name" data-categories="Zabbix性能优化"><span class="iconfont-archer">&#xe60a;</span>Zabbix性能优化</span>
+    
+        <span class="sidebar-category-name" data-categories="Zabbix-编译安装"><span class="iconfont-archer">&#xe60a;</span>Zabbix-编译安装</span>
+    
+        <span class="sidebar-category-name" data-categories="Zabbix-YUM安装"><span class="iconfont-archer">&#xe60a;</span>Zabbix-YUM安装</span>
+    
+        <span class="sidebar-category-name" data-categories="浅析僵尸进程与孤儿进程"><span class="iconfont-archer">&#xe60a;</span>浅析僵尸进程与孤儿进程</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
+    <div class="sidebar-categories-list"></div>
+</div>
+    </div>
+</div> 
+    <script>
+    var siteMeta = {
+        root: '/',
+        author: 'Jayden'
+    }
+</script>
+    <!-- busuanzi  -->
+    
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+    <!-- CNZZ  -->
+    
+    </div>
+    <!-- async load share.js -->
+    
+        <script src="/scripts/share.js" async></script>    
+    
+    </body>
+</html>
+
+
