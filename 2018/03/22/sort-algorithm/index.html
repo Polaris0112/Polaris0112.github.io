@@ -1,0 +1,1675 @@
+<!DOCTYPE html>
+<html>
+    <!-- title -->
+
+
+
+
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" >
+    <title>Python实现八大排序算法 · Jayden&#39;s Blog</title>
+    <style type="text/css">
+    @font-face {
+        font-family: 'Oswald-Regular';
+        src: url("/font/Oswald-Regular.ttf");
+    }
+
+    body {
+        margin: 0;
+    }
+
+    header,
+    footer,
+    .back-top,
+    .sidebar,
+    .container,
+    .site-intro-meta,
+    .toc-wrapper {
+        display: none;
+    }
+
+    .site-intro {
+        position: relative;
+        z-index: 3;
+        width: 100%;
+        height: 50vh;
+        overflow: hidden;
+        box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.7);
+    }
+
+    .site-intro-placeholder {
+        position: absolute;
+        z-index: -2;
+        top: 0;
+        left: 0;
+        width: calc(100% + 300px);
+        height: 100%;
+        background: repeating-linear-gradient(-45deg, #444 0, #444 80px, #333 80px, #333 160px);
+        background-position: center center;
+        transform: translate3d(-226px, 0, 0);
+        animation: gradient-move 2.5s ease-out 0s 1;
+    }
+
+    @keyframes gradient-move {
+        0% {
+            transform: translate3d(-226px, 0, 0);
+        }
+        100% {
+            transform: translate3d(0, 0, 0);
+        }
+    }
+
+</style>
+
+    <link rel="preload" href= /css/style.css?v=20180228 as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="stylesheet" type="text/css" href= /css/mobile.css?v=20180228 media="(max-width: 980px)"/>
+    <link rel="icon" href= /assets/favicon.ico>
+    <script>
+  // load webfont-loader async, and add callback function
+  function async(u, c) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+  
+  // get user agent
+  var browser = {
+    versions: function () {
+      var u = window.navigator.userAgent;
+      return {
+        userAgent: u,
+        trident: u.indexOf('Trident') > -1, //IE内核
+        presto: u.indexOf('Presto') > -1, //opera内核
+        webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+        gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+        mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+        ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+        android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+        iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
+        iPad: u.indexOf('iPad') > -1, //是否为iPad
+        webApp: u.indexOf('Safari') == -1, //是否为web应用程序，没有头部与底部
+        weixin: u.indexOf('MicroMessenger') == -1, //是否为微信浏览器
+        uc: u.indexOf('UCBrowser') > -1 //是否为android下的UC浏览器
+      };
+    }()
+  }
+  console.log("userAgent:" + browser.versions.userAgent);
+
+  // callback
+  function fontLoaded() {
+    console.log('font loaded');
+    if (document.getElementsByClassName('site-intro-meta')) {
+      document.getElementsByClassName('intro-title')[0].classList.add('intro-fade-in');
+      document.getElementsByClassName('intro-subtitle')[0].classList.add('intro-fade-in');
+      var postIntroTags = document.getElementsByClassName('post-intro-tags')[0],
+        postIntroMeat = document.getElementsByClassName('post-intro-meta')[0];
+      if (postIntroTags) {
+        postIntroTags.classList.add('post-fade-in');
+      }
+      if (postIntroMeat) {
+        postIntroMeat.classList.add('post-fade-in');
+      }
+    }
+  }
+
+  // UC不支持跨域，所以直接显示
+  function asyncCb(){
+    if (browser.versions.uc) {
+      console.log("UCBrowser");
+      fontLoaded();
+    } else {
+      WebFont.load({
+        custom: {
+          families: ['Oswald-Regular']
+        },
+        loading: function () {  //所有字体开始加载
+          // console.log('loading');
+        },
+        active: function () {  //所有字体已渲染
+          fontLoaded();
+        },
+        inactive: function () { //字体预加载失败，无效字体或浏览器不支持加载
+          console.log('inactive: timeout');
+          fontLoaded();
+        },
+        timeout: 5000 // Set the timeout to two seconds
+      });
+    }
+  }
+
+  async("https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js", asyncCb)
+</script>
+    <script>
+        (function (w) {
+            "use strict";
+            // rel=preload support test
+            if (!w.loadCSS) {
+                w.loadCSS = function () { };
+            }
+            // define on the loadCSS obj
+            var rp = loadCSS.relpreload = {};
+            // rel=preload feature support test
+            // runs once and returns a function for compat purposes
+            rp.support = (function () {
+                var ret;
+                try {
+                    ret = w.document.createElement("link").relList.supports("preload");
+                } catch (e) {
+                    ret = false;
+                }
+                return function () {
+                    return ret;
+                };
+            })();
+
+            // if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+            // then change that media back to its intended value on load
+            rp.bindMediaToggle = function (link) {
+                // remember existing media attr for ultimate state, or default to 'all'
+                var finalMedia = link.media || "all";
+
+                function enableStylesheet() {
+                    link.media = finalMedia;
+                }
+
+                // bind load handlers to enable media
+                if (link.addEventListener) {
+                    link.addEventListener("load", enableStylesheet);
+                } else if (link.attachEvent) {
+                    link.attachEvent("onload", enableStylesheet);
+                }
+
+                // Set rel and non-applicable media type to start an async request
+                // note: timeout allows this to happen async to let rendering continue in IE
+                setTimeout(function () {
+                    link.rel = "stylesheet";
+                    link.media = "only x";
+                });
+                // also enable media after 3 seconds,
+                // which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+                setTimeout(enableStylesheet, 3000);
+            };
+
+            // loop through link elements in DOM
+            rp.poly = function () {
+                // double check this to prevent external calls from running
+                if (rp.support()) {
+                    return;
+                }
+                var links = w.document.getElementsByTagName("link");
+                for (var i = 0; i < links.length; i++) {
+                    var link = links[i];
+                    // qualify links to those with rel=preload and as=style attrs
+                    if (link.rel === "preload" && link.getAttribute("as") === "style" && !link.getAttribute("data-loadcss")) {
+                        // prevent rerunning on link
+                        link.setAttribute("data-loadcss", true);
+                        // bind listeners to toggle media back
+                        rp.bindMediaToggle(link);
+                    }
+                }
+            };
+
+            // if unsupported, run the polyfill
+            if (!rp.support()) {
+                // run once at least
+                rp.poly();
+
+                // rerun poly on an interval until onload
+                var run = w.setInterval(rp.poly, 500);
+                if (w.addEventListener) {
+                    w.addEventListener("load", function () {
+                        rp.poly();
+                        w.clearInterval(run);
+                    });
+                } else if (w.attachEvent) {
+                    w.attachEvent("onload", function () {
+                        rp.poly();
+                        w.clearInterval(run);
+                    });
+                }
+            }
+            // commonjs
+            if (typeof exports !== "undefined") {
+                exports.loadCSS = loadCSS;
+            }
+            else {
+                w.loadCSS = loadCSS;
+            }
+        }(typeof global !== "undefined" ? global : this));
+    </script>
+    <script src="//cdn.staticfile.org/jquery/3.2.1/jquery.min.js" defer></script>
+    <script src="/scripts/main.js" defer></script>
+    <!-- 百度统计  -->
+    
+    <!-- 谷歌统计  -->
+    
+</head>
+
+    
+        <body class="post-body">
+    
+    
+<header class="header">
+
+    <div class="read-progress"></div>
+    <div class="header-sidebar-menu">&#xe775;</div>
+    <!-- post页的toggle banner  -->
+    
+    <div class="banner">
+            <div class="blog-title">
+                <a href="/" >Jayden&#39;s Website.</a>
+            </div>
+            <div class="post-title">
+                <a href="#" class="post-name">Python实现八大排序算法</a>
+            </div>
+    </div>
+    
+    <a class="home-link" href=/>Jayden's Website.</a>
+</header>
+    <div class="wrapper">
+        <div class="site-intro">
+    
+    <!-- 主页  -->
+    
+    
+    <!-- 404页  -->
+            
+    <div class="site-intro-img" style="background-image: url(/intro/post-bg.jpg)"></div>
+    <div class="site-intro-placeholder"></div>
+    <div class="site-intro-meta">
+        <!-- 标题  -->
+        <h1 class="intro-title">
+            <!-- 主页  -->
+            
+            Python实现八大排序算法
+            <!-- 404 -->
+            
+        </h1>
+        <!-- 副标题 -->
+        <p class="intro-subtitle">
+            <!-- 主页副标题  -->
+            
+            
+            <!-- 404 -->
+            
+        </p>
+        <!-- 文章页meta -->
+        
+            <!-- 文章页标签  -->
+            
+                <div class= post-intro-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = Python>Python</a>
+    
+</div>
+            
+            <div class="post-intro-meta">
+                <span class="post-intro-calander iconfont-archer">&#xe676;</span>
+                <span class="post-intro-time">2018/03/22</span>
+                
+                <span id="busuanzi_container_page_pv" class="busuanzi-pv">
+                    <span class="iconfont-archer">&#xe602;</span>
+                    <span id="busuanzi_value_page_pv"></span>
+                </span>
+                
+                <span class="shareWrapper">
+                    <span class="iconfont-archer shareIcon">&#xe71d;</span>
+                    <span class="shareText">Share</span>
+                    <ul class="shareList">
+                        <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
+                            <div class="share-qrcode"></div>
+                        </li>
+                        <li class="iconfont-archer" data-type="weibo">&#xe619;</li>
+                        <li class="iconfont-archer" data-type="qzone">&#xe62e;</li>
+                        <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
+                        <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
+                    </ul>
+                </span>
+            </div>
+        
+    </div>
+</div>
+        <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
+
+        <div class="container container-unloaded">
+            <main class="main post-page">
+    <article class="article-entry">
+        <p>本帖子记录的是整理基于Python的八大排序算法。</p>
+<p>本文用Python实现了插入排序、希尔排序、冒泡排序、快速排序、直接选择排序、堆排序、归并排序、基数排序。</p>
+<h2 id="冒泡排序"><a href="#冒泡排序" class="headerlink" title="冒泡排序"></a>冒泡排序</h2><h3 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h3><p>冒泡排序(Bubble Sort)是一种简单的排序算法。它重复地走访过要排序的数列，一次比较两个元素，如果他们的顺序错误就把他们交换过来。走访数列的工作是重复地进行直到没有再需要交换，也就是说该数列已经排序完成。这个算法的名字由来是因为越小的元素会经由交换慢慢“浮”到数列的顶端。</p>
+<h3 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h3><p>冒泡排序算法的运作如下：</p>
+<ul>
+<li>比较相邻的元素。如果第一个比第二个大，就交换他们两个。</li>
+<li>对每一对相邻元素作同样的工作，从开始第一对到结尾的最后一对。这步做完后，最后的元素会是最大的数。</li>
+<li>针对所有的元素重复以上的步骤，除了最后一个。</li>
+<li>持续每次对越来越少的元素重复上面的步骤，直到没有任何一对数字需要比较。</li>
+</ul>
+<h3 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">bubble_sort</span><span class="params">(list)</span>:</span></span><br><span class="line">    length = len(list)</span><br><span class="line">    <span class="comment"># 第一级遍历</span></span><br><span class="line">    <span class="keyword">for</span> index <span class="keyword">in</span> range(length):</span><br><span class="line">        <span class="comment"># 第二级遍历</span></span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> range(<span class="number">1</span>, length - index):</span><br><span class="line">            <span class="keyword">if</span> list[j - <span class="number">1</span>] &gt; list[j]:</span><br><span class="line">                <span class="comment"># 交换两者数据，这里没用temp是因为python 特性元组。</span></span><br><span class="line">                list[j - <span class="number">1</span>], list[j] = list[j], list[j - <span class="number">1</span>]</span><br><span class="line">    <span class="keyword">return</span> list</span><br></pre></td></tr></table></figure>
+<p>优化<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">bubble_sort_flag</span><span class="params">(list)</span>:</span></span><br><span class="line">    length = len(list)</span><br><span class="line">    <span class="keyword">for</span> index <span class="keyword">in</span> range(length):</span><br><span class="line">        <span class="comment"># 标志位</span></span><br><span class="line">        flag = <span class="keyword">True</span></span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> range(<span class="number">1</span>, length - index):</span><br><span class="line">            <span class="keyword">if</span> list[j - <span class="number">1</span>] &gt; list[j]:</span><br><span class="line">                list[j - <span class="number">1</span>], list[j] = list[j], list[j - <span class="number">1</span>]</span><br><span class="line">                flag = <span class="keyword">False</span></span><br><span class="line">        <span class="keyword">if</span> flag:</span><br><span class="line">            <span class="comment"># 没有发生交换，直接返回list</span></span><br><span class="line">            <span class="keyword">return</span> list</span><br><span class="line">    <span class="keyword">return</span> list</span><br></pre></td></tr></table></figure></p>
+<p><a href="https://raw.githubusercontent.com/Polaris0112/Ops-Tools/master/selection-algorithm/bubble-sort.py" target="_blank" rel="noopener">测试代码</a></p>
+<h2 id="选择排序"><a href="#选择排序" class="headerlink" title="选择排序"></a>选择排序</h2><h3 id="原理-1"><a href="#原理-1" class="headerlink" title="原理"></a>原理</h3><p>选择排序（Selection sort）是一种简单直观的排序算法。它的工作原理大致是将后面的元素最小元素一个个取出然后按顺序放置。</p>
+<h3 id="步骤-1"><a href="#步骤-1" class="headerlink" title="步骤"></a>步骤</h3><ul>
+<li>在未排序序列中找到最小（大）元素，存放到排序序列的起始位置，</li>
+<li>再从剩余未排序元素中继续寻找最小（大）元素，然后放到已排序序列的末尾。</li>
+<li>重复第二步，直到所有元素均排序完毕。</li>
+</ul>
+<h3 id="代码-1"><a href="#代码-1" class="headerlink" title="代码"></a>代码</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">selection_sort</span><span class="params">(list)</span>:</span></span><br><span class="line">    n=len(list)</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range (<span class="number">0</span>,n):</span><br><span class="line">        min = i</span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> range(i+<span class="number">1</span>,n):</span><br><span class="line">            <span class="keyword">if</span> list[j]&lt;list[min]:</span><br><span class="line">                min=j</span><br><span class="line">                list[min],list[i]=list[i],list[min]</span><br><span class="line">    <span class="keyword">return</span> list</span><br></pre></td></tr></table></figure>
+<p><a href="https://raw.githubusercontent.com/Polaris0112/Ops-Tools/master/selection-algorithm/select-sort.py" target="_blank" rel="noopener">测试代码</a></p>
+<h2 id="插入排序"><a href="#插入排序" class="headerlink" title="插入排序"></a>插入排序</h2><h3 id="原理-2"><a href="#原理-2" class="headerlink" title="原理"></a>原理</h3><p>插入排序（Insertion Sort）是一种简单直观的排序算法。它的工作原理是通过构建有序序列，对于未排序数据，在已排序序列中从后向前扫描，找到相应位置并插入。</p>
+<h3 id="步骤-2"><a href="#步骤-2" class="headerlink" title="步骤"></a>步骤</h3><ul>
+<li>从第一个元素开始，该元素可以认为已经被排序</li>
+<li>取出下一个元素，在已经排序的元素序列中从后向前扫描</li>
+<li>如果该元素（已排序）大于新元素，将该元素移到下一位置</li>
+<li>重复步骤3，直到找到已排序的元素小于或者等于新元素的位置</li>
+<li>将新元素插入到该位置后</li>
+<li>重复步骤2~5</li>
+</ul>
+<h3 id="代码-2"><a href="#代码-2" class="headerlink" title="代码"></a>代码</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">insert_sort</span><span class="params">(list)</span>:</span></span><br><span class="line">    n = len(list)</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>, n):</span><br><span class="line">        <span class="comment"># 后一个元素和前一个元素比较</span></span><br><span class="line">        <span class="comment"># 如果比前一个小</span></span><br><span class="line">        <span class="keyword">if</span> list[i] &lt; list[i - <span class="number">1</span>]:</span><br><span class="line">            <span class="comment"># 将这个数取出</span></span><br><span class="line">            temp = list[i]</span><br><span class="line">            <span class="comment"># 保存下标</span></span><br><span class="line">            index = i</span><br><span class="line">            <span class="comment"># 从后往前依次比较每个元素</span></span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> range(i - <span class="number">1</span>, <span class="number">-1</span>, <span class="number">-1</span>):</span><br><span class="line">                <span class="comment"># 和比取出元素大的元素交换</span></span><br><span class="line">                <span class="keyword">if</span> list[j] &gt; temp:</span><br><span class="line">                    list[j + <span class="number">1</span>] = list[j]</span><br><span class="line">                    index = j</span><br><span class="line">                <span class="keyword">else</span>:</span><br><span class="line">                    <span class="keyword">break</span></span><br><span class="line">            <span class="comment"># 插入元素</span></span><br><span class="line">            list[index] = temp</span><br><span class="line">    <span class="keyword">return</span> list</span><br></pre></td></tr></table></figure>
+<p><a href="https://raw.githubusercontent.com/Polaris0112/Ops-Tools/master/selection-algorithm/insert-sort.py" target="_blank" rel="noopener">测试代码</a></p>
+<h2 id="希尔排序"><a href="#希尔排序" class="headerlink" title="希尔排序"></a>希尔排序</h2><h3 id="原理-3"><a href="#原理-3" class="headerlink" title="原理"></a>原理</h3><p>希尔排序，也称递减增量排序算法，是插入排序的一种更高效的改进版本。希尔排序是非稳定排序算法。<br>希尔排序是基于插入排序的以下两点性质而提出改进方法的：<br>插入排序在对几乎已经排好序的数据操作时，效率高，即可以达到线性排序的效率<br>但插入排序一般来说是低效的，因为插入排序每次只能将数据移动一位。</p>
+<h3 id="步骤-3"><a href="#步骤-3" class="headerlink" title="步骤"></a>步骤</h3><p>每次以一定步长(就是跳过等距的数)进行排序，直至步长为1.</p>
+<h3 id="代码-3"><a href="#代码-3" class="headerlink" title="代码"></a>代码</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">shell_sort</span><span class="params">(list)</span>:</span></span><br><span class="line">    n = len(list)</span><br><span class="line">    <span class="comment"># 初始步长</span></span><br><span class="line">    gap = round(n / <span class="number">2</span>)</span><br><span class="line">    <span class="keyword">while</span> gap &gt; <span class="number">0</span>:</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(gap, n):</span><br><span class="line">            <span class="comment"># 每个步长进行插入排序</span></span><br><span class="line">            temp = list[i]</span><br><span class="line">            j = i</span><br><span class="line">            <span class="comment"># 插入排序</span></span><br><span class="line">            <span class="keyword">while</span> j &gt;= gap <span class="keyword">and</span> list[j - gap] &gt; temp:</span><br><span class="line">                list[j] = list[j - gap]</span><br><span class="line">                j -= gap</span><br><span class="line">            list[j] = temp</span><br><span class="line">        <span class="comment"># 得到新的步长</span></span><br><span class="line">        gap = round(gap / <span class="number">2</span>)</span><br><span class="line">    <span class="keyword">return</span> list</span><br></pre></td></tr></table></figure>
+<p><a href="https://raw.githubusercontent.com/Polaris0112/Ops-Tools/master/selection-algorithm/shell-sort.py" target="_blank" rel="noopener">测试代码</a></p>
+<h2 id="归并排序"><a href="#归并排序" class="headerlink" title="归并排序"></a>归并排序</h2><h3 id="原理-4"><a href="#原理-4" class="headerlink" title="原理"></a>原理</h3><p>归并操作(归并算法)，指的是将两个已经排序的序列合并成一个序列的操作。归并排序算法依赖归并操作。</p>
+<h3 id="步骤-4"><a href="#步骤-4" class="headerlink" title="步骤"></a>步骤</h3><p>迭代法</p>
+<ul>
+<li>申请空间，使其大小为两个已经排序序列之和，该空间用来存放合并后的序列</li>
+<li>设定两个指针，最初位置分别为两个已经排序序列的起始位置</li>
+<li>比较两个指针所指向的元素，选择相对小的元素放入到合并空间，并移动指针到下一位置</li>
+<li>重复步骤3直到某一指针到达序列尾</li>
+<li>将另一序列剩下的所有元素直接复制到合并序列尾</li>
+</ul>
+<p>递归法</p>
+<p>假设序列共有n个元素：</p>
+<ul>
+<li>将序列每相邻两个数字进行归并操作，形成 {\displaystyle floor(n/2)} floor(n/2)个序列，排序后每个序列包含两个元素</li>
+<li>将上述序列再次归并，形成 {\displaystyle floor(n/4)} floor(n/4)个序列，每个序列包含四个元素</li>
+<li>重复步骤2，直到所有元素排序完毕</li>
+</ul>
+<h3 id="代码-4"><a href="#代码-4" class="headerlink" title="代码"></a>代码</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 递归法</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">merge_sort</span><span class="params">(list)</span>:</span></span><br><span class="line">    <span class="comment"># 认为长度不大于1的数列是有序的</span></span><br><span class="line">    <span class="keyword">if</span> len(list) &lt;= <span class="number">1</span>:</span><br><span class="line">        <span class="keyword">return</span> list</span><br><span class="line">    <span class="comment"># 二分列表</span></span><br><span class="line">    middle = len(list) // <span class="number">2</span></span><br><span class="line">    left = merge_sort(list[:middle])</span><br><span class="line">    right = merge_sort(list[middle:])</span><br><span class="line">    <span class="comment"># 最后一次合并</span></span><br><span class="line">    <span class="keyword">return</span> merge(left, right)</span><br><span class="line"><span class="comment"># 合并</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">merge</span><span class="params">(left, right)</span>:</span></span><br><span class="line">    l,r=<span class="number">0</span>,<span class="number">0</span></span><br><span class="line">    result=[]</span><br><span class="line">    <span class="keyword">while</span> l&lt;len(left) <span class="keyword">and</span> r&lt;len(right):</span><br><span class="line">        <span class="keyword">if</span> left[l] &lt;right[r]:</span><br><span class="line">            result.append(left[l])</span><br><span class="line">            l+=<span class="number">1</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            result.append(right[r])</span><br><span class="line">            r +=<span class="number">1</span></span><br><span class="line">        reslut +=left[l:]</span><br><span class="line">        result+=right[r:]                </span><br><span class="line">    <span class="keyword">return</span> result</span><br></pre></td></tr></table></figure>
+<p><a href="https://raw.githubusercontent.com/Polaris0112/Ops-Tools/master/selection-algorithm/merge-sort.py" target="_blank" rel="noopener">测试代码</a></p>
+<h2 id="快速排序"><a href="#快速排序" class="headerlink" title="快速排序"></a>快速排序</h2><h3 id="原理-5"><a href="#原理-5" class="headerlink" title="原理"></a>原理</h3><p>快速排序使用分治法（Divide and conquer）策略来把一个序列（list）分为两个子序列（sub-lists）。</p>
+<h3 id="步骤-5"><a href="#步骤-5" class="headerlink" title="步骤"></a>步骤</h3><ul>
+<li>从数列中挑出一个元素，称为”基准”（pivot），</li>
+<li>重新排序数列，所有元素比基准值小的摆放在基准前面，所有元素比基准值大的摆在基准的后面（相同的数可以到任一边）。在这个分区结束之后，该基准就处于数列的中间位置。这个称为分区（partition）操作。</li>
+<li>递归地（recursive）把小于基准值元素的子数列和大于基准值元素的子数列排序。</li>
+</ul>
+<h3 id="代码-5"><a href="#代码-5" class="headerlink" title="代码"></a>代码</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding:utf-8 -*-</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">kp</span><span class="params">(arr,i,j)</span>:</span><span class="comment">#快排总函数</span></span><br><span class="line">                <span class="comment">#制定从哪开始快排</span></span><br><span class="line">    <span class="keyword">if</span> i&lt;j:</span><br><span class="line">        base=kpgc(arr,i,j)</span><br><span class="line">        kp(arr,i,base)</span><br><span class="line">        kp(arr,base+<span class="number">1</span>,j)</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">kpgc</span><span class="params">(arr,i,j)</span>:</span><span class="comment">#快排排序过程</span></span><br><span class="line">    base=arr[i]</span><br><span class="line">    <span class="keyword">while</span> i&lt;j:</span><br><span class="line">        <span class="keyword">while</span> i&lt;j <span class="keyword">and</span> arr[j]&gt;=base:</span><br><span class="line">            j-=<span class="number">1</span></span><br><span class="line">        <span class="keyword">while</span> i&lt;j <span class="keyword">and</span> arr[j]&lt;base:</span><br><span class="line">            arr[i]=arr[j]</span><br><span class="line">            i+=<span class="number">1</span></span><br><span class="line">            arr[j]=arr[i]</span><br><span class="line">        arr[i]=base</span><br><span class="line">    <span class="keyword">return</span> i</span><br><span class="line">ww=[<span class="number">3</span>,<span class="number">2</span>,<span class="number">4</span>,<span class="number">1</span>,<span class="number">59</span>,<span class="number">23</span>,<span class="number">13</span>,<span class="number">1</span>,<span class="number">3</span>]</span><br><span class="line"><span class="keyword">print</span> ww</span><br><span class="line">kp(ww,<span class="number">0</span>,len(ww)<span class="number">-1</span>)</span><br><span class="line"><span class="keyword">print</span> ww</span><br></pre></td></tr></table></figure>
+<p>下面这段代码出自《Python cookbook 第二版》传说中的三行实现python快速排序。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">qsort</span><span class="params">(arr)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> len(arr) &lt;= <span class="number">1</span>:</span><br><span class="line">        <span class="keyword">return</span> arr</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        pivot = arr[<span class="number">0</span>]</span><br><span class="line">        <span class="keyword">return</span> qsort([x <span class="keyword">for</span> x <span class="keyword">in</span> arr[<span class="number">1</span>:] <span class="keyword">if</span> x &lt; pivot]) + \</span><br><span class="line">               [pivot] + \</span><br><span class="line">               qsort([x <span class="keyword">for</span> x <span class="keyword">in</span> arr[<span class="number">1</span>:] <span class="keyword">if</span> x &gt;= pivot])</span><br></pre></td></tr></table></figure>
+<p><a href="https://raw.githubusercontent.com/Polaris0112/Ops-Tools/master/selection-algorithm/quick-sort.py" target="_blank" rel="noopener">测试代码</a></p>
+<h2 id="堆排序"><a href="#堆排序" class="headerlink" title="堆排序"></a>堆排序</h2><h3 id="原理-6"><a href="#原理-6" class="headerlink" title="原理"></a>原理</h3><p>堆排序（Heapsort）是指利用堆这种数据结构所设计的一种排序算法。堆积是一个近似完全二叉树的结构，并同时满足堆积的性质：即子结点的键值或索引总是小于（或者大于）它的父节点。</p>
+<h3 id="步骤-6"><a href="#步骤-6" class="headerlink" title="步骤"></a>步骤</h3><ul>
+<li>创建最大堆:将堆所有数据重新排序，使其成为最大堆</li>
+<li>最大堆调整:作用是保持最大堆的性质，是创建最大堆的核心子程序</li>
+<li>堆排序:移除位在第一个数据的根节点，并做最大堆调整的递归运算</li>
+</ul>
+<h3 id="代码-6"><a href="#代码-6" class="headerlink" title="代码"></a>代码</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding:utf-8 -*-</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">head_sort</span><span class="params">(list)</span>:</span></span><br><span class="line">	length_list = len(list)</span><br><span class="line">	first=int(length_list/<span class="number">2</span><span class="number">-1</span>)</span><br><span class="line">	<span class="keyword">for</span> start <span class="keyword">in</span> range(first,<span class="number">-1</span>,<span class="number">-1</span>):</span><br><span class="line">		max_heapify(list,start,length_list<span class="number">-1</span>)</span><br><span class="line">	<span class="keyword">for</span> end <span class="keyword">in</span> range(length_list<span class="number">-1</span>,<span class="number">0</span>,<span class="number">-1</span>):</span><br><span class="line">		list[end],list[<span class="number">0</span>]=list[<span class="number">0</span>],list[end]</span><br><span class="line">		max_heapify(list,<span class="number">0</span>,end<span class="number">-1</span>)</span><br><span class="line">	<span class="keyword">return</span> list</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">max_heapify</span><span class="params">(ary,start,end)</span>:</span></span><br><span class="line">	root = start</span><br><span class="line">	<span class="keyword">while</span> <span class="keyword">True</span>:</span><br><span class="line">		child = root*<span class="number">2</span> + <span class="number">1</span></span><br><span class="line">		<span class="keyword">if</span> child &gt; end:</span><br><span class="line">			<span class="keyword">break</span></span><br><span class="line">		<span class="keyword">if</span> child + <span class="number">1</span> &lt;= end <span class="keyword">and</span> ary[child]&lt;ary[child+<span class="number">1</span>]:</span><br><span class="line">			child = child + <span class="number">1</span></span><br><span class="line">		<span class="keyword">if</span> ary[root]&lt;ary[child]:</span><br><span class="line">			ary[root],ary[child]=ary[child],ary[root]</span><br><span class="line">			root=child</span><br><span class="line">		<span class="keyword">else</span>:</span><br><span class="line">			<span class="keyword">break</span></span><br><span class="line"><span class="comment">#测试：</span></span><br><span class="line">list=[<span class="number">10</span>,<span class="number">23</span>,<span class="number">1</span>,<span class="number">53</span>,<span class="number">654</span>,<span class="number">54</span>,<span class="number">16</span>,<span class="number">646</span>,<span class="number">65</span>,<span class="number">3155</span>,<span class="number">546</span>,<span class="number">31</span>]</span><br><span class="line"><span class="keyword">print</span> head_sort(list)</span><br></pre></td></tr></table></figure>
+<p><a href="https://raw.githubusercontent.com/Polaris0112/Ops-Tools/master/selection-algorithm/heap-sort.py" target="_blank" rel="noopener">测试代码</a></p>
+<h2 id="计数排序"><a href="#计数排序" class="headerlink" title="计数排序"></a>计数排序</h2><h3 id="原理-7"><a href="#原理-7" class="headerlink" title="原理"></a>原理</h3><p>当输入的元素是n个0到k之间的整数时，它的运行时间是Θ(n + k)。计数排序不是比较排序，排序的速度快于任何比较排序算法。</p>
+<p>由于用来计数的数组C的长度取决于待排序数组中数据的范围（等于待排序数组的最大值与最小值的差加上1），这使得计数排序对于数据范围很大的数组，需要大量时间和内存。例如：计数排序是用来排序0到100之间的数字的最好的算法，但是它不适合按字母顺序排序人名。但是，计数排序可以用在基数排序算法中，能够更有效的排序数据范围很大的数组。</p>
+<h3 id="步骤-7"><a href="#步骤-7" class="headerlink" title="步骤"></a>步骤</h3><ul>
+<li>找出待排序的数组中最大和最小的元素</li>
+<li>统计数组中每个值为i的元素出现的次数，存入数组 C 的第 i 项</li>
+<li>对所有的计数累加（从C中的第一个元素开始，每一项和前一项相加）</li>
+<li>反向填充目标数组：将每个元素i放在新数组的第C(i)项，每放一个元素就将C(i)减去1</li>
+</ul>
+<h3 id="代码-7"><a href="#代码-7" class="headerlink" title="代码"></a>代码</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">count_sort</span><span class="params">(list)</span>:</span></span><br><span class="line">    min = <span class="number">2147483647</span></span><br><span class="line">    max = <span class="number">0</span></span><br><span class="line">    <span class="comment"># 取得最大值和最小值</span></span><br><span class="line">    <span class="keyword">for</span> x <span class="keyword">in</span> list:</span><br><span class="line">        <span class="keyword">if</span> x &lt; min:</span><br><span class="line">            min = x</span><br><span class="line">        <span class="keyword">if</span> x &gt; max:</span><br><span class="line">            max = x</span><br><span class="line">    <span class="comment"># 创建数组C</span></span><br><span class="line">    count = [<span class="number">0</span>] * (max - min +<span class="number">1</span>)</span><br><span class="line">    <span class="keyword">for</span> index <span class="keyword">in</span> list:</span><br><span class="line">        count[index - min] += <span class="number">1</span></span><br><span class="line">    index = <span class="number">0</span></span><br><span class="line">    <span class="comment"># 填值</span></span><br><span class="line">    <span class="keyword">for</span> a <span class="keyword">in</span> range(max - min+<span class="number">1</span>):</span><br><span class="line">        <span class="keyword">for</span> c <span class="keyword">in</span> range(count[a]):</span><br><span class="line">            list[index] = a + min</span><br><span class="line">            index += <span class="number">1</span></span><br><span class="line">    <span class="keyword">return</span> list</span><br></pre></td></tr></table></figure>
+<p><a href="https://raw.githubusercontent.com/Polaris0112/Ops-Tools/master/selection-algorithm/count-sort.py" target="_blank" rel="noopener">测试代码</a></p>
+
+    </article>
+    <!-- 前后页  -->
+    <ul class="post-paginator">
+        <li class="next">
+            
+                <div class="nextSlogan">Next Post</div>
+                <a href= "/2018/04/20/kubernetes-installation/" title= Kubernetes快速搭建过程 >
+                    <div class="nextTitle">Kubernetes快速搭建过程</div>
+                </a>
+            
+        </li>
+        <li class="previous">
+            
+                <div class="prevSlogan">Previous Post</div>
+                <a href= "/2018/03/21/docker-data-volume-improve/" title= Docker数据卷之进阶篇 >
+                    <div class="prevTitle">Docker数据卷之进阶篇</div>
+                </a>
+            
+        </li>
+    </ul>
+    <!-- 评论插件 -->
+    <!-- 来必力City版安装代码 -->
+
+<!-- City版安装代码已完成 -->
+    
+    
+    <!--PC版-->
+
+    <!--PC版-->
+
+
+    
+    <!-- 评论 -->
+</main>
+            <!-- profile -->
+            
+        </div>
+        <footer class="footer footer-unloaded">
+    <!-- social  -->
+    
+    <div class="social">
+        
+    
+        
+            
+                <a href="mailto:jjc27017@gmail.com" class="iconfont-archer email" title=email ></a>
+            
+        
+    
+        
+            
+                <a href="//github.com/Polaris0112" class="iconfont-archer github" target="_blank" title=github></a>
+            
+        
+    
+        
+            
+                <span class="iconfont-archer wechat" title=wechat>
+                  
+                  <img class="profile-qr" src="/assets/wechat_qr.png" />
+                </span>
+            
+        
+    
+        
+            
+                <span class="iconfont-archer qq" title=qq>
+                  
+                  <img class="profile-qr" src="/assets/qq_qr.jpg" />
+                </span>
+            
+        
+    
+        
+            
+                <a href="//weibo.com/__Tk__" class="iconfont-archer weibo" target="_blank" title=weibo></a>
+            
+        
+    
+        
+            
+                <a href="//www.zhihu.com/people/chen-jia-jian-62" class="iconfont-archer zhihu" target="_blank" title=zhihu></a>
+            
+        
+    
+        
+            
+                <a href="//www.douban.com/people/170240662/" class="iconfont-archer douban" target="_blank" title=douban></a>
+            
+        
+    
+        
+            
+                <a href="//www.facebook.com/jiajian.chen.79" class="iconfont-archer facebook" target="_blank" title=facebook></a>
+            
+        
+    
+        
+            
+                <a href="//twitter.com/Jayden_0112" class="iconfont-archer twitter" target="_blank" title=twitter></a>
+            
+        
+    
+        
+    
+        
+    
+        
+            
+                <a href="//www.linkedin.com/in/嘉健-陈-3a0a20157/" class="iconfont-archer linkedin" target="_blank" title=linkedin></a>
+            
+        
+    
+        
+    
+        
+    
+
+    </div>
+    
+    <!-- powered by Hexo  -->
+    <div class="copyright">
+        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank">Archer</a></span>
+    </div>
+    <!-- 不蒜子  -->
+    
+    <div class="busuanzi-container">
+        <span id="busuanzi_container_site_pv">PV: <span id="busuanzi_value_site_pv"></span>
+        </span>
+    </div>
+    
+</footer>
+    </div>
+    <!-- toc -->
+    
+    <div class="toc-wrapper">
+        <div class="toc-catalog">
+            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+        </div>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#冒泡排序"><span class="toc-number">1.</span> <span class="toc-text">冒泡排序</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#原理"><span class="toc-number">1.1.</span> <span class="toc-text">原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#步骤"><span class="toc-number">1.2.</span> <span class="toc-text">步骤</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#代码"><span class="toc-number">1.3.</span> <span class="toc-text">代码</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#选择排序"><span class="toc-number">2.</span> <span class="toc-text">选择排序</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#原理-1"><span class="toc-number">2.1.</span> <span class="toc-text">原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#步骤-1"><span class="toc-number">2.2.</span> <span class="toc-text">步骤</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#代码-1"><span class="toc-number">2.3.</span> <span class="toc-text">代码</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#插入排序"><span class="toc-number">3.</span> <span class="toc-text">插入排序</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#原理-2"><span class="toc-number">3.1.</span> <span class="toc-text">原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#步骤-2"><span class="toc-number">3.2.</span> <span class="toc-text">步骤</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#代码-2"><span class="toc-number">3.3.</span> <span class="toc-text">代码</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#希尔排序"><span class="toc-number">4.</span> <span class="toc-text">希尔排序</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#原理-3"><span class="toc-number">4.1.</span> <span class="toc-text">原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#步骤-3"><span class="toc-number">4.2.</span> <span class="toc-text">步骤</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#代码-3"><span class="toc-number">4.3.</span> <span class="toc-text">代码</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#归并排序"><span class="toc-number">5.</span> <span class="toc-text">归并排序</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#原理-4"><span class="toc-number">5.1.</span> <span class="toc-text">原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#步骤-4"><span class="toc-number">5.2.</span> <span class="toc-text">步骤</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#代码-4"><span class="toc-number">5.3.</span> <span class="toc-text">代码</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#快速排序"><span class="toc-number">6.</span> <span class="toc-text">快速排序</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#原理-5"><span class="toc-number">6.1.</span> <span class="toc-text">原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#步骤-5"><span class="toc-number">6.2.</span> <span class="toc-text">步骤</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#代码-5"><span class="toc-number">6.3.</span> <span class="toc-text">代码</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#堆排序"><span class="toc-number">7.</span> <span class="toc-text">堆排序</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#原理-6"><span class="toc-number">7.1.</span> <span class="toc-text">原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#步骤-6"><span class="toc-number">7.2.</span> <span class="toc-text">步骤</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#代码-6"><span class="toc-number">7.3.</span> <span class="toc-text">代码</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#计数排序"><span class="toc-number">8.</span> <span class="toc-text">计数排序</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#原理-7"><span class="toc-number">8.1.</span> <span class="toc-text">原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#步骤-7"><span class="toc-number">8.2.</span> <span class="toc-text">步骤</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#代码-7"><span class="toc-number">8.3.</span> <span class="toc-text">代码</span></a></li></ol></li></ol>
+    </div>
+    
+    <div class="back-top iconfont-archer">&#xe639;</div>
+    <div class="sidebar sidebar-hide">
+    <ul class="sidebar-tabs sidebar-tabs-active-0">
+        <li class="sidebar-tab-archives"><span class="iconfont-archer">&#xe67d;</span><span class="tab-name">Archive</span></li>
+        <li class="sidebar-tab-tags"><span class="iconfont-archer">&#xe61b;</span><span class="tab-name">Tag</span></li>
+        <li class="sidebar-tab-categories"><span class="iconfont-archer">&#xe666;</span><span class="tab-name">Cate</span></li>
+    </ul>
+    <div class="sidebar-content sidebar-content-show-archive">
+          <div class="sidebar-panel-archives">
+    <!-- 在ejs中将archive按照时间排序 -->
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="total-archive"> Total : 43 </div>
+    
+    <div class="post-archive">
+    
+    
+    
+    
+    <div class="archive-year"> 2018 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/21</span><a class="archive-post-title" href= "/2018/04/21/kubernetes-dashboard/" >Kubernetes Dashboard部署</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/20</span><a class="archive-post-title" href= "/2018/04/20/kubernetes-installation/" >Kubernetes快速搭建过程</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/22</span><a class="archive-post-title" href= "/2018/03/22/sort-algorithm/" >Python实现八大排序算法</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/21</span><a class="archive-post-title" href= "/2018/03/21/docker-data-volume-improve/" >Docker数据卷之进阶篇</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/20</span><a class="archive-post-title" href= "/2018/03/20/docker-data-volume/" >浅谈Docker基础之数据管理</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/19</span><a class="archive-post-title" href= "/2018/03/19/docker-network/" >Docker容器网络通信原理分析</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/19</span><a class="archive-post-title" href= "/2018/03/19/docker-network-improve/" >“深入浅出”来解读Docker网络核心原理</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/18</span><a class="archive-post-title" href= "/2018/03/18/docker-tech/" >Docker核心技术与实现原理</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/17</span><a class="archive-post-title" href= "/2018/03/17/ceph-change-subnet/" >Ceph修改OSD和Monitor的网络</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/16</span><a class="archive-post-title" href= "/2018/03/16/ceph-commands/" >Ceph日常命令使用</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/15</span><a class="archive-post-title" href= "/2018/03/15/ceph-optimization-summary/" >Ceph 优化总结</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/14</span><a class="archive-post-title" href= "/2018/03/14/ceph-installation/" >分布式存储系统Ceph部署过程</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/14</span><a class="archive-post-title" href= "/2018/03/14/ceph-client-mount/" >Ceph Client挂载方法</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/13</span><a class="archive-post-title" href= "/2018/03/13/ceph-introduction/" >分布式存储系统Ceph原理</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/12</span><a class="archive-post-title" href= "/2018/03/12/harbor-installation/" >Docker镜像仓库Harbor搭建</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/11</span><a class="archive-post-title" href= "/2018/03/11/docker-install/" >Docker安装部署教程</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/10</span><a class="archive-post-title" href= "/2018/03/10/openstack-devstack-installation/" >通过devstack安装部署OpenStack</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/10</span><a class="archive-post-title" href= "/2018/03/10/openstack-packstack-installation/" >通过packstack快速安装openstack</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/09</span><a class="archive-post-title" href= "/2018/03/09/open-falcon-install/" >open-falcon安装部署教程</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/09</span><a class="archive-post-title" href= "/2018/03/09/openstack-install-introduction/" >OpenStack安装部署</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/08</span><a class="archive-post-title" href= "/2018/03/08/supervisor/" >supervisor 安装、配置、常用命令</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/03</span><a class="archive-post-title" href= "/2018/03/03/blockchain-selection/" >比特币如何达成共识 - 最长链的选择</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/03</span><a class="archive-post-title" href= "/2018/03/03/blockchain-pow/" >比特币如何挖矿（挖矿原理）-工作量证明</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/03</span><a class="archive-post-title" href= "/2018/03/03/blockchain-merkle/" >比特币区块结构 Merkle 树及简单支付验证分析</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/02</span><a class="archive-post-title" href= "/2018/03/02/blockchain-accounting/" >区块链记账原理</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/02</span><a class="archive-post-title" href= "/2018/03/02/blockchain-python/" >用Python从0开始创建一个区块链</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/01</span><a class="archive-post-title" href= "/2018/03/01/gitlab-update/" >Gitlab踩坑升级过程</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/28</span><a class="archive-post-title" href= "/2018/02/28/zombie-process-and-orphaned-process/" >浅析僵尸进程与孤儿进程</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/28</span><a class="archive-post-title" href= "/2018/02/28/zabbix-fonts/" >Zabbix汉化字体修改</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/27</span><a class="archive-post-title" href= "/2018/02/27/nfs-installation/" >NFS安装部署</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/26</span><a class="archive-post-title" href= "/2018/02/26/zabbix-optimization/" >Zabbix性能优化</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/26</span><a class="archive-post-title" href= "/2018/02/26/myisam-innodb/" >MyISAM和InnoDB区别详解</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/25</span><a class="archive-post-title" href= "/2018/02/25/zabbix-yum-installation/" >Zabbix YUM方式部署</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/25</span><a class="archive-post-title" href= "/2018/02/25/zabbix-source-installation/" >Zabbix 编译安装部署</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/24</span><a class="archive-post-title" href= "/2018/02/24/mongodb-replset/" >MongoDB复制集部署</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/24</span><a class="archive-post-title" href= "/2018/02/24/mongodb-single/" >MongoDB单实例部署</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/24</span><a class="archive-post-title" href= "/2018/02/24/mongodb-shard/" >MongoDB Sharding集群部署</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/23</span><a class="archive-post-title" href= "/2018/02/23/haproxy/" >HAProxy日常使用说明</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/22</span><a class="archive-post-title" href= "/2018/02/22/certbot/" >Certbot安装/部分问题解决方案</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/21</span><a class="archive-post-title" href= "/2018/02/21/nginx/" >Nginx正反向代理/负载均衡</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/20</span><a class="archive-post-title" href= "/2018/02/20/lvm/" >LVM创建/扩容/常用操作</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/12</span><a class="archive-post-title" href= "/2018/02/12/hexo/" >Hexo+Github搭建博客</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/20</span><a class="archive-post-title" href= "/2018/01/20/shadowsocks/" >小灰机-4.0.8下载</a>
+        </li>
+    
+    </div>
+  </div>
+        <div class="sidebar-panel-tags">
+    <div class="sidebar-tags-name">
+    
+        <span class="sidebar-tag-name" data-tags="Blockchain"><span class="iconfont-archer">&#xe606;</span>Blockchain</span>
+    
+        <span class="sidebar-tag-name" data-tags="Python"><span class="iconfont-archer">&#xe606;</span>Python</span>
+    
+        <span class="sidebar-tag-name" data-tags="Flask"><span class="iconfont-archer">&#xe606;</span>Flask</span>
+    
+        <span class="sidebar-tag-name" data-tags="Ceph"><span class="iconfont-archer">&#xe606;</span>Ceph</span>
+    
+        <span class="sidebar-tag-name" data-tags="Docker"><span class="iconfont-archer">&#xe606;</span>Docker</span>
+    
+        <span class="sidebar-tag-name" data-tags="Certbot"><span class="iconfont-archer">&#xe606;</span>Certbot</span>
+    
+        <span class="sidebar-tag-name" data-tags="https"><span class="iconfont-archer">&#xe606;</span>https</span>
+    
+        <span class="sidebar-tag-name" data-tags="Gitlab"><span class="iconfont-archer">&#xe606;</span>Gitlab</span>
+    
+        <span class="sidebar-tag-name" data-tags="Update"><span class="iconfont-archer">&#xe606;</span>Update</span>
+    
+        <span class="sidebar-tag-name" data-tags="Migration"><span class="iconfont-archer">&#xe606;</span>Migration</span>
+    
+        <span class="sidebar-tag-name" data-tags="CentOS"><span class="iconfont-archer">&#xe606;</span>CentOS</span>
+    
+        <span class="sidebar-tag-name" data-tags="Kubernetes"><span class="iconfont-archer">&#xe606;</span>Kubernetes</span>
+    
+        <span class="sidebar-tag-name" data-tags="Ansible"><span class="iconfont-archer">&#xe606;</span>Ansible</span>
+    
+        <span class="sidebar-tag-name" data-tags="haproxy"><span class="iconfont-archer">&#xe606;</span>haproxy</span>
+    
+        <span class="sidebar-tag-name" data-tags="Registry"><span class="iconfont-archer">&#xe606;</span>Registry</span>
+    
+        <span class="sidebar-tag-name" data-tags="Harbor"><span class="iconfont-archer">&#xe606;</span>Harbor</span>
+    
+        <span class="sidebar-tag-name" data-tags="NoSql"><span class="iconfont-archer">&#xe606;</span>NoSql</span>
+    
+        <span class="sidebar-tag-name" data-tags="MongoDB"><span class="iconfont-archer">&#xe606;</span>MongoDB</span>
+    
+        <span class="sidebar-tag-name" data-tags="ReplSet"><span class="iconfont-archer">&#xe606;</span>ReplSet</span>
+    
+        <span class="sidebar-tag-name" data-tags="centos"><span class="iconfont-archer">&#xe606;</span>centos</span>
+    
+        <span class="sidebar-tag-name" data-tags="lvm"><span class="iconfont-archer">&#xe606;</span>lvm</span>
+    
+        <span class="sidebar-tag-name" data-tags="MySQL"><span class="iconfont-archer">&#xe606;</span>MySQL</span>
+    
+        <span class="sidebar-tag-name" data-tags="MyISAM"><span class="iconfont-archer">&#xe606;</span>MyISAM</span>
+    
+        <span class="sidebar-tag-name" data-tags="InnoDB"><span class="iconfont-archer">&#xe606;</span>InnoDB</span>
+    
+        <span class="sidebar-tag-name" data-tags="github"><span class="iconfont-archer">&#xe606;</span>github</span>
+    
+        <span class="sidebar-tag-name" data-tags="hexo"><span class="iconfont-archer">&#xe606;</span>hexo</span>
+    
+        <span class="sidebar-tag-name" data-tags="blog"><span class="iconfont-archer">&#xe606;</span>blog</span>
+    
+        <span class="sidebar-tag-name" data-tags="nginx"><span class="iconfont-archer">&#xe606;</span>nginx</span>
+    
+        <span class="sidebar-tag-name" data-tags="proxy"><span class="iconfont-archer">&#xe606;</span>proxy</span>
+    
+        <span class="sidebar-tag-name" data-tags="load-balance"><span class="iconfont-archer">&#xe606;</span>load-balance</span>
+    
+        <span class="sidebar-tag-name" data-tags="NFS"><span class="iconfont-archer">&#xe606;</span>NFS</span>
+    
+        <span class="sidebar-tag-name" data-tags="open-falcon"><span class="iconfont-archer">&#xe606;</span>open-falcon</span>
+    
+        <span class="sidebar-tag-name" data-tags="Sharding"><span class="iconfont-archer">&#xe606;</span>Sharding</span>
+    
+        <span class="sidebar-tag-name" data-tags="replSet"><span class="iconfont-archer">&#xe606;</span>replSet</span>
+    
+        <span class="sidebar-tag-name" data-tags="OpenStack"><span class="iconfont-archer">&#xe606;</span>OpenStack</span>
+    
+        <span class="sidebar-tag-name" data-tags="DevStack"><span class="iconfont-archer">&#xe606;</span>DevStack</span>
+    
+        <span class="sidebar-tag-name" data-tags="$$"><span class="iconfont-archer">&#xe606;</span>$$</span>
+    
+        <span class="sidebar-tag-name" data-tags="GFW"><span class="iconfont-archer">&#xe606;</span>GFW</span>
+    
+        <span class="sidebar-tag-name" data-tags="Installation"><span class="iconfont-archer">&#xe606;</span>Installation</span>
+    
+        <span class="sidebar-tag-name" data-tags="supervisor"><span class="iconfont-archer">&#xe606;</span>supervisor</span>
+    
+        <span class="sidebar-tag-name" data-tags="Zabbix"><span class="iconfont-archer">&#xe606;</span>Zabbix</span>
+    
+        <span class="sidebar-tag-name" data-tags="Source"><span class="iconfont-archer">&#xe606;</span>Source</span>
+    
+        <span class="sidebar-tag-name" data-tags="Yum"><span class="iconfont-archer">&#xe606;</span>Yum</span>
+    
+        <span class="sidebar-tag-name" data-tags="PackStack"><span class="iconfont-archer">&#xe606;</span>PackStack</span>
+    
+        <span class="sidebar-tag-name" data-tags="Optimization"><span class="iconfont-archer">&#xe606;</span>Optimization</span>
+    
+        <span class="sidebar-tag-name" data-tags="Font"><span class="iconfont-archer">&#xe606;</span>Font</span>
+    
+        <span class="sidebar-tag-name" data-tags="Zombie Process"><span class="iconfont-archer">&#xe606;</span>Zombie Process</span>
+    
+        <span class="sidebar-tag-name" data-tags="Orphaned Process"><span class="iconfont-archer">&#xe606;</span>Orphaned Process</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
+    <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
+    缺失模块。<br/>
+    1、请确保node版本大于6.2<br/>
+    2、在博客根目录（注意不是archer根目录）执行以下命令：<br/>
+    <span style="color: #f75357; font-size: 1rem; line-height: 2rem;">npm i hexo-generator-json-content --save</span><br/>
+    3、在根目录_config.yml里添加配置：
+    <pre style="color: #787878; font-size: 0.6rem;">
+jsonContent:
+  meta: false
+  pages: false
+  posts:
+    title: true
+    date: true
+    path: true
+    text: false
+    raw: false
+    content: false
+    slug: false
+    updated: false
+    comments: false
+    link: false
+    permalink: false
+    excerpt: false
+    categories: true
+    tags: true</pre>
+    </div> 
+    <div class="sidebar-tags-list"></div>
+</div>
+        <div class="sidebar-panel-categories">
+    <div class="sidebar-categories-name">
+    
+        <span class="sidebar-category-name" data-categories="区块链记账原理"><span class="iconfont-archer">&#xe60a;</span>区块链记账原理</span>
+    
+        <span class="sidebar-category-name" data-categories="比特币区块结构-Merkle-树及简单支付验证分析"><span class="iconfont-archer">&#xe60a;</span>比特币区块结构-Merkle-树及简单支付验证分析</span>
+    
+        <span class="sidebar-category-name" data-categories="用Python从0开始创建一个区块链"><span class="iconfont-archer">&#xe60a;</span>用Python从0开始创建一个区块链</span>
+    
+        <span class="sidebar-category-name" data-categories="Ceph修改OSD和Monitor的网络"><span class="iconfont-archer">&#xe60a;</span>Ceph修改OSD和Monitor的网络</span>
+    
+        <span class="sidebar-category-name" data-categories="比特币如何达成共识-最长链的选择"><span class="iconfont-archer">&#xe60a;</span>比特币如何达成共识-最长链的选择</span>
+    
+        <span class="sidebar-category-name" data-categories="Ceph日常命令使用"><span class="iconfont-archer">&#xe60a;</span>Ceph日常命令使用</span>
+    
+        <span class="sidebar-category-name" data-categories="分布式存储系统Ceph部署过程记录"><span class="iconfont-archer">&#xe60a;</span>分布式存储系统Ceph部署过程记录</span>
+    
+        <span class="sidebar-category-name" data-categories="比特币如何挖矿（挖矿原理）-工作量证明"><span class="iconfont-archer">&#xe60a;</span>比特币如何挖矿（挖矿原理）-工作量证明</span>
+    
+        <span class="sidebar-category-name" data-categories="Ceph-Client挂载方法"><span class="iconfont-archer">&#xe60a;</span>Ceph-Client挂载方法</span>
+    
+        <span class="sidebar-category-name" data-categories="Docker数据卷"><span class="iconfont-archer">&#xe60a;</span>Docker数据卷</span>
+    
+        <span class="sidebar-category-name" data-categories="Ceph-优化总结"><span class="iconfont-archer">&#xe60a;</span>Ceph-优化总结</span>
+    
+        <span class="sidebar-category-name" data-categories="分布式存储系统Ceph原理介绍"><span class="iconfont-archer">&#xe60a;</span>分布式存储系统Ceph原理介绍</span>
+    
+        <span class="sidebar-category-name" data-categories="Docker网络"><span class="iconfont-archer">&#xe60a;</span>Docker网络</span>
+    
+        <span class="sidebar-category-name" data-categories="Certbot安装-部分问题解决方案"><span class="iconfont-archer">&#xe60a;</span>Certbot安装-部分问题解决方案</span>
+    
+        <span class="sidebar-category-name" data-categories="Docker核心技术与实现原理"><span class="iconfont-archer">&#xe60a;</span>Docker核心技术与实现原理</span>
+    
+        <span class="sidebar-category-name" data-categories="Gitlab升级"><span class="iconfont-archer">&#xe60a;</span>Gitlab升级</span>
+    
+        <span class="sidebar-category-name" data-categories="Docker安装部署教程"><span class="iconfont-archer">&#xe60a;</span>Docker安装部署教程</span>
+    
+        <span class="sidebar-category-name" data-categories="Kubernetes安装部署"><span class="iconfont-archer">&#xe60a;</span>Kubernetes安装部署</span>
+    
+        <span class="sidebar-category-name" data-categories="HAProxy使用"><span class="iconfont-archer">&#xe60a;</span>HAProxy使用</span>
+    
+        <span class="sidebar-category-name" data-categories="Docker镜像仓库Harbor搭建"><span class="iconfont-archer">&#xe60a;</span>Docker镜像仓库Harbor搭建</span>
+    
+        <span class="sidebar-category-name" data-categories="MongoDB复制集部署"><span class="iconfont-archer">&#xe60a;</span>MongoDB复制集部署</span>
+    
+        <span class="sidebar-category-name" data-categories="LVM使用"><span class="iconfont-archer">&#xe60a;</span>LVM使用</span>
+    
+        <span class="sidebar-category-name" data-categories="MySQL存储引擎中的MyISAM和InnoDB区别详解"><span class="iconfont-archer">&#xe60a;</span>MySQL存储引擎中的MyISAM和InnoDB区别详解</span>
+    
+        <span class="sidebar-category-name" data-categories="MongoDB单实例部署"><span class="iconfont-archer">&#xe60a;</span>MongoDB单实例部署</span>
+    
+        <span class="sidebar-category-name" data-categories="Hexo-Github搭建博客"><span class="iconfont-archer">&#xe60a;</span>Hexo-Github搭建博客</span>
+    
+        <span class="sidebar-category-name" data-categories="Nginx正反向代理-负载均衡"><span class="iconfont-archer">&#xe60a;</span>Nginx正反向代理-负载均衡</span>
+    
+        <span class="sidebar-category-name" data-categories="NFS安装部署"><span class="iconfont-archer">&#xe60a;</span>NFS安装部署</span>
+    
+        <span class="sidebar-category-name" data-categories="open-falcon安装部署教程"><span class="iconfont-archer">&#xe60a;</span>open-falcon安装部署教程</span>
+    
+        <span class="sidebar-category-name" data-categories="MongoDB分片集群部署"><span class="iconfont-archer">&#xe60a;</span>MongoDB分片集群部署</span>
+    
+        <span class="sidebar-category-name" data-categories="通过devstack安装部署OpenStack"><span class="iconfont-archer">&#xe60a;</span>通过devstack安装部署OpenStack</span>
+    
+        <span class="sidebar-category-name" data-categories="4-0-8"><span class="iconfont-archer">&#xe60a;</span>4-0-8</span>
+    
+        <span class="sidebar-category-name" data-categories="OpenStack安装部署教程"><span class="iconfont-archer">&#xe60a;</span>OpenStack安装部署教程</span>
+    
+        <span class="sidebar-category-name" data-categories="supervisor-安装、配置、常用命令"><span class="iconfont-archer">&#xe60a;</span>supervisor-安装、配置、常用命令</span>
+    
+        <span class="sidebar-category-name" data-categories="Python八大算法"><span class="iconfont-archer">&#xe60a;</span>Python八大算法</span>
+    
+        <span class="sidebar-category-name" data-categories="Zabbix-编译安装"><span class="iconfont-archer">&#xe60a;</span>Zabbix-编译安装</span>
+    
+        <span class="sidebar-category-name" data-categories="Zabbix-YUM安装"><span class="iconfont-archer">&#xe60a;</span>Zabbix-YUM安装</span>
+    
+        <span class="sidebar-category-name" data-categories="通过packstack快速安装openstack"><span class="iconfont-archer">&#xe60a;</span>通过packstack快速安装openstack</span>
+    
+        <span class="sidebar-category-name" data-categories="Zabbix性能优化"><span class="iconfont-archer">&#xe60a;</span>Zabbix性能优化</span>
+    
+        <span class="sidebar-category-name" data-categories="Zabbix汉化字体修改"><span class="iconfont-archer">&#xe60a;</span>Zabbix汉化字体修改</span>
+    
+        <span class="sidebar-category-name" data-categories="浅析僵尸进程与孤儿进程"><span class="iconfont-archer">&#xe60a;</span>浅析僵尸进程与孤儿进程</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
+    <div class="sidebar-categories-list"></div>
+</div>
+    </div>
+</div> 
+    <script>
+    var siteMeta = {
+        root: '/',
+        author: 'Jayden'
+    }
+</script>
+    <!-- busuanzi  -->
+    
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+    <!-- CNZZ  -->
+    
+    </div>
+    <!-- async load share.js -->
+    
+        <script src="/scripts/share.js" async></script>    
+    
+    </body>
+</html>
+
+

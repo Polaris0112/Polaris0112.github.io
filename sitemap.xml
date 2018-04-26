@@ -2,6 +2,27 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://yoursite.com/2018/04/20/kubernetes-installation/</loc>
+    
+    <lastmod>2018-04-26T07:53:17.405Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2018/04/21/kubernetes-dashboard/</loc>
+    
+    <lastmod>2018-04-26T07:53:13.684Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2018/03/22/sort-algorithm/</loc>
+    
+    <lastmod>2018-04-03T06:02:38.382Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://yoursite.com/2018/03/19/docker-network-improve/</loc>
     
     <lastmod>2018-04-02T07:26:28.411Z</lastmod>

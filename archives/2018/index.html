@@ -290,6 +290,112 @@
     
     
         <article class="index-post">
+            <a class="abstract-title" href = "/2018/04/21/kubernetes-dashboard/" >
+                
+                    <span>Kubernetes Dashboard部署</span>
+            </a>
+            <div class="abstract-content">
+                本帖子记录的是Kubernetes Dashboard安装部署过程
+dashboard本文档基于 dashboard 1.8.3版本，k8s版本 1.9.x。旧版文档dashboard-1.6.3
+部署如果之前已按照本项目部署dashboard1.6.3，先删除旧版本：kubectl delete -f /etc/ansible/manifests/dashboard/1.6.3/
+1.8.3配置文件参考官方文档
+
+增加了通过api-server方式访问dashboard
+增加了NodePort方式暴露服务，这样集群外部可以使用 https://NodeIP:NodePort (注意是h...
+            </div>
+            <div class="abstract-post-meta">
+                <!-- date  -->
+                <div class="abstract-date">
+                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/04/21</span>
+                </div>
+                <!-- tags  -->
+                
+                <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = Docker>Docker</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = Kubernetes>Kubernetes</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = Ansible>Ansible</a>
+    
+</div>
+                
+            </div>
+        </article>
+    
+    
+    
+        <article class="index-post">
+            <a class="abstract-title" href = "/2018/04/20/kubernetes-installation/" >
+                
+                    <span>Kubernetes快速搭建过程</span>
+            </a>
+            <div class="abstract-content">
+                本帖子记录的是Kubernetes本体安装部署过程
+快速指南以下为快速体验k8s集群的测试、开发环境–allinone部署，国内环境下觉得比官方的minikube方便、简单很多。
+1.基础系统配置
+推荐内存2G/硬盘20G以上
+最小化安装Ubuntu 16.04 server或者CentOS 7 Minimal
+配置基础网络、更新源、SSH登陆等
+
+2.安装依赖工具Ubuntu 16.04 请执行以下脚本:
+123456# 文档中脚本默认均以root用户执行apt-get update &amp;&amp; apt-get upgrade -y &amp;&amp; apt-get di...
+            </div>
+            <div class="abstract-post-meta">
+                <!-- date  -->
+                <div class="abstract-date">
+                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/04/20</span>
+                </div>
+                <!-- tags  -->
+                
+                <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = Docker>Docker</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = Kubernetes>Kubernetes</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = Ansible>Ansible</a>
+    
+</div>
+                
+            </div>
+        </article>
+    
+    
+    
+        <article class="index-post">
+            <a class="abstract-title" href = "/2018/03/22/sort-algorithm/" >
+                
+                    <span>Python实现八大排序算法</span>
+            </a>
+            <div class="abstract-content">
+                本帖子记录的是整理基于Python的八大排序算法。
+本文用Python实现了插入排序、希尔排序、冒泡排序、快速排序、直接选择排序、堆排序、归并排序、基数排序。
+冒泡排序原理冒泡排序(Bubble Sort)是一种简单的排序算法。它重复地走访过要排序的数列，一次比较两个元素，如果他们的顺序错误就把他们交换过来。走访数列的工作是重复地进行直到没有再需要交换，也就是说该数列已经排序完成。这个算法的名字由来是因为越小的元素会经由交换慢慢“浮”到数列的顶端。
+步骤冒泡排序算法的运作如下：
+
+比较相邻的元素。如果第一个比第二个大，就交换他们两个。
+对每一对相邻元素作同样的工作，从开始第一对到结尾的最...
+            </div>
+            <div class="abstract-post-meta">
+                <!-- date  -->
+                <div class="abstract-date">
+                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/03/22</span>
+                </div>
+                <!-- tags  -->
+                
+                <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = Python>Python</a>
+    
+</div>
+                
+            </div>
+        </article>
+    
+    
+    
+        <article class="index-post">
             <a class="abstract-title" href = "/2018/03/21/docker-data-volume-improve/" >
                 
                     <span>Docker数据卷之进阶篇</span>
@@ -494,149 +600,10 @@ Ceph日常操作命令查看状态命令：查看ceph集群状态：ceph -s查�
             </div>
         </article>
     
-    
-    
-        <article class="index-post">
-            <a class="abstract-title" href = "/2018/03/15/ceph-optimization-summary/" >
-                
-                    <span>Ceph 优化总结</span>
-            </a>
-            <div class="abstract-content">
-                本帖子记录的是分布式存储系统Ceph的优化点。
-硬件层面
-硬件规划
-
-SSD选择
-
-BIOS设置
-
-
-软件层面
-Linux OS
-
-Ceph Configurations
-
-PG Number调整
-
-CRUSH Map
-
-其他因素
-
-
-硬件优化硬件规划
-Processorceph-osd进程在运行过程中会消耗CPU资源，所以一般会为每一个ceph-osd进程绑定一个CPU核上。当然如果你使用EC方式，可能需要更多的CPU资源。
-
-ceph-mon进程并不十分消耗CPU资源，所以不必为ceph-mon进程预留过多的CPU资源。
-ceph-msd也是非常消耗CPU资源的，所以需要提供更多的C...
-            </div>
-            <div class="abstract-post-meta">
-                <!-- date  -->
-                <div class="abstract-date">
-                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/03/15</span>
-                </div>
-                <!-- tags  -->
-                
-                <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = Ceph>Ceph</a>
-    
-</div>
-                
-            </div>
-        </article>
-    
-    
-    
-        <article class="index-post">
-            <a class="abstract-title" href = "/2018/03/14/ceph-client-mount/" >
-                
-                    <span>Ceph Client挂载方法</span>
-            </a>
-            <div class="abstract-content">
-                本帖子记录的是分布式存储系统Ceph的客户端挂载记录。
-Client挂载client挂载方式有两种：内核kernal方式和fuse方式。
-特别需要注意的是：client挂载前需要在client节点安装ceph，详细请参考abc
-
-系统环境：CentOS 7
-
-安装ceph-fuse12$ yum install -y epel-release$ yum install -y ceph-fuse
-创建挂载目录1$ mkdir /cephfs
-复制配置文件123456789101112131415161718192021222324252627282930313233343536373839...
-            </div>
-            <div class="abstract-post-meta">
-                <!-- date  -->
-                <div class="abstract-date">
-                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/03/14</span>
-                </div>
-                <!-- tags  -->
-                
-                <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = Ceph>Ceph</a>
-    
-</div>
-                
-            </div>
-        </article>
-    
-    
-    
-        <article class="index-post">
-            <a class="abstract-title" href = "/2018/03/14/ceph-installation/" >
-                
-                    <span>分布式存储系统Ceph部署过程</span>
-            </a>
-            <div class="abstract-content">
-                本帖子记录的是分布式存储系统Ceph部署过程记录。
-环境准备这里我只是测试环境，所以使用一个监控节点，两个存储节点，具体如下：
-
-
-
-ip地址(双网卡)
-主机名
-ceph磁盘
-系统
-备注
-
-
-
-
-192.168.0.200/172.16.0.100
-ceph-node1
-100G
-CentOS Linux release 7.4.1708 (Core)
-作为mds、mon、osd0
-
-
-192.168.0.201/172.16.0.101
-ceph-node2
-100G
-CentOS Linux release 7.4.1708 (Core)
-作为osd1
-
-
-192.168.0.202...
-            </div>
-            <div class="abstract-post-meta">
-                <!-- date  -->
-                <div class="abstract-date">
-                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/03/14</span>
-                </div>
-                <!-- tags  -->
-                
-                <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = Ceph>Ceph</a>
-    
-</div>
-                
-            </div>
-        </article>
-    
     <!-- paginator  -->
     
     <nav class="page-nav">
-        <span class="page-number current">1</span><a class="page-number" href="/archives/2018/page/2/">2</a><a class="page-number" href="/archives/2018/page/3/">3</a><a class="page-number" href="/archives/2018/page/4/">4</a><a class="extend next" rel="next" href="/archives/2018/page/2/">NEXT &#62;</a>
+        <span class="page-number current">1</span><a class="page-number" href="/archives/2018/page/2/">2</a><a class="page-number" href="/archives/2018/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/archives/2018/page/5/">5</a><a class="extend next" rel="next" href="/archives/2018/page/2/">NEXT &#62;</a>
     </nav>
     
 </main>
@@ -1323,7 +1290,68 @@ CentOS Linux release 7.4.1708 (Core)
     
     
     
-    <div class="total-archive"> Total : 40 </div>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="total-archive"> Total : 43 </div>
     
     <div class="post-archive">
     
@@ -1332,6 +1360,21 @@ CentOS Linux release 7.4.1708 (Core)
     
     <div class="archive-year"> 2018 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/21</span><a class="archive-post-title" href= "/2018/04/21/kubernetes-dashboard/" >Kubernetes Dashboard部署</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/20</span><a class="archive-post-title" href= "/2018/04/20/kubernetes-installation/" >Kubernetes快速搭建过程</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/22</span><a class="archive-post-title" href= "/2018/03/22/sort-algorithm/" >Python实现八大排序算法</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -1345,12 +1388,12 @@ CentOS Linux release 7.4.1708 (Core)
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">03/19</span><a class="archive-post-title" href= "/2018/03/19/docker-network-improve/" >“深入浅出”来解读Docker网络核心原理</a>
+            <span class="archive-post-date">03/19</span><a class="archive-post-title" href= "/2018/03/19/docker-network/" >Docker容器网络通信原理分析</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">03/19</span><a class="archive-post-title" href= "/2018/03/19/docker-network/" >Docker容器网络通信原理分析</a>
+            <span class="archive-post-date">03/19</span><a class="archive-post-title" href= "/2018/03/19/docker-network-improve/" >“深入浅出”来解读Docker网络核心原理</a>
         </li>
     
     
@@ -1375,12 +1418,12 @@ CentOS Linux release 7.4.1708 (Core)
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">03/14</span><a class="archive-post-title" href= "/2018/03/14/ceph-client-mount/" >Ceph Client挂载方法</a>
+            <span class="archive-post-date">03/14</span><a class="archive-post-title" href= "/2018/03/14/ceph-installation/" >分布式存储系统Ceph部署过程</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">03/14</span><a class="archive-post-title" href= "/2018/03/14/ceph-installation/" >分布式存储系统Ceph部署过程</a>
+            <span class="archive-post-date">03/14</span><a class="archive-post-title" href= "/2018/03/14/ceph-client-mount/" >Ceph Client挂载方法</a>
         </li>
     
     
@@ -1425,17 +1468,17 @@ CentOS Linux release 7.4.1708 (Core)
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">03/03</span><a class="archive-post-title" href= "/2018/03/03/blockchain-merkle/" >比特币区块结构 Merkle 树及简单支付验证分析</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
             <span class="archive-post-date">03/03</span><a class="archive-post-title" href= "/2018/03/03/blockchain-selection/" >比特币如何达成共识 - 最长链的选择</a>
         </li>
     
     
         <li class="archive-post-item">
             <span class="archive-post-date">03/03</span><a class="archive-post-title" href= "/2018/03/03/blockchain-pow/" >比特币如何挖矿（挖矿原理）-工作量证明</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/03</span><a class="archive-post-title" href= "/2018/03/03/blockchain-merkle/" >比特币区块结构 Merkle 树及简单支付验证分析</a>
         </li>
     
     
@@ -1480,12 +1523,17 @@ CentOS Linux release 7.4.1708 (Core)
     
     
         <li class="archive-post-item">
+            <span class="archive-post-date">02/25</span><a class="archive-post-title" href= "/2018/02/25/zabbix-yum-installation/" >Zabbix YUM方式部署</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
             <span class="archive-post-date">02/25</span><a class="archive-post-title" href= "/2018/02/25/zabbix-source-installation/" >Zabbix 编译安装部署</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">02/25</span><a class="archive-post-title" href= "/2018/02/25/zabbix-yum-installation/" >Zabbix YUM方式部署</a>
+            <span class="archive-post-date">02/24</span><a class="archive-post-title" href= "/2018/02/24/mongodb-replset/" >MongoDB复制集部署</a>
         </li>
     
     
@@ -1496,11 +1544,6 @@ CentOS Linux release 7.4.1708 (Core)
     
         <li class="archive-post-item">
             <span class="archive-post-date">02/24</span><a class="archive-post-title" href= "/2018/02/24/mongodb-shard/" >MongoDB Sharding集群部署</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">02/24</span><a class="archive-post-title" href= "/2018/02/24/mongodb-replset/" >MongoDB复制集部署</a>
         </li>
     
     
@@ -1546,13 +1589,11 @@ CentOS Linux release 7.4.1708 (Core)
     
         <span class="sidebar-tag-name" data-tags="Ceph"><span class="iconfont-archer">&#xe606;</span>Ceph</span>
     
+        <span class="sidebar-tag-name" data-tags="Docker"><span class="iconfont-archer">&#xe606;</span>Docker</span>
+    
         <span class="sidebar-tag-name" data-tags="Certbot"><span class="iconfont-archer">&#xe606;</span>Certbot</span>
     
         <span class="sidebar-tag-name" data-tags="https"><span class="iconfont-archer">&#xe606;</span>https</span>
-    
-        <span class="sidebar-tag-name" data-tags="Docker"><span class="iconfont-archer">&#xe606;</span>Docker</span>
-    
-        <span class="sidebar-tag-name" data-tags="CentOS"><span class="iconfont-archer">&#xe606;</span>CentOS</span>
     
         <span class="sidebar-tag-name" data-tags="Gitlab"><span class="iconfont-archer">&#xe606;</span>Gitlab</span>
     
@@ -1560,21 +1601,17 @@ CentOS Linux release 7.4.1708 (Core)
     
         <span class="sidebar-tag-name" data-tags="Migration"><span class="iconfont-archer">&#xe606;</span>Migration</span>
     
+        <span class="sidebar-tag-name" data-tags="CentOS"><span class="iconfont-archer">&#xe606;</span>CentOS</span>
+    
+        <span class="sidebar-tag-name" data-tags="Kubernetes"><span class="iconfont-archer">&#xe606;</span>Kubernetes</span>
+    
+        <span class="sidebar-tag-name" data-tags="Ansible"><span class="iconfont-archer">&#xe606;</span>Ansible</span>
+    
         <span class="sidebar-tag-name" data-tags="haproxy"><span class="iconfont-archer">&#xe606;</span>haproxy</span>
     
         <span class="sidebar-tag-name" data-tags="Registry"><span class="iconfont-archer">&#xe606;</span>Registry</span>
     
         <span class="sidebar-tag-name" data-tags="Harbor"><span class="iconfont-archer">&#xe606;</span>Harbor</span>
-    
-        <span class="sidebar-tag-name" data-tags="github"><span class="iconfont-archer">&#xe606;</span>github</span>
-    
-        <span class="sidebar-tag-name" data-tags="hexo"><span class="iconfont-archer">&#xe606;</span>hexo</span>
-    
-        <span class="sidebar-tag-name" data-tags="blog"><span class="iconfont-archer">&#xe606;</span>blog</span>
-    
-        <span class="sidebar-tag-name" data-tags="centos"><span class="iconfont-archer">&#xe606;</span>centos</span>
-    
-        <span class="sidebar-tag-name" data-tags="lvm"><span class="iconfont-archer">&#xe606;</span>lvm</span>
     
         <span class="sidebar-tag-name" data-tags="NoSql"><span class="iconfont-archer">&#xe606;</span>NoSql</span>
     
@@ -1582,9 +1619,9 @@ CentOS Linux release 7.4.1708 (Core)
     
         <span class="sidebar-tag-name" data-tags="ReplSet"><span class="iconfont-archer">&#xe606;</span>ReplSet</span>
     
-        <span class="sidebar-tag-name" data-tags="Sharding"><span class="iconfont-archer">&#xe606;</span>Sharding</span>
+        <span class="sidebar-tag-name" data-tags="centos"><span class="iconfont-archer">&#xe606;</span>centos</span>
     
-        <span class="sidebar-tag-name" data-tags="replSet"><span class="iconfont-archer">&#xe606;</span>replSet</span>
+        <span class="sidebar-tag-name" data-tags="lvm"><span class="iconfont-archer">&#xe606;</span>lvm</span>
     
         <span class="sidebar-tag-name" data-tags="MySQL"><span class="iconfont-archer">&#xe606;</span>MySQL</span>
     
@@ -1592,13 +1629,11 @@ CentOS Linux release 7.4.1708 (Core)
     
         <span class="sidebar-tag-name" data-tags="InnoDB"><span class="iconfont-archer">&#xe606;</span>InnoDB</span>
     
-        <span class="sidebar-tag-name" data-tags="NFS"><span class="iconfont-archer">&#xe606;</span>NFS</span>
+        <span class="sidebar-tag-name" data-tags="github"><span class="iconfont-archer">&#xe606;</span>github</span>
     
-        <span class="sidebar-tag-name" data-tags="open-falcon"><span class="iconfont-archer">&#xe606;</span>open-falcon</span>
+        <span class="sidebar-tag-name" data-tags="hexo"><span class="iconfont-archer">&#xe606;</span>hexo</span>
     
-        <span class="sidebar-tag-name" data-tags="OpenStack"><span class="iconfont-archer">&#xe606;</span>OpenStack</span>
-    
-        <span class="sidebar-tag-name" data-tags="DevStack"><span class="iconfont-archer">&#xe606;</span>DevStack</span>
+        <span class="sidebar-tag-name" data-tags="blog"><span class="iconfont-archer">&#xe606;</span>blog</span>
     
         <span class="sidebar-tag-name" data-tags="nginx"><span class="iconfont-archer">&#xe606;</span>nginx</span>
     
@@ -1606,7 +1641,17 @@ CentOS Linux release 7.4.1708 (Core)
     
         <span class="sidebar-tag-name" data-tags="load-balance"><span class="iconfont-archer">&#xe606;</span>load-balance</span>
     
-        <span class="sidebar-tag-name" data-tags="PackStack"><span class="iconfont-archer">&#xe606;</span>PackStack</span>
+        <span class="sidebar-tag-name" data-tags="NFS"><span class="iconfont-archer">&#xe606;</span>NFS</span>
+    
+        <span class="sidebar-tag-name" data-tags="open-falcon"><span class="iconfont-archer">&#xe606;</span>open-falcon</span>
+    
+        <span class="sidebar-tag-name" data-tags="Sharding"><span class="iconfont-archer">&#xe606;</span>Sharding</span>
+    
+        <span class="sidebar-tag-name" data-tags="replSet"><span class="iconfont-archer">&#xe606;</span>replSet</span>
+    
+        <span class="sidebar-tag-name" data-tags="OpenStack"><span class="iconfont-archer">&#xe606;</span>OpenStack</span>
+    
+        <span class="sidebar-tag-name" data-tags="DevStack"><span class="iconfont-archer">&#xe606;</span>DevStack</span>
     
         <span class="sidebar-tag-name" data-tags="$$"><span class="iconfont-archer">&#xe606;</span>$$</span>
     
@@ -1618,13 +1663,15 @@ CentOS Linux release 7.4.1708 (Core)
     
         <span class="sidebar-tag-name" data-tags="Zabbix"><span class="iconfont-archer">&#xe606;</span>Zabbix</span>
     
-        <span class="sidebar-tag-name" data-tags="Font"><span class="iconfont-archer">&#xe606;</span>Font</span>
-    
-        <span class="sidebar-tag-name" data-tags="Optimization"><span class="iconfont-archer">&#xe606;</span>Optimization</span>
-    
         <span class="sidebar-tag-name" data-tags="Source"><span class="iconfont-archer">&#xe606;</span>Source</span>
     
         <span class="sidebar-tag-name" data-tags="Yum"><span class="iconfont-archer">&#xe606;</span>Yum</span>
+    
+        <span class="sidebar-tag-name" data-tags="PackStack"><span class="iconfont-archer">&#xe606;</span>PackStack</span>
+    
+        <span class="sidebar-tag-name" data-tags="Optimization"><span class="iconfont-archer">&#xe606;</span>Optimization</span>
+    
+        <span class="sidebar-tag-name" data-tags="Font"><span class="iconfont-archer">&#xe606;</span>Font</span>
     
         <span class="sidebar-tag-name" data-tags="Zombie Process"><span class="iconfont-archer">&#xe606;</span>Zombie Process</span>
     
@@ -1667,61 +1714,61 @@ jsonContent:
     
         <span class="sidebar-category-name" data-categories="比特币区块结构-Merkle-树及简单支付验证分析"><span class="iconfont-archer">&#xe60a;</span>比特币区块结构-Merkle-树及简单支付验证分析</span>
     
-        <span class="sidebar-category-name" data-categories="比特币如何挖矿（挖矿原理）-工作量证明"><span class="iconfont-archer">&#xe60a;</span>比特币如何挖矿（挖矿原理）-工作量证明</span>
-    
-        <span class="sidebar-category-name" data-categories="比特币如何达成共识-最长链的选择"><span class="iconfont-archer">&#xe60a;</span>比特币如何达成共识-最长链的选择</span>
-    
         <span class="sidebar-category-name" data-categories="用Python从0开始创建一个区块链"><span class="iconfont-archer">&#xe60a;</span>用Python从0开始创建一个区块链</span>
     
         <span class="sidebar-category-name" data-categories="Ceph修改OSD和Monitor的网络"><span class="iconfont-archer">&#xe60a;</span>Ceph修改OSD和Monitor的网络</span>
     
-        <span class="sidebar-category-name" data-categories="Ceph-Client挂载方法"><span class="iconfont-archer">&#xe60a;</span>Ceph-Client挂载方法</span>
+        <span class="sidebar-category-name" data-categories="比特币如何达成共识-最长链的选择"><span class="iconfont-archer">&#xe60a;</span>比特币如何达成共识-最长链的选择</span>
     
         <span class="sidebar-category-name" data-categories="Ceph日常命令使用"><span class="iconfont-archer">&#xe60a;</span>Ceph日常命令使用</span>
     
         <span class="sidebar-category-name" data-categories="分布式存储系统Ceph部署过程记录"><span class="iconfont-archer">&#xe60a;</span>分布式存储系统Ceph部署过程记录</span>
     
-        <span class="sidebar-category-name" data-categories="Ceph-优化总结"><span class="iconfont-archer">&#xe60a;</span>Ceph-优化总结</span>
+        <span class="sidebar-category-name" data-categories="比特币如何挖矿（挖矿原理）-工作量证明"><span class="iconfont-archer">&#xe60a;</span>比特币如何挖矿（挖矿原理）-工作量证明</span>
     
-        <span class="sidebar-category-name" data-categories="Certbot安装-部分问题解决方案"><span class="iconfont-archer">&#xe60a;</span>Certbot安装-部分问题解决方案</span>
-    
-        <span class="sidebar-category-name" data-categories="分布式存储系统Ceph原理介绍"><span class="iconfont-archer">&#xe60a;</span>分布式存储系统Ceph原理介绍</span>
+        <span class="sidebar-category-name" data-categories="Ceph-Client挂载方法"><span class="iconfont-archer">&#xe60a;</span>Ceph-Client挂载方法</span>
     
         <span class="sidebar-category-name" data-categories="Docker数据卷"><span class="iconfont-archer">&#xe60a;</span>Docker数据卷</span>
     
-        <span class="sidebar-category-name" data-categories="Docker安装部署教程"><span class="iconfont-archer">&#xe60a;</span>Docker安装部署教程</span>
+        <span class="sidebar-category-name" data-categories="Ceph-优化总结"><span class="iconfont-archer">&#xe60a;</span>Ceph-优化总结</span>
+    
+        <span class="sidebar-category-name" data-categories="分布式存储系统Ceph原理介绍"><span class="iconfont-archer">&#xe60a;</span>分布式存储系统Ceph原理介绍</span>
     
         <span class="sidebar-category-name" data-categories="Docker网络"><span class="iconfont-archer">&#xe60a;</span>Docker网络</span>
     
-        <span class="sidebar-category-name" data-categories="Gitlab升级"><span class="iconfont-archer">&#xe60a;</span>Gitlab升级</span>
+        <span class="sidebar-category-name" data-categories="Certbot安装-部分问题解决方案"><span class="iconfont-archer">&#xe60a;</span>Certbot安装-部分问题解决方案</span>
     
         <span class="sidebar-category-name" data-categories="Docker核心技术与实现原理"><span class="iconfont-archer">&#xe60a;</span>Docker核心技术与实现原理</span>
+    
+        <span class="sidebar-category-name" data-categories="Gitlab升级"><span class="iconfont-archer">&#xe60a;</span>Gitlab升级</span>
+    
+        <span class="sidebar-category-name" data-categories="Docker安装部署教程"><span class="iconfont-archer">&#xe60a;</span>Docker安装部署教程</span>
+    
+        <span class="sidebar-category-name" data-categories="Kubernetes安装部署"><span class="iconfont-archer">&#xe60a;</span>Kubernetes安装部署</span>
     
         <span class="sidebar-category-name" data-categories="HAProxy使用"><span class="iconfont-archer">&#xe60a;</span>HAProxy使用</span>
     
         <span class="sidebar-category-name" data-categories="Docker镜像仓库Harbor搭建"><span class="iconfont-archer">&#xe60a;</span>Docker镜像仓库Harbor搭建</span>
     
-        <span class="sidebar-category-name" data-categories="Hexo-Github搭建博客"><span class="iconfont-archer">&#xe60a;</span>Hexo-Github搭建博客</span>
-    
-        <span class="sidebar-category-name" data-categories="LVM使用"><span class="iconfont-archer">&#xe60a;</span>LVM使用</span>
-    
         <span class="sidebar-category-name" data-categories="MongoDB复制集部署"><span class="iconfont-archer">&#xe60a;</span>MongoDB复制集部署</span>
     
-        <span class="sidebar-category-name" data-categories="MongoDB分片集群部署"><span class="iconfont-archer">&#xe60a;</span>MongoDB分片集群部署</span>
+        <span class="sidebar-category-name" data-categories="LVM使用"><span class="iconfont-archer">&#xe60a;</span>LVM使用</span>
     
         <span class="sidebar-category-name" data-categories="MySQL存储引擎中的MyISAM和InnoDB区别详解"><span class="iconfont-archer">&#xe60a;</span>MySQL存储引擎中的MyISAM和InnoDB区别详解</span>
     
         <span class="sidebar-category-name" data-categories="MongoDB单实例部署"><span class="iconfont-archer">&#xe60a;</span>MongoDB单实例部署</span>
     
+        <span class="sidebar-category-name" data-categories="Hexo-Github搭建博客"><span class="iconfont-archer">&#xe60a;</span>Hexo-Github搭建博客</span>
+    
+        <span class="sidebar-category-name" data-categories="Nginx正反向代理-负载均衡"><span class="iconfont-archer">&#xe60a;</span>Nginx正反向代理-负载均衡</span>
+    
         <span class="sidebar-category-name" data-categories="NFS安装部署"><span class="iconfont-archer">&#xe60a;</span>NFS安装部署</span>
     
         <span class="sidebar-category-name" data-categories="open-falcon安装部署教程"><span class="iconfont-archer">&#xe60a;</span>open-falcon安装部署教程</span>
     
+        <span class="sidebar-category-name" data-categories="MongoDB分片集群部署"><span class="iconfont-archer">&#xe60a;</span>MongoDB分片集群部署</span>
+    
         <span class="sidebar-category-name" data-categories="通过devstack安装部署OpenStack"><span class="iconfont-archer">&#xe60a;</span>通过devstack安装部署OpenStack</span>
-    
-        <span class="sidebar-category-name" data-categories="Nginx正反向代理-负载均衡"><span class="iconfont-archer">&#xe60a;</span>Nginx正反向代理-负载均衡</span>
-    
-        <span class="sidebar-category-name" data-categories="通过packstack快速安装openstack"><span class="iconfont-archer">&#xe60a;</span>通过packstack快速安装openstack</span>
     
         <span class="sidebar-category-name" data-categories="4-0-8"><span class="iconfont-archer">&#xe60a;</span>4-0-8</span>
     
@@ -1729,13 +1776,17 @@ jsonContent:
     
         <span class="sidebar-category-name" data-categories="supervisor-安装、配置、常用命令"><span class="iconfont-archer">&#xe60a;</span>supervisor-安装、配置、常用命令</span>
     
-        <span class="sidebar-category-name" data-categories="Zabbix汉化字体修改"><span class="iconfont-archer">&#xe60a;</span>Zabbix汉化字体修改</span>
-    
-        <span class="sidebar-category-name" data-categories="Zabbix性能优化"><span class="iconfont-archer">&#xe60a;</span>Zabbix性能优化</span>
+        <span class="sidebar-category-name" data-categories="Python八大算法"><span class="iconfont-archer">&#xe60a;</span>Python八大算法</span>
     
         <span class="sidebar-category-name" data-categories="Zabbix-编译安装"><span class="iconfont-archer">&#xe60a;</span>Zabbix-编译安装</span>
     
         <span class="sidebar-category-name" data-categories="Zabbix-YUM安装"><span class="iconfont-archer">&#xe60a;</span>Zabbix-YUM安装</span>
+    
+        <span class="sidebar-category-name" data-categories="通过packstack快速安装openstack"><span class="iconfont-archer">&#xe60a;</span>通过packstack快速安装openstack</span>
+    
+        <span class="sidebar-category-name" data-categories="Zabbix性能优化"><span class="iconfont-archer">&#xe60a;</span>Zabbix性能优化</span>
+    
+        <span class="sidebar-category-name" data-categories="Zabbix汉化字体修改"><span class="iconfont-archer">&#xe60a;</span>Zabbix汉化字体修改</span>
     
         <span class="sidebar-category-name" data-categories="浅析僵尸进程与孤儿进程"><span class="iconfont-archer">&#xe60a;</span>浅析僵尸进程与孤儿进程</span>
     

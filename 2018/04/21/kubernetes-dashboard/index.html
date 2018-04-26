@@ -1,0 +1,1640 @@
+<!DOCTYPE html>
+<html>
+    <!-- title -->
+
+
+
+
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" >
+    <title>Kubernetes Dashboard部署 · Jayden&#39;s Blog</title>
+    <style type="text/css">
+    @font-face {
+        font-family: 'Oswald-Regular';
+        src: url("/font/Oswald-Regular.ttf");
+    }
+
+    body {
+        margin: 0;
+    }
+
+    header,
+    footer,
+    .back-top,
+    .sidebar,
+    .container,
+    .site-intro-meta,
+    .toc-wrapper {
+        display: none;
+    }
+
+    .site-intro {
+        position: relative;
+        z-index: 3;
+        width: 100%;
+        height: 50vh;
+        overflow: hidden;
+        box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.7);
+    }
+
+    .site-intro-placeholder {
+        position: absolute;
+        z-index: -2;
+        top: 0;
+        left: 0;
+        width: calc(100% + 300px);
+        height: 100%;
+        background: repeating-linear-gradient(-45deg, #444 0, #444 80px, #333 80px, #333 160px);
+        background-position: center center;
+        transform: translate3d(-226px, 0, 0);
+        animation: gradient-move 2.5s ease-out 0s 1;
+    }
+
+    @keyframes gradient-move {
+        0% {
+            transform: translate3d(-226px, 0, 0);
+        }
+        100% {
+            transform: translate3d(0, 0, 0);
+        }
+    }
+
+</style>
+
+    <link rel="preload" href= /css/style.css?v=20180228 as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="stylesheet" type="text/css" href= /css/mobile.css?v=20180228 media="(max-width: 980px)"/>
+    <link rel="icon" href= /assets/favicon.ico>
+    <script>
+  // load webfont-loader async, and add callback function
+  function async(u, c) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+  
+  // get user agent
+  var browser = {
+    versions: function () {
+      var u = window.navigator.userAgent;
+      return {
+        userAgent: u,
+        trident: u.indexOf('Trident') > -1, //IE内核
+        presto: u.indexOf('Presto') > -1, //opera内核
+        webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+        gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+        mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+        ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+        android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+        iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
+        iPad: u.indexOf('iPad') > -1, //是否为iPad
+        webApp: u.indexOf('Safari') == -1, //是否为web应用程序，没有头部与底部
+        weixin: u.indexOf('MicroMessenger') == -1, //是否为微信浏览器
+        uc: u.indexOf('UCBrowser') > -1 //是否为android下的UC浏览器
+      };
+    }()
+  }
+  console.log("userAgent:" + browser.versions.userAgent);
+
+  // callback
+  function fontLoaded() {
+    console.log('font loaded');
+    if (document.getElementsByClassName('site-intro-meta')) {
+      document.getElementsByClassName('intro-title')[0].classList.add('intro-fade-in');
+      document.getElementsByClassName('intro-subtitle')[0].classList.add('intro-fade-in');
+      var postIntroTags = document.getElementsByClassName('post-intro-tags')[0],
+        postIntroMeat = document.getElementsByClassName('post-intro-meta')[0];
+      if (postIntroTags) {
+        postIntroTags.classList.add('post-fade-in');
+      }
+      if (postIntroMeat) {
+        postIntroMeat.classList.add('post-fade-in');
+      }
+    }
+  }
+
+  // UC不支持跨域，所以直接显示
+  function asyncCb(){
+    if (browser.versions.uc) {
+      console.log("UCBrowser");
+      fontLoaded();
+    } else {
+      WebFont.load({
+        custom: {
+          families: ['Oswald-Regular']
+        },
+        loading: function () {  //所有字体开始加载
+          // console.log('loading');
+        },
+        active: function () {  //所有字体已渲染
+          fontLoaded();
+        },
+        inactive: function () { //字体预加载失败，无效字体或浏览器不支持加载
+          console.log('inactive: timeout');
+          fontLoaded();
+        },
+        timeout: 5000 // Set the timeout to two seconds
+      });
+    }
+  }
+
+  async("https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js", asyncCb)
+</script>
+    <script>
+        (function (w) {
+            "use strict";
+            // rel=preload support test
+            if (!w.loadCSS) {
+                w.loadCSS = function () { };
+            }
+            // define on the loadCSS obj
+            var rp = loadCSS.relpreload = {};
+            // rel=preload feature support test
+            // runs once and returns a function for compat purposes
+            rp.support = (function () {
+                var ret;
+                try {
+                    ret = w.document.createElement("link").relList.supports("preload");
+                } catch (e) {
+                    ret = false;
+                }
+                return function () {
+                    return ret;
+                };
+            })();
+
+            // if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+            // then change that media back to its intended value on load
+            rp.bindMediaToggle = function (link) {
+                // remember existing media attr for ultimate state, or default to 'all'
+                var finalMedia = link.media || "all";
+
+                function enableStylesheet() {
+                    link.media = finalMedia;
+                }
+
+                // bind load handlers to enable media
+                if (link.addEventListener) {
+                    link.addEventListener("load", enableStylesheet);
+                } else if (link.attachEvent) {
+                    link.attachEvent("onload", enableStylesheet);
+                }
+
+                // Set rel and non-applicable media type to start an async request
+                // note: timeout allows this to happen async to let rendering continue in IE
+                setTimeout(function () {
+                    link.rel = "stylesheet";
+                    link.media = "only x";
+                });
+                // also enable media after 3 seconds,
+                // which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+                setTimeout(enableStylesheet, 3000);
+            };
+
+            // loop through link elements in DOM
+            rp.poly = function () {
+                // double check this to prevent external calls from running
+                if (rp.support()) {
+                    return;
+                }
+                var links = w.document.getElementsByTagName("link");
+                for (var i = 0; i < links.length; i++) {
+                    var link = links[i];
+                    // qualify links to those with rel=preload and as=style attrs
+                    if (link.rel === "preload" && link.getAttribute("as") === "style" && !link.getAttribute("data-loadcss")) {
+                        // prevent rerunning on link
+                        link.setAttribute("data-loadcss", true);
+                        // bind listeners to toggle media back
+                        rp.bindMediaToggle(link);
+                    }
+                }
+            };
+
+            // if unsupported, run the polyfill
+            if (!rp.support()) {
+                // run once at least
+                rp.poly();
+
+                // rerun poly on an interval until onload
+                var run = w.setInterval(rp.poly, 500);
+                if (w.addEventListener) {
+                    w.addEventListener("load", function () {
+                        rp.poly();
+                        w.clearInterval(run);
+                    });
+                } else if (w.attachEvent) {
+                    w.attachEvent("onload", function () {
+                        rp.poly();
+                        w.clearInterval(run);
+                    });
+                }
+            }
+            // commonjs
+            if (typeof exports !== "undefined") {
+                exports.loadCSS = loadCSS;
+            }
+            else {
+                w.loadCSS = loadCSS;
+            }
+        }(typeof global !== "undefined" ? global : this));
+    </script>
+    <script src="//cdn.staticfile.org/jquery/3.2.1/jquery.min.js" defer></script>
+    <script src="/scripts/main.js" defer></script>
+    <!-- 百度统计  -->
+    
+    <!-- 谷歌统计  -->
+    
+</head>
+
+    
+        <body class="post-body">
+    
+    
+<header class="header">
+
+    <div class="read-progress"></div>
+    <div class="header-sidebar-menu">&#xe775;</div>
+    <!-- post页的toggle banner  -->
+    
+    <div class="banner">
+            <div class="blog-title">
+                <a href="/" >Jayden&#39;s Website.</a>
+            </div>
+            <div class="post-title">
+                <a href="#" class="post-name">Kubernetes Dashboard部署</a>
+            </div>
+    </div>
+    
+    <a class="home-link" href=/>Jayden's Website.</a>
+</header>
+    <div class="wrapper">
+        <div class="site-intro">
+    
+    <!-- 主页  -->
+    
+    
+    <!-- 404页  -->
+            
+    <div class="site-intro-img" style="background-image: url(/intro/post-bg.jpg)"></div>
+    <div class="site-intro-placeholder"></div>
+    <div class="site-intro-meta">
+        <!-- 标题  -->
+        <h1 class="intro-title">
+            <!-- 主页  -->
+            
+            Kubernetes Dashboard部署
+            <!-- 404 -->
+            
+        </h1>
+        <!-- 副标题 -->
+        <p class="intro-subtitle">
+            <!-- 主页副标题  -->
+            
+            
+            <!-- 404 -->
+            
+        </p>
+        <!-- 文章页meta -->
+        
+            <!-- 文章页标签  -->
+            
+                <div class= post-intro-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = Docker>Docker</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = Kubernetes>Kubernetes</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = Ansible>Ansible</a>
+    
+</div>
+            
+            <div class="post-intro-meta">
+                <span class="post-intro-calander iconfont-archer">&#xe676;</span>
+                <span class="post-intro-time">2018/04/21</span>
+                
+                <span id="busuanzi_container_page_pv" class="busuanzi-pv">
+                    <span class="iconfont-archer">&#xe602;</span>
+                    <span id="busuanzi_value_page_pv"></span>
+                </span>
+                
+                <span class="shareWrapper">
+                    <span class="iconfont-archer shareIcon">&#xe71d;</span>
+                    <span class="shareText">Share</span>
+                    <ul class="shareList">
+                        <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
+                            <div class="share-qrcode"></div>
+                        </li>
+                        <li class="iconfont-archer" data-type="weibo">&#xe619;</li>
+                        <li class="iconfont-archer" data-type="qzone">&#xe62e;</li>
+                        <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
+                        <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
+                    </ul>
+                </span>
+            </div>
+        
+    </div>
+</div>
+        <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
+
+        <div class="container container-unloaded">
+            <main class="main post-page">
+    <article class="article-entry">
+        <p>本帖子记录的是Kubernetes Dashboard安装部署过程</p>
+<h2 id="dashboard"><a href="#dashboard" class="headerlink" title="dashboard"></a>dashboard</h2><p>本文档基于 dashboard 1.8.3版本，k8s版本 1.9.x。旧版文档<a href="dashboard.1.6.3.md">dashboard-1.6.3</a></p>
+<h3 id="部署"><a href="#部署" class="headerlink" title="部署"></a>部署</h3><p>如果之前已按照本项目部署dashboard1.6.3，先删除旧版本：<code>kubectl delete -f /etc/ansible/manifests/dashboard/1.6.3/</code></p>
+<p>1.8.3配置文件参考<a href="https://raw.githubusercontent.com/kubernetes/dashboard/master/src/deploy/recommended/kubernetes-dashboard.yaml" target="_blank" rel="noopener">官方文档</a></p>
+<ul>
+<li>增加了通过<code>api-server</code>方式访问dashboard</li>
+<li>增加了<code>NodePort</code>方式暴露服务，这样集群外部可以使用 <code>https://NodeIP:NodePort</code> (注意是https不是http，区别于1.6.3版本) 直接访问 dashboard，生产环境建议关闭该访问途径。</li>
+</ul>
+<p>安装部署</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 部署dashboard 主yaml配置文件</span></span><br><span class="line">$ kubectl create -f /etc/ansible/manifests/dashboard/kubernetes-dashboard.yaml</span><br><span class="line"><span class="comment"># 部署基本密码认证配置[可选]，密码文件位于 /etc/kubernetes/ssl/basic-auth.csv</span></span><br><span class="line">$ kubectl create -f /etc/ansible/manifests/dashboard/ui-admin-rbac.yaml</span><br><span class="line">$ kubectl create -f /etc/ansible/manifests/dashboard/ui-read-rbac.yaml</span><br></pre></td></tr></table></figure>
+<h3 id="验证"><a href="#验证" class="headerlink" title="验证"></a>验证</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看pod 运行状态</span></span><br><span class="line">kubectl get pod -n kube-system | grep dashboard</span><br><span class="line">kubernetes-dashboard-7c74685c48-9qdpn   1/1       Running   0          22s</span><br><span class="line"><span class="comment"># 查看dashboard service</span></span><br><span class="line">kubectl get svc -n kube-system|grep dashboard</span><br><span class="line">kubernetes-dashboard   NodePort    10.68.219.38   &lt;none&gt;        443:24108/TCP                   53s</span><br><span class="line"><span class="comment"># 查看集群服务</span></span><br><span class="line">kubectl cluster-info|grep dashboard</span><br><span class="line">kubernetes-dashboard is running at https://192.168.1.1:6443/api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:/proxy</span><br><span class="line"><span class="comment"># 查看pod 运行日志，关注有没有错误</span></span><br><span class="line">kubectl logs kubernetes-dashboard-7c74685c48-9qdpn -n kube-system</span><br></pre></td></tr></table></figure>
+<h3 id="访问"><a href="#访问" class="headerlink" title="访问"></a>访问</h3><p>因为dashboard 作为k8s 原生UI，能够展示各种资源信息，甚至可以有修改、增加、删除权限，所以有必要对访问进行认证和控制，本项目部署的集群有以下安全设置：详见 <a href="../../roles/kube-master/templates/kube-apiserver.service.j2">apiserver配置模板</a></p>
+<ul>
+<li>启用 <code>TLS认证</code> <code>RBAC授权</code>等安全特性</li>
+<li>关闭 apiserver非安全端口8080的外部访问<code>--insecure-bind-address=127.0.0.1</code></li>
+<li>关闭匿名认证<code>--anonymous-auth=false</code></li>
+<li>补充启用基本密码认证 <code>--basic-auth-file=/etc/kubernetes/ssl/basic-auth.csv</code>，<a href="../../roles/kube-master/templates/basic-auth.csv.j2">密码文件模板</a>中按照每行(密码,用户名,序号)的格式，可以定义多个用户</li>
+</ul>
+<p>新版本dashboard登陆可以分为两步，类似流行的双因子登陆系统：</p>
+<ul>
+<li>第一步通过api-server本身安全认证流程，与之前1.6.3版本相同</li>
+<li>第二步通过dashboard自带的登陆流程，使用<code>Kubeconfig</code> <code>Token</code>等方式登陆</li>
+</ul>
+<h4 id="1-临时访问：使用-https-NodeIP-NodePort-方式直接访问-dashboard，生产环境建议关闭该途径"><a href="#1-临时访问：使用-https-NodeIP-NodePort-方式直接访问-dashboard，生产环境建议关闭该途径" class="headerlink" title="1. 临时访问：使用 https://NodeIP:NodePort 方式直接访问 dashboard，生产环境建议关闭该途径"></a>1. 临时访问：使用 <code>https://NodeIP:NodePort</code> 方式直接访问 dashboard，生产环境建议关闭该途径</h4><p>打开页面出现dashboard 新版本自带的登陆页面，我们选择“令牌(Token)”方式登陆，关于令牌的获取<a href="https://github.com/kubernetes/dashboard/wiki/Creating-sample-user" target="_blank" rel="noopener">参考</a></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 创建Service Account 和 ClusterRoleBinding</span></span><br><span class="line">$ kubectl create -f /etc/ansible/manifests/dashboard/admin-user-sa-rbac.yaml</span><br><span class="line"><span class="comment"># 获取 Bearer Token，找到输出中 ‘token:’ 开头那一行</span></span><br><span class="line">$ kubectl -n kube-system describe secret $(kubectl -n kube-system get secret | grep admin-user | awk <span class="string">'&#123;print $1&#125;'</span>)</span><br></pre></td></tr></table></figure>
+<h4 id="2-用户-密码访问：安全性比证书方式差点，务必保管好密码文件basic-auth-csv"><a href="#2-用户-密码访问：安全性比证书方式差点，务必保管好密码文件basic-auth-csv" class="headerlink" title="2. 用户+密码访问：安全性比证书方式差点，务必保管好密码文件basic-auth.csv"></a>2. 用户+密码访问：安全性比证书方式差点，务必保管好密码文件<code>basic-auth.csv</code></h4><ul>
+<li>这里演示两种权限，使用admin 登陆dashboard拥有所有权限，使用readonly 登陆后仅查看权限，首先在 master节点文件 <code>/etc/kubernetes/ssl/basic-auth.csv</code> 确认用户名和密码，如果要增加或者修改用户，修改保存该文件后记得逐个重启你的master 节点</li>
+<li>为了演示用户密码访问，如果你已经完成证书访问方式，你可以在浏览器删除证书，或者访问时候浏览器询问你证书时不选证书</li>
+<li>2.1 设置用户admin 的RBAC 权限，如下运行配置文件 <code>kubectl create -f ui-admin-rbac.yaml</code></li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line">kind: ClusterRole</span><br><span class="line">apiVersion: rbac.authorization.k8s.io/v1</span><br><span class="line">metadata:</span><br><span class="line">  name: ui-admin</span><br><span class="line">rules:</span><br><span class="line">- apiGroups:</span><br><span class="line">  - <span class="string">""</span></span><br><span class="line">  resources:</span><br><span class="line">  - services</span><br><span class="line">  - services/proxy</span><br><span class="line">  verbs:</span><br><span class="line">  - <span class="string">'*'</span></span><br><span class="line"></span><br><span class="line">---</span><br><span class="line">apiVersion: rbac.authorization.k8s.io/v1</span><br><span class="line">kind: RoleBinding</span><br><span class="line">metadata:</span><br><span class="line">  name: ui-admin-binding</span><br><span class="line">  namespace: kube-system</span><br><span class="line">roleRef:</span><br><span class="line">  apiGroup: rbac.authorization.k8s.io</span><br><span class="line">  kind: ClusterRole</span><br><span class="line">  name: ui-admin</span><br><span class="line">subjects:</span><br><span class="line">- apiGroup: rbac.authorization.k8s.io</span><br><span class="line">  kind: User</span><br><span class="line">  name: admin</span><br><span class="line">```  </span><br><span class="line">- 2.2 设置用户<span class="built_in">readonly</span> 的RBAC 权限，如下运行配置文件 `kubectl create -f ui-read-rbac.yaml`</span><br><span class="line"></span><br><span class="line">``` bash</span><br><span class="line">kind: ClusterRole</span><br><span class="line">apiVersion: rbac.authorization.k8s.io/v1</span><br><span class="line">metadata:</span><br><span class="line">  name: ui-read</span><br><span class="line">rules:</span><br><span class="line">- apiGroups:</span><br><span class="line">  - <span class="string">""</span></span><br><span class="line">  resources:</span><br><span class="line">  - services</span><br><span class="line">  - services/proxy</span><br><span class="line">  verbs:</span><br><span class="line">  - get</span><br><span class="line">  - list</span><br><span class="line">  - watch</span><br><span class="line"></span><br><span class="line">---</span><br><span class="line">apiVersion: rbac.authorization.k8s.io/v1</span><br><span class="line">kind: RoleBinding</span><br><span class="line">metadata:</span><br><span class="line">  name: ui-read-binding</span><br><span class="line">  namespace: kube-system</span><br><span class="line">roleRef:</span><br><span class="line">  apiGroup: rbac.authorization.k8s.io</span><br><span class="line">  kind: ClusterRole</span><br><span class="line">  name: ui-read</span><br><span class="line">subjects:</span><br><span class="line">- apiGroup: rbac.authorization.k8s.io</span><br><span class="line">  kind: User</span><br><span class="line">  name: <span class="built_in">readonly</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>2.3 访问 <code>https://x.x.x.x:8443/api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:/proxy</code> (该URL具体使用<code>kubectl cluster-info</code>查看) 使用 admin登陆拥有所有权限，比如删除某个部署；使用 readonly登陆只有查看权限，尝试删除某个部署会提示错误 <code>forbidden: User \&quot;readonly\&quot; cannot delete services/proxy in the namespace \&quot;kube-system\&quot;</code></p>
+</li>
+<li><p>dashboard自带的登陆流程同上</p>
+</li>
+</ul>
+<h4 id="3-证书访问：最安全的方式，配置较复杂"><a href="#3-证书访问：最安全的方式，配置较复杂" class="headerlink" title="3. 证书访问：最安全的方式，配置较复杂"></a>3. 证书访问：最安全的方式，配置较复杂</h4><ul>
+<li>使用集群CA 生成客户端证书，可以根据需要生成权限不同的证书，这里为了演示直接使用 kubectl使用的证书和key(在03.kubectl.yml阶段生成)，该证书拥有所有权限</li>
+<li>指定格式导出该证书，进入<code>/etc/kubernetes/ssl</code>目录，使用命令<code>openssl pkcs12 -export -in admin.pem -inkey admin-key.pem -out kube-admin.p12</code> 提示输入证书密码和确认密码，可以用密码再增加一层保护，也可以直接回车跳过，完成后目录下多了 <code>kube-admin.p12</code>文件，将它分发给授权的用户</li>
+<li>用户将 <code>kube-admin.p12</code> 双击导入证书即可，<code>IE</code> 和<code>Chrome</code> 中输入<code>https://x.x.x.x:8443/api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:/proxy</code>(该URL具体使用<code>kubectl cluster-info</code>查看) 即可访问。补充：最新firefox需要在浏览器中单独导入 [选项] - [隐私与安全] - [证书/查看证书] - [您的证书] 页面点击 [导入] 该证书</li>
+<li>dashboard自带的登陆流程同上</li>
+</ul>
+<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><ul>
+<li>dashboard 访问控制实现较复杂，文档中给出的例子也有助于你理解 RBAC的灵活控制能力，当然最好去<a href="https://kubernetes.io/docs/admin/authorization/rbac/" target="_blank" rel="noopener">官方文档</a>学习一下，这块篇幅不长</li>
+<li>由于还未部署 Heapster 插件，当前 dashboard 不能展示 Pod、Nodes 的 CPU、内存等 metric 图形，后续部署 heapster后自然能够看到</li>
+<li>本文中的权限设置仅供演示用，生产环境请在此基础上修改成适合你安全需求的方式</li>
+</ul>
+
+    </article>
+    <!-- 前后页  -->
+    <ul class="post-paginator">
+        <li class="next">
+            
+        </li>
+        <li class="previous">
+            
+                <div class="prevSlogan">Previous Post</div>
+                <a href= "/2018/04/20/kubernetes-installation/" title= Kubernetes快速搭建过程 >
+                    <div class="prevTitle">Kubernetes快速搭建过程</div>
+                </a>
+            
+        </li>
+    </ul>
+    <!-- 评论插件 -->
+    <!-- 来必力City版安装代码 -->
+
+<!-- City版安装代码已完成 -->
+    
+    
+    <!--PC版-->
+
+    <!--PC版-->
+
+
+    
+    <!-- 评论 -->
+</main>
+            <!-- profile -->
+            
+        </div>
+        <footer class="footer footer-unloaded">
+    <!-- social  -->
+    
+    <div class="social">
+        
+    
+        
+            
+                <a href="mailto:jjc27017@gmail.com" class="iconfont-archer email" title=email ></a>
+            
+        
+    
+        
+            
+                <a href="//github.com/Polaris0112" class="iconfont-archer github" target="_blank" title=github></a>
+            
+        
+    
+        
+            
+                <span class="iconfont-archer wechat" title=wechat>
+                  
+                  <img class="profile-qr" src="/assets/wechat_qr.png" />
+                </span>
+            
+        
+    
+        
+            
+                <span class="iconfont-archer qq" title=qq>
+                  
+                  <img class="profile-qr" src="/assets/qq_qr.jpg" />
+                </span>
+            
+        
+    
+        
+            
+                <a href="//weibo.com/__Tk__" class="iconfont-archer weibo" target="_blank" title=weibo></a>
+            
+        
+    
+        
+            
+                <a href="//www.zhihu.com/people/chen-jia-jian-62" class="iconfont-archer zhihu" target="_blank" title=zhihu></a>
+            
+        
+    
+        
+            
+                <a href="//www.douban.com/people/170240662/" class="iconfont-archer douban" target="_blank" title=douban></a>
+            
+        
+    
+        
+            
+                <a href="//www.facebook.com/jiajian.chen.79" class="iconfont-archer facebook" target="_blank" title=facebook></a>
+            
+        
+    
+        
+            
+                <a href="//twitter.com/Jayden_0112" class="iconfont-archer twitter" target="_blank" title=twitter></a>
+            
+        
+    
+        
+    
+        
+    
+        
+            
+                <a href="//www.linkedin.com/in/嘉健-陈-3a0a20157/" class="iconfont-archer linkedin" target="_blank" title=linkedin></a>
+            
+        
+    
+        
+    
+        
+    
+
+    </div>
+    
+    <!-- powered by Hexo  -->
+    <div class="copyright">
+        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank">Archer</a></span>
+    </div>
+    <!-- 不蒜子  -->
+    
+    <div class="busuanzi-container">
+        <span id="busuanzi_container_site_pv">PV: <span id="busuanzi_value_site_pv"></span>
+        </span>
+    </div>
+    
+</footer>
+    </div>
+    <!-- toc -->
+    
+    <div class="toc-wrapper">
+        <div class="toc-catalog">
+            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+        </div>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#dashboard"><span class="toc-number">1.</span> <span class="toc-text">dashboard</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#部署"><span class="toc-number">1.1.</span> <span class="toc-text">部署</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#验证"><span class="toc-number">1.2.</span> <span class="toc-text">验证</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#访问"><span class="toc-number">1.3.</span> <span class="toc-text">访问</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-临时访问：使用-https-NodeIP-NodePort-方式直接访问-dashboard，生产环境建议关闭该途径"><span class="toc-number">1.3.1.</span> <span class="toc-text">1. 临时访问：使用 https://NodeIP:NodePort 方式直接访问 dashboard，生产环境建议关闭该途径</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-用户-密码访问：安全性比证书方式差点，务必保管好密码文件basic-auth-csv"><span class="toc-number">1.3.2.</span> <span class="toc-text">2. 用户+密码访问：安全性比证书方式差点，务必保管好密码文件basic-auth.csv</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-证书访问：最安全的方式，配置较复杂"><span class="toc-number">1.3.3.</span> <span class="toc-text">3. 证书访问：最安全的方式，配置较复杂</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#小结"><span class="toc-number">1.4.</span> <span class="toc-text">小结</span></a></li></ol></li></ol>
+    </div>
+    
+    <div class="back-top iconfont-archer">&#xe639;</div>
+    <div class="sidebar sidebar-hide">
+    <ul class="sidebar-tabs sidebar-tabs-active-0">
+        <li class="sidebar-tab-archives"><span class="iconfont-archer">&#xe67d;</span><span class="tab-name">Archive</span></li>
+        <li class="sidebar-tab-tags"><span class="iconfont-archer">&#xe61b;</span><span class="tab-name">Tag</span></li>
+        <li class="sidebar-tab-categories"><span class="iconfont-archer">&#xe666;</span><span class="tab-name">Cate</span></li>
+    </ul>
+    <div class="sidebar-content sidebar-content-show-archive">
+          <div class="sidebar-panel-archives">
+    <!-- 在ejs中将archive按照时间排序 -->
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="total-archive"> Total : 43 </div>
+    
+    <div class="post-archive">
+    
+    
+    
+    
+    <div class="archive-year"> 2018 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/21</span><a class="archive-post-title" href= "/2018/04/21/kubernetes-dashboard/" >Kubernetes Dashboard部署</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/20</span><a class="archive-post-title" href= "/2018/04/20/kubernetes-installation/" >Kubernetes快速搭建过程</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/22</span><a class="archive-post-title" href= "/2018/03/22/sort-algorithm/" >Python实现八大排序算法</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/21</span><a class="archive-post-title" href= "/2018/03/21/docker-data-volume-improve/" >Docker数据卷之进阶篇</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/20</span><a class="archive-post-title" href= "/2018/03/20/docker-data-volume/" >浅谈Docker基础之数据管理</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/19</span><a class="archive-post-title" href= "/2018/03/19/docker-network/" >Docker容器网络通信原理分析</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/19</span><a class="archive-post-title" href= "/2018/03/19/docker-network-improve/" >“深入浅出”来解读Docker网络核心原理</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/18</span><a class="archive-post-title" href= "/2018/03/18/docker-tech/" >Docker核心技术与实现原理</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/17</span><a class="archive-post-title" href= "/2018/03/17/ceph-change-subnet/" >Ceph修改OSD和Monitor的网络</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/16</span><a class="archive-post-title" href= "/2018/03/16/ceph-commands/" >Ceph日常命令使用</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/15</span><a class="archive-post-title" href= "/2018/03/15/ceph-optimization-summary/" >Ceph 优化总结</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/14</span><a class="archive-post-title" href= "/2018/03/14/ceph-installation/" >分布式存储系统Ceph部署过程</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/14</span><a class="archive-post-title" href= "/2018/03/14/ceph-client-mount/" >Ceph Client挂载方法</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/13</span><a class="archive-post-title" href= "/2018/03/13/ceph-introduction/" >分布式存储系统Ceph原理</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/12</span><a class="archive-post-title" href= "/2018/03/12/harbor-installation/" >Docker镜像仓库Harbor搭建</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/11</span><a class="archive-post-title" href= "/2018/03/11/docker-install/" >Docker安装部署教程</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/10</span><a class="archive-post-title" href= "/2018/03/10/openstack-devstack-installation/" >通过devstack安装部署OpenStack</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/10</span><a class="archive-post-title" href= "/2018/03/10/openstack-packstack-installation/" >通过packstack快速安装openstack</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/09</span><a class="archive-post-title" href= "/2018/03/09/open-falcon-install/" >open-falcon安装部署教程</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/09</span><a class="archive-post-title" href= "/2018/03/09/openstack-install-introduction/" >OpenStack安装部署</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/08</span><a class="archive-post-title" href= "/2018/03/08/supervisor/" >supervisor 安装、配置、常用命令</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/03</span><a class="archive-post-title" href= "/2018/03/03/blockchain-selection/" >比特币如何达成共识 - 最长链的选择</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/03</span><a class="archive-post-title" href= "/2018/03/03/blockchain-pow/" >比特币如何挖矿（挖矿原理）-工作量证明</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/03</span><a class="archive-post-title" href= "/2018/03/03/blockchain-merkle/" >比特币区块结构 Merkle 树及简单支付验证分析</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/02</span><a class="archive-post-title" href= "/2018/03/02/blockchain-accounting/" >区块链记账原理</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/02</span><a class="archive-post-title" href= "/2018/03/02/blockchain-python/" >用Python从0开始创建一个区块链</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/01</span><a class="archive-post-title" href= "/2018/03/01/gitlab-update/" >Gitlab踩坑升级过程</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/28</span><a class="archive-post-title" href= "/2018/02/28/zombie-process-and-orphaned-process/" >浅析僵尸进程与孤儿进程</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/28</span><a class="archive-post-title" href= "/2018/02/28/zabbix-fonts/" >Zabbix汉化字体修改</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/27</span><a class="archive-post-title" href= "/2018/02/27/nfs-installation/" >NFS安装部署</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/26</span><a class="archive-post-title" href= "/2018/02/26/zabbix-optimization/" >Zabbix性能优化</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/26</span><a class="archive-post-title" href= "/2018/02/26/myisam-innodb/" >MyISAM和InnoDB区别详解</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/25</span><a class="archive-post-title" href= "/2018/02/25/zabbix-yum-installation/" >Zabbix YUM方式部署</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/25</span><a class="archive-post-title" href= "/2018/02/25/zabbix-source-installation/" >Zabbix 编译安装部署</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/24</span><a class="archive-post-title" href= "/2018/02/24/mongodb-replset/" >MongoDB复制集部署</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/24</span><a class="archive-post-title" href= "/2018/02/24/mongodb-single/" >MongoDB单实例部署</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/24</span><a class="archive-post-title" href= "/2018/02/24/mongodb-shard/" >MongoDB Sharding集群部署</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/23</span><a class="archive-post-title" href= "/2018/02/23/haproxy/" >HAProxy日常使用说明</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/22</span><a class="archive-post-title" href= "/2018/02/22/certbot/" >Certbot安装/部分问题解决方案</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/21</span><a class="archive-post-title" href= "/2018/02/21/nginx/" >Nginx正反向代理/负载均衡</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/20</span><a class="archive-post-title" href= "/2018/02/20/lvm/" >LVM创建/扩容/常用操作</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/12</span><a class="archive-post-title" href= "/2018/02/12/hexo/" >Hexo+Github搭建博客</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/20</span><a class="archive-post-title" href= "/2018/01/20/shadowsocks/" >小灰机-4.0.8下载</a>
+        </li>
+    
+    </div>
+  </div>
+        <div class="sidebar-panel-tags">
+    <div class="sidebar-tags-name">
+    
+        <span class="sidebar-tag-name" data-tags="Blockchain"><span class="iconfont-archer">&#xe606;</span>Blockchain</span>
+    
+        <span class="sidebar-tag-name" data-tags="Python"><span class="iconfont-archer">&#xe606;</span>Python</span>
+    
+        <span class="sidebar-tag-name" data-tags="Flask"><span class="iconfont-archer">&#xe606;</span>Flask</span>
+    
+        <span class="sidebar-tag-name" data-tags="Ceph"><span class="iconfont-archer">&#xe606;</span>Ceph</span>
+    
+        <span class="sidebar-tag-name" data-tags="Docker"><span class="iconfont-archer">&#xe606;</span>Docker</span>
+    
+        <span class="sidebar-tag-name" data-tags="Certbot"><span class="iconfont-archer">&#xe606;</span>Certbot</span>
+    
+        <span class="sidebar-tag-name" data-tags="https"><span class="iconfont-archer">&#xe606;</span>https</span>
+    
+        <span class="sidebar-tag-name" data-tags="Gitlab"><span class="iconfont-archer">&#xe606;</span>Gitlab</span>
+    
+        <span class="sidebar-tag-name" data-tags="Update"><span class="iconfont-archer">&#xe606;</span>Update</span>
+    
+        <span class="sidebar-tag-name" data-tags="Migration"><span class="iconfont-archer">&#xe606;</span>Migration</span>
+    
+        <span class="sidebar-tag-name" data-tags="CentOS"><span class="iconfont-archer">&#xe606;</span>CentOS</span>
+    
+        <span class="sidebar-tag-name" data-tags="Kubernetes"><span class="iconfont-archer">&#xe606;</span>Kubernetes</span>
+    
+        <span class="sidebar-tag-name" data-tags="Ansible"><span class="iconfont-archer">&#xe606;</span>Ansible</span>
+    
+        <span class="sidebar-tag-name" data-tags="haproxy"><span class="iconfont-archer">&#xe606;</span>haproxy</span>
+    
+        <span class="sidebar-tag-name" data-tags="Registry"><span class="iconfont-archer">&#xe606;</span>Registry</span>
+    
+        <span class="sidebar-tag-name" data-tags="Harbor"><span class="iconfont-archer">&#xe606;</span>Harbor</span>
+    
+        <span class="sidebar-tag-name" data-tags="NoSql"><span class="iconfont-archer">&#xe606;</span>NoSql</span>
+    
+        <span class="sidebar-tag-name" data-tags="MongoDB"><span class="iconfont-archer">&#xe606;</span>MongoDB</span>
+    
+        <span class="sidebar-tag-name" data-tags="ReplSet"><span class="iconfont-archer">&#xe606;</span>ReplSet</span>
+    
+        <span class="sidebar-tag-name" data-tags="centos"><span class="iconfont-archer">&#xe606;</span>centos</span>
+    
+        <span class="sidebar-tag-name" data-tags="lvm"><span class="iconfont-archer">&#xe606;</span>lvm</span>
+    
+        <span class="sidebar-tag-name" data-tags="MySQL"><span class="iconfont-archer">&#xe606;</span>MySQL</span>
+    
+        <span class="sidebar-tag-name" data-tags="MyISAM"><span class="iconfont-archer">&#xe606;</span>MyISAM</span>
+    
+        <span class="sidebar-tag-name" data-tags="InnoDB"><span class="iconfont-archer">&#xe606;</span>InnoDB</span>
+    
+        <span class="sidebar-tag-name" data-tags="github"><span class="iconfont-archer">&#xe606;</span>github</span>
+    
+        <span class="sidebar-tag-name" data-tags="hexo"><span class="iconfont-archer">&#xe606;</span>hexo</span>
+    
+        <span class="sidebar-tag-name" data-tags="blog"><span class="iconfont-archer">&#xe606;</span>blog</span>
+    
+        <span class="sidebar-tag-name" data-tags="nginx"><span class="iconfont-archer">&#xe606;</span>nginx</span>
+    
+        <span class="sidebar-tag-name" data-tags="proxy"><span class="iconfont-archer">&#xe606;</span>proxy</span>
+    
+        <span class="sidebar-tag-name" data-tags="load-balance"><span class="iconfont-archer">&#xe606;</span>load-balance</span>
+    
+        <span class="sidebar-tag-name" data-tags="NFS"><span class="iconfont-archer">&#xe606;</span>NFS</span>
+    
+        <span class="sidebar-tag-name" data-tags="open-falcon"><span class="iconfont-archer">&#xe606;</span>open-falcon</span>
+    
+        <span class="sidebar-tag-name" data-tags="Sharding"><span class="iconfont-archer">&#xe606;</span>Sharding</span>
+    
+        <span class="sidebar-tag-name" data-tags="replSet"><span class="iconfont-archer">&#xe606;</span>replSet</span>
+    
+        <span class="sidebar-tag-name" data-tags="OpenStack"><span class="iconfont-archer">&#xe606;</span>OpenStack</span>
+    
+        <span class="sidebar-tag-name" data-tags="DevStack"><span class="iconfont-archer">&#xe606;</span>DevStack</span>
+    
+        <span class="sidebar-tag-name" data-tags="$$"><span class="iconfont-archer">&#xe606;</span>$$</span>
+    
+        <span class="sidebar-tag-name" data-tags="GFW"><span class="iconfont-archer">&#xe606;</span>GFW</span>
+    
+        <span class="sidebar-tag-name" data-tags="Installation"><span class="iconfont-archer">&#xe606;</span>Installation</span>
+    
+        <span class="sidebar-tag-name" data-tags="supervisor"><span class="iconfont-archer">&#xe606;</span>supervisor</span>
+    
+        <span class="sidebar-tag-name" data-tags="Zabbix"><span class="iconfont-archer">&#xe606;</span>Zabbix</span>
+    
+        <span class="sidebar-tag-name" data-tags="Source"><span class="iconfont-archer">&#xe606;</span>Source</span>
+    
+        <span class="sidebar-tag-name" data-tags="Yum"><span class="iconfont-archer">&#xe606;</span>Yum</span>
+    
+        <span class="sidebar-tag-name" data-tags="PackStack"><span class="iconfont-archer">&#xe606;</span>PackStack</span>
+    
+        <span class="sidebar-tag-name" data-tags="Optimization"><span class="iconfont-archer">&#xe606;</span>Optimization</span>
+    
+        <span class="sidebar-tag-name" data-tags="Font"><span class="iconfont-archer">&#xe606;</span>Font</span>
+    
+        <span class="sidebar-tag-name" data-tags="Zombie Process"><span class="iconfont-archer">&#xe606;</span>Zombie Process</span>
+    
+        <span class="sidebar-tag-name" data-tags="Orphaned Process"><span class="iconfont-archer">&#xe606;</span>Orphaned Process</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
+    <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
+    缺失模块。<br/>
+    1、请确保node版本大于6.2<br/>
+    2、在博客根目录（注意不是archer根目录）执行以下命令：<br/>
+    <span style="color: #f75357; font-size: 1rem; line-height: 2rem;">npm i hexo-generator-json-content --save</span><br/>
+    3、在根目录_config.yml里添加配置：
+    <pre style="color: #787878; font-size: 0.6rem;">
+jsonContent:
+  meta: false
+  pages: false
+  posts:
+    title: true
+    date: true
+    path: true
+    text: false
+    raw: false
+    content: false
+    slug: false
+    updated: false
+    comments: false
+    link: false
+    permalink: false
+    excerpt: false
+    categories: true
+    tags: true</pre>
+    </div> 
+    <div class="sidebar-tags-list"></div>
+</div>
+        <div class="sidebar-panel-categories">
+    <div class="sidebar-categories-name">
+    
+        <span class="sidebar-category-name" data-categories="区块链记账原理"><span class="iconfont-archer">&#xe60a;</span>区块链记账原理</span>
+    
+        <span class="sidebar-category-name" data-categories="比特币区块结构-Merkle-树及简单支付验证分析"><span class="iconfont-archer">&#xe60a;</span>比特币区块结构-Merkle-树及简单支付验证分析</span>
+    
+        <span class="sidebar-category-name" data-categories="用Python从0开始创建一个区块链"><span class="iconfont-archer">&#xe60a;</span>用Python从0开始创建一个区块链</span>
+    
+        <span class="sidebar-category-name" data-categories="Ceph修改OSD和Monitor的网络"><span class="iconfont-archer">&#xe60a;</span>Ceph修改OSD和Monitor的网络</span>
+    
+        <span class="sidebar-category-name" data-categories="比特币如何达成共识-最长链的选择"><span class="iconfont-archer">&#xe60a;</span>比特币如何达成共识-最长链的选择</span>
+    
+        <span class="sidebar-category-name" data-categories="Ceph日常命令使用"><span class="iconfont-archer">&#xe60a;</span>Ceph日常命令使用</span>
+    
+        <span class="sidebar-category-name" data-categories="分布式存储系统Ceph部署过程记录"><span class="iconfont-archer">&#xe60a;</span>分布式存储系统Ceph部署过程记录</span>
+    
+        <span class="sidebar-category-name" data-categories="比特币如何挖矿（挖矿原理）-工作量证明"><span class="iconfont-archer">&#xe60a;</span>比特币如何挖矿（挖矿原理）-工作量证明</span>
+    
+        <span class="sidebar-category-name" data-categories="Ceph-Client挂载方法"><span class="iconfont-archer">&#xe60a;</span>Ceph-Client挂载方法</span>
+    
+        <span class="sidebar-category-name" data-categories="Docker数据卷"><span class="iconfont-archer">&#xe60a;</span>Docker数据卷</span>
+    
+        <span class="sidebar-category-name" data-categories="Ceph-优化总结"><span class="iconfont-archer">&#xe60a;</span>Ceph-优化总结</span>
+    
+        <span class="sidebar-category-name" data-categories="分布式存储系统Ceph原理介绍"><span class="iconfont-archer">&#xe60a;</span>分布式存储系统Ceph原理介绍</span>
+    
+        <span class="sidebar-category-name" data-categories="Docker网络"><span class="iconfont-archer">&#xe60a;</span>Docker网络</span>
+    
+        <span class="sidebar-category-name" data-categories="Certbot安装-部分问题解决方案"><span class="iconfont-archer">&#xe60a;</span>Certbot安装-部分问题解决方案</span>
+    
+        <span class="sidebar-category-name" data-categories="Docker核心技术与实现原理"><span class="iconfont-archer">&#xe60a;</span>Docker核心技术与实现原理</span>
+    
+        <span class="sidebar-category-name" data-categories="Gitlab升级"><span class="iconfont-archer">&#xe60a;</span>Gitlab升级</span>
+    
+        <span class="sidebar-category-name" data-categories="Docker安装部署教程"><span class="iconfont-archer">&#xe60a;</span>Docker安装部署教程</span>
+    
+        <span class="sidebar-category-name" data-categories="Kubernetes安装部署"><span class="iconfont-archer">&#xe60a;</span>Kubernetes安装部署</span>
+    
+        <span class="sidebar-category-name" data-categories="HAProxy使用"><span class="iconfont-archer">&#xe60a;</span>HAProxy使用</span>
+    
+        <span class="sidebar-category-name" data-categories="Docker镜像仓库Harbor搭建"><span class="iconfont-archer">&#xe60a;</span>Docker镜像仓库Harbor搭建</span>
+    
+        <span class="sidebar-category-name" data-categories="MongoDB复制集部署"><span class="iconfont-archer">&#xe60a;</span>MongoDB复制集部署</span>
+    
+        <span class="sidebar-category-name" data-categories="LVM使用"><span class="iconfont-archer">&#xe60a;</span>LVM使用</span>
+    
+        <span class="sidebar-category-name" data-categories="MySQL存储引擎中的MyISAM和InnoDB区别详解"><span class="iconfont-archer">&#xe60a;</span>MySQL存储引擎中的MyISAM和InnoDB区别详解</span>
+    
+        <span class="sidebar-category-name" data-categories="MongoDB单实例部署"><span class="iconfont-archer">&#xe60a;</span>MongoDB单实例部署</span>
+    
+        <span class="sidebar-category-name" data-categories="Hexo-Github搭建博客"><span class="iconfont-archer">&#xe60a;</span>Hexo-Github搭建博客</span>
+    
+        <span class="sidebar-category-name" data-categories="Nginx正反向代理-负载均衡"><span class="iconfont-archer">&#xe60a;</span>Nginx正反向代理-负载均衡</span>
+    
+        <span class="sidebar-category-name" data-categories="NFS安装部署"><span class="iconfont-archer">&#xe60a;</span>NFS安装部署</span>
+    
+        <span class="sidebar-category-name" data-categories="open-falcon安装部署教程"><span class="iconfont-archer">&#xe60a;</span>open-falcon安装部署教程</span>
+    
+        <span class="sidebar-category-name" data-categories="MongoDB分片集群部署"><span class="iconfont-archer">&#xe60a;</span>MongoDB分片集群部署</span>
+    
+        <span class="sidebar-category-name" data-categories="通过devstack安装部署OpenStack"><span class="iconfont-archer">&#xe60a;</span>通过devstack安装部署OpenStack</span>
+    
+        <span class="sidebar-category-name" data-categories="4-0-8"><span class="iconfont-archer">&#xe60a;</span>4-0-8</span>
+    
+        <span class="sidebar-category-name" data-categories="OpenStack安装部署教程"><span class="iconfont-archer">&#xe60a;</span>OpenStack安装部署教程</span>
+    
+        <span class="sidebar-category-name" data-categories="supervisor-安装、配置、常用命令"><span class="iconfont-archer">&#xe60a;</span>supervisor-安装、配置、常用命令</span>
+    
+        <span class="sidebar-category-name" data-categories="Python八大算法"><span class="iconfont-archer">&#xe60a;</span>Python八大算法</span>
+    
+        <span class="sidebar-category-name" data-categories="Zabbix-编译安装"><span class="iconfont-archer">&#xe60a;</span>Zabbix-编译安装</span>
+    
+        <span class="sidebar-category-name" data-categories="Zabbix-YUM安装"><span class="iconfont-archer">&#xe60a;</span>Zabbix-YUM安装</span>
+    
+        <span class="sidebar-category-name" data-categories="通过packstack快速安装openstack"><span class="iconfont-archer">&#xe60a;</span>通过packstack快速安装openstack</span>
+    
+        <span class="sidebar-category-name" data-categories="Zabbix性能优化"><span class="iconfont-archer">&#xe60a;</span>Zabbix性能优化</span>
+    
+        <span class="sidebar-category-name" data-categories="Zabbix汉化字体修改"><span class="iconfont-archer">&#xe60a;</span>Zabbix汉化字体修改</span>
+    
+        <span class="sidebar-category-name" data-categories="浅析僵尸进程与孤儿进程"><span class="iconfont-archer">&#xe60a;</span>浅析僵尸进程与孤儿进程</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
+    <div class="sidebar-categories-list"></div>
+</div>
+    </div>
+</div> 
+    <script>
+    var siteMeta = {
+        root: '/',
+        author: 'Jayden'
+    }
+</script>
+    <!-- busuanzi  -->
+    
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+    <!-- CNZZ  -->
+    
+    </div>
+    <!-- async load share.js -->
+    
+        <script src="/scripts/share.js" async></script>    
+    
+    </body>
+</html>
+
+
