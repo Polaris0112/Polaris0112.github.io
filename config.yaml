@@ -1,8 +1,8 @@
-baseurl: https://example.com
+baseurl: https://polaris0112.github.io
 languageCode: zh-cn
 theme: hugo-theme-stack
 paginate: 5
-title: 初始化
+title: Example Site
 
 languages:
     en:
