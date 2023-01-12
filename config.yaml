@@ -1,4 +1,4 @@
-baseurl: https://yysy.github.io
+baseurl: https://example.com
 languageCode: zh-cn
 theme: hugo-theme-stack
 paginate: 5
