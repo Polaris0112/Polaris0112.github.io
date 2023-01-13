@@ -11,11 +11,6 @@
                 />
     <xhtml:link
                 rel="alternate"
-                hreflang="ar"
-                href="https://polaris0112.github.io/ar/"
-                />
-    <xhtml:link
-                rel="alternate"
                 hreflang="zh-cn"
                 href="https://polaris0112.github.io/zh-cn/"
                 />
@@ -26,11 +21,6 @@
                 rel="alternate"
                 hreflang="en"
                 href="https://polaris0112.github.io/categories/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="ar"
-                href="https://polaris0112.github.io/ar/categories/"
                 />
     <xhtml:link
                 rel="alternate"
@@ -47,11 +37,6 @@
                 rel="alternate"
                 hreflang="en"
                 href="https://polaris0112.github.io/post/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="ar"
-                href="https://polaris0112.github.io/ar/post/"
                 />
     <xhtml:link
                 rel="alternate"
@@ -92,11 +77,6 @@
                 rel="alternate"
                 hreflang="en"
                 href="https://polaris0112.github.io/tags/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="ar"
-                href="https://polaris0112.github.io/ar/tags/"
                 />
     <xhtml:link
                 rel="alternate"

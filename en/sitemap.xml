@@ -11,11 +11,6 @@
                 />
     <xhtml:link
                 rel="alternate"
-                hreflang="ar"
-                href="https://polaris0112.github.io/ar/"
-                />
-    <xhtml:link
-                rel="alternate"
                 hreflang="en"
                 href="https://polaris0112.github.io/"
                 />
@@ -45,11 +40,6 @@
                 />
     <xhtml:link
                 rel="alternate"
-                hreflang="ar"
-                href="https://polaris0112.github.io/ar/categories/"
-                />
-    <xhtml:link
-                rel="alternate"
                 hreflang="en"
                 href="https://polaris0112.github.io/categories/"
                 />
@@ -75,11 +65,6 @@
                 />
     <xhtml:link
                 rel="alternate"
-                hreflang="ar"
-                href="https://polaris0112.github.io/ar/post/"
-                />
-    <xhtml:link
-                rel="alternate"
                 hreflang="en"
                 href="https://polaris0112.github.io/post/"
                 />
@@ -93,11 +78,6 @@
                 rel="alternate"
                 hreflang="zh-cn"
                 href="https://polaris0112.github.io/zh-cn/tags/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="ar"
-                href="https://polaris0112.github.io/ar/tags/"
                 />
     <xhtml:link
                 rel="alternate"
@@ -120,39 +100,22 @@
     <loc>https://polaris0112.github.io/tags/shortcodes/</loc>
     <lastmod>2019-03-10T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://polaris0112.github.io/p/placeholder-text/</loc>
-    <lastmod>2019-03-09T00:00:00+00:00</lastmod>
-    <xhtml:link
-                rel="alternate"
-                hreflang="ar"
-                href="https://polaris0112.github.io/ar/p/%D9%85%D8%AB%D8%A7%D9%84-%D9%86%D8%B5/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="en"
-                href="https://polaris0112.github.io/p/placeholder-text/"
-                />
-  </url><url>
-    <loc>https://polaris0112.github.io/tags/tag-with-whitespaces/</loc>
+    <loc>https://polaris0112.github.io/categories/%D8%AA%D8%AC%D8%B1%D8%A8%D8%A9/</loc>
     <lastmod>2019-03-09T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://polaris0112.github.io/categories/test/</loc>
-    <lastmod>2019-03-09T00:00:00+00:00</lastmod>
-    <xhtml:link
-                rel="alternate"
-                hreflang="zh-cn"
-                href="https://polaris0112.github.io/zh-cn/categories/test/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="en"
-                href="https://polaris0112.github.io/categories/test/"
-                />
-  </url><url>
-    <loc>https://polaris0112.github.io/categories/test-with-whitespaces/</loc>
+    <loc>https://polaris0112.github.io/categories/%D8%AA%D8%AC%D8%B1%D8%A8%D8%A9-%D9%85%D8%B9-%D9%81%D8%B1%D8%A7%D8%BA%D8%A7%D8%AA/</loc>
     <lastmod>2019-03-09T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://polaris0112.github.io/tags/text/</loc>
+    <loc>https://polaris0112.github.io/tags/%D9%85%D8%A7%D8%B1%D9%83%D8%AF%D8%A7%D9%88%D9%86/</loc>
+    <lastmod>2019-03-09T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://polaris0112.github.io/p/%D9%85%D8%AB%D8%A7%D9%84-%D9%86%D8%B5/</loc>
+    <lastmod>2019-03-09T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://polaris0112.github.io/tags/%D9%86%D8%B5/</loc>
+    <lastmod>2019-03-09T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://polaris0112.github.io/tags/%D9%88%D8%B3%D9%85-%D9%85%D8%B9-%D9%81%D8%B1%D8%A7%D8%BA%D8%A7%D8%AA/</loc>
     <lastmod>2019-03-09T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://polaris0112.github.io/p/math-typesetting/</loc>
@@ -163,6 +126,19 @@
   </url><url>
     <loc>https://polaris0112.github.io/p/emoji-support/</loc>
     <lastmod>2019-03-05T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://polaris0112.github.io/categories/test/</loc>
+    <lastmod>2019-03-05T00:00:00+00:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh-cn"
+                href="https://polaris0112.github.io/zh-cn/categories/test/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://polaris0112.github.io/categories/test/"
+                />
   </url><url>
     <loc>https://polaris0112.github.io/about/</loc>
     <lastmod>2020-10-09T00:00:00+00:00</lastmod>
@@ -176,6 +152,8 @@
                 hreflang="en"
                 href="https://polaris0112.github.io/about/"
                 />
+  </url><url>
+    <loc>https://polaris0112.github.io/p/</loc>
   </url><url>
     <loc>https://polaris0112.github.io/links/</loc>
   </url><url>
