@@ -1,50 +1,58 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
     <channel>
-        <title>Categories on YYSY&#39;s Blog</title>
-        <link>https://polaris0112.github.io/categories/</link>
-        <description>Recent content in Categories on YYSY&#39;s Blog</description>
+        <title>Categories on YYSY 博客</title>
+        <link>https://yysy.site/categories/</link>
+        <description>Recent content in Categories on YYSY 博客</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
-        <lastBuildDate>Mon, 11 Mar 2019 00:00:00 +0000</lastBuildDate><atom:link href="https://polaris0112.github.io/categories/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Wed, 09 Sep 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://yysy.site/categories/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>Test</title>
+        <link>https://yysy.site/categories/test/</link>
+        <pubDate>Wed, 09 Sep 2020 00:00:00 +0000</pubDate>
+        
+        <guid>https://yysy.site/categories/test/</guid>
+        <description>&lt;img src="https://yysy.site/categories/test/hutomo-abrianto-l2jk-uxb1BY-unsplash.jpg" alt="Featured image of post Test" /&gt;</description>
+        </item>
+        <item>
+        <title>测试</title>
+        <link>https://yysy.site/categories/%E6%B5%8B%E8%AF%95/</link>
+        <pubDate>Wed, 09 Sep 2020 00:00:00 +0000</pubDate>
+        
+        <guid>https://yysy.site/categories/%E6%B5%8B%E8%AF%95/</guid>
+        <description></description>
+        </item>
+        <item>
         <title>syntax</title>
-        <link>https://polaris0112.github.io/categories/syntax/</link>
+        <link>https://yysy.site/categories/syntax/</link>
         <pubDate>Mon, 11 Mar 2019 00:00:00 +0000</pubDate>
         
-        <guid>https://polaris0112.github.io/categories/syntax/</guid>
+        <guid>https://yysy.site/categories/syntax/</guid>
         <description></description>
         </item>
         <item>
         <title>themes</title>
-        <link>https://polaris0112.github.io/categories/themes/</link>
+        <link>https://yysy.site/categories/themes/</link>
         <pubDate>Mon, 11 Mar 2019 00:00:00 +0000</pubDate>
         
-        <guid>https://polaris0112.github.io/categories/themes/</guid>
+        <guid>https://yysy.site/categories/themes/</guid>
         <description></description>
         </item>
         <item>
         <title>تجربة</title>
-        <link>https://polaris0112.github.io/categories/%D8%AA%D8%AC%D8%B1%D8%A8%D8%A9/</link>
+        <link>https://yysy.site/categories/%D8%AA%D8%AC%D8%B1%D8%A8%D8%A9/</link>
         <pubDate>Sat, 09 Mar 2019 00:00:00 +0000</pubDate>
         
-        <guid>https://polaris0112.github.io/categories/%D8%AA%D8%AC%D8%B1%D8%A8%D8%A9/</guid>
+        <guid>https://yysy.site/categories/%D8%AA%D8%AC%D8%B1%D8%A8%D8%A9/</guid>
         <description></description>
         </item>
         <item>
         <title>تجربة مع فراغات</title>
-        <link>https://polaris0112.github.io/categories/%D8%AA%D8%AC%D8%B1%D8%A8%D8%A9-%D9%85%D8%B9-%D9%81%D8%B1%D8%A7%D8%BA%D8%A7%D8%AA/</link>
+        <link>https://yysy.site/categories/%D8%AA%D8%AC%D8%B1%D8%A8%D8%A9-%D9%85%D8%B9-%D9%81%D8%B1%D8%A7%D8%BA%D8%A7%D8%AA/</link>
         <pubDate>Sat, 09 Mar 2019 00:00:00 +0000</pubDate>
         
-        <guid>https://polaris0112.github.io/categories/%D8%AA%D8%AC%D8%B1%D8%A8%D8%A9-%D9%85%D8%B9-%D9%81%D8%B1%D8%A7%D8%BA%D8%A7%D8%AA/</guid>
+        <guid>https://yysy.site/categories/%D8%AA%D8%AC%D8%B1%D8%A8%D8%A9-%D9%85%D8%B9-%D9%81%D8%B1%D8%A7%D8%BA%D8%A7%D8%AA/</guid>
         <description></description>
-        </item>
-        <item>
-        <title>Test</title>
-        <link>https://polaris0112.github.io/categories/test/</link>
-        <pubDate>Tue, 05 Mar 2019 00:00:00 +0000</pubDate>
-        
-        <guid>https://polaris0112.github.io/categories/test/</guid>
-        <description>&lt;img src="https://polaris0112.github.io/categories/test/hutomo-abrianto-l2jk-uxb1BY-unsplash.jpg" alt="Featured image of post Test" /&gt;</description>
         </item>
         
     </channel>

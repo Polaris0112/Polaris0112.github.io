@@ -15,7 +15,7 @@ Windows  设置你的文件夹  你将需要一个存储 Hugo 可执行文件、
  打开 Windows Explorer。 创建一个新的文件夹，D:\Hugo。 创建一个新的文件夹，D:\Hugo\bin。 创建一个新的文件夹，D:\Hugo\Sites。   下载预先编译好的 Windows 版本的 Hugo 可执行文件  使用 go 编译 Hugo 的一个优势就是仅有一个二进制文件。你不需要运行安装程序来使用它。相反，你需要把这个二进制文件复制到你的硬盘上。我假设你将把它放在 D:\Hugo\bin 文件夹内。如果你选择放在其它的位置，你需要在下面的命令中替换为那些路径。'>
 <title></title>
 
-<link rel='canonical' href='https://polaris0112.github.io/p/'>
+<link rel='canonical' href='https://yysy.site/p/'>
 
 <link rel="stylesheet" href="/scss/style.min.8191399262444ab68b72a18c97392f5349be20a1615d77445be51e974c144cff.css"><meta property='og:title' content=''>
 <meta property='og:description' content='Github Pages &#43; Hugo &#43; hugo-theme-stack主题搭建全记录 背景 无论是在工作还是闲时，笔者都会折腾一些软件工具、系统等等东西，有时候仅靠备忘录或者是其他备注/文档工具使用的局限性会比较大，近期翻了翻自己的GitHub，发现2018年的自己弄的博客还在，但是属于几年前自己工作刚开始几年随便记录的一些工作上的知识相关的文章，不过保存也还算不错。虽然自己在家里也有Mac Mini来做工作站，用来跑一些网赚脚本和当做私人网盘，不过在可视化和发布上面还是比不上直接在公网上更为直接。
@@ -30,8 +30,8 @@ Hugo Hugo 是用Go语言写的静态网站生成器(Static Site Generator)。可
 准备工作  准备好github账号 准备好git的操作环境 前往Hugo Themes找到自己想要的主题并且记录仓库地址（比如我已经选好了hugo-theme-stack） （建议）先了解命令行的操作，比如ls,cd,git,cp等等 （可选）准备好域名，永久免费域名我后续会出教程  部署过程 安装Hugo 官方安装文档，这里仅展示每个平台中其中一种安装方式。
 Windows  设置你的文件夹  你将需要一个存储 Hugo 可执行文件、博客内容（你创建的的那些文件），以及生成文件（Hugo 为你创建的 HTML）的地方。
  打开 Windows Explorer。 创建一个新的文件夹，D:\Hugo。 创建一个新的文件夹，D:\Hugo\bin。 创建一个新的文件夹，D:\Hugo\Sites。   下载预先编译好的 Windows 版本的 Hugo 可执行文件  使用 go 编译 Hugo 的一个优势就是仅有一个二进制文件。你不需要运行安装程序来使用它。相反，你需要把这个二进制文件复制到你的硬盘上。我假设你将把它放在 D:\Hugo\bin 文件夹内。如果你选择放在其它的位置，你需要在下面的命令中替换为那些路径。'>
-<meta property='og:url' content='https://polaris0112.github.io/p/'>
-<meta property='og:site_name' content='YYSY&#39;s Blog'>
+<meta property='og:url' content='https://yysy.site/p/'>
+<meta property='og:site_name' content='YYSY 博客'>
 <meta property='og:type' content='article'><meta property='article:section' content='Post' />
 <meta name="twitter:title" content="">
 <meta name="twitter:description" content="Github Pages &#43; Hugo &#43; hugo-theme-stack主题搭建全记录 背景 无论是在工作还是闲时，笔者都会折腾一些软件工具、系统等等东西，有时候仅靠备忘录或者是其他备注/文档工具使用的局限性会比较大，近期翻了翻自己的GitHub，发现2018年的自己弄的博客还在，但是属于几年前自己工作刚开始几年随便记录的一些工作上的知识相关的文章，不过保存也还算不错。虽然自己在家里也有Mac Mini来做工作站，用来跑一些网赚脚本和当做私人网盘，不过在可视化和发布上面还是比不上直接在公网上更为直接。
@@ -46,6 +46,17 @@ Hugo Hugo 是用Go语言写的静态网站生成器(Static Site Generator)。可
 准备工作  准备好github账号 准备好git的操作环境 前往Hugo Themes找到自己想要的主题并且记录仓库地址（比如我已经选好了hugo-theme-stack） （建议）先了解命令行的操作，比如ls,cd,git,cp等等 （可选）准备好域名，永久免费域名我后续会出教程  部署过程 安装Hugo 官方安装文档，这里仅展示每个平台中其中一种安装方式。
 Windows  设置你的文件夹  你将需要一个存储 Hugo 可执行文件、博客内容（你创建的的那些文件），以及生成文件（Hugo 为你创建的 HTML）的地方。
  打开 Windows Explorer。 创建一个新的文件夹，D:\Hugo。 创建一个新的文件夹，D:\Hugo\bin。 创建一个新的文件夹，D:\Hugo\Sites。   下载预先编译好的 Windows 版本的 Hugo 可执行文件  使用 go 编译 Hugo 的一个优势就是仅有一个二进制文件。你不需要运行安装程序来使用它。相反，你需要把这个二进制文件复制到你的硬盘上。我假设你将把它放在 D:\Hugo\bin 文件夹内。如果你选择放在其它的位置，你需要在下面的命令中替换为那些路径。">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-LELYVB7T9C"></script>
+<script>
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	gtag('js', new Date());
+	gtag('config', 'G-LELYVB7T9C', { 'anonymize_ip': false });
+}
+</script>
+
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-LELYVB7T9C"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
@@ -93,7 +104,7 @@ var _hmt = _hmt || [];
     })();
 </script>
 <div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
-    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="Toggle Menu">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
         <span class="hamburger-box">
             <span class="hamburger-inner"></span>
         </span>
@@ -115,15 +126,15 @@ var _hmt = _hmt || [];
                 
                 </a>
                 
-                    <span class="emoji">🍥</span>
+                    <span class="emoji">😂</span>
                 
             </figure>
             
         
         
         <div class="site-meta">
-            <h1 class="site-name"><a href="/">YYSY&#39;s Blog</a></h1>
-            <h2 class="site-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</h2>
+            <h1 class="site-name"><a href="/">YYSY 博客</a></h1>
+            <h2 class="site-description">个人博客，主旨技术分享、交流、有钱齐齐稳</h2>
         </div>
     </header><ol class="social-menu">
             
@@ -186,13 +197,13 @@ var _hmt = _hmt || [];
 
 
                 
-                <span>Home</span>
+                <span>主页</span>
             </a>
         </li>
         
         
         <li >
-            <a href='/about/' >
+            <a href='/%E5%85%B3%E4%BA%8E/' >
                 
                 
                 
@@ -205,7 +216,7 @@ var _hmt = _hmt || [];
 
 
                 
-                <span>About</span>
+                <span>关于</span>
             </a>
         </li>
         
@@ -283,9 +294,9 @@ var _hmt = _hmt || [];
 
                     <select name="language" onchange="window.location.href = this.selectedOptions[0].value">
                         
-                            <option value="https://polaris0112.github.io/zh-cn/" >中文</option>
+                            <option value="https://yysy.site/" selected>中文</option>
                         
-                            <option value="https://polaris0112.github.io/" selected>English</option>
+                            <option value="https://yysy.site/en/" >English</option>
                         
                     </select>
                 </li>
@@ -309,7 +320,7 @@ var _hmt = _hmt || [];
 
 
 
-                    <span>Dark Mode</span>
+                    <span>暗色模式</span>
                 </li>
             
         </div>
@@ -333,7 +344,7 @@ var _hmt = _hmt || [];
 
 
         </div>
-        <h2 class="widget-title section-title">Table of contents</h2>
+        <h2 class="widget-title section-title">目录</h2>
         
         <div class="widget--toc">
             <nav id="TableOfContents">
@@ -416,7 +427,7 @@ var _hmt = _hmt || [];
 
 
                 <time class="article-time--reading">
-                    3 minute read
+                    阅读时长: 3 分钟
                 </time>
             </div>
         
@@ -943,14 +954,14 @@ var _hmt = _hmt || [];
     <section class="copyright">
         &copy; 
         
-            2020 - 
+            2022 - 
         
-        2023 YYSY&#39;s Blog
+        2023 YYSY 博客
     </section>
     
     <section class="powerby">
         Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
-        Theme <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.16.0">Stack</a></b> designed by <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a>
+        主题 <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.16.0">Stack</a></b> 由 <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a> 设计
     </section>
 </footer>
 

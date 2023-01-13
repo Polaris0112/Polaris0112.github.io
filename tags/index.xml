@@ -1,89 +1,89 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
     <channel>
-        <title>Tags on YYSY&#39;s Blog</title>
-        <link>https://polaris0112.github.io/tags/</link>
-        <description>Recent content in Tags on YYSY&#39;s Blog</description>
+        <title>Tags on YYSY 博客</title>
+        <link>https://yysy.site/tags/</link>
+        <description>Recent content in Tags on YYSY 博客</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
-        <lastBuildDate>Mon, 11 Mar 2019 00:00:00 +0000</lastBuildDate><atom:link href="https://polaris0112.github.io/tags/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Mon, 11 Mar 2019 00:00:00 +0000</lastBuildDate><atom:link href="https://yysy.site/tags/index.xml" rel="self" type="application/rss+xml" /><item>
         <title>css</title>
-        <link>https://polaris0112.github.io/tags/css/</link>
+        <link>https://yysy.site/tags/css/</link>
         <pubDate>Mon, 11 Mar 2019 00:00:00 +0000</pubDate>
         
-        <guid>https://polaris0112.github.io/tags/css/</guid>
+        <guid>https://yysy.site/tags/css/</guid>
         <description></description>
         </item>
         <item>
         <title>html</title>
-        <link>https://polaris0112.github.io/tags/html/</link>
+        <link>https://yysy.site/tags/html/</link>
         <pubDate>Mon, 11 Mar 2019 00:00:00 +0000</pubDate>
         
-        <guid>https://polaris0112.github.io/tags/html/</guid>
+        <guid>https://yysy.site/tags/html/</guid>
         <description></description>
         </item>
         <item>
         <title>markdown</title>
-        <link>https://polaris0112.github.io/tags/markdown/</link>
+        <link>https://yysy.site/tags/markdown/</link>
         <pubDate>Mon, 11 Mar 2019 00:00:00 +0000</pubDate>
         
-        <guid>https://polaris0112.github.io/tags/markdown/</guid>
+        <guid>https://yysy.site/tags/markdown/</guid>
         <description></description>
         </item>
         <item>
         <title>themes</title>
-        <link>https://polaris0112.github.io/tags/themes/</link>
+        <link>https://yysy.site/tags/themes/</link>
         <pubDate>Mon, 11 Mar 2019 00:00:00 +0000</pubDate>
         
-        <guid>https://polaris0112.github.io/tags/themes/</guid>
+        <guid>https://yysy.site/tags/themes/</guid>
         <description></description>
         </item>
         <item>
         <title>privacy</title>
-        <link>https://polaris0112.github.io/tags/privacy/</link>
+        <link>https://yysy.site/tags/privacy/</link>
         <pubDate>Sun, 10 Mar 2019 00:00:00 +0000</pubDate>
         
-        <guid>https://polaris0112.github.io/tags/privacy/</guid>
+        <guid>https://yysy.site/tags/privacy/</guid>
         <description></description>
         </item>
         <item>
         <title>shortcodes</title>
-        <link>https://polaris0112.github.io/tags/shortcodes/</link>
+        <link>https://yysy.site/tags/shortcodes/</link>
         <pubDate>Sun, 10 Mar 2019 00:00:00 +0000</pubDate>
         
-        <guid>https://polaris0112.github.io/tags/shortcodes/</guid>
+        <guid>https://yysy.site/tags/shortcodes/</guid>
         <description></description>
         </item>
         <item>
         <title>ماركداون</title>
-        <link>https://polaris0112.github.io/tags/%D9%85%D8%A7%D8%B1%D9%83%D8%AF%D8%A7%D9%88%D9%86/</link>
+        <link>https://yysy.site/tags/%D9%85%D8%A7%D8%B1%D9%83%D8%AF%D8%A7%D9%88%D9%86/</link>
         <pubDate>Sat, 09 Mar 2019 00:00:00 +0000</pubDate>
         
-        <guid>https://polaris0112.github.io/tags/%D9%85%D8%A7%D8%B1%D9%83%D8%AF%D8%A7%D9%88%D9%86/</guid>
+        <guid>https://yysy.site/tags/%D9%85%D8%A7%D8%B1%D9%83%D8%AF%D8%A7%D9%88%D9%86/</guid>
         <description></description>
         </item>
         <item>
         <title>نص</title>
-        <link>https://polaris0112.github.io/tags/%D9%86%D8%B5/</link>
+        <link>https://yysy.site/tags/%D9%86%D8%B5/</link>
         <pubDate>Sat, 09 Mar 2019 00:00:00 +0000</pubDate>
         
-        <guid>https://polaris0112.github.io/tags/%D9%86%D8%B5/</guid>
+        <guid>https://yysy.site/tags/%D9%86%D8%B5/</guid>
         <description></description>
         </item>
         <item>
         <title>وسم مع فراغات</title>
-        <link>https://polaris0112.github.io/tags/%D9%88%D8%B3%D9%85-%D9%85%D8%B9-%D9%81%D8%B1%D8%A7%D8%BA%D8%A7%D8%AA/</link>
+        <link>https://yysy.site/tags/%D9%88%D8%B3%D9%85-%D9%85%D8%B9-%D9%81%D8%B1%D8%A7%D8%BA%D8%A7%D8%AA/</link>
         <pubDate>Sat, 09 Mar 2019 00:00:00 +0000</pubDate>
         
-        <guid>https://polaris0112.github.io/tags/%D9%88%D8%B3%D9%85-%D9%85%D8%B9-%D9%81%D8%B1%D8%A7%D8%BA%D8%A7%D8%AA/</guid>
+        <guid>https://yysy.site/tags/%D9%88%D8%B3%D9%85-%D9%85%D8%B9-%D9%81%D8%B1%D8%A7%D8%BA%D8%A7%D8%AA/</guid>
         <description></description>
         </item>
         <item>
         <title>emoji</title>
-        <link>https://polaris0112.github.io/tags/emoji/</link>
+        <link>https://yysy.site/tags/emoji/</link>
         <pubDate>Tue, 05 Mar 2019 00:00:00 +0000</pubDate>
         
-        <guid>https://polaris0112.github.io/tags/emoji/</guid>
+        <guid>https://yysy.site/tags/emoji/</guid>
         <description></description>
         </item>
         
