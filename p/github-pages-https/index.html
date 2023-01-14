@@ -1,0 +1,934 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<meta name="baidu-site-verification" content="code-ONeO62S0pj" /><meta name='description' content='Github Pages配置'>
+<title>将Github Pages设置个人域名并且支持HTTPS</title>
+
+<link rel='canonical' href='https://yysy.site/p/github-pages-https/'>
+
+<link rel="stylesheet" href="/scss/style.min.8191399262444ab68b72a18c97392f5349be20a1615d77445be51e974c144cff.css"><meta property='og:title' content='将Github Pages设置个人域名并且支持HTTPS'>
+<meta property='og:description' content='Github Pages配置'>
+<meta property='og:url' content='https://yysy.site/p/github-pages-https/'>
+<meta property='og:site_name' content='YYSY 博客'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:published_time' content='2023-01-14T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2023-01-14T00:00:00&#43;00:00'/><meta property='og:image' content='https://yysy.site/p/github-pages-https/Github-Pages-Cloudflare-Front.jpg' />
+<meta name="twitter:title" content="将Github Pages设置个人域名并且支持HTTPS">
+<meta name="twitter:description" content="Github Pages配置"><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://yysy.site/p/github-pages-https/Github-Pages-Cloudflare-Front.jpg' />
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-LELYVB7T9C"></script>
+<script>
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	gtag('js', new Date());
+	gtag('config', 'G-LELYVB7T9C', { 'anonymize_ip': false });
+}
+</script>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-LELYVB7T9C"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-LELYVB7T9C');
+</script>
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?b3b81f0541728bf826e87d3522ea3eaa";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_hufcf2301eede78afda1d33c6ccae7086f_11629_300x0_resize_box_3.png" width="300"
+                            height="330" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">😂</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">YYSY 博客</a></h1>
+            <h2 class="site-description">个人博客，主旨技术分享、交流、有钱齐齐稳</h2>
+        </div>
+    </header><ol class="social-menu">
+            
+                <li>
+                    <a 
+                        href='https://github.com/CaiJimmy/hugo-theme-stack'
+                        target="_blank"
+                        title="GitHub"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://twitter.com'
+                        target="_blank"
+                        title="Twitter"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-twitter" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M22 4.01c-1 .49 -1.98 .689 -3 .99c-1.121 -1.265 -2.783 -1.335 -4.38 -.737s-2.643 2.06 -2.62 3.737v1c-3.245 .083 -6.135 -1.395 -8 -4c0 0 -4.182 7.433 4 11c-1.872 1.247 -3.739 2.088 -6 2c3.308 1.803 6.913 2.423 10.034 1.517c3.58 -1.04 6.522 -3.723 7.651 -7.742a13.84 13.84 0 0 0 .497 -3.753c-.002 -.249 1.51 -2.772 1.818 -4.013z" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+        </ol><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>主页</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/%E5%85%B3%E4%BA%8E/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>关于</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>Archives</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>Search</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/links/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>Links</span>
+            </a>
+        </li>
+        
+
+        <div class="menu-bottom-section">
+                <li id="i18n-switch">  
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M4 5h7" />
+  <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
+  <path d="M5 9c-.003 2.144 2.952 3.908 6.7 4" />
+  <path d="M12 20l4 -9l4 9" />
+  <path d="M19.1 18h-6.2" />
+</svg>
+
+
+
+                    <select name="language" onchange="window.location.href = this.selectedOptions[0].value">
+                        
+                            <option value="https://yysy.site/" selected>中文</option>
+                        
+                            <option value="https://yysy.site/en/" >English</option>
+                        
+                    </select>
+                </li>
+            
+            
+            
+                <li id="dark-mode-toggle">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <span>暗色模式</span>
+                </li>
+            
+        </div>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#背景">背景</a>
+      <ol>
+        <li><a href="#前期准备">前期准备</a></li>
+        <li><a href="#域名解析配置">域名解析配置</a>
+          <ol>
+            <li><a href="#将域名转移到cloudflare托管">将域名转移到cloudflare托管</a></li>
+          </ol>
+        </li>
+        <li><a href="#添加dns记录">添加DNS记录</a>
+          <ol>
+            <li><a href="#设置https">设置HTTPS</a></li>
+          </ol>
+        </li>
+        <li><a href="#配置github-pages仓库">配置GitHub Pages仓库</a></li>
+        <li><a href="#更新博客源文件博客静态文件">更新博客源文件/博客静态文件</a></li>
+        <li><a href="#结束语">结束语</a></li>
+      </ol>
+    </li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="has-image main-article">
+    <header class="article-header">
+        <div class="article-image">
+            <a href="/p/github-pages-https/">
+                <img src="/p/github-pages-https/Github-Pages-Cloudflare-Front_hufcf2301eede78afda1d33c6ccae7086f_55541_800x0_resize_q75_box.jpg"
+                        srcset="/p/github-pages-https/Github-Pages-Cloudflare-Front_hufcf2301eede78afda1d33c6ccae7086f_55541_800x0_resize_q75_box.jpg 800w, /p/github-pages-https/Github-Pages-Cloudflare-Front_hufcf2301eede78afda1d33c6ccae7086f_55541_1600x0_resize_q75_box.jpg 1600w"
+                        width="800" 
+                        height="321" 
+                        loading="lazy"
+                        alt="Featured image of post 将Github Pages设置个人域名并且支持HTTPS" />
+                
+            </a>
+        </div>
+    
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/%E9%83%A8%E7%BD%B2/" >
+                部署
+            </a>
+        
+            <a href="/categories/github-pages/" >
+                Github Pages
+            </a>
+        
+            <a href="/categories/https/" >
+                HTTPS
+            </a>
+        
+            <a href="/categories/%E6%95%99%E7%A8%8B/" >
+                教程
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/github-pages-https/">将Github Pages设置个人域名并且支持HTTPS</a>
+        </h2>
+    
+        
+        <h3 class="article-subtitle">
+            Github Pages配置
+        </h3>
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Jan 14, 2023</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    阅读时长: 1 分钟
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <h2 id="背景">背景</h2>
+<p>从之前<a class="link" href="" >部署博客</a>的文章可以获得一个无需自己购买服务器和域名的博客，并且能自主更新博客内容，再优化一下可以增加评论、统计访问量等插件。本文就是在这个基础上，继续低成本让个人博客使用自己的个人域名然后公网能支持HTTPS访问。</p>
+<h3 id="前期准备">前期准备</h3>
+<ul>
+<li>一个域名（低成本建议使用腾讯云/阿里云按需购买）</li>
+<li>github pages配置完成的状态，能通过<code>&lt;username&gt;.github.io</code>正常访问</li>
+<li>一个Cloudflare账号</li>
+</ul>
+<h3 id="域名解析配置">域名解析配置</h3>
+<h4 id="将域名转移到cloudflare托管">将域名转移到cloudflare托管</h4>
+<p>以腾讯云为例（因为我域名是在腾讯云买）</p>
+<p><img src="/p/github-pages-https/Tencent-Cloud-DNS-Dashboard.png"
+	width="2634"
+	height="1348"
+	srcset="/p/github-pages-https/Tencent-Cloud-DNS-Dashboard_hub71a351e9eff5edc440284f0bbf570c8_297837_480x0_resize_box_3.png 480w, /p/github-pages-https/Tencent-Cloud-DNS-Dashboard_hub71a351e9eff5edc440284f0bbf570c8_297837_1024x0_resize_box_3.png 1024w"
+	loading="lazy"
+	
+		alt="Tencent-Cloud-DNS-Dashboard"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="195"
+		data-flex-basis="468px"
+	
+></p>
+<p>在“DNS解析”内容中，修改DNS服务器改成Cloudflare中添加站点后按照流程给出的NS服务器，对应填进去，等待几分钟之后Cloudflare就可以托管我们买的域名了。</p>
+<p>原因：使用DNSpod也不是不行，但是Cloudflare的话可以白嫖他家的CDN（虽然本次不会用到），而且Cloudflare虽然我们是用免费的穷鬼套餐，不过配置项也不少，有很多配置项很有折腾空间（比如根据哪个地区解析成哪些IP，或者CName到哪些域名，这个有兴趣的同学可以研究一下）</p>
+<p>只要Cloudflare中域名网站能设置DNS，可以自主添加一两个记录，测试一下解析结果，如果能正常解析就是托管成功，一般域名记录修改完几秒内就生效了。</p>
+<h3 id="添加dns记录">添加DNS记录</h3>
+<div class="table-wrapper"><table>
+<thead>
+<tr>
+<th style="text-align:center">类型</th>
+<th style="text-align:center">名称</th>
+<th style="text-align:center">值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">A</td>
+<td style="text-align:center">@</td>
+<td style="text-align:center">185.199.108.153</td>
+</tr>
+<tr>
+<td style="text-align:center">A</td>
+<td style="text-align:center">@</td>
+<td style="text-align:center">185.199.109.153</td>
+</tr>
+<tr>
+<td style="text-align:center">A</td>
+<td style="text-align:center">@</td>
+<td style="text-align:center">185.199.110.153</td>
+</tr>
+<tr>
+<td style="text-align:center">A</td>
+<td style="text-align:center">@</td>
+<td style="text-align:center">185.199.111.153</td>
+</tr>
+<tr>
+<td style="text-align:center">CNAME</td>
+<td style="text-align:center">www</td>
+<td style="text-align:center">polaris0112.github.io</td>
+</tr>
+</tbody>
+</table></div>
+<p><img src="/p/github-pages-https/Cloudflare-Setting.png"
+	width="2756"
+	height="1070"
+	srcset="/p/github-pages-https/Cloudflare-Setting_hu84be0d92e3a696a3db1d19f9b0589c01_263259_480x0_resize_box_3.png 480w, /p/github-pages-https/Cloudflare-Setting_hu84be0d92e3a696a3db1d19f9b0589c01_263259_1024x0_resize_box_3.png 1024w"
+	loading="lazy"
+	
+		alt="Cloudflare-Setting"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="257"
+		data-flex-basis="618px"
+	
+></p>
+<p><strong>注意</strong>：暂时不建议使用CDN，因为会影响github解析校验流程。</p>
+<p>尝试解析结果</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">nslookup yysy.site
+</span></span><span class="line"><span class="cl"><span class="c1">## 结果返回</span>
+</span></span><span class="line"><span class="cl">Server:		8.8.8.8
+</span></span><span class="line"><span class="cl">Address:	8.8.8.8#53
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Non-authoritative answer:
+</span></span><span class="line"><span class="cl">Name:	yysy.site
+</span></span><span class="line"><span class="cl">Address: 172.67.220.171
+</span></span><span class="line"><span class="cl">Name:	yysy.site
+</span></span><span class="line"><span class="cl">Address: 104.21.70.63
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这个是正常的，这两个IP是Cloudflare的CDN IP，因为<code>Proxy status</code>是打开的状态，所以对应的DNS配置都会走Cloudflare的CDN代理。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">nslookup www.yysy.site
+</span></span><span class="line"><span class="cl"><span class="c1">## 结果返回</span>
+</span></span><span class="line"><span class="cl">Server:		8.8.8.8
+</span></span><span class="line"><span class="cl">Address:	8.8.8.8#53
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Non-authoritative answer:
+</span></span><span class="line"><span class="cl">www.yysy.site	canonical <span class="nv">name</span> <span class="o">=</span> polaris0112.github.io.
+</span></span><span class="line"><span class="cl">Name:	polaris0112.github.io
+</span></span><span class="line"><span class="cl">Address: 185.199.108.153
+</span></span><span class="line"><span class="cl">Name:	polaris0112.github.io
+</span></span><span class="line"><span class="cl">Address: 185.199.109.153
+</span></span><span class="line"><span class="cl">Name:	polaris0112.github.io
+</span></span><span class="line"><span class="cl">Address: 185.199.110.153
+</span></span><span class="line"><span class="cl">Name:	polaris0112.github.io
+</span></span><span class="line"><span class="cl">Address: 185.199.111.153
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="设置https">设置HTTPS</h4>
+<p>如下图，选择对应域名，然后进入&quot;SSL/TLS&quot; &ndash;&gt; &ldquo;Overview&rdquo; ，在&quot;Your SSL/TLS encryption mode&quot;选择&quot;Full&quot;</p>
+<p><img src="/p/github-pages-https/Cloudflare-Setting-Encryption-Mode.png"
+	width="2746"
+	height="1198"
+	srcset="/p/github-pages-https/Cloudflare-Setting-Encryption-Mode_hu88e21dd970d3d3cdd0bc3e42ce9ff1ad_310361_480x0_resize_box_3.png 480w, /p/github-pages-https/Cloudflare-Setting-Encryption-Mode_hu88e21dd970d3d3cdd0bc3e42ce9ff1ad_310361_1024x0_resize_box_3.png 1024w"
+	loading="lazy"
+	
+		alt="Cloudflare-Setting-Encryption-Mode"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="229"
+		data-flex-basis="550px"
+	
+></p>
+<p>如下图，选择对应域名，然后进入&quot;SSL/TLS&quot; &ndash;&gt; &ldquo;Edge Certificates&rdquo; ，找到&quot;Always Use HTTPS&quot;点击右侧按钮，绿色✅即为打开跳转<code>https</code></p>
+<p><img src="/p/github-pages-https/Cloudflare-Setting-Always-Use-HTTPS.png"
+	width="2744"
+	height="1164"
+	srcset="/p/github-pages-https/Cloudflare-Setting-Always-Use-HTTPS_hu934a71637fd72dd4ee57f27a241a4373_221248_480x0_resize_box_3.png 480w, /p/github-pages-https/Cloudflare-Setting-Always-Use-HTTPS_hu934a71637fd72dd4ee57f27a241a4373_221248_1024x0_resize_box_3.png 1024w"
+	loading="lazy"
+	
+		alt="Cloudflare-Setting-Always-Use-HTTPS"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="235"
+		data-flex-basis="565px"
+	
+></p>
+<h3 id="配置github-pages仓库">配置GitHub Pages仓库</h3>
+<p><strong>注意</strong>：这里说的是<code>&lt;username&gt;.github.io</code>这个仓库，<strong>不要</strong>操作博客源代码仓库，不然无效。</p>
+<p><img src="/p/github-pages-https/Github-Pages-Setting-Custom-Domain.png"
+	width="2246"
+	height="1326"
+	srcset="/p/github-pages-https/Github-Pages-Setting-Custom-Domain_hu295debd9d4cfbfba3333a719cc3000b5_352002_480x0_resize_box_3.png 480w, /p/github-pages-https/Github-Pages-Setting-Custom-Domain_hu295debd9d4cfbfba3333a719cc3000b5_352002_1024x0_resize_box_3.png 1024w"
+	loading="lazy"
+	
+		alt="Github-Pages-Setting-Custom-Domain"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="169"
+		data-flex-basis="406px"
+	
+></p>
+<p>填入自定义域名，然后“Save”保存，然后github会对该域名进行检查，主要是检查该域名是否指向github地址。</p>
+<h3 id="更新博客源文件博客静态文件">更新博客源文件/博客静态文件</h3>
+<ol>
+<li>
+<p>上述步骤操作后我们需要修改博客源文件，<code>yysy</code>目录下<code>config.yaml</code>需要把第一行<code>baseurl</code>的值改成对应域名，比如我现在是<code>yysy.site</code>，那么我第一行就改成<code>baseurl: https://yysy.site</code></p>
+</li>
+<li>
+<p>提交博客源代码到仓库</p>
+</li>
+<li>
+<p>执行<code>hugo</code>命令，刷新<code>public</code>目录</p>
+</li>
+<li>
+<p>此时进入<code>public</code>目录，但<strong>不要</strong>直接提交代码。这里有一个坑，因为刚才更新域名之后<code>&lt;username&gt;.github.io</code>仓库会多一个<code>CNAME</code>文件，所以需要先拉取更新远程仓库到本地后，再推送新的文件</p>
+</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="nb">cd</span> public
+</span></span><span class="line"><span class="cl">git pull
+</span></span><span class="line"><span class="cl">git add . 
+</span></span><span class="line"><span class="cl">git commit -m <span class="s2">&#34;更新个人域名配置&#34;</span>
+</span></span><span class="line"><span class="cl">git push -u origin main
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>配置完毕如下图</p>
+<p><img src="/p/github-pages-https/Finish-Setting.png"
+	width="2772"
+	height="2660"
+	srcset="/p/github-pages-https/Finish-Setting_hu90b00d9dc3b8d38b4fb979acd2094f9a_659628_480x0_resize_box_3.png 480w, /p/github-pages-https/Finish-Setting_hu90b00d9dc3b8d38b4fb979acd2094f9a_659628_1024x0_resize_box_3.png 1024w"
+	loading="lazy"
+	
+		alt="Finish-Setting"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="104"
+		data-flex-basis="250px"
+	
+></p>
+<h3 id="结束语">结束语</h3>
+<p>本文使用自定义域名来代替<code>Github</code>给我们的域名，主要能缩短地址长度，方便记忆，后续用途需要继续开发。我买的这个域名是108元/3年，网上还有其他还可以更低价的域名可以买，大家可以按需查找，国内我建议还是<a class="link" href="https://dnspod.cloud.tencent.com/"  target="_blank" rel="noopener"
+    >腾讯云域名注册</a>和<a class="link" href="https://wanwang.aliyun.com/"  target="_blank" rel="noopener"
+    >阿里云域名注册</a>，主要因为是交易方便。海外的话可能也有不少能使用支付宝/微信/银联，不过很多都是需要paypal等海外支付方式，较为麻烦，所以还是推荐国内的常见的域名注册厂商。</p>
+<p>后续还会继续分享如何低成本获取域名的教程，有兴趣的读者可以参考以下文章：</p>
+<ul>
+<li>免费域名（附带续费方式，相当于永久免费）</li>
+</ul>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">相关文章</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="has-image">
+    <a href="/p/github-pages-hugo/">
+        
+        
+            <div class="article-image">
+                <img src="/p/github-pages-hugo/_hufcf2301eede78afda1d33c6ccae7086f_66668_3db6cc06aabc9b786d89fe50245dcc9d.jpg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post Github Pages &#43; Hugo &#43; hugo-theme-stack主题搭建全记录"
+                        data-key="github-pages-hugo" 
+                        data-hash="md5-4t5CZVoEs8aoATI2BEmhjw==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Github Pages &#43; Hugo &#43; hugo-theme-stack主题搭建全记录</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+    <div class="disqus-container">
+    <div id="disqus_thread"></div>
+<script type="application/javascript">
+    window.disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "yysy" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+
+<style>
+    .disqus-container {
+        background-color: var(--card-background);
+        border-radius: var(--card-border-radius);
+        box-shadow: var(--shadow-l1);
+        padding: var(--card-padding);
+    }
+</style>
+
+<script>
+    window.addEventListener('onColorSchemeChange', (e) => {
+        if (typeof DISQUS == 'object') {
+            DISQUS.reset({
+                reload: true
+            });
+        }
+    })
+</script>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2022 - 
+        
+        2023 YYSY 博客
+    </section>
+    
+    <section class="powerby">
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        主题 <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.16.0">Stack</a></b> 由 <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a> 设计
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+<script
+    src="https://cdn.jsdelivr.net/gh/zhixuan2333/gh-blog@v0.1.0/js/nprogress.min.js"
+    integrity="sha384-bHDlAEUFxsRI7JfULv3DTpL2IXbbgn4JHQJibgo5iiXSK6Iu8muwqHANhun74Cqg"
+    crossorigin="anonymous"
+></script>
+<link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/gh/zhixuan2333/gh-blog@v0.1.0/css/nprogress.css"
+    integrity="sha384-KJyhr2syt5+4M9Pz5dipCvTrtvOmLk/olWVdfhAp858UCa64Ia5GFpTN7+G4BWpE"
+    crossorigin="anonymous"
+/>
+<script>
+    NProgress.start();
+    document.addEventListener("readystatechange", () => {
+        if (document.readyState === "interactive") NProgress.inc(0.8);
+        if (document.readyState === "complete") NProgress.done();
+    });
+</script>
+
+    </body>
+</html>

@@ -6,7 +6,55 @@
         <description>Recent content in Categories on YYSY 博客</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
-        <lastBuildDate>Wed, 09 Sep 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://yysy.site/categories/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Sat, 14 Jan 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://yysy.site/categories/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>Github Pages</title>
+        <link>https://yysy.site/categories/github-pages/</link>
+        <pubDate>Sat, 14 Jan 2023 00:00:00 +0000</pubDate>
+        
+        <guid>https://yysy.site/categories/github-pages/</guid>
+        <description></description>
+        </item>
+        <item>
+        <title>HTTPS</title>
+        <link>https://yysy.site/categories/https/</link>
+        <pubDate>Sat, 14 Jan 2023 00:00:00 +0000</pubDate>
+        
+        <guid>https://yysy.site/categories/https/</guid>
+        <description></description>
+        </item>
+        <item>
+        <title>教程</title>
+        <link>https://yysy.site/categories/%E6%95%99%E7%A8%8B/</link>
+        <pubDate>Sat, 14 Jan 2023 00:00:00 +0000</pubDate>
+        
+        <guid>https://yysy.site/categories/%E6%95%99%E7%A8%8B/</guid>
+        <description></description>
+        </item>
+        <item>
+        <title>部署</title>
+        <link>https://yysy.site/categories/%E9%83%A8%E7%BD%B2/</link>
+        <pubDate>Sat, 14 Jan 2023 00:00:00 +0000</pubDate>
+        
+        <guid>https://yysy.site/categories/%E9%83%A8%E7%BD%B2/</guid>
+        <description></description>
+        </item>
+        <item>
+        <title>Github</title>
+        <link>https://yysy.site/categories/github/</link>
+        <pubDate>Fri, 13 Jan 2023 00:00:00 +0000</pubDate>
+        
+        <guid>https://yysy.site/categories/github/</guid>
+        <description></description>
+        </item>
+        <item>
+        <title>Hugo</title>
+        <link>https://yysy.site/categories/hugo/</link>
+        <pubDate>Fri, 13 Jan 2023 00:00:00 +0000</pubDate>
+        
+        <guid>https://yysy.site/categories/hugo/</guid>
+        <description></description>
+        </item>
+        <item>
         <title>Test</title>
         <link>https://yysy.site/categories/test/</link>
         <pubDate>Wed, 09 Sep 2020 00:00:00 +0000</pubDate>
