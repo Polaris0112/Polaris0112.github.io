@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>utterances on YYSY 博客</title>
+        <link>https://yysy.site/categories/utterances/</link>
+        <description>Recent content in utterances on YYSY 博客</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>zh-cn</language>
+        <lastBuildDate>Sun, 15 Jan 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://yysy.site/categories/utterances/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>在Hugo中添加utterances评论功能</title>
+        <link>https://yysy.site/p/github-pages-hugo-utterances/</link>
+        <pubDate>Sun, 15 Jan 2023 00:00:00 +0000</pubDate>
+        
+        <guid>https://yysy.site/p/github-pages-hugo-utterances/</guid>
+        <description>&lt;img src="https://yysy.site/p/github-pages-hugo-utterances/Hugo-utterances-Front.jpg" alt="Featured image of post 在Hugo中添加utterances评论功能" /&gt;&lt;h2 id=&#34;简介&#34;&gt;简介&lt;/h2&gt;
+&lt;p&gt;utterances 是一款基于 GitHub issues 的评论工具 相比同类的工具 gitment、gitalk 以及 disqus 评论工具，优点如下：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;极其轻量&lt;/li&gt;
+&lt;li&gt;加载非常快&lt;/li&gt;
+&lt;li&gt;配置比较简单&lt;/li&gt;
+&lt;li&gt;disqus 这个工具配置也比较简单，也是免费的。但是，广告多，而且加载也比较慢&lt;/li&gt;
+&lt;li&gt;utterances 基于github issue，拥有多种主题的开源免费小组件&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;部署&#34;&gt;部署&lt;/h2&gt;
+&lt;h3 id=&#34;前期准备&#34;&gt;前期准备&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Github账号&lt;/li&gt;
+&lt;li&gt;Hugo框架的博客&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;github仓库配置&#34;&gt;Github仓库配置&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;先创建&lt;code&gt;yysy_comment&lt;/code&gt;仓库，仓库名可以自定义，不冲突就行。然后仓库依然选择&lt;code&gt;Public&lt;/code&gt;公开仓库，因为评论功能需要利用到&lt;code&gt;Github&lt;/code&gt;仓库的&lt;code&gt;Issue&lt;/code&gt;功能&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;img src=&#34;https://yysy.site/p/github-pages-hugo-utterances/utterances-comment-github-repo-create.jpg&#34;
+	width=&#34;1540&#34;
+	height=&#34;1980&#34;
+	srcset=&#34;https://yysy.site/p/github-pages-hugo-utterances/utterances-comment-github-repo-create_hu0c9301adc777133619fcef83e0f17f8a_780310_480x0_resize_q75_box.jpg 480w, https://yysy.site/p/github-pages-hugo-utterances/utterances-comment-github-repo-create_hu0c9301adc777133619fcef83e0f17f8a_780310_1024x0_resize_q75_box.jpg 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;新建评论仓库&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;77&#34;
+		data-flex-basis=&#34;186px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;ol start=&#34;2&#34;&gt;
+&lt;li&gt;安装 &lt;code&gt;utterances app&lt;/code&gt;的安装较为简单，直接在&lt;code&gt;GitHub&lt;/code&gt;上安装即可。&lt;code&gt;GitHub App&lt;/code&gt;链接：&lt;code&gt;https://github.com/apps/utterances&lt;/code&gt;访问&lt;code&gt;utterances&lt;/code&gt;应用程序 然后点击&lt;code&gt;Install&lt;/code&gt;按钮进行安装。选在在第一步创建的&lt;code&gt;yysy_comment&lt;/code&gt;仓库&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;img src=&#34;https://yysy.site/p/github-pages-hugo-utterances/utterances-create-01.png&#34;
+	width=&#34;2474&#34;
+	height=&#34;1124&#34;
+	srcset=&#34;https://yysy.site/p/github-pages-hugo-utterances/utterances-create-01_hued1e002739248b15fa0e50658cc22439_244099_480x0_resize_box_3.png 480w, https://yysy.site/p/github-pages-hugo-utterances/utterances-create-01_hued1e002739248b15fa0e50658cc22439_244099_1024x0_resize_box_3.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;utterances创建1&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;220&#34;
+		data-flex-basis=&#34;528px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://yysy.site/p/github-pages-hugo-utterances/utterances-create-02.png&#34;
+	width=&#34;1480&#34;
+	height=&#34;576&#34;
+	srcset=&#34;https://yysy.site/p/github-pages-hugo-utterances/utterances-create-02_hu0b664072c2526fbf7a165e026da00a9a_63621_480x0_resize_box_3.png 480w, https://yysy.site/p/github-pages-hugo-utterances/utterances-create-02_hu0b664072c2526fbf7a165e026da00a9a_63621_1024x0_resize_box_3.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;utterances创建2&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;256&#34;
+		data-flex-basis=&#34;616px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://yysy.site/p/github-pages-hugo-utterances/utterances-create-03.png&#34;
+	width=&#34;1176&#34;
+	height=&#34;1744&#34;
+	srcset=&#34;https://yysy.site/p/github-pages-hugo-utterances/utterances-create-03_hu15a7b7d4875c661d9070823b1e6f6648_181125_480x0_resize_box_3.png 480w, https://yysy.site/p/github-pages-hugo-utterances/utterances-create-03_hu15a7b7d4875c661d9070823b1e6f6648_181125_1024x0_resize_box_3.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;utterances创建3&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;67&#34;
+		data-flex-basis=&#34;161px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;点击&amp;quot;Install&amp;quot;后完成&lt;code&gt;utterances&lt;/code&gt;的安装。&lt;/p&gt;
+&lt;h3 id=&#34;hugo-配置&#34;&gt;Hugo 配置&lt;/h3&gt;
+&lt;p&gt;在&lt;code&gt;Hugo&lt;/code&gt;主目录中找到目录文件&lt;code&gt;config.yaml&lt;/code&gt;（有些教程写&lt;code&gt;config.toml&lt;/code&gt;，可能是主题、版本不一样，现在我是使用&lt;code&gt;Hugo&lt;/code&gt;版本是&lt;code&gt;hugo v0.96.0+extended&lt;/code&gt;和主题&lt;code&gt;hugo-theme-stack&lt;/code&gt;，所以配置文件是&lt;code&gt;config.yaml&lt;/code&gt;）&lt;/p&gt;
+&lt;p&gt;一共修改三处地方，如下图：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;code&gt;params.comments&lt;/code&gt;位置中，&lt;code&gt;provider&lt;/code&gt;字段改成&lt;code&gt;utterances&lt;/code&gt;，下面的&lt;code&gt;utterances&lt;/code&gt;字段中&lt;code&gt;repo&lt;/code&gt;的值改成对上述创建的&lt;code&gt;Github&lt;/code&gt;仓库名称，所以这里填入的是&lt;code&gt;Polaris0112/yysy_comment&lt;/code&gt;，&lt;code&gt;issueTerm&lt;/code&gt;的值填入&lt;code&gt;pathname&lt;/code&gt;（保留原值），&lt;code&gt;label&lt;/code&gt;的值填入&lt;code&gt;none&lt;/code&gt;即可，如下图&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;img src=&#34;https://yysy.site/p/github-pages-hugo-utterances/hugo-config-update.png&#34;
+	width=&#34;1050&#34;
+	height=&#34;192&#34;
+	srcset=&#34;https://yysy.site/p/github-pages-hugo-utterances/hugo-config-update_hu695dcc7e9f184b0132731a3b66a700df_33904_480x0_resize_box_3.png 480w, https://yysy.site/p/github-pages-hugo-utterances/hugo-config-update_hu695dcc7e9f184b0132731a3b66a700df_33904_1024x0_resize_box_3.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Hugo配置更新&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;546&#34;
+		data-flex-basis=&#34;1312px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;h3 id=&#34;最终效果&#34;&gt;最终效果&lt;/h3&gt;
+&lt;p&gt;&lt;img src=&#34;https://yysy.site/p/github-pages-hugo-utterances/Finial-Result.png&#34;
+	width=&#34;2118&#34;
+	height=&#34;1232&#34;
+	srcset=&#34;https://yysy.site/p/github-pages-hugo-utterances/Finial-Result_hub94968114b39205219da22c45c7fbb5a_318389_480x0_resize_box_3.png 480w, https://yysy.site/p/github-pages-hugo-utterances/Finial-Result_hub94968114b39205219da22c45c7fbb5a_318389_1024x0_resize_box_3.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;最终效果&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;171&#34;
+		data-flex-basis=&#34;412px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;通过&lt;code&gt;Github&lt;/code&gt;的&lt;code&gt;Issue&lt;/code&gt;功能达到评论效果。&lt;/p&gt;
+&lt;h2 id=&#34;结束语&#34;&gt;结束语&lt;/h2&gt;
+&lt;p&gt;到这里已经完成评论功能添加，其他功能、插件的话可以参考其他文章&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        </item>
+        
+    </channel>
+</rss>

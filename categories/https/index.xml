@@ -14,14 +14,14 @@
         <guid>https://yysy.site/p/github-pages-https/</guid>
         <description>&lt;img src="https://yysy.site/p/github-pages-https/Github-Pages-Cloudflare-Front.jpg" alt="Featured image of post 将Github Pages设置个人域名并且支持HTTPS" /&gt;&lt;h2 id=&#34;背景&#34;&gt;背景&lt;/h2&gt;
 &lt;p&gt;从之前&lt;a class=&#34;link&#34; href=&#34;&#34; &gt;部署博客&lt;/a&gt;的文章可以获得一个无需自己购买服务器和域名的博客，并且能自主更新博客内容，再优化一下可以增加评论、统计访问量等插件。本文就是在这个基础上，继续低成本让个人博客使用自己的个人域名然后公网能支持HTTPS访问。&lt;/p&gt;
-&lt;h3 id=&#34;前期准备&#34;&gt;前期准备&lt;/h3&gt;
+&lt;h2 id=&#34;前期准备&#34;&gt;前期准备&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;一个域名（低成本建议使用腾讯云/阿里云按需购买）&lt;/li&gt;
 &lt;li&gt;github pages配置完成的状态，能通过&lt;code&gt;&amp;lt;username&amp;gt;.github.io&lt;/code&gt;正常访问&lt;/li&gt;
 &lt;li&gt;一个Cloudflare账号&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h3 id=&#34;域名解析配置&#34;&gt;域名解析配置&lt;/h3&gt;
-&lt;h4 id=&#34;将域名转移到cloudflare托管&#34;&gt;将域名转移到cloudflare托管&lt;/h4&gt;
+&lt;h2 id=&#34;部署配置&#34;&gt;部署配置&lt;/h2&gt;
+&lt;h3 id=&#34;将域名转移到cloudflare托管&#34;&gt;将域名转移到cloudflare托管&lt;/h3&gt;
 &lt;p&gt;以腾讯云为例（因为我域名是在腾讯云买）&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;https://yysy.site/p/github-pages-https/Tencent-Cloud-DNS-Dashboard.png&#34;
 	width=&#34;2634&#34;
@@ -29,7 +29,7 @@
 	srcset=&#34;https://yysy.site/p/github-pages-https/Tencent-Cloud-DNS-Dashboard_hub71a351e9eff5edc440284f0bbf570c8_297837_480x0_resize_box_3.png 480w, https://yysy.site/p/github-pages-https/Tencent-Cloud-DNS-Dashboard_hub71a351e9eff5edc440284f0bbf570c8_297837_1024x0_resize_box_3.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
-		alt=&#34;Tencent-Cloud-DNS-Dashboard&#34;
+		alt=&#34;腾讯云域名设置&#34;
 	
 	
 		class=&#34;gallery-image&#34; 
@@ -83,7 +83,7 @@
 	srcset=&#34;https://yysy.site/p/github-pages-https/Cloudflare-Setting_hu84be0d92e3a696a3db1d19f9b0589c01_263259_480x0_resize_box_3.png 480w, https://yysy.site/p/github-pages-https/Cloudflare-Setting_hu84be0d92e3a696a3db1d19f9b0589c01_263259_1024x0_resize_box_3.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
-		alt=&#34;Cloudflare-Setting&#34;
+		alt=&#34;Cloudflare设置&#34;
 	
 	
 		class=&#34;gallery-image&#34; 
@@ -156,7 +156,7 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Address: 185.199.111.153
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h4 id=&#34;设置https&#34;&gt;设置HTTPS&lt;/h4&gt;
+&lt;/div&gt;&lt;h3 id=&#34;设置https&#34;&gt;设置HTTPS&lt;/h3&gt;
 &lt;p&gt;如下图，选择对应域名，然后进入&amp;quot;SSL/TLS&amp;quot; &amp;ndash;&amp;gt; &amp;ldquo;Overview&amp;rdquo; ，在&amp;quot;Your SSL/TLS encryption mode&amp;quot;选择&amp;quot;Full&amp;quot;&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;https://yysy.site/p/github-pages-https/Cloudflare-Setting-Encryption-Mode.png&#34;
 	width=&#34;2746&#34;
@@ -164,7 +164,7 @@
 	srcset=&#34;https://yysy.site/p/github-pages-https/Cloudflare-Setting-Encryption-Mode_hu88e21dd970d3d3cdd0bc3e42ce9ff1ad_310361_480x0_resize_box_3.png 480w, https://yysy.site/p/github-pages-https/Cloudflare-Setting-Encryption-Mode_hu88e21dd970d3d3cdd0bc3e42ce9ff1ad_310361_1024x0_resize_box_3.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
-		alt=&#34;Cloudflare-Setting-Encryption-Mode&#34;
+		alt=&#34;Cloudflare-Encryption-Mode设置&#34;
 	
 	
 		class=&#34;gallery-image&#34; 
@@ -179,7 +179,7 @@
 	srcset=&#34;https://yysy.site/p/github-pages-https/Cloudflare-Setting-Always-Use-HTTPS_hu934a71637fd72dd4ee57f27a241a4373_221248_480x0_resize_box_3.png 480w, https://yysy.site/p/github-pages-https/Cloudflare-Setting-Always-Use-HTTPS_hu934a71637fd72dd4ee57f27a241a4373_221248_1024x0_resize_box_3.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
-		alt=&#34;Cloudflare-Setting-Always-Use-HTTPS&#34;
+		alt=&#34;Cloudflare-Always-Use-HTTPS设置&#34;
 	
 	
 		class=&#34;gallery-image&#34; 
@@ -195,7 +195,7 @@
 	srcset=&#34;https://yysy.site/p/github-pages-https/Github-Pages-Setting-Custom-Domain_hu295debd9d4cfbfba3333a719cc3000b5_352002_480x0_resize_box_3.png 480w, https://yysy.site/p/github-pages-https/Github-Pages-Setting-Custom-Domain_hu295debd9d4cfbfba3333a719cc3000b5_352002_1024x0_resize_box_3.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
-		alt=&#34;Github-Pages-Setting-Custom-Domain&#34;
+		alt=&#34;Github-Pages自定义域名设置&#34;
 	
 	
 		class=&#34;gallery-image&#34; 
@@ -242,7 +242,7 @@
 	srcset=&#34;https://yysy.site/p/github-pages-https/Finish-Setting_hu90b00d9dc3b8d38b4fb979acd2094f9a_659628_480x0_resize_box_3.png 480w, https://yysy.site/p/github-pages-https/Finish-Setting_hu90b00d9dc3b8d38b4fb979acd2094f9a_659628_1024x0_resize_box_3.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
-		alt=&#34;Finish-Setting&#34;
+		alt=&#34;最终配置&#34;
 	
 	
 		class=&#34;gallery-image&#34; 
@@ -250,7 +250,7 @@
 		data-flex-basis=&#34;250px&#34;
 	
 &gt;&lt;/p&gt;
-&lt;h3 id=&#34;结束语&#34;&gt;结束语&lt;/h3&gt;
+&lt;h2 id=&#34;结束语&#34;&gt;结束语&lt;/h2&gt;
 &lt;p&gt;本文使用自定义域名来代替&lt;code&gt;Github&lt;/code&gt;给我们的域名，主要能缩短地址长度，方便记忆，后续用途需要继续开发。我买的这个域名是108元/3年，网上还有其他还可以更低价的域名可以买，大家可以按需查找，国内我建议还是&lt;a class=&#34;link&#34; href=&#34;https://dnspod.cloud.tencent.com/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;腾讯云域名注册&lt;/a&gt;和&lt;a class=&#34;link&#34; href=&#34;https://wanwang.aliyun.com/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;阿里云域名注册&lt;/a&gt;，主要因为是交易方便。海外的话可能也有不少能使用支付宝/微信/银联，不过很多都是需要paypal等海外支付方式，较为麻烦，所以还是推荐国内的常见的域名注册厂商。&lt;/p&gt;

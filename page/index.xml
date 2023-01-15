@@ -6,20 +6,29 @@
         <description>Recent content in Pages on YYSY 博客</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
-        <lastBuildDate>Tue, 28 May 2019 00:00:00 +0000</lastBuildDate><atom:link href="https://yysy.site/page/index.xml" rel="self" type="application/rss+xml" /><item>
-        <title>Archives</title>
+        <lastBuildDate>Thu, 12 Jan 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://yysy.site/page/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>归档</title>
         <link>https://yysy.site/archives/</link>
-        <pubDate>Tue, 28 May 2019 00:00:00 +0000</pubDate>
+        <pubDate>Thu, 12 Jan 2023 00:00:00 +0000</pubDate>
         
         <guid>https://yysy.site/archives/</guid>
         <description></description>
         </item>
         <item>
-        <title>Links</title>
-        <link>https://yysy.site/links/</link>
+        <title>关于</title>
+        <link>https://yysy.site/%E5%85%B3%E4%BA%8E/</link>
         <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
         
-        <guid>https://yysy.site/links/</guid>
+        <guid>https://yysy.site/%E5%85%B3%E4%BA%8E/</guid>
+        <description>&lt;p&gt;This is a test page for i18n support.&lt;/p&gt;
+</description>
+        </item>
+        <item>
+        <title>常用站点</title>
+        <link>https://yysy.site/%E5%B8%B8%E7%94%A8%E7%AB%99%E7%82%B9/</link>
+        <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+        
+        <guid>https://yysy.site/%E5%B8%B8%E7%94%A8%E7%AB%99%E7%82%B9/</guid>
         <description>&lt;p&gt;To use this feature, add &lt;code&gt;links&lt;/code&gt; section to frontmatter.&lt;/p&gt;
 &lt;p&gt;This page&amp;rsquo;s frontmatter:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
@@ -50,21 +59,12 @@
 </description>
         </item>
         <item>
-        <title>Search</title>
+        <title>搜索</title>
         <link>https://yysy.site/search/</link>
         <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
         
         <guid>https://yysy.site/search/</guid>
         <description></description>
-        </item>
-        <item>
-        <title>关于</title>
-        <link>https://yysy.site/%E5%85%B3%E4%BA%8E/</link>
-        <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-        
-        <guid>https://yysy.site/%E5%85%B3%E4%BA%8E/</guid>
-        <description>&lt;p&gt;This is a test page for i18n support.&lt;/p&gt;
-</description>
         </item>
         
     </channel>
