@@ -16,10 +16,10 @@
         </item>
         <item>
         <title>关于</title>
-        <link>https://yysy.site/%E5%85%B3%E4%BA%8E/</link>
+        <link>https://yysy.site/about/</link>
         <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
         
-        <guid>https://yysy.site/%E5%85%B3%E4%BA%8E/</guid>
+        <guid>https://yysy.site/about/</guid>
         <description>&lt;h1 id=&#34;yysysite&#34;&gt;yysy.site&lt;/h1&gt;
 &lt;p&gt;YYSY 有一说一 私人博客&lt;/p&gt;
 &lt;p&gt;本站单纯分享、记录、收集平时积累的各种信息，不定时更新&lt;/p&gt;
@@ -45,10 +45,10 @@
         </item>
         <item>
         <title>常用站点</title>
-        <link>https://yysy.site/%E5%B8%B8%E7%94%A8%E7%AB%99%E7%82%B9/</link>
+        <link>https://yysy.site/links/</link>
         <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
         
-        <guid>https://yysy.site/%E5%B8%B8%E7%94%A8%E7%AB%99%E7%82%B9/</guid>
+        <guid>https://yysy.site/links/</guid>
         <description>&lt;p&gt;To use this feature, add &lt;code&gt;links&lt;/code&gt; section to frontmatter.&lt;/p&gt;
 &lt;p&gt;This page&amp;rsquo;s frontmatter:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
