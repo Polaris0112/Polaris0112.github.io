@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>Docker on YYSY 博客</title>
+        <link>https://yysy.site/categories/docker/</link>
+        <description>Recent content in Docker on YYSY 博客</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>zh-cn</language>
+        <lastBuildDate>Mon, 16 Jan 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://yysy.site/categories/docker/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>Docker安装部署</title>
+        <link>https://yysy.site/p/docker-installation/</link>
+        <pubDate>Mon, 16 Jan 2023 00:00:00 +0000</pubDate>
+        
+        <guid>https://yysy.site/p/docker-installation/</guid>
+        <description>&lt;img src="https://yysy.site/p/docker-installation/Docker-Installation-Front.jpg" alt="Featured image of post Docker安装部署" /&gt;&lt;h2 id=&#34;docker-是什么&#34;&gt;Docker 是什么&lt;/h2&gt;
+&lt;p&gt;Docker 是一个开源的应用容器引擎，基于 Go 语言 并遵从 Apache2.0 协议开源。&lt;/p&gt;
+&lt;p&gt;Docker 可以让开发者打包他们的应用以及依赖包到一个轻量级、可移植的容器中，然后发布到任何流行的 Linux 机器上，也可以实现虚拟化。&lt;/p&gt;
+&lt;p&gt;容器是完全使用沙箱机制，相互之间不会有任何接口（类似 iPhone 的 app）,更重要的是容器性能开销极低。&lt;/p&gt;
+&lt;p&gt;Docker 从 17.03 版本之后分为 CE（Community Edition: 社区版） 和 EE（Enterprise Edition: 企业版），我们用社区版就可以了。&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.docker.com/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Docker 官网&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/docker/docker-ce&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Github Docker 社区版源码&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&#34;docker-各平台部署&#34;&gt;Docker 各平台部署&lt;/h2&gt;
+&lt;h3 id=&#34;windows&#34;&gt;Windows&lt;/h3&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://desktop.docker.com/win/main/amd64/Docker%20Desktop%20Installer.exe&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Windows 64位官网下载地址&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;EXE&lt;/code&gt;文件，按步骤安装即可，是桌面版，有UI，也可以使用&lt;code&gt;powershell&lt;/code&gt;的&lt;code&gt;docker&lt;/code&gt;命令管理&lt;/p&gt;
+&lt;h3 id=&#34;macos&#34;&gt;MacOS&lt;/h3&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://desktop.docker.com/mac/main/amd64/Docker.dmg&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Mac DMG包官网下载地址&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;DMG&lt;/code&gt;文件，按步骤安装即可，是桌面版，有UI，也可以使用终端的&lt;code&gt;docker&lt;/code&gt;命令管理&lt;/p&gt;
+&lt;h3 id=&#34;linux&#34;&gt;Linux&lt;/h3&gt;
+&lt;p&gt;个人比较推荐脚本一键安装，自动判断系统然后进行安装，也可以添加对应镜像加速器&lt;/p&gt;
+&lt;p&gt;安装命令如下：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## 阿里云作为镜像加速
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;curl -fsSL https://get.docker.com | bash -s docker --mirror Aliyun
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## 微软云作为镜像加速
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;curl -fsSL https://get.docker.com | bash -s docker --mirror AzureChinaCloud
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;也可以使用国内 daocloud 一键安装命令：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;curl -sSL https://get.daocloud.io/docker | sh
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;一句话命令，如果顺利跑完的话，最后会显示docker相关信息，即已经安装完成。&lt;/p&gt;
+&lt;h3 id=&#34;可选国内镜像加速&#34;&gt;（可选）国内镜像加速&lt;/h3&gt;
+&lt;p&gt;国内由于连接国外网络原因，所以一般需要加速代理&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;科大镜像：&lt;strong&gt;&lt;a class=&#34;link&#34; href=&#34;https://docker.mirrors.ustc.edu.cn/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://docker.mirrors.ustc.edu.cn/&lt;/a&gt;&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;网易：&lt;strong&gt;&lt;a class=&#34;link&#34; href=&#34;https://hub-mirror.c.163.com/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://hub-mirror.c.163.com/&lt;/a&gt;&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;阿里云：&lt;strong&gt;https://&amp;lt;你的ID&amp;gt;.mirror.aliyuncs.com&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;七牛云加速器：&lt;strong&gt;&lt;a class=&#34;link&#34; href=&#34;https://reg-mirror.qiniu.com&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://reg-mirror.qiniu.com&lt;/a&gt;&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;修改文件&lt;code&gt;/etc/docker/daemon.json&lt;/code&gt;（没有的话就新建），文件内容为&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-json&#34; data-lang=&#34;json&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;nt&#34;&gt;&amp;#34;registry-mirrors&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;s2&#34;&gt;&amp;#34;https://hub-mirror.c.163.com/&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;&lt;strong&gt;注意&lt;/strong&gt;：一定要保证该文件符合 json 规范，否则 Docker 将不能启动。&lt;/p&gt;
+&lt;p&gt;之后重新启动服务&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;sudo systemctl daemon-reload
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;sudo systemctl restart docker
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;检查加速器是否生效&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;docker info
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;如果从结果中看到了如下内容，说明配置成功&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Registry Mirrors:
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt; https://hub-mirror.c.163.com/
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h2 id=&#34;结束语&#34;&gt;结束语&lt;/h2&gt;
+&lt;p&gt;Docker容器作为一个用于开发，交付和运行应用程序的开放平台，能够将应用程序与基础架构分开，从而可以快速交付软件。而且很多平台搭建或者软件工具，因为环境的差异性，导致我们运行起来会有一定难度，所以容器的部署是我们之后教程的一个重要基础。&lt;/p&gt;
+&lt;p&gt;如有什么疑问可以进入&lt;a class=&#34;link&#34; href=&#34;https://t.me/yysy_blog_chat&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;讨论群&lt;/a&gt;一起讨论解决。&lt;/p&gt;
+</description>
+        </item>
+        <item>
+        <title>网络流量被动收入之Honeygain Docker部署教程</title>
+        <link>https://yysy.site/p/passive-income-honeygain/</link>
+        <pubDate>Mon, 16 Jan 2023 00:00:00 +0000</pubDate>
+        
+        <guid>https://yysy.site/p/passive-income-honeygain/</guid>
+        <description>&lt;img src="https://yysy.site/p/passive-income-honeygain/Passive-Income-Honeygain-Front.jpg" alt="Featured image of post 网络流量被动收入之Honeygain Docker部署教程" /&gt;&lt;h2 id=&#34;honeygain-是什么&#34;&gt;Honeygain 是什么&lt;/h2&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.honeygain.com/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;HoneyGain&lt;/a&gt; 是一个通过共享自己闲置不用的网络带宽赚钱的平台。HoneyGain 支持多种不同的操作系统和设备，安装后既可自动分享闲置的网络带宽，分享的越多，赚得越多，是一个完全免费、简单易用、有网络就能用的 “躺赚” 被动收入平台。&lt;/p&gt;
+&lt;p&gt;HoneyGain 应该算是众多网络共享平台里&lt;strong&gt;最流行的&lt;/strong&gt;，而且网上非常多的人已经真实的拿到了现金奖励，可以说是一个非常靠谱的平台。&lt;/p&gt;
+&lt;p&gt;新用户注册会送5美元奖励，&lt;a class=&#34;link&#34; href=&#34;https://r.honeygain.me/JJC27EFDE4&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;注册链接&lt;/a&gt;。&lt;/p&gt;
+&lt;p&gt;默认Honeygain是满20美元提现（通过&lt;code&gt;paypal&lt;/code&gt;手续费较高），不过现在有一个&lt;code&gt;JumpTask&lt;/code&gt;的模式，和电子货币平台合作（手续费较低，而且不限制提现额度），不过涉及电子货币需要对应的电子钱包。&lt;/p&gt;
+&lt;h2 id=&#34;honeygain-的收益如何&#34;&gt;Honeygain 的收益如何&lt;/h2&gt;
+&lt;p&gt;首先要先明确，使用&lt;code&gt;Honeygain&lt;/code&gt;客户端跑的结果&lt;strong&gt;并不是&lt;/strong&gt;直接的收益，而是&lt;code&gt;honeygain&lt;/code&gt;的积分。按照官网说法，每1000积分对应的是1美元，而10MB流量对应3积分，也就是1GB大概307.2积分（3.25美元）。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://yysy.site/p/passive-income-honeygain/Honeygain-Incoming-Rule.png&#34;
+	width=&#34;778&#34;
+	height=&#34;820&#34;
+	srcset=&#34;https://yysy.site/p/passive-income-honeygain/Honeygain-Incoming-Rule_hu1373c45bbee8c8ca6d05d52a1b2daffd_112080_480x0_resize_box_3.png 480w, https://yysy.site/p/passive-income-honeygain/Honeygain-Incoming-Rule_hu1373c45bbee8c8ca6d05d52a1b2daffd_112080_1024x0_resize_box_3.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Honeygain官方收益换算规则&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;94&#34;
+		data-flex-basis=&#34;227px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;截止2023-01-16，笔者还没有提现，不过在&lt;code&gt;JumpTask&lt;/code&gt;是能够按照操作提现到对应地址钱包的，所以提现应该问题不大。笔者从2022年大概9月、10月左右开始玩，一开始的收益（3个设备）有大概50-80积分是浮动，折算回来每天大概0.05-0.08美元/天，而且这个估计和国内网络有关，连接hoenygain的服务器质量比较差可能是，所以跑的流量稍微低一些。&lt;/p&gt;
+&lt;h2 id=&#34;honeygain-有什么限制&#34;&gt;Honeygain 有什么限制&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;需要家宽&lt;code&gt;IP&lt;/code&gt;，否则会&lt;strong&gt;运行失败&lt;/strong&gt;，提示&lt;code&gt;Not Resdential ip&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;同一个出口&lt;code&gt;IP&lt;/code&gt;只能有一个设备挂着，否则会提示&lt;code&gt;OverUsed&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;国内&lt;code&gt;IP&lt;/code&gt;访问可能会有时候连接失败，因为官网使用&lt;code&gt;Cloudflare CDN&lt;/code&gt;有时候国内网络到海外会延迟较大，客户端访问&lt;code&gt;API&lt;/code&gt;会报错，这也是影响收益的原因之一&lt;/li&gt;
+&lt;li&gt;需要设备，手机的话会存在杀后台，建议还是家里的一直开启的设备，比如是软路由、微型主机等等功耗低、有一定内存和硬盘空间的设备。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;honeygain-部署&#34;&gt;Honeygain 部署&lt;/h2&gt;
+&lt;p&gt;Honeygain 目前支持MacOS、Android、Windows、IOS、Linux&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://yysy.site/p/passive-income-honeygain/Honeygain-Support-Platform.png&#34;
+	width=&#34;306&#34;
+	height=&#34;534&#34;
+	srcset=&#34;https://yysy.site/p/passive-income-honeygain/Honeygain-Support-Platform_huef762f0b2b373c6ff373bff91242a5fa_32896_480x0_resize_box_3.png 480w, https://yysy.site/p/passive-income-honeygain/Honeygain-Support-Platform_huef762f0b2b373c6ff373bff91242a5fa_32896_1024x0_resize_box_3.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Honeygain支持平台&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;57&#34;
+		data-flex-basis=&#34;137px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;桌面端和移动端，可以直接通过&lt;a class=&#34;link&#34; href=&#34;https://r.honeygain.me/JJC27EFDE4&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;注册&lt;/a&gt;，登陆&lt;a class=&#34;link&#34; href=&#34;https://dashboard.honeygain.com/#&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Dashboard&lt;/a&gt;，右上角可以自行下载，这里不展开讨论，都是按照步骤安装而已。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;备注&lt;/strong&gt;：个人建议优先推荐桌面端，能打开&lt;code&gt;Content Delivery&lt;/code&gt;功能，理论上是&lt;code&gt;CDN&lt;/code&gt;的功能，不过笔者目前还没有看到这个类别的收入。不过桌面端的客户端我这边跑了几个月，看起来分配的流量比容器部署更加多。&lt;/p&gt;
+&lt;h3 id=&#34;docker-容器化部署&#34;&gt;Docker 容器化部署&lt;/h3&gt;
+&lt;p&gt;Docker安装这里不展开描述，可以参考文章  &lt;a class=&#34;link&#34; href=&#34;https://yysy.site/p/docker-installation/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Docker安装部署&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Honeygain一键安装命令&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;docker run -d --name honeygain --restart&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;always honeygain/honeygain -tou-accept -email &amp;lt;邮箱地址-账号名&amp;gt; -pass &amp;lt;密码&amp;gt; -device &amp;lt;设备名&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;email&lt;/code&gt; 参数后需要替换为你 &lt;code&gt;Honeygain&lt;/code&gt; 对应的账号名，一般是邮箱地址&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;pass&lt;/code&gt; 参数后需要替换为你 &lt;code&gt;Honeygain&lt;/code&gt; 对应的密码&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;device&lt;/code&gt; 参数后需要替换为你这个设备的名字，如果成功的话&lt;a class=&#34;link&#34; href=&#34;https://dashboard.honeygain.com/#&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Dashboard&lt;/a&gt;页面中&lt;code&gt;My active devices&lt;/code&gt;会看到在线&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;执行后可以通过命令行查看日志&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;docker logs -f honeygain
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;返回如下图&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://yysy.site/p/passive-income-honeygain/Honeygain-Running-In-Docker.png&#34;
+	width=&#34;1768&#34;
+	height=&#34;840&#34;
+	srcset=&#34;https://yysy.site/p/passive-income-honeygain/Honeygain-Running-In-Docker_hu5b7afb4000d1b49b13809186f99bcad2_105957_480x0_resize_box_3.png 480w, https://yysy.site/p/passive-income-honeygain/Honeygain-Running-In-Docker_hu5b7afb4000d1b49b13809186f99bcad2_105957_1024x0_resize_box_3.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Honeygain容器运行正常日志&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;210&#34;
+		data-flex-basis=&#34;505px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;h2 id=&#34;结束语&#34;&gt;结束语&lt;/h2&gt;
+&lt;p&gt;如果有其他疑问或者部署上有什么难题，欢迎联系 &lt;a class=&#34;link&#34; href=&#34;mailto:jjc27017@gmail.com&#34; &gt;我&lt;/a&gt; 或者加入 &lt;a class=&#34;link&#34; href=&#34;https://t.me/yysy_blog_chat&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;讨论群&lt;/a&gt; 一起讨论&lt;/p&gt;
+&lt;p&gt;其他网赚/网络流量挂机/被动收入项目：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;/li&gt;
+&lt;li&gt;&lt;/li&gt;
+&lt;li&gt;&lt;/li&gt;
+&lt;li&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        </item>
+        
+    </channel>
+</rss>

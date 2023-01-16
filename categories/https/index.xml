@@ -13,7 +13,8 @@
         
         <guid>https://yysy.site/p/github-pages-https/</guid>
         <description>&lt;img src="https://yysy.site/p/github-pages-https/Github-Pages-Cloudflare-Front.jpg" alt="Featured image of post 将Github Pages设置个人域名并且支持HTTPS" /&gt;&lt;h2 id=&#34;背景&#34;&gt;背景&lt;/h2&gt;
-&lt;p&gt;从之前&lt;a class=&#34;link&#34; href=&#34;&#34; &gt;部署博客&lt;/a&gt;的文章可以获得一个无需自己购买服务器和域名的博客，并且能自主更新博客内容，再优化一下可以增加评论、统计访问量等插件。本文就是在这个基础上，继续低成本让个人博客使用自己的个人域名然后公网能支持HTTPS访问。&lt;/p&gt;
+&lt;p&gt;从之前&lt;a class=&#34;link&#34; href=&#34;https://yysy.site/p/github-pages-hugo/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;部署博客&lt;/a&gt;的文章可以获得一个无需自己购买服务器和域名的博客，并且能自主更新博客内容，再优化一下可以增加评论、统计访问量等插件。本文就是在这个基础上，继续低成本让个人博客使用自己的个人域名然后公网能支持HTTPS访问。&lt;/p&gt;
 &lt;h2 id=&#34;前期准备&#34;&gt;前期准备&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;一个域名（低成本建议使用腾讯云/阿里云按需购买）&lt;/li&gt;

@@ -6,7 +6,126 @@
         <description>Recent content in 技术文档 on YYSY 博客</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
-        <lastBuildDate>Sun, 15 Jan 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://yysy.site/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E6%A1%A3/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Mon, 16 Jan 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://yysy.site/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E6%A1%A3/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>Docker安装部署</title>
+        <link>https://yysy.site/p/docker-installation/</link>
+        <pubDate>Mon, 16 Jan 2023 00:00:00 +0000</pubDate>
+        
+        <guid>https://yysy.site/p/docker-installation/</guid>
+        <description>&lt;img src="https://yysy.site/p/docker-installation/Docker-Installation-Front.jpg" alt="Featured image of post Docker安装部署" /&gt;&lt;h2 id=&#34;docker-是什么&#34;&gt;Docker 是什么&lt;/h2&gt;
+&lt;p&gt;Docker 是一个开源的应用容器引擎，基于 Go 语言 并遵从 Apache2.0 协议开源。&lt;/p&gt;
+&lt;p&gt;Docker 可以让开发者打包他们的应用以及依赖包到一个轻量级、可移植的容器中，然后发布到任何流行的 Linux 机器上，也可以实现虚拟化。&lt;/p&gt;
+&lt;p&gt;容器是完全使用沙箱机制，相互之间不会有任何接口（类似 iPhone 的 app）,更重要的是容器性能开销极低。&lt;/p&gt;
+&lt;p&gt;Docker 从 17.03 版本之后分为 CE（Community Edition: 社区版） 和 EE（Enterprise Edition: 企业版），我们用社区版就可以了。&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.docker.com/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Docker 官网&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/docker/docker-ce&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Github Docker 社区版源码&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&#34;docker-各平台部署&#34;&gt;Docker 各平台部署&lt;/h2&gt;
+&lt;h3 id=&#34;windows&#34;&gt;Windows&lt;/h3&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://desktop.docker.com/win/main/amd64/Docker%20Desktop%20Installer.exe&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Windows 64位官网下载地址&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;EXE&lt;/code&gt;文件，按步骤安装即可，是桌面版，有UI，也可以使用&lt;code&gt;powershell&lt;/code&gt;的&lt;code&gt;docker&lt;/code&gt;命令管理&lt;/p&gt;
+&lt;h3 id=&#34;macos&#34;&gt;MacOS&lt;/h3&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://desktop.docker.com/mac/main/amd64/Docker.dmg&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Mac DMG包官网下载地址&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;DMG&lt;/code&gt;文件，按步骤安装即可，是桌面版，有UI，也可以使用终端的&lt;code&gt;docker&lt;/code&gt;命令管理&lt;/p&gt;
+&lt;h3 id=&#34;linux&#34;&gt;Linux&lt;/h3&gt;
+&lt;p&gt;个人比较推荐脚本一键安装，自动判断系统然后进行安装，也可以添加对应镜像加速器&lt;/p&gt;
+&lt;p&gt;安装命令如下：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## 阿里云作为镜像加速
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;curl -fsSL https://get.docker.com | bash -s docker --mirror Aliyun
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## 微软云作为镜像加速
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;curl -fsSL https://get.docker.com | bash -s docker --mirror AzureChinaCloud
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;也可以使用国内 daocloud 一键安装命令：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;curl -sSL https://get.daocloud.io/docker | sh
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;一句话命令，如果顺利跑完的话，最后会显示docker相关信息，即已经安装完成。&lt;/p&gt;
+&lt;h3 id=&#34;可选国内镜像加速&#34;&gt;（可选）国内镜像加速&lt;/h3&gt;
+&lt;p&gt;国内由于连接国外网络原因，所以一般需要加速代理&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;科大镜像：&lt;strong&gt;&lt;a class=&#34;link&#34; href=&#34;https://docker.mirrors.ustc.edu.cn/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://docker.mirrors.ustc.edu.cn/&lt;/a&gt;&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;网易：&lt;strong&gt;&lt;a class=&#34;link&#34; href=&#34;https://hub-mirror.c.163.com/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://hub-mirror.c.163.com/&lt;/a&gt;&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;阿里云：&lt;strong&gt;https://&amp;lt;你的ID&amp;gt;.mirror.aliyuncs.com&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;七牛云加速器：&lt;strong&gt;&lt;a class=&#34;link&#34; href=&#34;https://reg-mirror.qiniu.com&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://reg-mirror.qiniu.com&lt;/a&gt;&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;修改文件&lt;code&gt;/etc/docker/daemon.json&lt;/code&gt;（没有的话就新建），文件内容为&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-json&#34; data-lang=&#34;json&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;nt&#34;&gt;&amp;#34;registry-mirrors&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;s2&#34;&gt;&amp;#34;https://hub-mirror.c.163.com/&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;&lt;strong&gt;注意&lt;/strong&gt;：一定要保证该文件符合 json 规范，否则 Docker 将不能启动。&lt;/p&gt;
+&lt;p&gt;之后重新启动服务&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;sudo systemctl daemon-reload
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;sudo systemctl restart docker
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;检查加速器是否生效&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;docker info
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;如果从结果中看到了如下内容，说明配置成功&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Registry Mirrors:
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt; https://hub-mirror.c.163.com/
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h2 id=&#34;结束语&#34;&gt;结束语&lt;/h2&gt;
+&lt;p&gt;Docker容器作为一个用于开发，交付和运行应用程序的开放平台，能够将应用程序与基础架构分开，从而可以快速交付软件。而且很多平台搭建或者软件工具，因为环境的差异性，导致我们运行起来会有一定难度，所以容器的部署是我们之后教程的一个重要基础。&lt;/p&gt;
+&lt;p&gt;如有什么疑问可以进入&lt;a class=&#34;link&#34; href=&#34;https://t.me/yysy_blog_chat&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;讨论群&lt;/a&gt;一起讨论解决。&lt;/p&gt;
+</description>
+        </item>
+        <item>
         <title>在Hugo中添加utterances评论功能</title>
         <link>https://yysy.site/p/github-pages-hugo-utterances/</link>
         <pubDate>Sun, 15 Jan 2023 00:00:00 +0000</pubDate>
@@ -141,7 +260,8 @@
         
         <guid>https://yysy.site/p/github-pages-https/</guid>
         <description>&lt;img src="https://yysy.site/p/github-pages-https/Github-Pages-Cloudflare-Front.jpg" alt="Featured image of post 将Github Pages设置个人域名并且支持HTTPS" /&gt;&lt;h2 id=&#34;背景&#34;&gt;背景&lt;/h2&gt;
-&lt;p&gt;从之前&lt;a class=&#34;link&#34; href=&#34;&#34; &gt;部署博客&lt;/a&gt;的文章可以获得一个无需自己购买服务器和域名的博客，并且能自主更新博客内容，再优化一下可以增加评论、统计访问量等插件。本文就是在这个基础上，继续低成本让个人博客使用自己的个人域名然后公网能支持HTTPS访问。&lt;/p&gt;
+&lt;p&gt;从之前&lt;a class=&#34;link&#34; href=&#34;https://yysy.site/p/github-pages-hugo/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;部署博客&lt;/a&gt;的文章可以获得一个无需自己购买服务器和域名的博客，并且能自主更新博客内容，再优化一下可以增加评论、统计访问量等插件。本文就是在这个基础上，继续低成本让个人博客使用自己的个人域名然后公网能支持HTTPS访问。&lt;/p&gt;
 &lt;h2 id=&#34;前期准备&#34;&gt;前期准备&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;一个域名（低成本建议使用腾讯云/阿里云按需购买）&lt;/li&gt;
@@ -927,11 +1047,13 @@
 &lt;p&gt;到这里，已经完成了博客的部署，接下来就是调整配置等等相关细节问题。如果部署上有什么不清晰或者是教程上写错的地方，欢迎联系Email: &lt;a class=&#34;link&#34; href=&#34;mailto:jjc27017@gmail.com&#34; &gt;jjc27017@gmail.com&lt;/a&gt; 或者添加TG群(&lt;a class=&#34;link&#34; href=&#34;https://t.me/yysy_blog_chat&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;https://t.me/yysy_blog_chat&lt;/a&gt;)一起讨论。后续会根据笔者使用情况出对应的教程，有兴趣的朋友可以继续阅读以下文章：&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;将Github Pages设置个人域名并且支持HTTPS&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://yysy.site/p/github-pages-https/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;将Github Pages设置个人域名并且支持HTTPS&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;让搜索引擎能搜索该网站&lt;/li&gt;
 &lt;li&gt;Hugo-theme-stack的配置&lt;/li&gt;
 &lt;li&gt;Hugo-theme-stack添加搜索栏、Archive栏、Links栏、Abount栏&lt;/li&gt;
-&lt;li&gt;Hugo-theme-stack使用emoji表情，增加加载进度条，添加评论插件&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://yysy.site/p/github-pages-hugo-utterances/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Hugo-theme-stack添加评论插件&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;免费域名（附带续费方式，相当于永久免费）&lt;/li&gt;
 &lt;/ul&gt;
 </description>
