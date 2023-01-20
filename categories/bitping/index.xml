@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>Bitping on YYSY 博客</title>
+        <link>https://yysy.site/categories/bitping/</link>
+        <description>Recent content in Bitping on YYSY 博客</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>zh-cn</language>
+        <lastBuildDate>Thu, 19 Jan 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://yysy.site/categories/bitping/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>网络流量被动收入之Bitping Docker部署教程</title>
+        <link>https://yysy.site/p/passive-income-bitping/</link>
+        <pubDate>Thu, 19 Jan 2023 00:00:00 +0000</pubDate>
+        
+        <guid>https://yysy.site/p/passive-income-bitping/</guid>
+        <description>&lt;img src="https://yysy.site/p/passive-income-bitping/Passive-Income-Bitping-Front.jpg" alt="Featured image of post 网络流量被动收入之Bitping Docker部署教程" /&gt;&lt;h2 id=&#34;bitping-简介&#34;&gt;Bitping 简介&lt;/h2&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.bitping.com/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Bitping&lt;/a&gt;是一款的&amp;quot;Share to Earn&amp;quot;分享网路节点挂机项目，总部在新加坡，公司规模不大，目前只有员工4个人，算是一个新兴挂机项目。 Bitping提供「测试、监控、防护」三种网路服务给终端客户。而身为用户的我们则透过下载Bitping的Nodes节点，提供自身的大数据及设备算力资源给公司运用，让他们可以借力使力赚钱，然后再分一些利润给我们。&lt;/p&gt;
+&lt;h3 id=&#34;注册&#34;&gt;注册&lt;/h3&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://app.bitping.com?r=d9LM79jw&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;注册地址&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;目前注册应该没有新人优惠，因为项目还算是比较新&lt;/p&gt;
+&lt;h3 id=&#34;支持平台&#34;&gt;支持平台&lt;/h3&gt;
+&lt;p&gt;&lt;img src=&#34;https://yysy.site/p/passive-income-bitping/Bitping-Support-Platforms.png&#34;
+	width=&#34;2306&#34;
+	height=&#34;1206&#34;
+	srcset=&#34;https://yysy.site/p/passive-income-bitping/Bitping-Support-Platforms_huc0bdc31fe137f69d5df99906b05cb25b_248851_480x0_resize_box_3.png 480w, https://yysy.site/p/passive-income-bitping/Bitping-Support-Platforms_huc0bdc31fe137f69d5df99906b05cb25b_248851_1024x0_resize_box_3.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Bitping支持平台&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;191&#34;
+		data-flex-basis=&#34;458px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;h3 id=&#34;部分地区流量单价&#34;&gt;部分地区流量单价&lt;/h3&gt;
+&lt;p&gt;截取于2023-01-18&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://yysy.site/p/passive-income-bitping/Bitping-Traffic-Rule.png&#34;
+	width=&#34;2264&#34;
+	height=&#34;898&#34;
+	srcset=&#34;https://yysy.site/p/passive-income-bitping/Bitping-Traffic-Rule_hu263b08e485426b59296305cd686aad39_147627_480x0_resize_box_3.png 480w, https://yysy.site/p/passive-income-bitping/Bitping-Traffic-Rule_hu263b08e485426b59296305cd686aad39_147627_1024x0_resize_box_3.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Bitping部分地区流量单价&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;252&#34;
+		data-flex-basis=&#34;605px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;h2 id=&#34;节点部署&#34;&gt;节点部署&lt;/h2&gt;
+&lt;h3 id=&#34;windows&#34;&gt;Windows&lt;/h3&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://downloads.bitping.com/node/windows.zip&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Windows压缩安装包&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id=&#34;linux&#34;&gt;Linux&lt;/h3&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://downloads.bitping.com/node/linux.zip&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Linux-ZIP压缩包&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id=&#34;树莓派&#34;&gt;树莓派&lt;/h3&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://downloads.bitping.com/node/armv7.zip&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;树莓派32位-ZIP压缩包&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id=&#34;容器docker&#34;&gt;容器Docker&lt;/h3&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;## 运行&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;docker run -it --name bitping --mount &lt;span class=&#34;nv&#34;&gt;type&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;bind,source&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$HOME&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;/.bitping/&amp;#34;&lt;/span&gt;,target&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;/root/.bitping bitping/bitping-node:latest
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;运行后会输出几个日志，然后让你填写账号密码，填写完成后就能正常运作。不过此时容器还在前台工作，我们要先&lt;code&gt;Ctrl+C&lt;/code&gt;退出容器，然后重新&lt;code&gt;docker start bitping&lt;/code&gt;这样容器就能在后台运行了，也不用再次输入上好密码，因为输入一次，只要容器不删掉（停掉没问题）那密码是会记录的&lt;/p&gt;
+&lt;h3 id=&#34;macos&#34;&gt;MacOS&lt;/h3&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://downloads.bitping.com/node/macos.zip&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;MacOS压缩包&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;除了Docker部署以外，其他下载都是压缩包。解压之后是一个&lt;code&gt;release&lt;/code&gt;文件夹，然后进入终端（windows系统使用powershell）然后进入&lt;code&gt;release&lt;/code&gt;目录，首先运行（以Linux系统为例，其他系统要以实际文件运行&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;6
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;## Linux&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;./bitping-node-amd64-linux --server
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;## 然后输入bitping的账号密码，登陆成功后Ctrl+C退出&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;## 最后执行多一次&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;nohup ./bitping-node-amd64-linux --server &lt;span class=&#34;p&#34;&gt;&amp;amp;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# 就可以放到后台跑了&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h3 id=&#34;正常运行&#34;&gt;正常运行&lt;/h3&gt;
+&lt;p&gt;&lt;img src=&#34;https://yysy.site/p/passive-income-bitping/Bitping-Running.png&#34;
+	width=&#34;2842&#34;
+	height=&#34;1398&#34;
+	srcset=&#34;https://yysy.site/p/passive-income-bitping/Bitping-Running_hu82dba2d3ac34e31ba34b6e71fca659ae_336250_480x0_resize_box_3.png 480w, https://yysy.site/p/passive-income-bitping/Bitping-Running_hu82dba2d3ac34e31ba34b6e71fca659ae_336250_1024x0_resize_box_3.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;客户端正常运行图&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;203&#34;
+		data-flex-basis=&#34;487px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;有警告信息不用理会，主要是看完成的任务数来发放奖励的。&lt;/p&gt;
+&lt;h2 id=&#34;结束语&#34;&gt;结束语&lt;/h2&gt;
+&lt;p&gt;Bitping的好处在于能加入服务器&lt;code&gt;IP&lt;/code&gt;，把闲置的服务器资源都利用上，而且部署还算简单，直接一个二进制文件就完事，关于收益速度目前我好几个服务器都在跑，收益一个月大概一刀左右&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://yysy.site/p/passive-income-bitping/Bitping-Nodes.png&#34;
+	width=&#34;2130&#34;
+	height=&#34;1012&#34;
+	srcset=&#34;https://yysy.site/p/passive-income-bitping/Bitping-Nodes_hua6de3dc5da5b79c5dcb911a15d29bf36_345053_480x0_resize_box_3.png 480w, https://yysy.site/p/passive-income-bitping/Bitping-Nodes_hua6de3dc5da5b79c5dcb911a15d29bf36_345053_1024x0_resize_box_3.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Bitping正在运行的客户端节点&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;210&#34;
+		data-flex-basis=&#34;505px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;其他网赚介绍文章：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://yysy.site/p/passive-income-honeygain/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;网络流量被动收入之Honeygain Docker部署教程&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://yysy.site/p/passive-income-traffmonetizer&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;网络流量被动收入之Traffmonetizer Docker部署教程&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://yysy.site/p/passive-income-packetstream&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;网络流量被动收入之Packetstream Docker部署教程&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://yysy.site/p/passive-income-iproyal&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;网络流量被动收入之Iproyal Docker部署教程&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://yysy.site/p/passive-income-peer2profit&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;网络流量被动收入之Peer2profit Docker部署教程&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;ttps://yysy.site/p/passive-income-earnapp&#34; &gt;网络流量被动收入之Earnapp Docker部署教程&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        </item>
+        
+    </channel>
+</rss>

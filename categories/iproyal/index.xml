@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>Iproyal on YYSY 博客</title>
+        <link>https://yysy.site/categories/iproyal/</link>
+        <description>Recent content in Iproyal on YYSY 博客</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>zh-cn</language>
+        <lastBuildDate>Thu, 19 Jan 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://yysy.site/categories/iproyal/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>网络流量被动收入之Iproyal Docker部署教程</title>
+        <link>https://yysy.site/p/passive-income-iproyal/</link>
+        <pubDate>Thu, 19 Jan 2023 00:00:00 +0000</pubDate>
+        
+        <guid>https://yysy.site/p/passive-income-iproyal/</guid>
+        <description>&lt;img src="https://yysy.site/p/passive-income-iproyal/Passive-Income-Iproyal-Front.jpg" alt="Featured image of post 网络流量被动收入之Iproyal Docker部署教程" /&gt;&lt;h2 id=&#34;iproyal-是什么&#34;&gt;Iproyal 是什么&lt;/h2&gt;
+&lt;p&gt;IPRoyal Pawns，一家美国正规的IP代理公司，用户通过出售闲置带宽赚取佣金，从业务架构上分析合情合理，因为IPRoy需要P地址提供给客户使用，必须收集大量IP资源，对于用户来说，反正闲置带宽实属浪费，不如有效利用转化成真金白银。&lt;/p&gt;
+&lt;h3 id=&#34;注册&#34;&gt;注册&lt;/h3&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://pawns.app?r=883301&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;注册地址&lt;/a&gt;，新用户注册送1美元的资金&lt;/p&gt;
+&lt;h3 id=&#34;限制&#34;&gt;限制&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;必须家宽&lt;code&gt;IP&lt;/code&gt;，不能是服务器&lt;code&gt;IP&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;提现金额是5美元（新注册赠送1美元）&lt;/li&gt;
+&lt;li&gt;提现方式是BitCoin、Paypal&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;收益&#34;&gt;收益&lt;/h3&gt;
+&lt;p&gt;1美元/5GB&lt;/p&gt;
+&lt;h2 id=&#34;节点部署&#34;&gt;节点部署&lt;/h2&gt;
+&lt;p&gt;目前（2023-01-19）平台支持的有Windows、MacOS、Android、IOS、Linux&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://yysy.site/p/passive-income-iproyal/Iproyal-Support-Platforms.png&#34;
+	width=&#34;1202&#34;
+	height=&#34;292&#34;
+	srcset=&#34;https://yysy.site/p/passive-income-iproyal/Iproyal-Support-Platforms_hu7a085d0f51e6a4ada8ead4d0c031fdbc_38904_480x0_resize_box_3.png 480w, https://yysy.site/p/passive-income-iproyal/Iproyal-Support-Platforms_hu7a085d0f51e6a4ada8ead4d0c031fdbc_38904_1024x0_resize_box_3.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;IProayl支持平台&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;411&#34;
+		data-flex-basis=&#34;987px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;h3 id=&#34;windows&#34;&gt;Windows&lt;/h3&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://cdn.pawns.app/download/app/latest/windows/Pawns%20Setup.exe&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;下载地址&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id=&#34;macos&#34;&gt;MacOS&lt;/h3&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://cdn.pawns.app/download/app/latest/darwin64/Pawns%20app.dmg&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;下载地址&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;运行后结果&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://yysy.site/p/passive-income-iproyal/Iproyal-MacOS-Client.png&#34;
+	width=&#34;1702&#34;
+	height=&#34;964&#34;
+	srcset=&#34;https://yysy.site/p/passive-income-iproyal/Iproyal-MacOS-Client_hu2a14d687202db7f3c1fbb4f8a9481101_564781_480x0_resize_box_3.png 480w, https://yysy.site/p/passive-income-iproyal/Iproyal-MacOS-Client_hu2a14d687202db7f3c1fbb4f8a9481101_564781_1024x0_resize_box_3.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;IProyal MacOS客户端&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;176&#34;
+		data-flex-basis=&#34;423px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;h3 id=&#34;google-play&#34;&gt;Google Play&lt;/h3&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://play.google.com/store/apps/details?id=com.iproyal.android&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;商店地址&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id=&#34;android-apk&#34;&gt;Android APK&lt;/h3&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://cdn.pawns.app/download/app/latest/android/Pawns%20app.apk&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;下载地址&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id=&#34;ios&#34;&gt;IOS&lt;/h3&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://apps.apple.com/app/pawns-app-earn-money/id1626425873&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;商店地址&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id=&#34;linux&#34;&gt;Linux&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;uname -a&lt;/code&gt; 命令查看当前系统架构，确认好系统架构后按照对应选择下载二进制文件&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://download.iproyal.com/pawns-cli/latest/linux_aarch64/pawns-cli&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Linux aarch64&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://download.iproyal.com/pawns-cli/latest/linux_armv7l/pawns-cli&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Linux ARM v7l&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;[Linux ARM v6l][https://download.iproyal.com/pawns-cli/latest/linux_armv6l/pawns-cli]&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://download.iproyal.com/pawns-cli/latest/linux_armv5l/pawns-cli&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Linux ARM v5l&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://download.iproyal.com/pawns-cli/latest/linux_i386/pawns-cli&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Linux i386&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://download.iproyal.com/pawns-cli/latest/linux_x86_64/pawns-cli&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Linux x86_64&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;启动命令&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;./pawns-cli -email&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&amp;lt;change_to_email&amp;gt; -password&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&amp;lt;change_to_password&amp;gt; -device-name&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&amp;lt;change_to_device_name&amp;gt; -accept-tos
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;修改地方&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;code&gt;&amp;lt;change_to_email&amp;gt;&lt;/code&gt;  ： 改成对应账号邮箱&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;&amp;lt;change_to_password&amp;gt;&lt;/code&gt; ：改成对应账号密码&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;&amp;lt;change_to_device_name&amp;gt;&lt;/code&gt; ：自定义设备名，标记用的&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;运行后等待几分钟，在&lt;a class=&#34;link&#34; href=&#34;https://dashboard.pawns.app/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Dashboard&lt;/a&gt;界面会看到已经激活的设备。&lt;/p&gt;
+&lt;h2 id=&#34;结束语&#34;&gt;结束语&lt;/h2&gt;
+&lt;p&gt;IProyal缺点还是仅限家宽&lt;code&gt;IP&lt;/code&gt;，不能使用服务器&lt;code&gt;IP&lt;/code&gt;。优点是支持平台多，而且有在线客服能问问题。由于笔者最近才加入，国内IP会偶尔请求API失效导致节点失联。而且没有每日统计流量还有每个节点的流量，只能通过每天的收入进度，大约估计收益速度还是可观的。反正节点越多，肯定就收益越快。其他网赚文章：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://yysy.site/p/passive-income-honeygain/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;网络流量被动收入之Honeygain Docker部署教程&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://yysy.site/p/passive-income-traffmonetizer&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;网络流量被动收入之Traffmonetizer Docker部署教程&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://yysy.site/p/passive-income-packetstream&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;网络流量被动收入之Packetstream Docker部署教程&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://yysy.site/p/passive-income-bitping&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;网络流量被动收入之Bitping Docker部署教程&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://yysy.site/p/passive-income-peer2profit&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;网络流量被动收入之Peer2profit Docker部署教程&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;ttps://yysy.site/p/passive-income-earnapp&#34; &gt;网络流量被动收入之Earnapp Docker部署教程&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        </item>
+        
+    </channel>
+</rss>

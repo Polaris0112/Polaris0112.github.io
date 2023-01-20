@@ -1,0 +1,1019 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<meta name="baidu-site-verification" content="code-ONeO62S0pj" /><meta name='description' content='Traffmonetizer Docker部署'>
+<title>网络流量被动收入之Traffmonetizer Docker部署教程</title>
+
+<link rel='canonical' href='https://yysy.site/p/passive-income-traffmonetizer/'>
+
+<link rel="stylesheet" href="/scss/style.min.8191399262444ab68b72a18c97392f5349be20a1615d77445be51e974c144cff.css"><meta property='og:title' content='网络流量被动收入之Traffmonetizer Docker部署教程'>
+<meta property='og:description' content='Traffmonetizer Docker部署'>
+<meta property='og:url' content='https://yysy.site/p/passive-income-traffmonetizer/'>
+<meta property='og:site_name' content='YYSY 博客'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:published_time' content='2023-01-17T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2023-01-17T00:00:00&#43;00:00'/><meta property='og:image' content='https://yysy.site/p/passive-income-traffmonetizer/Passive-Income-Traffmonetizer-Front.jpg' />
+<meta name="twitter:title" content="网络流量被动收入之Traffmonetizer Docker部署教程">
+<meta name="twitter:description" content="Traffmonetizer Docker部署"><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://yysy.site/p/passive-income-traffmonetizer/Passive-Income-Traffmonetizer-Front.jpg' />
+    <link rel="shortcut icon" href="/favicon.jpg" />
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-LELYVB7T9C"></script>
+<script>
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	gtag('js', new Date());
+	gtag('config', 'G-LELYVB7T9C', { 'anonymize_ip': false });
+}
+</script>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-LELYVB7T9C"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-LELYVB7T9C');
+</script>
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?b3b81f0541728bf826e87d3522ea3eaa";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "dark");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_hufcf2301eede78afda1d33c6ccae7086f_11629_300x0_resize_box_3.png" width="300"
+                            height="330" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">😂</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">YYSY 博客</a></h1>
+            <h2 class="site-description">个人博客，主旨技术分享、交流、有钱齐齐稳</h2>
+        </div>
+    </header><ol class="social-menu">
+            
+                <li>
+                    <a 
+                        href='mailto:jjc27017@gmail.com'
+                        target="_blank"
+                        title="Email"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-mail" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <rect x="3" y="5" width="18" height="14" rx="2" />
+  <polyline points="3 7 12 13 21 7" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://github.com/Polaris0112/Polaris0112.github.io'
+                        target="_blank"
+                        title="GitHub"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://t.me/yysy_blog'
+                        target="_blank"
+                        title="Telegram"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-telegram" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M15 10l-4 4l6 6l4 -16l-18 7l4 2l2 6l3 -4" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+        </ol><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>主页</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>搜索</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>归档</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/about/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>关于</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/links/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>常用站点</span>
+            </a>
+        </li>
+        
+
+        <div class="menu-bottom-section">
+                <li id="i18n-switch">  
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M4 5h7" />
+  <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
+  <path d="M5 9c-.003 2.144 2.952 3.908 6.7 4" />
+  <path d="M12 20l4 -9l4 9" />
+  <path d="M19.1 18h-6.2" />
+</svg>
+
+
+
+                    <select name="language" onchange="window.location.href = this.selectedOptions[0].value">
+                        
+                            <option value="https://yysy.site/" selected>中文</option>
+                        
+                            <option value="https://yysy.site/en/" >English</option>
+                        
+                    </select>
+                </li>
+            
+            
+            
+                <li id="dark-mode-toggle">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <span>暗色模式</span>
+                </li>
+            
+        </div>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#traffmonetizer-是什么">Traffmonetizer 是什么</a>
+      <ol>
+        <li><a href="#注册">注册</a></li>
+      </ol>
+    </li>
+    <li><a href="#traffmonetizer-优缺点">Traffmonetizer 优缺点</a>
+      <ol>
+        <li><a href="#优点">优点</a></li>
+        <li><a href="#缺点">缺点</a></li>
+      </ol>
+    </li>
+    <li><a href="#traffmonetizer-部署">Traffmonetizer 部署</a>
+      <ol>
+        <li><a href="#windows-部署">Windows 部署</a></li>
+        <li><a href="#macos-部署">MacOS 部署</a></li>
+        <li><a href="#android-部署">Android 部署</a></li>
+        <li><a href="#docker-部署">Docker 部署</a>
+          <ol>
+            <li><a href="#拉取镜像">拉取镜像</a></li>
+            <li><a href="#启动容器命令">启动容器命令</a></li>
+          </ol>
+        </li>
+      </ol>
+    </li>
+    <li><a href="#结束语">结束语</a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="has-image main-article">
+    <header class="article-header">
+        <div class="article-image">
+            <a href="/p/passive-income-traffmonetizer/">
+                <img src="/p/passive-income-traffmonetizer/Passive-Income-Traffmonetizer-Front_hufcf2301eede78afda1d33c6ccae7086f_74794_800x0_resize_q75_box.jpg"
+                        srcset="/p/passive-income-traffmonetizer/Passive-Income-Traffmonetizer-Front_hufcf2301eede78afda1d33c6ccae7086f_74794_800x0_resize_q75_box.jpg 800w, /p/passive-income-traffmonetizer/Passive-Income-Traffmonetizer-Front_hufcf2301eede78afda1d33c6ccae7086f_74794_1600x0_resize_q75_box.jpg 1600w"
+                        width="800" 
+                        height="327" 
+                        loading="lazy"
+                        alt="Featured image of post 网络流量被动收入之Traffmonetizer Docker部署教程" />
+                
+            </a>
+        </div>
+    
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/%E8%B5%9A%E9%92%B1%E9%A1%B9%E7%9B%AE/" >
+                赚钱项目
+            </a>
+        
+            <a href="/categories/%E7%BD%91%E7%BB%9C%E6%B5%81%E9%87%8F/" >
+                网络流量
+            </a>
+        
+            <a href="/categories/%E8%A2%AB%E5%8A%A8%E6%94%B6%E5%85%A5/" >
+                被动收入
+            </a>
+        
+            <a href="/categories/traffmonetizer/" >
+                Traffmonetizer
+            </a>
+        
+            <a href="/categories/docker/" >
+                Docker
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/passive-income-traffmonetizer/">网络流量被动收入之Traffmonetizer Docker部署教程</a>
+        </h2>
+    
+        
+        <h3 class="article-subtitle">
+            Traffmonetizer Docker部署
+        </h3>
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Jan 17, 2023</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    阅读时长: 1 分钟
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <h2 id="traffmonetizer-是什么">Traffmonetizer 是什么</h2>
+<p><a class="link" href="https://traffmonetizer.com/"  target="_blank" rel="noopener"
+    >Traffmonetizer</a>是一款欧洲爱沙尼亚的流量挂机项目，跟Honeygain、Peer2profit等同一类，推出后已在不少国外论坛中介绍。
+Traffmonetizer目前支持Windows、Android、MacOS、Docker平台</p>
+<p><img src="/p/passive-income-traffmonetizer/Traffmonetizer-Support-Platforms.png"
+	width="674"
+	height="628"
+	srcset="/p/passive-income-traffmonetizer/Traffmonetizer-Support-Platforms_hu35875f3177e4cce1e992f714ad88a7d5_86224_480x0_resize_box_3.png 480w, /p/passive-income-traffmonetizer/Traffmonetizer-Support-Platforms_hu35875f3177e4cce1e992f714ad88a7d5_86224_1024x0_resize_box_3.png 1024w"
+	loading="lazy"
+	
+		alt="Traffmonetizer支持平台"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="107"
+		data-flex-basis="257px"
+	
+></p>
+<p>Traffmonetizer可以同一个帐户连结无限设备，适合多部装置同时操作。使用者须在挂机装置中输入官方发给的&quot;Token&quot;作为识别，不像其他挂机项目要输入注册电邮方式不同，运作上反而比较简便。</p>
+<h3 id="注册">注册</h3>
+<p>目前新用户注册可以免费获得5美元的额度，<a class="link" href="https://traffmonetizer.com/?aff=531433"  target="_blank" rel="noopener"
+    >注册地址</a>。</p>
+<p>接下来再用节点挂机跑流量多5美元即可出金，出金方式目前知道的有Paypal、BTC、Payoneer，官方到账时间宣称是48小时，最低提现门槛是10美元。</p>
+<h2 id="traffmonetizer-优缺点">Traffmonetizer 优缺点</h2>
+<h3 id="优点">优点</h3>
+<ol>
+<li>容器部署方便，简单快捷</li>
+<li>不需要局限家宽<code>IP</code>，服务器<code>IP</code>也可以，建议非国内<code>IP</code>，跑的流量会更高</li>
+<li>流量单价不算高，1美元/10GB，但是分配的流量还算挺多</li>
+</ol>
+<h3 id="缺点">缺点</h3>
+<ol>
+<li>仅支持4个平台(Windows/MacOS/Android/Docker)，暂时未有树莓派或者linux等资源较少的设备支持</li>
+<li>日志不清晰，有时候报错的话也不用管，看<code>Dashboard</code>每天有流量就行</li>
+</ol>
+<h2 id="traffmonetizer-部署">Traffmonetizer 部署</h2>
+<h3 id="windows-部署">Windows 部署</h3>
+<p><a class="link" href="https://data.traffmonetizer.com/downloads/Installer.exe"  target="_blank" rel="noopener"
+    >安装包下载地址</a></p>
+<h3 id="macos-部署">MacOS 部署</h3>
+<p><a class="link" href="https://data.traffmonetizer.com/downloads/macos/traffmonetizer.dmg"  target="_blank" rel="noopener"
+    >安装包下载地址</a></p>
+<h3 id="android-部署">Android 部署</h3>
+<p><a class="link" href="https://play.google.com/store/apps/details?id=com.traffmonetizer.client"  target="_blank" rel="noopener"
+    >安装包下载地址</a></p>
+<p>以上三个平台均安装对应包后打开，然后填入<a class="link" href="https://app.traffmonetizer.com/dashboard"  target="_blank" rel="noopener"
+    >Dashboard</a> 上的<code>token</code>，运行服务即可。</p>
+<p><img src="/p/passive-income-traffmonetizer/Traffmonetizer-Token-Page.png"
+	width="694"
+	height="352"
+	srcset="/p/passive-income-traffmonetizer/Traffmonetizer-Token-Page_hud16880dbb6eae6acdeb7c43a573aa332_63188_480x0_resize_box_3.png 480w, /p/passive-income-traffmonetizer/Traffmonetizer-Token-Page_hud16880dbb6eae6acdeb7c43a573aa332_63188_1024x0_resize_box_3.png 1024w"
+	loading="lazy"
+	
+		alt="Token位置"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="197"
+		data-flex-basis="473px"
+	
+></p>
+<h3 id="docker-部署">Docker 部署</h3>
+<p><a class="link" href="https://hub.docker.com/r/traffmonetizer/cli"  target="_blank" rel="noopener"
+    >官方Docker Hub地址</a></p>
+<h4 id="拉取镜像">拉取镜像</h4>
+<p>普通linux64位 / AMD64:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">docker pull traffmonetizer/cli:latest
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>ARM 平台支持，主要是树莓派或者手机:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl"># 64位
+</span></span><span class="line"><span class="cl">docker pull traffmonetizer/cli:arm64v8       
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"># 32位
+</span></span><span class="line"><span class="cl">docker pull traffmonetizer/cli:arm32v7
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="启动容器命令">启动容器命令</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">docker run -d --restart unless-stopped --name tm traffmonetizer/cli start accept --token &lt;dashboard主页上token&gt;  --device-name &lt;自定义名字&gt;
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>内置命令参考</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">start - connects to the server
+</span></span><span class="line"><span class="cl">stop - disconnects from the server
+</span></span><span class="line"><span class="cl">accept - indicates that the application can accept traffic
+</span></span><span class="line"><span class="cl">end-accept - indicates that the application couldn’t accept traffic, but does not disconnect from the server
+</span></span><span class="line"><span class="cl">statistics - statistics. Outputted in the format <span class="s2">&#34;Inbound: {value}; Outgoing: {value}; Requests: {value}&#34;</span>
+</span></span><span class="line"><span class="cl">status - connection status. Outputted in the format <span class="s2">&#34;Connected: {True / False}; Accepting: {True / False}&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nb">exit</span> - stopping the application
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>启动之后可以在<a class="link" href="https://app.traffmonetizer.com/stats"  target="_blank" rel="noopener"
+    >Stats界面</a>看到对应节点注册</p>
+<p><img src="/p/passive-income-traffmonetizer/Traffmonetizer-Nodes.png"
+	width="2216"
+	height="954"
+	srcset="/p/passive-income-traffmonetizer/Traffmonetizer-Nodes_hud8058959bb0f0e7f0ec91b5d764268e8_172603_480x0_resize_box_3.png 480w, /p/passive-income-traffmonetizer/Traffmonetizer-Nodes_hud8058959bb0f0e7f0ec91b5d764268e8_172603_1024x0_resize_box_3.png 1024w"
+	loading="lazy"
+	
+		alt="节点信息"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="232"
+		data-flex-basis="557px"
+	
+></p>
+<h2 id="结束语">结束语</h2>
+<p>Traffmonetizer 比较好的一点是对<code>IP</code> 没有那么严格的限制，走的服务器也行，平时如果有限制机器也可以跑一跑这个来回一下血。在笔者这边看来，用东南亚的节点来跑貌似也可以跑到稍微多一点流量，国内节点的话分配的流量较少。</p>
+<p>其他被动网赚项目参考</p>
+<ul>
+<li>
+<p><a class="link" href="https://yysy.site/p/passive-income-honeygain/"  target="_blank" rel="noopener"
+    >网络流量被动收入之Honeygain Docker部署教程</a></p>
+</li>
+<li>
+<p><a class="link" href="https://yysy.site/p/passive-income-traffmonetizer"  target="_blank" rel="noopener"
+    >网络流量被动收入之Traffmonetizer Docker部署教程</a></p>
+</li>
+<li>
+<p><a class="link" href="https://yysy.site/p/passive-income-bitping"  target="_blank" rel="noopener"
+    >网络流量被动收入之Bitping Docker部署教程</a></p>
+</li>
+<li>
+<p><a class="link" href="https://yysy.site/p/passive-income-iproyal"  target="_blank" rel="noopener"
+    >网络流量被动收入之Iproyal Docker部署教程</a></p>
+</li>
+<li>
+<p><a class="link" href="https://yysy.site/p/passive-income-peer2profit"  target="_blank" rel="noopener"
+    >网络流量被动收入之Peer2profit Docker部署教程</a></p>
+</li>
+<li>
+<p><a class="link" href="ttps://yysy.site/p/passive-income-earnapp" >网络流量被动收入之Earnapp Docker部署教程</a></p>
+</li>
+</ul>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+        <link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/katex@0.15.6/dist/katex.min.css"integrity="sha256-J&#43;iAE0sgH8QSz9hpcDxXIftnj65JEZgNhGcgReTTK9s="crossorigin="anonymous"
+            ><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.15.6/dist/katex.min.js"integrity="sha256-InsNdER1b2xUewP&#43;pKCUJpkhiqwHgqiPXDlIk7GzBu4="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.15.6/dist/contrib/auto-render.min.js"integrity="sha256-y39Mpg7V3D4lhBX4x6O0bUqTV4pSrfgwEfGKfxkOdgI="crossorigin="anonymous"
+                defer
+                >
+            </script><script>
+    window.addEventListener("DOMContentLoaded", () => {
+        renderMathInElement(document.querySelector(`.article-content`), {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true }
+            ]
+        });})
+</script>
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">相关文章</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="has-image">
+    <a href="/p/passive-income-peer2profit/">
+        
+        
+            <div class="article-image">
+                <img src="/p/passive-income-peer2profit/_hufcf2301eede78afda1d33c6ccae7086f_39748_2656aacf226db720d6b65629a311c974.jpg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post 网络流量被动收入之Peer2profit Docker部署教程"
+                        data-key="passive-income-peer2profit" 
+                        data-hash="md5-ilvp3zRrXrbP0GZVb&#43;VcTQ==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">网络流量被动收入之Peer2profit Docker部署教程</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/passive-income-bitping/">
+        
+        
+            <div class="article-image">
+                <img src="/p/passive-income-bitping/_hufcf2301eede78afda1d33c6ccae7086f_42537_eac29dbe9371011fea090ef8f716a250.jpg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post 网络流量被动收入之Bitping Docker部署教程"
+                        data-key="passive-income-bitping" 
+                        data-hash="md5-2Atm/NCfyzVSpHYm1ii&#43;ig==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">网络流量被动收入之Bitping Docker部署教程</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/passive-income-iproyal/">
+        
+        
+            <div class="article-image">
+                <img src="/p/passive-income-iproyal/_hufcf2301eede78afda1d33c6ccae7086f_47849_fca18a802a946f56cf827a61313217ac.jpg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post 网络流量被动收入之Iproyal Docker部署教程"
+                        data-key="passive-income-iproyal" 
+                        data-hash="md5-N6QRaOu&#43;RqdDgVmX2bw/cw==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">网络流量被动收入之Iproyal Docker部署教程</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/passive-income-packetstream/">
+        
+        
+            <div class="article-image">
+                <img src="/p/passive-income-packetstream/_hufcf2301eede78afda1d33c6ccae7086f_54833_51d74f095e638b2fcdd2e61aecf4d0cf.jpg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post 网络流量被动收入之Packetstream Docker部署教程"
+                        data-key="passive-income-packetstream" 
+                        data-hash="md5-C7WI4N6NW2j9HPm2BcxnCg==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">网络流量被动收入之Packetstream Docker部署教程</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/passive-income-honeygain/">
+        
+        
+            <div class="article-image">
+                <img src="/p/passive-income-honeygain/_hufcf2301eede78afda1d33c6ccae7086f_45923_941f7e6f47f41d7e07ad16f74cec80ba.jpg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post 网络流量被动收入之Honeygain Docker部署教程"
+                        data-key="passive-income-honeygain" 
+                        data-hash="md5-YRtf1I4tfZIxZi1dI4O11w==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">网络流量被动收入之Honeygain Docker部署教程</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+    <script src="https://utteranc.es/client.js" 
+        repo="Polaris0112/yysy_comment"
+        issue-term="pathname"
+        
+        label="none"
+        
+        crossorigin="anonymous"
+        async
+        >
+</script>
+
+<style>
+    .utterances {
+        max-width: unset;
+    }
+</style>
+
+<script>
+    let utterancesLoaded = false;
+
+    function setUtterancesTheme(theme) {
+        let utterances = document.querySelector('.utterances iframe');
+        if (utterances) {
+            utterances.contentWindow.postMessage(
+                {
+                    type: 'set-theme',
+                    theme: `github-${theme}`
+                },
+                'https://utteranc.es'
+            );
+        }
+    }
+
+    addEventListener('message', event => {
+        if (event.origin !== 'https://utteranc.es') return;
+
+        
+        utterancesLoaded = true;
+        setUtterancesTheme(document.documentElement.dataset.scheme)
+    });
+
+    window.addEventListener('onColorSchemeChange', (e) => {
+        if (!utterancesLoaded) return;
+        setUtterancesTheme(e.detail)
+    })
+</script>
+
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2022 - 
+        
+        2023 YYSY 博客
+    </section>
+    
+    <section class="powerby">
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        主题 <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.16.0">Stack</a></b> 由 <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a> 设计
+    </section>
+
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+    </script>
+
+        <br />本站访客数<span id="busuanzi_value_site_uv"></span>人次
+        <span id="busuanzi_container_site_pv"> 总访问量<span id="busuanzi_value_site_pv"></span>次 </span>
+        <span id="busuanzi_container_page_pv">本文阅读量<span id="busuanzi_value_page_pv"></span>次</span>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+<script
+    src="https://cdn.jsdelivr.net/gh/zhixuan2333/gh-blog@v0.1.0/js/nprogress.min.js"
+    integrity="sha384-bHDlAEUFxsRI7JfULv3DTpL2IXbbgn4JHQJibgo5iiXSK6Iu8muwqHANhun74Cqg"
+    crossorigin="anonymous"
+></script>
+<link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/gh/zhixuan2333/gh-blog@v0.1.0/css/nprogress.css"
+    integrity="sha384-KJyhr2syt5+4M9Pz5dipCvTrtvOmLk/olWVdfhAp858UCa64Ia5GFpTN7+G4BWpE"
+    crossorigin="anonymous"
+/>
+<script>
+    NProgress.start();
+    document.addEventListener("readystatechange", () => {
+        if (document.readyState === "interactive") NProgress.inc(0.8);
+        if (document.readyState === "complete") NProgress.done();
+    });
+</script>
+
+    </body>
+</html>

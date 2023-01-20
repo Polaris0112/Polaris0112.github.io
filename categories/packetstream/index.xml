@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>Packetstream on YYSY 博客</title>
+        <link>https://yysy.site/categories/packetstream/</link>
+        <description>Recent content in Packetstream on YYSY 博客</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>zh-cn</language>
+        <lastBuildDate>Wed, 18 Jan 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://yysy.site/categories/packetstream/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>网络流量被动收入之Packetstream Docker部署教程</title>
+        <link>https://yysy.site/p/passive-income-packetstream/</link>
+        <pubDate>Wed, 18 Jan 2023 00:00:00 +0000</pubDate>
+        
+        <guid>https://yysy.site/p/passive-income-packetstream/</guid>
+        <description>&lt;img src="https://yysy.site/p/passive-income-packetstream/Passive-Income-Packetstream-Front.jpg" alt="Featured image of post 网络流量被动收入之Packetstream Docker部署教程" /&gt;&lt;h2 id=&#34;packetstream-简介&#34;&gt;Packetstream 简介&lt;/h2&gt;
+&lt;p&gt;PacketStream是一个成立于2018年的P2P点对点代理网络平台，允许用户将自己的闲置带宽进行共享以获得相应的报酬，此外可以让客户从共享者共享的IP地址进行网络访问，总的来说PacketStream就是一个流量买卖平台。&lt;/p&gt;
+&lt;p&gt;PacketStream的运作原理是将共享者与客户连接起来，通过将你共享的带宽以更高的价格出售给想使用你的IP地址的人,而客户愿意付费从你的 IP 地址访问互联网，主要的原因有很多种：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;访问受地区限制的内容（例如Netflix）&lt;/li&gt;
+&lt;li&gt;不想暴露自己的网络信息&lt;/li&gt;
+&lt;li&gt;进行网络信息的爬取&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;注册&#34;&gt;注册&lt;/h3&gt;
+&lt;p&gt;目前新用户注册可以免费获得5美元的额度，&lt;a class=&#34;link&#34; href=&#34;https://packetstream.io/?psr=4EBX&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;注册地址&lt;/a&gt;。&lt;/p&gt;
+&lt;p&gt;接下来再用节点挂机跑流量多5美元即可出金，出金方式目前知道的有Paypal、BTC、Payoneer，官方到账时间宣称是48小时，最低提现门槛是10美元。&lt;/p&gt;
+&lt;h2 id=&#34;packetstream-收益&#34;&gt;Packetstream 收益&lt;/h2&gt;
+&lt;p&gt;官网上显示的收入如下图，我们身份是左边，作为共享带宽的一方，所以是0.1美元/Gb，单价还算较高。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://yysy.site/p/passive-income-packetstream/Packetstream-income-rules.png&#34;
+	width=&#34;1976&#34;
+	height=&#34;754&#34;
+	srcset=&#34;https://yysy.site/p/passive-income-packetstream/Packetstream-income-rules_hu72a45ed6229f4e1d9353583780210ab7_105373_480x0_resize_box_3.png 480w, https://yysy.site/p/passive-income-packetstream/Packetstream-income-rules_hu72a45ed6229f4e1d9353583780210ab7_105373_1024x0_resize_box_3.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;流量计算单价&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;262&#34;
+		data-flex-basis=&#34;628px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;提现界面也有相关字段，说会收3%的平台费，目前看到提现方式只有通过&lt;code&gt;Paypal&lt;/code&gt;邮箱进行提取。&lt;/p&gt;
+&lt;h2 id=&#34;packetstream-支持平台&#34;&gt;Packetstream 支持平台&lt;/h2&gt;
+&lt;p&gt;目前Packetstream支持三个平台，分别是MacOS、Windows（64位）还有Linux。&lt;/p&gt;
+&lt;h3 id=&#34;macos-部署&#34;&gt;MacOS 部署&lt;/h3&gt;
+&lt;p&gt;[dmg下载地址])(&lt;a class=&#34;link&#34; href=&#34;https://s3-us-west-2.amazonaws.com/packetstream-releases/latest/PacketStream.dmg&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://s3-us-west-2.amazonaws.com/packetstream-releases/latest/PacketStream.dmg&lt;/a&gt;)&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://yysy.site/p/passive-income-packetstream/Packetstream-MacOS-Client.png&#34;
+	width=&#34;1116&#34;
+	height=&#34;978&#34;
+	srcset=&#34;https://yysy.site/p/passive-income-packetstream/Packetstream-MacOS-Client_hu27572e2abd0fc45e3b3145c58c5853d8_580774_480x0_resize_box_3.png 480w, https://yysy.site/p/passive-income-packetstream/Packetstream-MacOS-Client_hu27572e2abd0fc45e3b3145c58c5853d8_580774_1024x0_resize_box_3.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Packetstream Mac端&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;114&#34;
+		data-flex-basis=&#34;273px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;h3 id=&#34;windows-部署&#34;&gt;WIndows 部署&lt;/h3&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://s3-us-west-2.amazonaws.com/packetstream-releases/latest/PacketStream.exe&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;exe下载地址&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id=&#34;linux-部署&#34;&gt;Linux 部署&lt;/h3&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;sudo docker rmi packetstream/psclient&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt; sudo docker run -d --restart&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;always -e &lt;span class=&#34;nv&#34;&gt;CID&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;4EBX --name psclient packetstream/psclient:latest 
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;sudo docker run -d --restart&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;always --name watchtower -v /var/run/docker.sock:/var/run/docker.sock containrrr/watchtower --cleanup --include-stopped --include-restarting --revive-stopped --interval &lt;span class=&#34;m&#34;&gt;60&lt;/span&gt; psclient
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;不过亲测，其实打开watchtower也影响不大，直接一个·pslicnet`容器即可，因为命令行已经上了少补。&lt;/p&gt;
+&lt;h2 id=&#34;结束语&#34;&gt;结束语&lt;/h2&gt;
+&lt;p&gt;该厂商缺点是需要家宽&lt;code&gt;IP&lt;/code&gt;地址，服务器地址无法使用。另外部署中那个watchtower初步判断只是一个守护进程，但是那个守护进程貌似消耗资源有点高（在我这边）所以我只是保留了psclient的容器。以下是兑现截图和&lt;code&gt;dashboard&lt;/code&gt;部分截图。另外，如果发邮件去他们support其实也有回应的，不至于没反馈，这点还不错。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://yysy.site/p/passive-income-packetstream/Exchange-snapshot.png&#34;
+	width=&#34;1110&#34;
+	height=&#34;738&#34;
+	srcset=&#34;https://yysy.site/p/passive-income-packetstream/Exchange-snapshot_hu8cde1349450fe7baf3c43f12b10a3614_70189_480x0_resize_box_3.png 480w, https://yysy.site/p/passive-income-packetstream/Exchange-snapshot_hu8cde1349450fe7baf3c43f12b10a3614_70189_1024x0_resize_box_3.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;兑换界面&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;150&#34;
+		data-flex-basis=&#34;360px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://yysy.site/p/passive-income-packetstream/PacketStream-Dashboard-Traffic.png&#34;
+	width=&#34;1978&#34;
+	height=&#34;760&#34;
+	srcset=&#34;https://yysy.site/p/passive-income-packetstream/PacketStream-Dashboard-Traffic_hu3ecb98b13f4165b01f9a6f2eda81dcf1_91073_480x0_resize_box_3.png 480w, https://yysy.site/p/passive-income-packetstream/PacketStream-Dashboard-Traffic_hu3ecb98b13f4165b01f9a6f2eda81dcf1_91073_1024x0_resize_box_3.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;主面板流量统计界面&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;260&#34;
+		data-flex-basis=&#34;624px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;其他网赚介绍文章：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://yysy.site/p/passive-income-honeygain/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;网络流量被动收入之Honeygain Docker部署教程&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://yysy.site/p/passive-income-traffmonetizer&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;网络流量被动收入之Traffmonetizer Docker部署教程&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://yysy.site/p/passive-income-bitping&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;网络流量被动收入之Bitping Docker部署教程&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://yysy.site/p/passive-income-iproyal&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;网络流量被动收入之Iproyal Docker部署教程&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://yysy.site/p/passive-income-peer2profit&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;网络流量被动收入之Peer2profit Docker部署教程&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://yysy.site/p/passive-income-peer2profit&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;网络流量被动收入之Peer2profit Docker部署教程&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;ttps://yysy.site/p/passive-income-earnapp&#34; &gt;网络流量被动收入之Earnapp Docker部署教程&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        </item>
+        
+    </channel>
+</rss>

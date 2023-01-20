@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>Traffmonetizer on YYSY 博客</title>
+        <link>https://yysy.site/categories/traffmonetizer/</link>
+        <description>Recent content in Traffmonetizer on YYSY 博客</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>zh-cn</language>
+        <lastBuildDate>Tue, 17 Jan 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://yysy.site/categories/traffmonetizer/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>网络流量被动收入之Traffmonetizer Docker部署教程</title>
+        <link>https://yysy.site/p/passive-income-traffmonetizer/</link>
+        <pubDate>Tue, 17 Jan 2023 00:00:00 +0000</pubDate>
+        
+        <guid>https://yysy.site/p/passive-income-traffmonetizer/</guid>
+        <description>&lt;img src="https://yysy.site/p/passive-income-traffmonetizer/Passive-Income-Traffmonetizer-Front.jpg" alt="Featured image of post 网络流量被动收入之Traffmonetizer Docker部署教程" /&gt;&lt;h2 id=&#34;traffmonetizer-是什么&#34;&gt;Traffmonetizer 是什么&lt;/h2&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://traffmonetizer.com/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Traffmonetizer&lt;/a&gt;是一款欧洲爱沙尼亚的流量挂机项目，跟Honeygain、Peer2profit等同一类，推出后已在不少国外论坛中介绍。
+Traffmonetizer目前支持Windows、Android、MacOS、Docker平台&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://yysy.site/p/passive-income-traffmonetizer/Traffmonetizer-Support-Platforms.png&#34;
+	width=&#34;674&#34;
+	height=&#34;628&#34;
+	srcset=&#34;https://yysy.site/p/passive-income-traffmonetizer/Traffmonetizer-Support-Platforms_hu35875f3177e4cce1e992f714ad88a7d5_86224_480x0_resize_box_3.png 480w, https://yysy.site/p/passive-income-traffmonetizer/Traffmonetizer-Support-Platforms_hu35875f3177e4cce1e992f714ad88a7d5_86224_1024x0_resize_box_3.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Traffmonetizer支持平台&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;107&#34;
+		data-flex-basis=&#34;257px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;Traffmonetizer可以同一个帐户连结无限设备，适合多部装置同时操作。使用者须在挂机装置中输入官方发给的&amp;quot;Token&amp;quot;作为识别，不像其他挂机项目要输入注册电邮方式不同，运作上反而比较简便。&lt;/p&gt;
+&lt;h3 id=&#34;注册&#34;&gt;注册&lt;/h3&gt;
+&lt;p&gt;目前新用户注册可以免费获得5美元的额度，&lt;a class=&#34;link&#34; href=&#34;https://traffmonetizer.com/?aff=531433&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;注册地址&lt;/a&gt;。&lt;/p&gt;
+&lt;p&gt;接下来再用节点挂机跑流量多5美元即可出金，出金方式目前知道的有Paypal、BTC、Payoneer，官方到账时间宣称是48小时，最低提现门槛是10美元。&lt;/p&gt;
+&lt;h2 id=&#34;traffmonetizer-优缺点&#34;&gt;Traffmonetizer 优缺点&lt;/h2&gt;
+&lt;h3 id=&#34;优点&#34;&gt;优点&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;容器部署方便，简单快捷&lt;/li&gt;
+&lt;li&gt;不需要局限家宽&lt;code&gt;IP&lt;/code&gt;，服务器&lt;code&gt;IP&lt;/code&gt;也可以，建议非国内&lt;code&gt;IP&lt;/code&gt;，跑的流量会更高&lt;/li&gt;
+&lt;li&gt;流量单价不算高，1美元/10GB，但是分配的流量还算挺多&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;缺点&#34;&gt;缺点&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;仅支持4个平台(Windows/MacOS/Android/Docker)，暂时未有树莓派或者linux等资源较少的设备支持&lt;/li&gt;
+&lt;li&gt;日志不清晰，有时候报错的话也不用管，看&lt;code&gt;Dashboard&lt;/code&gt;每天有流量就行&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;traffmonetizer-部署&#34;&gt;Traffmonetizer 部署&lt;/h2&gt;
+&lt;h3 id=&#34;windows-部署&#34;&gt;Windows 部署&lt;/h3&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://data.traffmonetizer.com/downloads/Installer.exe&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;安装包下载地址&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id=&#34;macos-部署&#34;&gt;MacOS 部署&lt;/h3&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://data.traffmonetizer.com/downloads/macos/traffmonetizer.dmg&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;安装包下载地址&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id=&#34;android-部署&#34;&gt;Android 部署&lt;/h3&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://play.google.com/store/apps/details?id=com.traffmonetizer.client&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;安装包下载地址&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;以上三个平台均安装对应包后打开，然后填入&lt;a class=&#34;link&#34; href=&#34;https://app.traffmonetizer.com/dashboard&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Dashboard&lt;/a&gt; 上的&lt;code&gt;token&lt;/code&gt;，运行服务即可。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://yysy.site/p/passive-income-traffmonetizer/Traffmonetizer-Token-Page.png&#34;
+	width=&#34;694&#34;
+	height=&#34;352&#34;
+	srcset=&#34;https://yysy.site/p/passive-income-traffmonetizer/Traffmonetizer-Token-Page_hud16880dbb6eae6acdeb7c43a573aa332_63188_480x0_resize_box_3.png 480w, https://yysy.site/p/passive-income-traffmonetizer/Traffmonetizer-Token-Page_hud16880dbb6eae6acdeb7c43a573aa332_63188_1024x0_resize_box_3.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Token位置&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;197&#34;
+		data-flex-basis=&#34;473px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;h3 id=&#34;docker-部署&#34;&gt;Docker 部署&lt;/h3&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://hub.docker.com/r/traffmonetizer/cli&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;官方Docker Hub地址&lt;/a&gt;&lt;/p&gt;
+&lt;h4 id=&#34;拉取镜像&#34;&gt;拉取镜像&lt;/h4&gt;
+&lt;p&gt;普通linux64位 / AMD64:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;docker pull traffmonetizer/cli:latest
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;ARM 平台支持，主要是树莓派或者手机:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;# 64位
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;docker pull traffmonetizer/cli:arm64v8       
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;# 32位
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;docker pull traffmonetizer/cli:arm32v7
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h4 id=&#34;启动容器命令&#34;&gt;启动容器命令&lt;/h4&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;docker run -d --restart unless-stopped --name tm traffmonetizer/cli start accept --token &amp;lt;dashboard主页上token&amp;gt;  --device-name &amp;lt;自定义名字&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;内置命令参考&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;7
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;start - connects to the server
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;stop - disconnects from the server
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;accept - indicates that the application can accept traffic
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;end-accept - indicates that the application couldn’t accept traffic, but does not disconnect from the server
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;statistics - statistics. Outputted in the format &lt;span class=&#34;s2&#34;&gt;&amp;#34;Inbound: {value}; Outgoing: {value}; Requests: {value}&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;status - connection status. Outputted in the format &lt;span class=&#34;s2&#34;&gt;&amp;#34;Connected: {True / False}; Accepting: {True / False}&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nb&#34;&gt;exit&lt;/span&gt; - stopping the application
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;启动之后可以在&lt;a class=&#34;link&#34; href=&#34;https://app.traffmonetizer.com/stats&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Stats界面&lt;/a&gt;看到对应节点注册&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://yysy.site/p/passive-income-traffmonetizer/Traffmonetizer-Nodes.png&#34;
+	width=&#34;2216&#34;
+	height=&#34;954&#34;
+	srcset=&#34;https://yysy.site/p/passive-income-traffmonetizer/Traffmonetizer-Nodes_hud8058959bb0f0e7f0ec91b5d764268e8_172603_480x0_resize_box_3.png 480w, https://yysy.site/p/passive-income-traffmonetizer/Traffmonetizer-Nodes_hud8058959bb0f0e7f0ec91b5d764268e8_172603_1024x0_resize_box_3.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;节点信息&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;232&#34;
+		data-flex-basis=&#34;557px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;h2 id=&#34;结束语&#34;&gt;结束语&lt;/h2&gt;
+&lt;p&gt;Traffmonetizer 比较好的一点是对&lt;code&gt;IP&lt;/code&gt; 没有那么严格的限制，走的服务器也行，平时如果有限制机器也可以跑一跑这个来回一下血。在笔者这边看来，用东南亚的节点来跑貌似也可以跑到稍微多一点流量，国内节点的话分配的流量较少。&lt;/p&gt;
+&lt;p&gt;其他被动网赚项目参考&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://yysy.site/p/passive-income-honeygain/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;网络流量被动收入之Honeygain Docker部署教程&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://yysy.site/p/passive-income-traffmonetizer&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;网络流量被动收入之Traffmonetizer Docker部署教程&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://yysy.site/p/passive-income-bitping&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;网络流量被动收入之Bitping Docker部署教程&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://yysy.site/p/passive-income-iproyal&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;网络流量被动收入之Iproyal Docker部署教程&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://yysy.site/p/passive-income-peer2profit&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;网络流量被动收入之Peer2profit Docker部署教程&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;ttps://yysy.site/p/passive-income-earnapp&#34; &gt;网络流量被动收入之Earnapp Docker部署教程&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        </item>
+        
+    </channel>
+</rss>

@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>Peer2profit on YYSY 博客</title>
+        <link>https://yysy.site/categories/peer2profit/</link>
+        <description>Recent content in Peer2profit on YYSY 博客</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>zh-cn</language>
+        <lastBuildDate>Fri, 20 Jan 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://yysy.site/categories/peer2profit/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>网络流量被动收入之Peer2profit Docker部署教程</title>
+        <link>https://yysy.site/p/passive-income-peer2profit/</link>
+        <pubDate>Fri, 20 Jan 2023 00:00:00 +0000</pubDate>
+        
+        <guid>https://yysy.site/p/passive-income-peer2profit/</guid>
+        <description>&lt;img src="https://yysy.site/p/passive-income-peer2profit/Passive-Income-Peer2profit-Front.jpg" alt="Featured image of post 网络流量被动收入之Peer2profit Docker部署教程" /&gt;&lt;h2 id=&#34;peer2profit-简介&#34;&gt;Peer2profit 简介&lt;/h2&gt;
+&lt;p&gt;Peer2Profit（简称为p2pr）是一款可以利用你的闲置网络带宽赚钱的平台，支持包括Windows、MacOS、Linux、iOS、Android 等等几乎所有平台。 我们平常使用的网络其实并不会用完所有的流量和带宽，Peer2Profit 就可以帮我们利用好这一部分资源，并且根据流量给予我们一定的奖励。&lt;/p&gt;
+&lt;h3 id=&#34;注册&#34;&gt;注册&lt;/h3&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://p2pr.me/1663055104632035000e461&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;注册地址&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;目前新注册没有激励计划&lt;/p&gt;
+&lt;h3 id=&#34;支持平台&#34;&gt;支持平台&lt;/h3&gt;
+&lt;p&gt;Windows / Google Play / AppGallery / Android / Linux / MacOS / Docker&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://yysy.site/p/passive-income-peer2profit/Peer2profit-Support-Platform.png&#34;
+	width=&#34;1618&#34;
+	height=&#34;1480&#34;
+	srcset=&#34;https://yysy.site/p/passive-income-peer2profit/Peer2profit-Support-Platform_hu30460ddee9a2709e4ff249582ecc3b3f_255452_480x0_resize_box_3.png 480w, https://yysy.site/p/passive-income-peer2profit/Peer2profit-Support-Platform_hu30460ddee9a2709e4ff249582ecc3b3f_255452_1024x0_resize_box_3.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Peer2profit支持的平台&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;109&#34;
+		data-flex-basis=&#34;262px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;h3 id=&#34;提现方式&#34;&gt;提现方式&lt;/h3&gt;
+&lt;p&gt;有很多种，主要是电子钱包还有加密货币两个大种类，至少2美元才能提现&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://yysy.site/p/passive-income-peer2profit/Peer2profit-Support-Withdraw-Methods.png&#34;
+	width=&#34;1112&#34;
+	height=&#34;1178&#34;
+	srcset=&#34;https://yysy.site/p/passive-income-peer2profit/Peer2profit-Support-Withdraw-Methods_hu55fce689f33e34098471ce1303597934_133853_480x0_resize_box_3.png 480w, https://yysy.site/p/passive-income-peer2profit/Peer2profit-Support-Withdraw-Methods_hu55fce689f33e34098471ce1303597934_133853_1024x0_resize_box_3.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Peer2profit多种提现渠道&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;94&#34;
+		data-flex-basis=&#34;226px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;h3 id=&#34;流量单价&#34;&gt;流量单价&lt;/h3&gt;
+&lt;p&gt;&lt;img src=&#34;https://yysy.site/p/passive-income-peer2profit/Peer2profit-Traffic-Rule.png&#34;
+	width=&#34;1866&#34;
+	height=&#34;398&#34;
+	srcset=&#34;https://yysy.site/p/passive-income-peer2profit/Peer2profit-Traffic-Rule_hu6718d25a58e79a2cb9eaccfb1c538360_102081_480x0_resize_box_3.png 480w, https://yysy.site/p/passive-income-peer2profit/Peer2profit-Traffic-Rule_hu6718d25a58e79a2cb9eaccfb1c538360_102081_1024x0_resize_box_3.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Peer2profit各网络类型流量单价&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;468&#34;
+		data-flex-basis=&#34;1125px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;价格不算高，如果是手机移动网络的&lt;code&gt;IP&lt;/code&gt;会比较高，其他网络类型的&lt;code&gt;IP&lt;/code&gt;个人感觉单价较低&lt;/p&gt;
+&lt;h2 id=&#34;部署&#34;&gt;部署&lt;/h2&gt;
+&lt;p&gt;下载信息更新于2023-01-20&lt;/p&gt;
+&lt;h3 id=&#34;windows&#34;&gt;Windows&lt;/h3&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://updates.peer2profit.app/Peer2Profit-Setup_0_53_signed.zip&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;安装压缩包地址&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id=&#34;google-play&#34;&gt;Google Play&lt;/h3&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://play.google.com/store/apps/details?id=com.peer2profit.app&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;商店地址&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id=&#34;appgallery&#34;&gt;AppGallery&lt;/h3&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://appgallery.cloud.huawei.com/ag/n/app/C105044861?channelId=Website&amp;amp;id=2ed86f9d0dfe4e9bb435f351a003fc94&amp;amp;s=7F50B4C918591EE125E0EE10D28D1D0EC1E38E5D80B2FD7CED476AF73BE0F71A&amp;amp;detailType=0&amp;amp;v=&amp;amp;callType=AGDLINK&amp;amp;installType=0000&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;商店地址&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id=&#34;android-apk&#34;&gt;Android APK&lt;/h3&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://updates.peer2profit.app/P2P_3.4.4_%2853%29-release.apk&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;安装包APK下载地址&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id=&#34;linux-deb&#34;&gt;Linux (Deb)&lt;/h3&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://updates.peer2profit.app/peer2profit_0.48_amd64.deb&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;安装包deb下载地址&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id=&#34;macos&#34;&gt;MacOS&lt;/h3&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://updates.peer2profit.app/Peer2Profit-0.47.dmg&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;安装包DMG下载地址&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://yysy.site/p/passive-income-peer2profit/Peer2profit-MacOS-Client.png&#34;
+	width=&#34;632&#34;
+	height=&#34;764&#34;
+	srcset=&#34;https://yysy.site/p/passive-income-peer2profit/Peer2profit-MacOS-Client_hu658b0519b10e9bd1665b9d77bfa498e4_153597_480x0_resize_box_3.png 480w, https://yysy.site/p/passive-income-peer2profit/Peer2profit-MacOS-Client_hu658b0519b10e9bd1665b9d77bfa498e4_153597_1024x0_resize_box_3.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Peer2profit MacOS客户端&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;82&#34;
+		data-flex-basis=&#34;198px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;h3 id=&#34;docker&#34;&gt;Docker&lt;/h3&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://hub.docker.com/r/peer2profit/peer2profit_linux&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Docker Hub地址&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;运行命令&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;docker run -d --restart unless-stopped -e &lt;span class=&#34;nv&#34;&gt;P2P_EMAIL&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&amp;lt;change_to_email&amp;gt; --name peer2profit peer2profit/peer2profit_linux:latest 
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;修改内容：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;code&gt;&amp;lt;change_to_email&amp;gt;&lt;/code&gt; ：修改为 &lt;code&gt;peer2profit&lt;/code&gt; 你账号对应的邮箱地址&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;code&gt;docker logs -f peer2profit&lt;/code&gt; 显示的日志为&lt;img src=&#34;https://yysy.site/p/passive-income-peer2profit/Peer2profit-Running-Log.png&#34;
+	width=&#34;1608&#34;
+	height=&#34;542&#34;
+	srcset=&#34;https://yysy.site/p/passive-income-peer2profit/Peer2profit-Running-Log_hu06e445a79dd886efcd392e2d5df9aba6_115262_480x0_resize_box_3.png 480w, https://yysy.site/p/passive-income-peer2profit/Peer2profit-Running-Log_hu06e445a79dd886efcd392e2d5df9aba6_115262_1024x0_resize_box_3.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Peer2profit容器运行日志&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;296&#34;
+		data-flex-basis=&#34;712px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;这样程序就跑起来了，在 &lt;a class=&#34;link&#34; href=&#34;https://dashboard.peer2profit.app/proxypeers&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;My Network&lt;/a&gt; 页面可以看到对应节点已经在线。&lt;/p&gt;
+&lt;h2 id=&#34;结束语&#34;&gt;结束语&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;Peer2profit&lt;/code&gt;也是一个不限制&lt;code&gt;IP&lt;/code&gt;，无论家宽还是服务器&lt;code&gt;IP&lt;/code&gt;都能参与的挂机项目，实测之后发现是海外服务器IP反而跑的流量会比国内家宽要高，可能还是与网络因素有关，不过整体的流量单价较低，所以相对其他网赚平台的话，他收益速度慢一些和收益额相对会少一些。&lt;/p&gt;
+&lt;p&gt;其他网赚文章：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://yysy.site/p/passive-income-honeygain/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;网络流量被动收入之Honeygain Docker部署教程&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://yysy.site/p/passive-income-traffmonetizer&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;网络流量被动收入之Traffmonetizer Docker部署教程&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://yysy.site/p/passive-income-packetstream&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;网络流量被动收入之Packetstream Docker部署教程&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://yysy.site/p/passive-income-bitping&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;网络流量被动收入之Bitping Docker部署教程&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://yysy.site/p/passive-income-iproyal&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;网络流量被动收入之Iproyal Docker部署教程&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;ttps://yysy.site/p/passive-income-earnapp&#34; &gt;网络流量被动收入之Earnapp Docker部署教程&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        </item>
+        
+    </channel>
+</rss>
