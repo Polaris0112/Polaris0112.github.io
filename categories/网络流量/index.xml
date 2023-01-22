@@ -6,7 +6,174 @@
         <description>Recent content in 网络流量 on YYSY 博客</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
-        <lastBuildDate>Fri, 20 Jan 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://yysy.site/categories/%E7%BD%91%E7%BB%9C%E6%B5%81%E9%87%8F/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Sat, 21 Jan 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://yysy.site/categories/%E7%BD%91%E7%BB%9C%E6%B5%81%E9%87%8F/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>网络流量被动收入之Earnapp Docker部署教程</title>
+        <link>https://yysy.site/p/passive-income-earnapp/</link>
+        <pubDate>Sat, 21 Jan 2023 00:00:00 +0000</pubDate>
+        
+        <guid>https://yysy.site/p/passive-income-earnapp/</guid>
+        <description>&lt;img src="https://yysy.site/p/passive-income-earnapp/Passive-Income-Earnapp-Front.jpg" alt="Featured image of post 网络流量被动收入之Earnapp Docker部署教程" /&gt;&lt;h2 id=&#34;earnapp-是什么&#34;&gt;Earnapp 是什么&lt;/h2&gt;
+&lt;p&gt;EarnApp 是一个把没用完的网路流量卖给 EarnApp 这家公司（母公司是BrightData）的一个 App
+假设我们每个人家里都有 Wi-Fi，手机也都用吃到饱，但我们是否无时无刻都在用这些网路流量呢？
+若没有的话，我们其实就可以用 EarnApp 这个客户端把闲置流量/带宽变现&lt;/p&gt;
+&lt;h3 id=&#34;注册&#34;&gt;注册&lt;/h3&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://earnapp.com/i/r28ipAVe&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;注册地址&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;目前新用户注册没有奖励计划&lt;/p&gt;
+&lt;h3 id=&#34;优缺点&#34;&gt;优缺点&lt;/h3&gt;
+&lt;h4 id=&#34;优点&#34;&gt;优点&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;一个&lt;code&gt;IP&lt;/code&gt;能下接入多台设别（无限制）&lt;/li&gt;
+&lt;li&gt;适用平台比较多，MacOS、Android、树莓派、Linux、IOS、Windows&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src=&#34;https://yysy.site/p/passive-income-earnapp/Earnapp-Support-Platforms.png&#34;
+	width=&#34;1084&#34;
+	height=&#34;454&#34;
+	srcset=&#34;https://yysy.site/p/passive-income-earnapp/Earnapp-Support-Platforms_hu5288cbc856b9a9a428b34ac405ec5ca5_56272_480x0_resize_box_3.png 480w, https://yysy.site/p/passive-income-earnapp/Earnapp-Support-Platforms_hu5288cbc856b9a9a428b34ac405ec5ca5_56272_1024x0_resize_box_3.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Earapp多平台支持&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;238&#34;
+		data-flex-basis=&#34;573px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;h4 id=&#34;缺点&#34;&gt;缺点&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;仅限家宽&lt;code&gt;IP&lt;/code&gt;使用&lt;/li&gt;
+&lt;li&gt;出金方式较为单一，只有Paypal，手续费会较高&lt;/li&gt;
+&lt;li&gt;流量单价较低，好像我挂中国香港&lt;code&gt;IP&lt;/code&gt;和国内&lt;code&gt;IP&lt;/code&gt;，单价均是0.24美元/GB，其他地区未知，因为需要家宽&lt;code&gt;IP&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;2023-01-21此时笔者的MacOS客户端能启动，但是没办法转发流量进行收益，已和Earnapp的技术支持沟通&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;部署&#34;&gt;部署&lt;/h2&gt;
+&lt;h3 id=&#34;macos&#34;&gt;MacOS&lt;/h3&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://cdn.earnapp.com/static/earnapp-macos-1.350.212.pkg&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;PKG安装包下载地址&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;安装后打开，右上角会有一个&amp;quot;E&amp;quot;图标的程序，点击，选择&amp;quot;About&amp;quot;，查看ID信息&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://yysy.site/p/passive-income-earnapp/Earnapp-About.png&#34;
+	width=&#34;712&#34;
+	height=&#34;444&#34;
+	srcset=&#34;https://yysy.site/p/passive-income-earnapp/Earnapp-About_hu8266ce5afa1335ab6b4c1adb957c7c8e_180347_480x0_resize_box_3.png 480w, https://yysy.site/p/passive-income-earnapp/Earnapp-About_hu8266ce5afa1335ab6b4c1adb957c7c8e_180347_1024x0_resize_box_3.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Earnapp 客户端关于&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;160&#34;
+		data-flex-basis=&#34;384px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;点击&amp;quot;UUID&amp;quot;最右边的按钮复制，然后在&lt;strong&gt;已经登陆&lt;/strong&gt;的&lt;a class=&#34;link&#34; href=&#34;https://earnapp.com/dashboard&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Dashboard界面&lt;/a&gt;，地址栏再打开链接 &lt;code&gt;https://earnapp.com/r/&amp;lt;刚才复制的UUID&amp;gt;&lt;/code&gt;，页面就会添加到对应节点&lt;/p&gt;
+&lt;h3 id=&#34;android&#34;&gt;Android&lt;/h3&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://cdn.earnapp.com/static/earnapp-1.341.430.apk&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;APK安装包下载地址&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;同上操作添加节点到页面&lt;/p&gt;
+&lt;h3 id=&#34;ios&#34;&gt;IOS&lt;/h3&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://apps.apple.com/us/app/bright-rewards-earn-cash/id1645893250&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;App Store对应产品地址&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id=&#34;windows&#34;&gt;Windows&lt;/h3&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://cdn.earnapp.com/static/earnapp-setup-1.351.6.exe&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;EXE下载地址&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id=&#34;linux树莓派&#34;&gt;Linux/树莓派&lt;/h3&gt;
+&lt;p&gt;输入命令&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;wget -qO- https://brightdata.com/static/earnapp/install.sh &amp;gt; /tmp/earnapp.sh &lt;span class=&#34;o&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; sudo bash /tmp/earnapp.sh
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;等待一键脚本完成，跑完之后输入&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;earnapp register
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;脚本会显示出以下地址&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://yysy.site/p/passive-income-earnapp/Earnapp-Running.png&#34;
+	width=&#34;581&#34;
+	height=&#34;284&#34;
+	srcset=&#34;https://yysy.site/p/passive-income-earnapp/Earnapp-Running_hu2419a5257dd2a0c870b43bbae7e1ccd6_137834_480x0_resize_box_3.png 480w, https://yysy.site/p/passive-income-earnapp/Earnapp-Running_hu2419a5257dd2a0c870b43bbae7e1ccd6_137834_1024x0_resize_box_3.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Earnapp 显示绑定地址&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;204&#34;
+		data-flex-basis=&#34;490px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;同样把地址输入地址栏打开，就可以添加节点了&lt;/p&gt;
+&lt;h3 id=&#34;docker&#34;&gt;Docker&lt;/h3&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;%28https://yysy.site/p/docker-installation%29&#34; &gt;Docker部署请参考&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;先执行文件夹创建，存在earnapp生成的文件&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;mkdir &lt;span class=&#34;nv&#34;&gt;$HOME&lt;/span&gt;/earnapp-data
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;然后执行&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;docker run -d --privileged -v /sys/fs/cgroup:/sys/fs/cgroup:ro -v &lt;span class=&#34;nv&#34;&gt;$HOME&lt;/span&gt;/earnapp-data:/etc/earnapp --name earnapp fazalfarhan01/earnapp
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;执行完成后运行&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;docker &lt;span class=&#34;nb&#34;&gt;exec&lt;/span&gt; -it earnapp earnapp showid
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;然后输出的地址同样在已经登陆的earnappdashbarod浏览器中打开即可添加节点。&lt;/p&gt;
+&lt;h2 id=&#34;结束语&#34;&gt;结束语&lt;/h2&gt;
+&lt;p&gt;Earnapp收益是这么多网赚里面比较低的一个，也有可能和我用国内&lt;code&gt;IP&lt;/code&gt;有关，但是也不至于没用，反正也不需要动的就就让他挂着，也不会耗什么资源，反正少就少吧，蚊子再小也是肉。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://yysy.site/p/passive-income-traffmonetizer&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;网络流量被动收入之Traffmonetizer Docker部署教程&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://yysy.site/p/passive-income-bitping&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;网络流量被动收入之Bitping Docker部署教程&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://yysy.site/p/passive-income-traffmonetizer&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;网络流量被动收入之Traffmonetizer Docker部署教程&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://yysy.site/p/passive-income-iproyal&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;网络流量被动收入之Iproyal Docker部署教程&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://yysy.site/p/passive-income-peer2profit&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;网络流量被动收入之Peer2profit Docker部署教程&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://r.honeygain.me/JJC27EFDE4&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;网络流量被动收入之Honeygain Docker部署教程&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        </item>
+        <item>
         <title>网络流量被动收入之Peer2profit Docker部署教程</title>
         <link>https://yysy.site/p/passive-income-peer2profit/</link>
         <pubDate>Fri, 20 Jan 2023 00:00:00 +0000</pubDate>
