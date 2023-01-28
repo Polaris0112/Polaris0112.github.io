@@ -6,7 +6,112 @@
         <description>Recent content in Iproyal on YYSY 博客</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
-        <lastBuildDate>Thu, 19 Jan 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://yysy.site/categories/iproyal/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Sat, 28 Jan 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://yysy.site/categories/iproyal/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>网络流量被动收入之综合对比(更新于20230128)</title>
+        <link>https://yysy.site/p/passive-income-different/</link>
+        <pubDate>Sat, 28 Jan 2023 00:00:00 +0000</pubDate>
+        
+        <guid>https://yysy.site/p/passive-income-different/</guid>
+        <description>&lt;img src="https://yysy.site/p/passive-income-different/Passive-Income-Different-Front.jpg" alt="Featured image of post 网络流量被动收入之综合对比(更新于20230128)" /&gt;&lt;h2 id=&#34;背景&#34;&gt;背景&lt;/h2&gt;
+&lt;p&gt;截止今天，目前笔者有3个中国电信家宽&lt;code&gt;IP&lt;/code&gt;、3个中国香港家宽&lt;code&gt;IP&lt;/code&gt;，还有2个韩国服务器&lt;code&gt;IP&lt;/code&gt;、1个新加坡服务器&lt;code&gt;IP&lt;/code&gt;和1个香港服务器&lt;code&gt;IP&lt;/code&gt;在挂网赚项目，他们分别是&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://yysy.site/p/passive-income-honeygain/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Honeygain&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://yysy.site/p/passive-income-traffmonetizer/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Traffmonetizer&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://yysy.site/p/passive-income-packetstream/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;PacketStream&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://yysy.site/p/passive-income-bitping/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Bitping&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://yysy.site/p/passive-income-iproyal/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Iproyal&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://yysy.site/p/passive-income-peer2profit/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Peer2profit&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://yysy.site/p/passive-income-earnapp/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Earnapp&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;本文针对本人使用过程中一些收益，使用上差异进行对比，方便大家选择合适的平台进行出金。&lt;/p&gt;
+&lt;h2 id=&#34;对比&#34;&gt;对比&lt;/h2&gt;
+&lt;p&gt;注意：表格中注册连接为邀请连接，有些平台会对新用户有邀请奖励的激励，并且不会影响新用户的收益。&lt;/p&gt;
+&lt;p&gt;出金速度按照上述背景的&lt;code&gt;IP&lt;/code&gt;数量，表格中出金速度仅是代表我这边平均一天的数据。&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;平台&lt;br /&gt;(注册链接)&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;IP限制&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;部署平台&lt;br&gt;(推荐)&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;出金速度&lt;br&gt;(美元/天)&lt;/th&gt;
+&lt;th&gt;备注&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;&lt;a class=&#34;link&#34; href=&#34;https://r.honeygain.me/JJC27EFDE4&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Honeygain&lt;/a&gt;&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;家宽&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;Docker&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;0.102&lt;/td&gt;
+&lt;td&gt;数据面板清晰&lt;br&gt;有每日奖励（&lt;a class=&#34;link&#34; href=&#34;https://yysy.site/p/passive-income-honeygain/#%E5%8F%AF%E9%80%89-winnings-%E8%87%AA%E5%8A%A8%E8%8E%B7%E5%8F%96%E8%84%9A%E6%9C%AC&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;自动化脚本在这里&lt;/a&gt;)&lt;br&gt;建议非国内三大家宽IP部署&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;&lt;a class=&#34;link&#34; href=&#34;https://traffmonetizer.com/?aff=531433&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Traffmonetizer&lt;/a&gt;&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;都可以&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;Docker&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;0.07&lt;/td&gt;
+&lt;td&gt;数据面板清晰&lt;br&gt;部署简单&lt;br&gt;建议服务器IP部署&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;&lt;a class=&#34;link&#34; href=&#34;https://packetstream.io/?psr=4EBX&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;PacketStream&lt;/a&gt;&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;家宽&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;Docker&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;0.09&lt;/td&gt;
+&lt;td&gt;数据面板无法看到每个节点流量情况&lt;br&gt;建议非国内三大家宽IP部署&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;&lt;a class=&#34;link&#34; href=&#34;https://app.bitping.com?r=d9LM79jw&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Bitping&lt;/a&gt;&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;都可以&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;命令行&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;很慢&lt;/td&gt;
+&lt;td&gt;数据面板无法看到每个节点流量情况&lt;br&gt;建议服务器IP部署&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;&lt;a class=&#34;link&#34; href=&#34;https://pawns.app?r=883301&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Iproyal&lt;/a&gt;&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;家宽&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;Docker&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;0.08&lt;/td&gt;
+&lt;td&gt;数据面板无法看到每个节点流量情况&lt;br&gt;建议非国内三大家宽IP部署&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;&lt;a class=&#34;link&#34; href=&#34;https://p2pr.me/1663055104632035000e461&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Peer2profit&lt;/a&gt;&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;都可以&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;Docker&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;很慢&lt;/td&gt;
+&lt;td&gt;数据面板清晰&lt;br&gt;部署简单&lt;br&gt;建议服务器IP部署&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;&lt;a class=&#34;link&#34; href=&#34;https://earnapp.com/i/r28ipAVe&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Earnapp&lt;/a&gt;&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;家宽&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;命令行&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;0.09&lt;/td&gt;
+&lt;td&gt;数据面板清晰&lt;br&gt;部署简单&lt;br&gt;建议非国内三大家宽IP部署&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;从上表格可以看出，还是&lt;code&gt;Honeygain&lt;/code&gt;的出金速度会更快，不过国内三大运营商可能是因为网络请求目标服务器API问题，所以跑的流量很少。笔者自从增加几台中国香港家宽之后出金速度直接翻了几倍，所以建议还是选择&lt;strong&gt;东南亚的家宽&lt;/strong&gt;，价格稍微会便宜一些跑网赚能回一定成本。&lt;/p&gt;
+&lt;p&gt;Bitping和Peer2profit这两个实在是很少，怀疑是数据问题，已经联系官方查一下问题。&lt;/p&gt;
+&lt;p&gt;目前已经得知，Peer2Profit这家的话由于分配的流量不固定，所以建议还是按月来统计收益。Bitping截止发稿前位置还没有更新对应信息。&lt;/p&gt;
+&lt;h2 id=&#34;结论&#34;&gt;结论&lt;/h2&gt;
+&lt;p&gt;如果有香港、新加坡、日本、韩国、泰国、越南等等家宽的话（如果你有欧美地区也行，什么地区都行），国内的家宽其实也可以，只是跑的速度相对会慢一些，也不是没有。所以如果有比较多线路的话可以跑一下网赚，速度能比较快。如果一两个节点的话也可以跑，就是可能半年出金一次，大概是这个速度，这里面能做自动化的已经都有脚本化的。服务器的话还可以优化linux参数，bbr那些也是可以。&lt;/p&gt;
+</description>
+        </item>
+        <item>
         <title>网络流量被动收入之Iproyal Docker部署教程</title>
         <link>https://yysy.site/p/passive-income-iproyal/</link>
         <pubDate>Thu, 19 Jan 2023 00:00:00 +0000</pubDate>
