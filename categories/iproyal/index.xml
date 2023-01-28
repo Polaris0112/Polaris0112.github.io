@@ -108,7 +108,22 @@
 &lt;p&gt;Bitping和Peer2profit这两个实在是很少，怀疑是数据问题，已经联系官方查一下问题。&lt;/p&gt;
 &lt;p&gt;目前已经得知，Peer2Profit这家的话由于分配的流量不固定，所以建议还是按月来统计收益。Bitping截止发稿前位置还没有更新对应信息。&lt;/p&gt;
 &lt;h2 id=&#34;结论&#34;&gt;结论&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Honeygain：推荐，不过&lt;strong&gt;只适合&lt;/strong&gt;家宽网络，&lt;a class=&#34;link&#34; href=&#34;https://r.honeygain.me/JJC27EFDE4&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;注册链接&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Traffmonetizer：推荐，适合所有网络环境均可以部署，不过服务器IP能跑更多流量，&lt;a class=&#34;link&#34; href=&#34;https://traffmonetizer.com/?aff=531433&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;注册链接&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;PacketStream：次推荐，&lt;strong&gt;只适合&lt;/strong&gt;家宽网络，推荐非中国国内家宽环境部署，&lt;a class=&#34;link&#34; href=&#34;https://packetstream.io/?psr=4EBX&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;注册链接&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Bitping：不推荐，收益数据异常，暂时不考虑注册使用&lt;/li&gt;
+&lt;li&gt;Iproyal：推荐，&lt;strong&gt;只合适&lt;/strong&gt;家宽网络，&lt;a class=&#34;link&#34; href=&#34;https://pawns.app?r=883301&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;注册链接&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Peer2profit：不推荐，流量变现速度很慢，就算很多节点每天收益都很低&lt;/li&gt;
+&lt;li&gt;Earnapp：推荐，&lt;strong&gt;只合适&lt;/strong&gt;家宽网络，&lt;a class=&#34;link&#34; href=&#34;https://earnapp.com/i/r28ipAVe&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;注册链接&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
 &lt;p&gt;如果有香港、新加坡、日本、韩国、泰国、越南等等家宽的话（如果你有欧美地区也行，什么地区都行），国内的家宽其实也可以，只是跑的速度相对会慢一些，也不是没有。所以如果有比较多线路的话可以跑一下网赚，速度能比较快。如果一两个节点的话也可以跑，就是可能半年出金一次，大概是这个速度，这里面能做自动化的已经都有脚本化的。服务器的话还可以优化linux参数，bbr那些也是可以。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;免费&lt;/strong&gt;帮忙在服务器或者家宽线路上部署网赚工具，请联系邮箱：jjc27017@gmail.com 或者是 Telegram：https://t.me/yysy_blog_chat 加入聊天群找群主私聊～&lt;/p&gt;
 </description>
         </item>
         <item>
@@ -182,7 +197,8 @@
     &gt;Linux aarch64&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://download.iproyal.com/pawns-cli/latest/linux_armv7l/pawns-cli&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;Linux ARM v7l&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;[Linux ARM v6l][https://download.iproyal.com/pawns-cli/latest/linux_armv6l/pawns-cli]&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://download.iproyal.com/pawns-cli/latest/linux_armv6l/pawns-cli&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Linux ARM v6l&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://download.iproyal.com/pawns-cli/latest/linux_armv5l/pawns-cli&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;Linux ARM v5l&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://download.iproyal.com/pawns-cli/latest/linux_i386/pawns-cli&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
