@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>Repocket on YYSY 博客</title>
+        <link>https://yysy.site/categories/repocket/</link>
+        <description>Recent content in Repocket on YYSY 博客</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>zh-cn</language>
+        <lastBuildDate>Fri, 10 Feb 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://yysy.site/categories/repocket/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>网络流量被动收入之Repocket Docker部署教程</title>
+        <link>https://yysy.site/p/passive-income-repocket/</link>
+        <pubDate>Fri, 10 Feb 2023 00:00:00 +0000</pubDate>
+        
+        <guid>https://yysy.site/p/passive-income-repocket/</guid>
+        <description>&lt;img src="https://yysy.site/Passive-Income-Repocket-Front.jpg" alt="Featured image of post 网络流量被动收入之Repocket Docker部署教程" /&gt;&lt;h2 id=&#34;repocket-简介&#34;&gt;Repocket 简介&lt;/h2&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://app.repocket.co/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Repocket&lt;/a&gt;是一款类似「Honeygain、Peer2Profit」的流量挂机项目，但目前还不知道公司所在地，最近才刚推出来，已有不少国外youtuber网红介绍，真实性很高。根据大鲁蛇的经验，这种流量挂机项目都蛮稳定，因此出金的可能性不用太担心，因此我就先发文介绍，有兴趣的可以先下载来试试看。&lt;/p&gt;
+&lt;h3 id=&#34;注册&#34;&gt;注册&lt;/h3&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://link.repocket.co/undefined&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;注册地址&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;目前通过上述注册链接，有5美元新人注册优惠&lt;/p&gt;
+&lt;h3 id=&#34;支持平台&#34;&gt;支持平台&lt;/h3&gt;
+&lt;p&gt;&lt;img src=&#34;https://yysy.site/p/passive-income-repocket/Repocket-Support-Platform.jpg&#34;
+	width=&#34;576&#34;
+	height=&#34;734&#34;
+	srcset=&#34;https://yysy.site/p/passive-income-repocket/Repocket-Support-Platform_hufcf2301eede78afda1d33c6ccae7086f_42026_480x0_resize_q75_box.jpg 480w, https://yysy.site/p/passive-income-repocket/Repocket-Support-Platform_hufcf2301eede78afda1d33c6ccae7086f_42026_1024x0_resize_q75_box.jpg 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Repocket支持平台&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;78&#34;
+		data-flex-basis=&#34;188px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;h3 id=&#34;流量单价&#34;&gt;流量单价&lt;/h3&gt;
+&lt;p&gt;暂时未知&lt;/p&gt;
+&lt;h2 id=&#34;节点部署&#34;&gt;节点部署&lt;/h2&gt;
+&lt;h3 id=&#34;android&#34;&gt;Android&lt;/h3&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://repocket-production.s3.fr-par.scw.cloud/apk/1.0.0/release_1.0.17.apk&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;APK安装包&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id=&#34;ios&#34;&gt;IOS&lt;/h3&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://apps.apple.com/il/app/repocket-make-money-daily/id6443986417&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Apple Store商店地址&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id=&#34;mac&#34;&gt;Mac&lt;/h3&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://repocket-production.s3.fr-par.scw.cloud/repocket-desktop/updates/Repocket-1.1.10.dmg&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Intel DMG安装包&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://repocket-production.s3.fr-par.scw.cloud/repocket-desktop/updates/Repocket-1.1.10-arm64.dmg&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Apple silicon安装包&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id=&#34;linux&#34;&gt;Linux&lt;/h3&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://repocket-production.s3.fr-par.scw.cloud/repocket-desktop/updates/Repocket-1.1.10.AppImage&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;AMD架构&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://repocket-production.s3.fr-par.scw.cloud/repocket-desktop/updates/Repocket-1.1.4-arm64.AppImage&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;ARM架构&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id=&#34;windows&#34;&gt;Windows&lt;/h3&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://repocket-production.s3.fr-par.scw.cloud/repocket-desktop/updates/Repocket%20Setup%201.1.10.exe&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;EXE安装包&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id=&#34;容器docker&#34;&gt;容器Docker&lt;/h3&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://hub.docker.com/r/repocket/repocket&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Docker Hub地址&lt;/a&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;## 运行&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;docker run -e &lt;span class=&#34;nv&#34;&gt;RP_EMAIL&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&amp;lt;your_email_address&amp;gt; -e &lt;span class=&#34;nv&#34;&gt;RP_PASSWORD&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&amp;lt;your_password&amp;gt; -d --name repocket --restart&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;always repocket/repocket
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;修改&lt;code&gt;&amp;lt;your_email_address&amp;gt;&lt;/code&gt;为&lt;code&gt;Repocket&lt;/code&gt;登陆邮箱名，&lt;code&gt;&amp;lt;your_password&amp;gt;&lt;/code&gt;为&lt;code&gt;Repocket&lt;/code&gt;登陆密码，运行即可&lt;/p&gt;
+&lt;h3 id=&#34;正常运行&#34;&gt;正常运行&lt;/h3&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;docker logs -f repocket
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;结果出现&lt;code&gt;Connection established&lt;/code&gt;即为部署成功，正常运行。目前(2023-02-10)平台还没有提供运行设备的界面。&lt;/p&gt;
+&lt;h2 id=&#34;结束语&#34;&gt;结束语&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;Repocket&lt;/code&gt;的优缺点都比较明显，优点是能支持家宽和IDC的服务器，部署比较简单，支持平台比较多。缺点就是中国大陆网络无法使用（官方discord群里面有admin是说可以使用，这里有矛盾），而且目前出金速度和方式并不明确，网站仍然在开发中。&lt;/p&gt;
+&lt;p&gt;其他网赚介绍文章：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://yysy.site/p/passive-income-honeygain/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;网络流量被动收入之Honeygain Docker部署教程&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://yysy.site/p/passive-income-traffmonetizer&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;网络流量被动收入之Traffmonetizer Docker部署教程&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://yysy.site/p/passive-income-packetstream&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;网络流量被动收入之Packetstream Docker部署教程&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://yysy.site/p/passive-income-iproyal&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;网络流量被动收入之Iproyal Docker部署教程&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://yysy.site/p/passive-income-peer2profit&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;网络流量被动收入之Peer2profit Docker部署教程&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;ttps://yysy.site/p/passive-income-earnapp&#34; &gt;网络流量被动收入之Earnapp Docker部署教程&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://yysy.site/p/passive-income-bitping&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;网络流量被动收入之Bitping Docker部署教程&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        </item>
+        
+    </channel>
+</rss>
